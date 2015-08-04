@@ -37,7 +37,11 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     arel (6.0.2)
+<<<<<<< HEAD
     autoprefixer-rails (5.2.1.1)
+=======
+    autoprefixer-rails (5.2.1)
+>>>>>>> add ace-admin
       execjs
       json
     binding_of_caller (0.7.2)
@@ -147,7 +151,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+<<<<<<< HEAD
   bootstrap-sass (~> 3.3.5)
+=======
+  bootstrap-sass (~> 3.3.4)
+>>>>>>> add ace-admin
   byebug
   coffee-rails (~> 4.1.0)
   jbuilder (~> 2.0)
