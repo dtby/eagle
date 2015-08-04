@@ -8,6 +8,10 @@ html, body{
 	background-color: #fff;
 	box-shadow: 0px 1px 1px 1px rgba(181, 181, 181, 1);
 	margin-bottom: 20px;
+	&:before{
+		content: " ";
+		display: table;
+	}
 }
 .panel{
 	box-shadow: 0px 1px 1px 1px rgba(181, 181, 181, 1);
