@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'https://ruby.taobao.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -43,3 +43,5 @@ group :development, :test do
   gem 'spring'
 end
 
+#Official Sass port of Bootstrap
+gem 'bootstrap-sass', '~> 3.3.5'
