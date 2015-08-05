@@ -157,7 +157,11 @@ h5 {
 }
 .nav-header {
   padding: 33px 25px;
+<<<<<<< 78f5b3abb90e1668bdd3e7c581f01c2c94760b0f
   background: url("header-profile.png") no-repeat; 
+=======
+  background: url("header-profile.png") no-repeat;
+>>>>>>> add in+
 }
 .pace-done .nav-header {
   transition: all 0.5s;
