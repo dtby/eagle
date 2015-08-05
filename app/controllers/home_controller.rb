@@ -4,4 +4,7 @@ class HomeController < ApplicationController
 
   def login
   end
+  def air_c
+    
+  end
 end
