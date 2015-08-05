@@ -2,8 +2,6 @@ Rails.application.routes.draw do
   get '/home', to: 'home#index'
 
   get '/login', to: 'home#login'
-  get 'home/air_c'
-
   resources :power, only: [:index] do
     collection do 
       get :ups
