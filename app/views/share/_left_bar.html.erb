@@ -2,12 +2,15 @@
 	<div class="sidebar-collapse">
 		<ul class="nav metismenu" id="side-menu">
 			<li class="nav-header">
-				<div class="dropdown profile-element"> <span>
-					<%=image_tag  "profile_small.jpg", class:"img-circle" %>
-				</span>
-				<a data-toggle="dropdown" class="dropdown-toggle" href="#">
-					<span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">Ending Jason</strong>
-					</span> <span class="text-muted text-xs block">Art Director <b class="caret"></b></span> </span> </a>
+				<div class="dropdown profile-element">
+					<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+						<span class="clear"> 
+							<span class="block m-t-xs">
+								<i class="fa fa-bar-chart"></i>
+								<strong class="font-bold"><%= Time.now.strftime("%A %R %p")%></strong>
+							</span>
+						</span>
+					</a>
 					<ul class="dropdown-menu animated fadeInRight m-t-xs">
 						<li><a href="#">Profile</a></li>
 						<li><a href="#">Contacts</a></li>
@@ -17,7 +20,7 @@
 					</ul>
 				</div>
 				<div class="logo-element">
-					IN+
+					iGrid
 				</div>
 			</li>
 			<li>
@@ -30,7 +33,7 @@
 				</ul>
 			</li>
 			<li>
-				<a href="#"><i class="fa fa-diamond"></i> <span class="nav-label">动力</span><span class="fa arrow"></span></a>
+				<a href="#"><i class="fa fa-paper-plane"></i> <span class="nav-label">动力</span><span class="fa arrow"></span></a>
 				<ul class="nav nav-second-level collapse">
 					<li><a href="#">配电</a></li>
 					<li><a href="#">UPS</a></li>
@@ -41,27 +44,19 @@
 				</ul>
 			</li>
 			<li>
-				<a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">环境</span><span class="fa arrow"></span></a>
-				<ul class="nav nav-second-level collapse">
-					<li><a href="#">Flot Charts</a></li>
-					<li><a href="#">Morris.js Charts</a></li>
-				</ul>
+				<a href="#"><i class="fa fa-globe"></i> <span class="nav-label">环境</span></a>
 			</li>
 			<li>
-				<a href="#"><i class="fa fa-envelope"></i> <span class="nav-label">联动</span><span class="label label-warning pull-right">16/24</span></a>
-				<ul class="nav nav-second-level collapse">
-					<li><a href="#">Inbox</a></li>
-					<li><a href="#">Email view</a></li>
-				</ul>
+				<a href="#"><i class="fa fa-sitemap"></i> <span class="nav-label">联动</span></a>
 			</li>
 			<li>
-				<a href="#"><i class="fa fa-pie-chart"></i> <span class="nav-label">安全</span> <span class="label label-primary pull-right">NEW</span> </a>
+				<a href="#"><i class="fa fa-check"></i> <span class="nav-label">安全</span></a>
 			</li>
 			<li>
-				<a href="#"><i class="fa fa-flask"></i> <span class="nav-label">远程</span></a>
+				<a href="#"><i class="fa fa-cloud"></i> <span class="nav-label">远程</span></a>
 			</li>
 			<li>
-				<a href="#"><i class="fa fa-edit"></i> <span class="nav-label">能效</span><span class="fa arrow"></span></a>
+				<a href="#"><i class="fa fa-bar-chart"></i> <span class="nav-label">能效</span><span class="fa arrow"></span></a>
 				<ul class="nav nav-second-level collapse">
 					<li><a href="#">全年能耗</a></li>
 					<li><a href="#">精密空调</a></li>
@@ -70,30 +65,17 @@
 				</ul>
 			</li>
 			<li>
-				<a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">部署</span>  <span class="pull-right label label-primary">SPECIAL</span></a>
-				<ul class="nav nav-second-level collapse">
-					<li><a href="#">Contacts</a></li>
-					<li><a href="#">Profile</a></li>
-				</ul>
+				<a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">部署</span></a>
 			</li>
 			<li>
-				<a href="#"><i class="fa fa-files-o"></i> <span class="nav-label">报表</span><span class="fa arrow"></span></a>
-				<ul class="nav nav-second-level collapse">
-					<li><a href="#">Search results</a></li>
-					<li><a href="#">Lockscreen</a></li>
-					<li class="active"><a href="empty_page.html">Empty page</a></li>
-				</ul>
+				<a href="#"><i class="fa fa-files-o"></i> <span class="nav-label">报表</span></a>
 			</li>
 			<li>
-				<a href="#"><i class="fa fa-globe"></i> <span class="nav-label">告警记录</span><span class="label label-info pull-right">NEW</span></a>
-				<ul class="nav nav-second-level collapse">
-					<li><a href="#">Notification</a></li>
-					<li><a href="#">Nestable list</a></li>
-				</ul>
+				<a href="#"><i class="fa fa-list-ul"></i> <span class="nav-label">告警记录</span><span class="label label-info pull-right">3</span></a>
 			</li>
-			<li class="special_link">
+<!-- 			<li class="special_link">
 				<a href="#"><i class="fa fa-database"></i> <span class="nav-label">Package</span></a>
-			</li>
+			</li> -->
 		</ul>
 	</div>
 </nav>
