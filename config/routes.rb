@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
-  get '/home', to: 'home#index'
+  get '/home', to: 'welcome#index'
 
-  get '/login', to: 'home#login'
   resources :power, only: [:index] do
     collection do 
       get :ups
@@ -11,7 +10,7 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
- root 'welcome#index'
+ root 'welcome#login'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
