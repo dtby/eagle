@@ -9,7 +9,7 @@
 
 <% if params[:action] == 'login' %>
 
-<body class="login-body">
+<body class="login-body <%= controller.controller_path.gsub('/','__') + '__' + controller.action_name %>">
 	<%= yield :login_nav %>
 	<div class="wrapper wrapper-content">
 		<%= yield %>
@@ -18,7 +18,7 @@
 
 <% else %>
 
-<body>
+<body class="<%= controller.controller_path.gsub('/','__') + '__' + controller.action_name %>">
 	<div id="wrapper">
 		<!-- 左侧导航栏部分 -->
 		<%= render partial: "/share/left_bar" %>
