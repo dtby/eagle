@@ -3,31 +3,55 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 //power/ups.scss
-.ups-table1{
-	padding-right: 0;
-	.ups-top{
-		padding: 30px 15px 0 30px;
+.power__ups{
+	.ups-table1{
+		padding-right: 0;
+		.ups-top{
+			padding: 30px 15px 0 30px;
+		}
+		.ups-middle1{
+			padding-left:30px; 
+		}
+		.ups-same{
+			th,td{
+				text-align: center;
+				line-height: 0.2;
+			}
+		}
 	}
-	.ups-middle1{
-		padding-left:30px; 
-	}
-	.ups-same{
-		th,td{
-			text-align: center;
-			line-height: 0.2;
+	.ups-table2{
+		padding: 40px 15px 0 0;
+		.ups-middle2{
+			position: absolute;
+			float: left;
+			th,td{
+				text-align: center;
+				line-height: 0.1;
+			}
 		}
 	}
 }
-.ups-table2{
-	padding: 40px 15px 0 0;
-	.ups-middle2{
-		position: absolute;
-		float: left;
-		th,td{
-			text-align: center;
-			line-height: 0.2;
-		}
-	}
-}
-
 //power/distrib.scss
+.power__distrib{
+	.my-pic{
+		padding: 20px 0 40px;
+		position: relative;
+	}
+	.my-left{
+		position: absolute;
+		top:60px;
+		left: 280px;
+	}
+	.my-right{
+		position: absolute;
+		top :60px;
+		right: 280px;
+	}
+	.my-table{
+		width: 20%;
+		th,td{
+			text-align: center;
+			line-height: 0.15;
+		}
+	}
+}
