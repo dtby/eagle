@@ -5,6 +5,9 @@ Rails.application.routes.draw do
     collection do 
       get :ups
       get :distrib
+      get :air_c
+      get :air_d
+      get :air_w
     end
   end
   # The priority is based upon order of creation: first created -> highest priority.
