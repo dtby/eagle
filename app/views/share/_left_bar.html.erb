@@ -23,24 +23,24 @@
 					iGrid
 				</div>
 			</li>
-			<li>
-				<a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">主界面</span><span class="fa arrow"></span></a>
+			<li class="<%= "active" if params[:controller] == 'welcome' && params[:action] == 'index' %>">
+				<a href="<%= home_path %>"><i class="fa fa-th-large"></i> <span class="nav-label">主界面</span></span></a>
+			</li>
+			<li  class="<%= "active" if params[:controller] == 'power' %>">
+				<a href="#"><i class="fa fa-paper-plane"></i> <span class="nav-label">动力</span><span class="fa arrow"></span></a>
 				<ul class="nav nav-second-level collapse">
+					<li><a href="#">配电</a></li>
+					<li class="<%= "active" if params[:controller] == 'power' && params[:action] == 'ups' %>">
+						<a href="#">UPS</a>
+					</li>
+					<li ><a href="#">配电柜</a></li>
+					<li><a href="#">电池</a></li>
+					<li><a href="#">机柜动力</a></li>
+					<li><a href="#">发电机</a></li>
 					<li><a href="#">温湿度</a></li>
 					<li><a href="#">精密空调</a></li>
 					<li><a href="#">漏水检测</a></li>
 					<li><a href="#">机柜温度</a></li>
-				</ul>
-			</li>
-			<li>
-				<a href="#"><i class="fa fa-paper-plane"></i> <span class="nav-label">动力</span><span class="fa arrow"></span></a>
-				<ul class="nav nav-second-level collapse">
-					<li><a href="#">配电</a></li>
-					<li><a href="#">UPS</a></li>
-					<li><a href="#">配电柜</a></li>
-					<li><a href="#">电池</a></li>
-					<li><a href="#">机柜动力</a></li>
-					<li><a href="#">发电机</a></li>
 				</ul>
 			</li>
 			<li>
