@@ -1,6 +1,7 @@
 <nav class="navbar-default navbar-static-side" role="navigation">
 	<div class="sidebar-collapse">
 		<ul class="nav metismenu" id="side-menu">
+			<!-- brand -->
 			<li class="nav-header">
 				<div class="dropdown profile-element">
 					<a data-toggle="dropdown" class="dropdown-toggle" href="#">
@@ -23,59 +24,84 @@
 					iGrid
 				</div>
 			</li>
+			<!-- 主界面 -->
 			<li class="<%= "active" if params[:controller] == 'welcome' && params[:action] == 'index' %>">
 				<a href="<%= home_path %>"><i class="fa fa-th-large"></i> <span class="nav-label">主界面</span></span></a>
 			</li>
+			<!-- 动力 -->
 			<li  class="<%= "active" if params[:controller] == 'power' %>">
 				<a href="#"><i class="fa fa-paper-plane"></i> <span class="nav-label">动力</span><span class="fa arrow"></span></a>
 				<ul class="nav nav-second-level collapse">
-					<li><a href="#">配电</a></li>
-					<li class="<%= "active" if params[:controller] == 'power' && params[:action] == 'ups' %>">
-						<a href="#">UPS</a>
+					<li class="<%= "active" if params[:controller] == '' && params[:action] == '' %>">
+						<%= link_to "配电", "#" %>
 					</li>
-					<li ><a href="#">配电柜</a></li>
-					<li><a href="#">电池</a></li>
-					<li><a href="#">机柜动力</a></li>
-					<li><a href="#">发电机</a></li>
-					<li><a href="#">温湿度</a></li>
-					<li><a href="#">精密空调</a></li>
-					<li><a href="#">漏水检测</a></li>
-					<li><a href="#">机柜温度</a></li>
+					<li class="<%= "active" if params[:controller] == 'power' && params[:action] == 'ups' %>">
+						<%= link_to "UPS", ups_power_index_path %>
+					</li>
+					<li class="<%= "active" if params[:controller] == '' && params[:action] == '' %>">
+						<%= link_to "配电柜", "#" %>
+					</li>
+					<li class="<%= "active" if params[:controller] == '' && params[:action] == '' %>">
+						<%= link_to "电池", "#" %>
+					</li>
+					<li class="<%= "active" if params[:controller] == '' && params[:action] == '' %>">
+						<%= link_to "机柜动力", "#" %>
+					</li>
+					<li class="<%= "active" if params[:controller] == '' && params[:action] == '' %>">
+						<%= link_to "发电机", "#" %>
+					</li>
+					<li class="<%= "active" if params[:controller] == '' && params[:action] == '' %>">
+						<%= link_to "温湿度", "#" %>
+					</li>
+					<li class="<%= "active" if params[:controller] == '' && params[:action] == '' %>">
+						<%= link_to "精密空调", "#" %>
+					</li>
+					<li class="<%= "active" if params[:controller] == '' && params[:action] == '' %>">
+						<%= link_to "漏水检测", "#" %>
+					</li>
+					<li class="<%= "active" if params[:controller] == '' && params[:action] == '' %>">
+						<%= link_to "机柜温度", "#" %>
+					</li>
 				</ul>
 			</li>
+			<!-- 环境 -->
 			<li>
 				<a href="#"><i class="fa fa-globe"></i> <span class="nav-label">环境</span></a>
 			</li>
+			<!-- 联动 -->
 			<li>
 				<a href="#"><i class="fa fa-sitemap"></i> <span class="nav-label">联动</span></a>
 			</li>
+			<!-- 安全 -->
 			<li>
 				<a href="#"><i class="fa fa-check"></i> <span class="nav-label">安全</span></a>
 			</li>
+			<!-- 远程 -->
 			<li>
 				<a href="#"><i class="fa fa-cloud"></i> <span class="nav-label">远程</span></a>
 			</li>
+			<!-- 能效 -->
 			<li>
 				<a href="#"><i class="fa fa-bar-chart"></i> <span class="nav-label">能效</span><span class="fa arrow"></span></a>
 				<ul class="nav nav-second-level collapse">
-					<li><a href="#">全年能耗</a></li>
-					<li><a href="#">精密空调</a></li>
-					<li><a href="#">漏水检测</a></li>
-					<li><a href="#">机柜温度</a></li>
+					<li><%= link_to "全年能耗", "#" %></li>
+					<li><%= link_to "精密空调", "#" %></li>
+					<li><%= link_to "漏水检测", "#" %></li>
+					<li><%= link_to "机柜温度", "#" %></li>
 				</ul>
 			</li>
+			<!-- 部署 -->
 			<li>
 				<a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">部署</span></a>
 			</li>
+			<!-- 报表 -->
 			<li>
 				<a href="#"><i class="fa fa-files-o"></i> <span class="nav-label">报表</span></a>
 			</li>
+			<!-- 告警记录 -->
 			<li>
 				<a href="#"><i class="fa fa-list-ul"></i> <span class="nav-label">告警记录</span><span class="label label-info pull-right">3</span></a>
 			</li>
-<!-- 			<li class="special_link">
-				<a href="#"><i class="fa fa-database"></i> <span class="nav-label">Package</span></a>
-			</li> -->
 		</ul>
 	</div>
 </nav>

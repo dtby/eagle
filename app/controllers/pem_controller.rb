@@ -1,0 +1,2 @@
+class PemController < ApplicationController
+end
