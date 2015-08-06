@@ -1,3 +1,33 @@
 // Place all the styles related to the power controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+//power/ups.scss
+.ups-table1{
+	padding-right: 0;
+	.ups-top{
+		padding: 30px 15px 0 30px;
+	}
+	.ups-middle1{
+		padding-left:30px; 
+	}
+	.ups-same{
+		th,td{
+			text-align: center;
+			line-height: 0.2;
+		}
+	}
+}
+.ups-table2{
+	padding: 40px 15px 0 0;
+	.ups-middle2{
+		position: absolute;
+		float: left;
+		th,td{
+			text-align: center;
+			line-height: 0.2;
+		}
+	}
+}
+
+//power/distrib.scss
