@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // Place all the styles related to the power controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
@@ -54,4 +55,78 @@
 			line-height: 0.15;
 		}
 	}
+}
+
+
+.air_tab4  {
+  text-align:center;
+  .air_s1 {
+    border:1px solid #E0E1E1;
+    border-radius:3px;
+    background-color:#EBECEC;
+    padding:10px auto;
+    margin:20px 24px;
+    width:20%;
+  }
+  .air_s2 {
+    border-left:1px solid #E0E1E1;
+    padding:10px auto;
+    margin-left:20px;
+  }
+}
+
+
+.water_tab {
+  padding:0 0 20px 0;
+  .water_g {
+    border:1px solid #E0E1E1;
+    margin-bottom:20px;
+  }
+}
+ .grey_d {
+    background-color:#EBECEC;
+    padding:5px 3%;
+  }
+  .grey_d1 {
+    border:1px solid #E0E1E1;
+    border-radius:5px 0 0 5px;
+  }
+  .grey_d2 {
+    border:1px solid #E0E1E1;
+    border-radius:0 5px 5px 0;
+    color:blue;
+  }
+  .grey_d3 {
+    border:1px solid #E0E1E1;
+    border-radius:5px 0 0 5px;
+    margin-left:10%;
+  }
+  .grey_d4 {
+    border:1px solid #E0E1E1;
+    border-radius:0 5px 5px 0;
+    color:blue;
+  }
+.water_tab1 {
+  padding:0px;
+  .table1 {
+    margin-bottom:0px;
+    .open1 {
+      color:#4A8CF6;
+    }
+    .close1 {
+      color:#EF6FB5;
+    }
+  }
+}
+.panel3 {
+  margin-top:20px;
+  .air_d_grey {
+    .span1 {
+      margin:10px auto;
+    }
+    .grey_d0 {
+      background-color:#EBECEC;
+      padding:5px 20px;
+    }
+  }
 }
