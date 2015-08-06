@@ -1,8 +1,13 @@
 class PowerController < ApplicationController
-  def ups		
-  end
-  def distrib		
-  end
-  def air_c    
-  end
+	def air_c    
+	end
+	def ups
+		
+	end
+	def distrib
+		
+	end
+	def cabinet
+		
+	end
 end

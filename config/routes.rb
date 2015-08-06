@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       get :air_c
       get :air_d
       get :air_w
+      get :cabinet
     end
   end
 
