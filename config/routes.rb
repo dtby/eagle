@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :power, only: [:index] do
     collection do 
       get :ups
+      get :distrib
     end
   end
   # The priority is based upon order of creation: first created -> highest priority.
