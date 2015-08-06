@@ -26,7 +26,7 @@
 				<%= render partial: "/share/top_bar" %>
 
 				<!-- 右侧中间内容部分 -->
-				<div class="wrapper wrapper-content <%= controller.controller_path.gsub('/','__') + '__' + controller.action_name %>">
+				<div class="row wrapper eagle-content <%= controller.controller_path.gsub('/','__') + '__' + controller.action_name %>">
 					<%= yield %>
 				</div>
 
