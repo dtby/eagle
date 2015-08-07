@@ -23,7 +23,7 @@ capybara-*.html
 /coverage/
 /doc/
 /spec/tmp
-#/config/database.yml
+/config/database.yml
 /solr/
 **.orig
 rerun.txt
