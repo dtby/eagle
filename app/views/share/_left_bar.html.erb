@@ -53,14 +53,14 @@
 					<li class="<%= "active" if params[:controller] == '' && params[:action] == '' %>">
 						<%= link_to "温湿度", "#" %>
 					</li>
-					<li class="<%= "active" if params[:controller] == '' && params[:action] == '' %>">
-						<%= link_to "精密空调", "#" %>
+					<li class="<%= "active" if params[:controller] == 'power' && params[:action] == 'air_c' %>">
+						<%= link_to "精密空调", air_c_power_index_path %>
 					</li>
 					<li class="<%= "active" if params[:controller] == '' && params[:action] == '' %>">
 						<%= link_to "漏水检测", "#" %>
 					</li>
-					<li class="<%= "active" if params[:controller] == '' && params[:action] == '' %>">
-						<%= link_to "机柜温度", "#" %>
+					<li class="<%= "active" if params[:controller] == 'power' && params[:action] == 'air_w' %>">
+						<%= link_to "机柜温度",  air_w_power_index_path %>
 					</li>
 				</ul>
 			</li>
@@ -81,13 +81,19 @@
 				<a href="#"><i class="fa fa-cloud"></i> <span class="nav-label">远程</span></a>
 			</li>
 			<!-- 能效 -->
-			<li>
+			<li class="<%= "active" if params[:controller] == 'pem' %>">
 				<a href="#"><i class="fa fa-bar-chart"></i> <span class="nav-label">能效</span><span class="fa arrow"></span></a>
 				<ul class="nav nav-second-level collapse">
-					<li><%= link_to "全年能耗", "#" %></li>
-					<li><%= link_to "精密空调", "#" %></li>
+					<li class="<%= "active" if params[:controller] == 'pem' && params[:action] == 'index' %>">
+						<%= link_to "全年能耗", pem_index_path %>
+					</li>
+					<li class="<%= "active" if params[:controller] == 'pem' && params[:action] == 'aircondition' %>">
+						<%= link_to "精密空调", aircondition_pem_index_path %>
+					</li>
 					<li><%= link_to "漏水检测", "#" %></li>
-					<li><%= link_to "机柜温度", "#" %></li>
+					<li class="<%= "active" if params[:controller] == '' && params[:action] == '' %>">
+						<%= link_to "机柜温度", "#" %>
+					</li>
 				</ul>
 			</li>
 			<!-- 部署 -->
