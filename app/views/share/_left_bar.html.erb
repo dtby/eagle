@@ -32,14 +32,14 @@
 			<li  class="<%= "active" if params[:controller] == 'power' %>">
 				<a href="#"><i class="fa fa-paper-plane"></i> <span class="nav-label">动力</span><span class="fa arrow"></span></a>
 				<ul class="nav nav-second-level collapse">
-					<li class="<%= "active" if params[:controller] == '' && params[:action] == '' %>">
-						<%= link_to "配电", "#" %>
+					<li class="<%= "active" if params[:controller] == 'power' && params[:action] == 'distrib' %>">
+						<%= link_to "配电", distrib_power_index_path %>
 					</li>
 					<li class="<%= "active" if params[:controller] == 'power' && params[:action] == 'ups' %>">
 						<%= link_to "UPS", ups_power_index_path %>
 					</li>
-					<li class="<%= "active" if params[:controller] == '' && params[:action] == '' %>">
-						<%= link_to "配电柜", "#" %>
+					<li class="<%= "active" if params[:controller] == 'power' && params[:action] == 'cabinet' %>">
+						<%= link_to "配电柜", cabinet_power_index_path %>
 					</li>
 					<li class="<%= "active" if params[:controller] == '' && params[:action] == '' %>">
 						<%= link_to "电池", "#" %>
