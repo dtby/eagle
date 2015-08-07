@@ -4,31 +4,44 @@
 
 //power/ups.scss
 .power__ups{
-	.ups-table1{
+	.p-r{
 		padding-right: 0;
-		.ups-top{
-			padding: 30px 15px 0 30px;
-		}
-		.ups-middle1{
-			padding-left:30px; 
-		}
-		.ups-same{
-			th,td{
-				text-align: center;
-				line-height: 0.2;
-			}
+	}
+	.p-l{
+		padding-left: 0;
+	}
+	.table{
+		font-size: 10px;
+		th, td{
+			line-height: 0.2;
 		}
 	}
-	.ups-table2{
-		padding: 40px 15px 0 0;
-		.ups-middle2{
-			position: absolute;
-			float: left;
-			th,td{
-				text-align: center;
-				line-height: 0.1;
-			}
-		}
+	img{
+		position: relative;
+	}
+	.table-left1{
+		position: absolute;
+		width: 30%;
+		left: -30%;
+		top: 0px;		
+	}
+	.table-left2{
+		position: absolute;
+		width: 30%;
+		left: -30%;
+		top: 20%;		
+	}	
+	.table-right{
+		position: absolute;
+		width: 35%;
+		right: 15px;
+		top: 28%;
+	}
+	.table-bottom{
+		position: absolute;
+		width: 30%;
+		bottom: -20px;
+		right: 20%;
 	}
 }
 //power/distrib.scss
@@ -67,74 +80,74 @@
 }
 
 .air_tab4  {
-  text-align:center;
-  .air_s1 {
-    border:1px solid #E0E1E1;
-    border-radius:3px;
-    background-color:#EBECEC;
-    padding:10px auto;
-    margin:20px 24px;
-    width:20%;
-  }
-  .air_s2 {
-    border-left:1px solid #E0E1E1;
-    padding:10px auto;
-    margin-left:20px;
-  }
+	text-align:center;
+	.air_s1 {
+		border:1px solid #E0E1E1;
+		border-radius:3px;
+		background-color:#EBECEC;
+		padding:10px auto;
+		margin:20px 24px;
+		width:20%;
+	}
+	.air_s2 {
+		border-left:1px solid #E0E1E1;
+		padding:10px auto;
+		margin-left:20px;
+	}
 }
 
 
 .water_tab {
-  padding:0 0 20px 0;
-  .water_g {
-    border:1px solid #E0E1E1;
-    margin-bottom:20px;
-  }
+	padding:0 0 20px 0;
+	.water_g {
+		border:1px solid #E0E1E1;
+		margin-bottom:20px;
+	}
 }
- .grey_d {
-    background-color:#EBECEC;
-    padding:5px 3%;
-  }
-  .grey_d1 {
-    border:1px solid #E0E1E1;
-    border-radius:5px 0 0 5px;
-  }
-  .grey_d2 {
-    border:1px solid #E0E1E1;
-    border-radius:0 5px 5px 0;
-    color:blue;
-  }
-  .grey_d3 {
-    border:1px solid #E0E1E1;
-    border-radius:5px 0 0 5px;
-    margin-left:10%;
-  }
-  .grey_d4 {
-    border:1px solid #E0E1E1;
-    border-radius:0 5px 5px 0;
-    color:blue;
-  }
+.grey_d {
+	background-color:#EBECEC;
+	padding:5px 3%;
+}
+.grey_d1 {
+	border:1px solid #E0E1E1;
+	border-radius:5px 0 0 5px;
+}
+.grey_d2 {
+	border:1px solid #E0E1E1;
+	border-radius:0 5px 5px 0;
+	color:blue;
+}
+.grey_d3 {
+	border:1px solid #E0E1E1;
+	border-radius:5px 0 0 5px;
+	margin-left:10%;
+}
+.grey_d4 {
+	border:1px solid #E0E1E1;
+	border-radius:0 5px 5px 0;
+	color:blue;
+}
 .water_tab1 {
-  padding:0px;
-  .table1 {
-    margin-bottom:0px;
-    .open1 {
-      color:#4A8CF6;
-    }
-    .close1 {
-      color:#EF6FB5;
-    }
-  }
+	padding:0px;
+	.table1 {
+		margin-bottom:0px;
+		.open1 {
+			color:#4A8CF6;
+		}
+		.close1 {
+			color:#EF6FB5;
+		}
+	}
 }
 .panel3 {
-  margin-top:20px;
-  .air_d_grey {
-    .span1 {
-      margin:10px auto;
-    }
-    .grey_d0 {
-      background-color:#EBECEC;
-      padding:5px 20px;
-    }
-  }
+	margin-top:20px;
+	.air_d_grey {
+		.span1 {
+			margin:10px auto;
+		}
+		.grey_d0 {
+			background-color:#EBECEC;
+			padding:5px 20px;
+		}
+	}
 }

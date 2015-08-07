@@ -10,7 +10,7 @@
 <% if params[:action] == 'login' %>
 	<body class="login-body">
 		<%= yield :login_nav %>
-		<div class="wrapper wrapper-content <%= controller.controller_path.gsub('/','__') + '__' + controller.action_name %>">
+		<div class="<%= controller.controller_path.gsub('/','__') + '__' + controller.action_name %>">
 			<%= yield %>
 		</div>	
 	</body>

@@ -55,3 +55,12 @@
 		</div>
 	</div>
 </div>
+<script>
+	$(function(){
+		var client = document.body.clientHeight - 60;
+		var login = $(".login-form").outerHeight();
+		var p_t = (client - login) / 2;
+		$(".middle-box").css("padding-top", 0);
+		$(".middle-box").css("padding-top", p_t);
+	});
+</script>
