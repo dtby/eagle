@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       get :air_d
       get :air_w
       get :cabinet
+      get :carbon_emission
     end
   end
 

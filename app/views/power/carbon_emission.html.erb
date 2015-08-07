@@ -1,0 +1,108 @@
+<div class="clearfix">
+<div class="col-xs-12 p-xs text-center animated fadeInRightBig">
+<div class="row">
+    <div class="col-xs-9">
+        <div class="panel panel-default">
+            <div class="panel-heading">空调实时数据</div>
+            <div class="panel-body">
+            <div style="height:405px" class="carbon_chart1"></div>
+            </div>
+        </div>
+    </div>      
+</div>
+</div>
+</div>
+
+
+<script type="text/javascript">
+        // 路径配置
+        require.config({
+          paths: {
+            echarts: '/assets/echarts'
+          }
+        });
+        
+        // 使用
+        require(
+            [
+                'echarts',
+                'echarts/chart/line', // 使用柱状图就加载bar模块，按需加载
+            ],
+
+            function (ec) {
+                // 基于准备好的dom，初始化echarts图表
+                $(".carbon_chart1").each(function(){
+                     var myChart = ec.init($(this).get(0));   
+               //var myChart = ec.init(document.getElementById('air_w1'));   
+
+                      var option = {
+                            tooltip : {
+                                trigger: 'axis'
+                            },
+                            toolbox: {
+                                show : true,
+                                feature : {
+                                    mark : {show: true},
+                                    dataView : {show: true, readOnly: false},
+                                    magicType: {show: true, type: ['line', 'tiled']},
+                                    restore : {show: true},
+                                    saveAsImage : {show: true}
+                                }
+                            },
+                            calculable : true,
+                            xAxis : [
+                                {
+                                    type : 'category',
+                                    boundaryGap : false,
+                                    data : ['1','2','3','4','5','6','7','8','9','10','11','12']
+                                }
+                            ],
+                            yAxis : [
+                                {
+                                    type : 'value',
+                                    axisLabel : {
+                                        formatter: '{value} ml'
+                                    }
+                                },
+                                {
+                                    type : 'value',
+                                    name : '温度',
+                                    axisLabel : {
+                                        formatter: '{value} °C'
+                                    }
+                                }
+                            ],
+                            series : [
+                              {
+                                    name:'平均温度',
+                                    type:'line',
+                                    smooth:false,
+                                    yAxisIndex: 1,
+                                    data:[1.0, 7.2, -3.3, 6.5, 2.3, -1.02, 0.203, -2.34, 0.230, -1.65, 1.20, -0.6]
+                                },
+                                 {
+                                    name:'搜索引擎',
+                                   smooth:true,
+                                    type:'line',
+                                    stack: '总量',
+                                    itemStyle: {normal: {areaStyle: {type: 'default',color:'#ffb51b'}}},
+                                    data:[120, 120, 120, 120, 120, 120, 120, 120, 120,200, 330, 1820]
+                                },
+                                {
+                                    name:'邮件营销',
+                                  smooth:true,
+                                    type:'line',
+                                    stack: '总量',
+                                    itemStyle: {normal: {areaStyle: {type: 'default',color:'#32f6cc'}}},
+                                    data:[620, 650, 420, 720, 420, 720, 420, 720, 320,500, 830, 1820]
+                                }
+                            ]
+                            };
+                      // 为echarts对象加载数据 
+                myChart.setOption(option); 
+                });
+
+            }
+
+        );
+</script>
