@@ -1,0 +1,22 @@
+@import "variables";
+html, body{
+	height: 100%;
+	background-color: $body-bg;
+}
+.mblock{
+	padding: 15px;
+	background-color: #fff;
+	box-shadow: 0px 1px 1px 1px rgba(181, 181, 181, 1);
+	margin-bottom: 20px;
+	&:before{
+		content: " ";
+		display: table;
+	}
+}
+.panel{
+	box-shadow: 0px 1px 1px 1px rgba(181, 181, 181, 1);
+	border: none;
+}
+.panel-default > .panel-heading{
+	border-color: transparent;
+}

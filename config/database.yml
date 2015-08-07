@@ -26,6 +26,11 @@ development:
   username: root
   password:
   socket: /tmp/mysql.sock
+  password: #68909187
+  # socket: /tmp/mysql.sock
+
+development:
+  <<: *default
   database: eagle_development
 
 # Warning: The database defined as "test" will be erased and
