@@ -1,374 +1,528 @@
 <div class="clearfix">
-	<div class="col-xs-5">
-		<div class="row">
-			<div class="panel panel-default">
-				<div class="panel-heading text-center">全年节能</div>
-				<div class="panel-body">
-					<div id="energy1" style="height:180px"></div>
-					<div class="col-xs-6 text-center">
-						<ul>
-							<li>减少支出<br>￥5万</li>
-						</ul>
-					</div>
-					<div class="col-xs-6">
-						<ul>
-							<li>减少排放<br>6407mm</li>
-						</ul>
-					</div>
+	<div class="col-xs-5 p-xs">
+		<div class="panel panel-default" id="r_t">
+			<div class="panel-heading text-center">全年节能</div>
+			<div class="panel-body">
+				<div id="energy1" style="height:180px"></div>
+				<div class="col-xs-6 text-center">
+					减少支出<br>￥5万
+				</div>
+				<div class="col-xs-6 text-center">
+					减少排放<br>6407mm
 				</div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="panel panel-default">
-				<div class="panel-heading text-center">全年耗能</div>
-				<div class="panel-body">
-					<div id="energy2" style="height:180px"></div>
-					<div class="col-xs-6 text-center">
-						<ul>
-							<li>增加支出<br>￥8万</li>
-						</ul>
-					</div>
-					<div class="col-xs-6 text-center">
-						<ul>
-							<li>增加排放<br>8000mm</li>
-						</ul>
-					</div>
+
+		<div class="panel panel-default" id="r_b">
+			<div class="panel-heading text-center">全年耗能</div>
+			<div class="panel-body">
+				<div id="energy2" style="height:180px"></div>
+				<div class="col-xs-6 text-center">
+					增加支出<br>￥8万
+				</div>
+				<div class="col-xs-6 text-center">
+					增加排放<br>8000mm
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="col-xs-7">
-		<div class="panel panel-default">
+	<div class="col-xs-7 p-xs">
+		<div class="panel panel-default" id="left">
 			<div class="panel-heading text-center">全年节能</div>
 			<div class="panel-body">
-				<div id="energy3" style="height:440px"></div>
+				<div id="energy31" style="height:440px"></div>
+				<div id="energy32" style="height:440px"></div>
+				<div id="energy33" style="height:440px"></div>
 			</div>
 		</div>
 	</div>
 </div>
 <!--全年节能  -->
 <script type="text/javascript">
-        // 路径配置
-        require.config({
-        	paths: {
-        		echarts: '/assets/echarts'
-        	}
-        });
-        
-        // 使用
-        require(
-        	[
-        	'echarts',
-                'echarts/chart/pie' // 使用柱状图就加载bar模块，按需加载
-                ],
-                function (ec) {
-                // 基于准备好的dom，初始化echarts图表
-                var myChart = ec.init(document.getElementById('energy1')); 
-                
-                var labelTop = {
-                	normal : {
-                		label : {
-                			show : true,
-                			position : 'center',
-                			formatter : '{b}',
-                			textStyle: {
-                				baseline : 'bottom'
-                			}
-                		},
-                		labelLine : {
-                			show : false
-                		}
-                	}
-                };
-                var labelFromatter = {
-                	normal : {
-                		label : {
-                			formatter : function (params){
-                				return 100 - params.value + '%'
-                			},
-                			textStyle: {
-                				baseline : 'top'
-                			}
-                		}
-                	},
-                }
-                var labelBottom = {
-                	normal : {
-                		color: '#ccc',
-                		label : {
-                			show : true,
-                			position : 'center'
-                		},
-                		labelLine : {
-                			show : false
-                		}
-                	},
-                	emphasis: {
-                		color: 'rgba(0,0,0,0)'
-                	}
-                };
-                var radius = [55, 60];
-                var  option = {
+	//设置3个模块的高度
+	var left = document.body.clientHeight - 100;
+	var r_t = left * 0.5 - 10;
+	var r_b = left * 0.5 -10;
+	$("#left").height(left);
 
-                	series : [
-                	{
-                		type : 'pie',
-                		center : ['25%', '40%'],
-                		radius : radius,
-            x: '30%', // for funnel
-            itemStyle : labelFromatter,
-            data : [
-            {name:'other', value:70, itemStyle : labelBottom},
-            {name:'A相电流', value:30,itemStyle : labelTop}
-            ]
-          },
-          {
-          	type : 'pie',
-          	center : ['75%', '40%'],
-          	radius : radius,
-            x:'50%', // for funnel
-            itemStyle : labelFromatter,
-            data : [
-            {name:'other', value:70, itemStyle : labelBottom},
-            {name:'B相电流', value:30,itemStyle : labelTop}
-            ]
-          },
-          ]
-        };
-                // 为echarts对象加载数据 
-                myChart.setOption(option); 
-              }
-              );
+	$("#energy31").height((left - 60) * 0.4);
+	$("#energy32").height((left - 60) * 0.2);
+	$("#energy33").height((left - 60) * 0.4);
+	$("#r_t").height(r_t);
+	$("#pue").height(r_t-60);
+	$("#r_b").height(r_b);
+	$("#camera").height(r_b-60);
+
+	// 路径配置
+	require.config({
+		paths: {
+			echarts: '/assets/echarts'
+		}
+	});
+	
+	// 使用
+	require(
+		[
+		'echarts',
+					'echarts/chart/pie' // 使用柱状图就加载bar模块，按需加载
+					],
+					function (ec) {
+					// 基于准备好的dom，初始化echarts图表
+					var myChart = ec.init(document.getElementById('energy1')); 
+					
+					var labelTop = {
+						normal : {
+							label : {
+								show : true,
+								position : 'center',
+								formatter : '{b}',
+								textStyle: {
+									baseline : 'bottom'
+								}
+							},
+							labelLine : {
+								show : false
+							}
+						}
+					};
+					var labelFromatter = {
+						normal : {
+							label : {
+								formatter : function (params){
+									return 100 - params.value + '%'
+								},
+								textStyle: {
+									baseline : 'top'
+								}
+							}
+						},
+					}
+					var labelBottom = {
+						normal : {
+							color: '#ccc',
+							label : {
+								show : true,
+								position : 'center'
+							},
+							labelLine : {
+								show : false
+							}
+						},
+						emphasis: {
+							color: 'rgba(0,0,0,0)'
+						}
+					};
+					var radius = [55, 60];
+					var  option = {
+
+						series : [
+						{
+							type : 'pie',
+							center : ['25%', '40%'],
+							radius : radius,
+			x: '30%', // for funnel
+			itemStyle : labelFromatter,
+			data : [
+			{name:'other', value:70, itemStyle : labelBottom},
+			{name:'A相电流', value:30,itemStyle : labelTop}
+			]
+		},
+		{
+			type : 'pie',
+			center : ['75%', '40%'],
+			radius : radius,
+			x:'50%', // for funnel
+			itemStyle : labelFromatter,
+			data : [
+			{name:'other', value:70, itemStyle : labelBottom},
+			{name:'B相电流', value:30,itemStyle : labelTop}
+			]
+		},
+		]
+	};
+		// 为echarts对象加载数据 
+		myChart.setOption(option); 
+	}
+);
 </script>
 <!-- 全年能耗 -->
 <script type="text/javascript">
-        // 路径配置
-        require.config({
-        	paths: {
-        		echarts: '/assets/echarts'
-        	}
-        });
-        
-        // 使用
-        require(
-        	[
-        	'echarts',
-                'echarts/chart/pie' // 使用柱状图就加载bar模块，按需加载
-                ],
-                function (ec) {
-                // 基于准备好的dom，初始化echarts图表
-                var myChart = ec.init(document.getElementById('energy2')); 
-                
-                var labelTop = {
-                	normal : {
-                		label : {
-                			show : true,
-                			position : 'center',
-                			formatter : '{b}',
-                			textStyle: {
-                				baseline : 'bottom'
-                			}
-                		},
-                		labelLine : {
-                			show : false
-                		}
-                	}
-                };
-                var labelFromatter = {
-                	normal : {
-                		label : {
-                			formatter : function (params){
-                				return 100 - params.value + '%'
-                			},
-                			textStyle: {
-                				baseline : 'top'
-                			}
-                		}
-                	},
-                }
-                var labelBottom = {
-                	normal : {
-                		color: '#ccc',
-                		label : {
-                			show : true,
-                			position : 'center'
-                		},
-                		labelLine : {
-                			show : false
-                		}
-                	},
-                	emphasis: {
-                		color: 'rgba(0,0,0,0)'
-                	}
-                };
-                var radius = [55, 60];
-                var  option = {
+	// 路径配置
+	require.config({
+		paths: {
+			echarts: '/assets/echarts'
+		}
+	});
+	
+	// 使用
+	require(
+		[
+		'echarts',
+					'echarts/chart/pie' // 使用柱状图就加载bar模块，按需加载
+					],
+					function (ec) {
+					// 基于准备好的dom，初始化echarts图表
+					var myChart = ec.init(document.getElementById('energy2')); 
+					
+					var labelTop = {
+						normal : {
+							label : {
+								show : true,
+								position : 'center',
+								formatter : '{b}',
+								textStyle: {
+									baseline : 'bottom'
+								}
+							},
+							labelLine : {
+								show : false
+							}
+						}
+					};
+					var labelFromatter = {
+						normal : {
+							label : {
+								formatter : function (params){
+									return 100 - params.value + '%'
+								},
+								textStyle: {
+									baseline : 'top'
+								}
+							}
+						},
+					}
+					var labelBottom = {
+						normal : {
+							color: '#ccc',
+							label : {
+								show : true,
+								position : 'center'
+							},
+							labelLine : {
+								show : false
+							}
+						},
+						emphasis: {
+							color: 'rgba(0,0,0,0)'
+						}
+					};
+					var radius = [55, 60];
+					var  option = {
 
-                	series : [
-                	{
-                		type : 'pie',
-                		center : ['25%', '40%'],
-                		radius : radius,
-            x: '30%', // for funnel
-            itemStyle : labelFromatter,
-            data : [
-            {name:'other', value:30, itemStyle : labelBottom},
-            {name:'A相电流', value:70,itemStyle : labelTop}
-            ]
-          },
-          {
-          	type : 'pie',
-          	center : ['75%', '40%'],
-          	radius : radius,
-            x:'50%', // for funnel
-            itemStyle : labelFromatter,
-            data : [
-            {name:'other', value:30, itemStyle : labelBottom},
-            {name:'B相电流', value:70,itemStyle : labelTop}
-            ]
-          },
-          ]
-        };
-                // 为echarts对象加载数据 
-                myChart.setOption(option); 
-              }
-              );
+						series : [
+						{
+							type : 'pie',
+							center : ['25%', '40%'],
+							radius : radius,
+			x: '30%', // for funnel
+			itemStyle : labelFromatter,
+			data : [
+			{name:'other', value:30, itemStyle : labelBottom},
+			{name:'A相电流', value:70,itemStyle : labelTop}
+			]
+		},
+		{
+			type : 'pie',
+			center : ['75%', '40%'],
+			radius : radius,
+			x:'50%', // for funnel
+			itemStyle : labelFromatter,
+			data : [
+			{name:'other', value:30, itemStyle : labelBottom},
+			{name:'B相电流', value:70,itemStyle : labelTop}
+			]
+		},
+		]
+	};
+		// 为echarts对象加载数据 
+		myChart.setOption(option); 
+	}
+);
 </script>
 <!-- 全年节能 -->
 <script type="text/javascript">
-        // 路径配置
-        require.config({
-        	paths: {
-        		echarts: '/assets/echarts'
-        	}
-        });
-        
-        // 使用
-        require(
-        	[
-        	'echarts',
-                'echarts/chart/pie' // 使用柱状图就加载bar模块，按需加载
-                ],
-                function (ec) {
-                // 基于准备好的dom，初始化echarts图表
-                var myChart = ec.init(document.getElementById('energy3')); 
-                
-                option = {
-                	title : {
-                		text: '手机品牌',
-                		subtext: '线、节点样式'
-                	},
-                	tooltip : {
-                		trigger: 'item',
-                		formatter: "{b}: {c}"
-                	},
-                	toolbox: {
-                		show : true,
-                		feature : {
-                			mark : {show: true},
-                			dataView : {show: true, readOnly: false},
-                			restore : {show: true},
-                			saveAsImage : {show: true}
-                		}
-                	},
-                	calculable : false,
+	// 路径配置
+	require.config({
+		paths: {
+			echarts: '/assets/echarts'
+		}
+	});
+	
+	// 使用
+	require(
+		[
+		'echarts',
+		'echarts/chart/tree' // 使用柱状图就加载bar模块，按需加载
+		],
+		function (ec) {
+		// 基于准备好的dom，初始化echarts图表
+		var myChart = ec.init(document.getElementById('energy32')); 
+		
+		option = {
+			tooltip : {
+				trigger: 'item',
+				formatter: "{b}: {c}"
+			},
+			calculable : false,
 
-                	series : [
-                	{
-                		name:'树图',
-                		type:'tree',
-            orient: 'horizontal',  // vertical horizontal
-            rootLocation: {x: 100, y: '60%'}, // 根节点位置  {x: 'center',y: 10}
-            nodePadding: 20,
-            symbol: 'circle',
-            symbolSize: 40,
-            itemStyle: {
-            	normal: {
-            		label: {
-            			show: true,
-            			position: 'inside',
-            			textStyle: {
-            				color: '#cc9999',
-            				fontSize: 15,
-            				fontWeight:  'bolder'
-            			}
-            		},
-            		lineStyle: {
-            			color: '#000',
-            			width: 1,
-                        type: 'broken' // 'curve'|'broken'|'solid'|'dotted'|'dashed'
-                      }
-                    },
-                    emphasis: {
-                    	label: {
-                    		show: true
-                    	}
-                    }
-                  },
-                  data: [
-                  {
-                  	name: '手机',
-                  	value: 6,
-                  	symbolSize: [90, 70],
-                  	symbol: 'image:////images/pem-energy4.png',
-                  	itemStyle: {
-                  		normal: {
-                  			label: {
-                  				show: false
-                  			}
-                  		}
-                  	},
-                  	children: [
-                  	{
-                  		name: '小米',
-                  		value: 4,
-                  		symbol: 'image:////images/pem-energy3.png',
-                  		itemStyle: {
-                  			normal: {
-                  				label: {
-                  					show: false
-                  				}
-                  			}
-                  		},
-                  		symbolSize: [60, 60],
-                  	},
-                  	{
-                  		name: '苹果',
-                  		symbol: 'image://images/pem-energy1.png',
-                  		symbolSize: [60, 60],
-                  		itemStyle: {
-                  			normal: {
-                  				label: {
-                  					show: false
-                  				}
+			series : [
+			{
+				name:'树图',
+				type:'tree',
+				orient: 'vertical',  // vertical horizontal
+				rootLocation: {x: '50%', y: 0}, // 根节点位置  {x: 'center',y: 10}
+				nodePadding: 20,
+				symbol: 'circle',
+				symbolSize: 40,
+				itemStyle: {
+					normal: {
+						label: {
+							show: true,
+							position: 'inside',
+							textStyle: {
+								color: '#cc9999',
+								fontSize: 15,
+								fontWeight:  'bolder'
+							}
+						},
+						lineStyle: {
+							color: '#000',
+							width: 1,
+							type: 'broken' // 'curve'|'broken'|'solid'|'dotted'|'dashed'
+						}
+					},
+					emphasis: {
+						label: {
+							show: true
+						}
+					}
+				},
+			data: [
+			{
+				name: '手机',
+				value: 6,
+				symbolSize: [90, 70],
+				symbol: 'image:////images/pem-energy4.png',
+				itemStyle: {
+					normal: {
+						label: {
+							show: false
+						}
+					}
+				},
+				children: [
+				{
+					name: '小米',
+					value: 4,
+					symbol: 'image:////images/pem-energy3.png',
+					itemStyle: {
+						normal: {
+							label: {
+								show: false
+							}
+						}
+					},
+					symbolSize: [180, 40],
+				},
+				{
+					name: '苹果',
+					symbol: 'image://images/pem-energy1.png',
+					symbolSize: [180, 40],
+					itemStyle: {
+						normal: {
+							label: {
+								show: false
+							}
 
-                  			}
-                  		},
-                  		value: 4
-                  	},
-                  	{
-                  		name: '华为',
-                  		symbol: 'image:////images/pem-energy2.png',
-                  		symbolSize: [60, 60],
-                  		itemStyle: {
-                  			normal: {
-                  				label: {
-                  					show: false
-                  				}
+						}
+					},
+					value: 4
+				},
+				{
+					name: '华为',
+					symbol: 'image:////images/pem-energy2.png',
+					symbolSize: [180, 40],
+					itemStyle: {
+						normal: {
+							label: {
+								show: false
+							}
 
-                  			}
-                  		},
-                  		value: 2
-                  	},
-                  	]
-                  }
-                  ]
-                }
-                ]
-              };
+						}
+					},
+					value: 2
+				},
+				]
+			}
+			]
+		}
+		]
+	};
 
-                // 为echarts对象加载数据 
-                myChart.setOption(option); 
-              }
-              );
+		// 为echarts对象加载数据 
+		myChart.setOption(option); 
+	}
+	);
+</script>
+<script>
+	//全年节能饼图
+	// 路径配置
+	require.config({
+		paths: {
+			echarts: '/assets/echarts'
+		}
+	});
+
+	// 使用
+	require(
+		[
+			'echarts',
+			'echarts/chart/pie'
+		],
+		function (pie) {
+			// 基于准备好的dom，初始化echarts图表
+			var energy31 = pie.init(document.getElementById('energy31')); 
+			var option = {
+				tooltip : {
+					trigger: 'item',
+					formatter: "{a} <br/>{b} : {c} ({d}%)"
+				},
+				legend: {
+					orient : 'vertical',
+					x : 'left',
+					data:['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
+				},
+				calculable : true,
+				series : [
+				{
+					name:'访问来源',
+					type:'pie',
+					radius : '70%',
+					center: ['50%', '60%'],
+					data:[
+					{value:335, name:'直接访问'},
+					{value:310, name:'邮件营销'},
+					{value:234, name:'联盟广告'},
+					{value:135, name:'视频广告'},
+					{value:1548, name:'搜索引擎'}
+					]
+				}
+				]				
+	        	};
+			energy31.setOption(option); 
+		}
+	);
+</script>
+<script>
+	//全年节能环形图
+	// 路径配置
+	require.config({
+		paths: {
+			echarts: '/assets/echarts'
+		}
+	});
+
+	// 使用
+	require(
+		[
+			'echarts',
+			'echarts/chart/pie'
+		],
+		function (pie) {
+			// 基于准备好的dom，初始化echarts图表
+			var energy33 = pie.init(document.getElementById('energy33')); 
+			var labelTop = {
+				normal : {
+					label : {
+						show : true,
+						position : 'center',
+						formatter : '{b}',
+						textStyle: {
+							baseline : 'top',
+							color: '#7e7e7e',
+							fontSize: 10
+						}
+					},
+					labelLine : {
+						show : false
+					}
+				}
+			};
+			var labelFromatter = {
+				normal : {
+					label : {
+						formatter : function (params){
+							return 100 - params.value + '%'
+						},
+						textStyle: {
+							baseline : 'bottom',
+							fontSize: 30
+						}
+					}
+				},
+			}
+			var labelBottom = {
+				normal : {
+					color: '#eee',
+					label : {
+						show : true,
+						position : 'center'
+					},
+					labelLine : {
+						show : false
+					}
+				},
+				emphasis: {
+					color: 'rgba(0,0,0,0)'
+				}
+			};
+			var radius = ['47%', '50%'];
+			var option = {
+				legend: {
+					x : 'center',
+					y : 'center',
+					data:[]
+				},
+				series : [
+					{
+						type : 'pie',
+						center : ['16.6%', '30%'],
+						radius : radius,
+						x:'60%', // for funnel
+						itemStyle : labelFromatter,
+						data : [
+							{name:'other', value:60, itemStyle : labelBottom},
+							{name:'输入总功率', value:40,itemStyle : labelTop}
+	            				]
+	          			},
+
+					{
+						type : 'pie',
+						center : ['50%', '30%'],
+						radius : radius,
+						x:'60%', // for funnel
+						itemStyle : labelFromatter,
+						data : [
+							{name:'other', value:50, itemStyle : labelBottom},
+							{name:'输入总功率', value:50,itemStyle : labelTop}
+	            				]
+	          			},
+
+					{
+						type : 'pie',
+						center : ['83.3%', '30%'],
+						radius : radius,
+						x:'60%', // for funnel
+						itemStyle : labelFromatter,
+						data : [
+							{name:'other', value:70, itemStyle : labelBottom},
+							{name:'输入总功率', value:30,itemStyle : labelTop}
+	            				]
+	          			}
+
+	        		]
+	        	};
+			energy33.setOption(option); 
+		}
+	);
 </script>
