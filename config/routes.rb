@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   #能效
   resources :pem, only: [:index] do
     collection do
+      get :aircondition
     end
   end
 
