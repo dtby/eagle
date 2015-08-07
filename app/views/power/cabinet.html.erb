@@ -48,15 +48,7 @@
 		<div class="panel panel-default">
 			<div class="panel-heading text-center">输出负载率</div>
 			<div class="panel-body">
-				<div class="col-xs-4">
-					<div id="load1" style="height:134px"></div>
-				</div>
-				<div class="col-xs-4">
-					<div id="load2" style="height:134px"></div>
-				</div>
-				<div class="col-xs-4">
-					<div id="load3" style="height:134px"></div>
-				</div>
+				<div id="main" style="height:134px"></div>
 			</div>
 		</div>
 	</div>
@@ -75,7 +67,7 @@
 		</div>
 	</div>
 </div>
-	
+
 <script type="text/javascript">
         // 路径配置
         require.config({
@@ -92,117 +84,95 @@
                 ],
                 function (ec) {
                 // 基于准备好的dom，初始化echarts图表
-                var myChart = ec.init(document.getElementById('load1')); 
+                var myChart = ec.init(document.getElementById('main')); 
                 
-                var var dataStyle = {
-    normal: {
-        label: {show:false},
-        labelLine: {show:false}
-    }
-};
-var placeHolderStyle = {
-    normal : {
-        color: 'rgba(0,0,0,0)',
-        label: {show:false},
-        labelLine: {show:false}
-    },
-    emphasis : {
-        color: 'rgba(0,0,0,0)'
-    }
-};
-option = {
-    title: {
-        text: '你幸福吗？',
-        subtext: 'From ExcelHome',
-        sublink: 'http://e.weibo.com/1341556070/AhQXtjbqh',
-        x: 'center',
-        y: 'center',
-        itemGap: 20,
-        textStyle : {
-            color : 'rgba(30,144,255,0.8)',
-            fontFamily : '微软雅黑',
-            fontSize : 35,
-            fontWeight : 'bolder'
-        }
-    },
-    tooltip : {
-        show: true,
-        formatter: "{a} <br/>{b} : {c} ({d}%)"
-    },
-    legend: {
-        orient : 'vertical',
-        x : document.getElementById('load1').offsetWidth / 2,
-        y : 45,
-        itemGap:12,
-        data:['68%的人表示过的不错','29%的人表示生活压力很大','3%的人表示“我姓曾”']
-    },
-    toolbox: {
-        show : true,
-        feature : {
-            mark : {show: true},
-            dataView : {show: true, readOnly: false},
-            restore : {show: true},
-            saveAsImage : {show: true}
-        }
-    },
-    series : [
-        {
-            name:'1',
-            type:'pie',
-            clockWise:false,
-            radius : [125, 150],
-            itemStyle : dataStyle,
-            data:[
-                {
-                    value:68,
-                    name:'68%的人表示过的不错'
-                },
-                {
-                    value:32,
-                    name:'invisible',
-                    itemStyle : placeHolderStyle
+                var labelTop = {
+                	normal : {
+                		label : {
+                			show : true,
+                			position : 'center',
+                			formatter : '{b}',
+                			textStyle: {
+                				baseline : 'bottom'
+                			}
+                		},
+                		labelLine : {
+                			show : false
+                		}
+                	}
+                };
+                var labelFromatter = {
+                	normal : {
+                		label : {
+                			formatter : function (params){
+                				return 100 - params.value + '%'
+                			},
+                			textStyle: {
+                				baseline : 'top'
+                			}
+                		}
+                	},
                 }
+                var labelBottom = {
+                	normal : {
+                		color: '#ccc',
+                		label : {
+                			show : true,
+                			position : 'center'
+                		},
+                		labelLine : {
+                			show : false
+                		}
+                	},
+                	emphasis: {
+                		color: 'rgba(0,0,0,0)'
+                	}
+                };
+                var radius = [35, 40];
+               var  option = {
+                	legend: {  
+                		x : 'center',
+                		y : 'center',
+                		data:[
+                		'A相电流','B相电流','C相电流'
+                		]
+                	},              
+                	series : [
+                	{
+                		type : 'pie',
+                		center : ['20%', '40%'],
+                 		radius : radius,
+            x: '30%', // for funnel
+            itemStyle : labelFromatter,
+            data : [
+            {name:'other', value:25, itemStyle : labelBottom},
+            {name:'A相电流', value:75,itemStyle : labelTop}
             ]
-        },
-        {
-            name:'2',
-            type:'pie',
-            clockWise:false,
-            radius : [100, 125],
-            itemStyle : dataStyle,
-            data:[
-                {
-                    value:29, 
-                    name:'29%的人表示生活压力很大'
-                },
-                {
-                    value:71,
-                    name:'invisible',
-                    itemStyle : placeHolderStyle
-                }
+          },
+          {
+          	type : 'pie',
+          	center : ['50%', '40%'],
+          	radius : radius,
+            x:'50%', // for funnel
+            itemStyle : labelFromatter,
+            data : [
+            {name:'other', value:25, itemStyle : labelBottom},
+            {name:'B相电流', value:75,itemStyle : labelTop}
             ]
-        },
-        {
-            name:'3',
-            type:'pie',
-            clockWise:false,
-            radius : [75, 100],
-            itemStyle : dataStyle,
-            data:[
-                {
-                    value:3, 
-                    name:'3%的人表示“我姓曾”'
-                },
-                {
-                    value:97,
-                    name:'invisible',
-                    itemStyle : placeHolderStyle
-                }
+          },
+          {
+          	type : 'pie',
+          	center : ['80%','40%'],
+          	radius : radius,
+            x:'70%', // for funnel
+            itemStyle : labelFromatter,
+            data : [
+            {name:'other', value:25, itemStyle : labelBottom},
+            {name:'C相电流', value:75,itemStyle : labelTop}
             ]
-        }
-    ]
-};
-                    
+          },
+          ]
+        };
                 // 为echarts对象加载数据 
                 myChart.setOption(option); 
               }
