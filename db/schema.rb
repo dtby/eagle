@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150804091343) do
+ActiveRecord::Schema.define(version: 20150808052919) do
 
   create_table "alarm_auto", id: false, force: :cascade do |t|
     t.integer "SmsAutoFlag", limit: 4,  default: 0,  null: false
@@ -87,6 +87,11 @@ ActiveRecord::Schema.define(version: 20150804091343) do
     t.datetime "ConfirmDateTime"
   end
 
+  create_table "analog_alarms", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "analog_data", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -109,6 +114,11 @@ ActiveRecord::Schema.define(version: 20150804091343) do
     t.string   "User",            limit: 32
     t.string   "Note",            limit: 255
     t.datetime "ConfirmDateTime"
+  end
+
+  create_table "digital_alarms", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "digital_points", force: :cascade do |t|
