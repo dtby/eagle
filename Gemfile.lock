@@ -1,5 +1,5 @@
 GEM
-  remote: https://ruby.taobao.org/
+  remote: https://rubygems.org/
   specs:
     actionmailer (4.2.3)
       actionpack (= 4.2.3)
@@ -36,19 +36,11 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
-<<<<<<< HEAD
     annotate (2.6.10)
       activerecord (>= 3.2, <= 4.3)
       rake (~> 10.4)
-=======
-<<<<<<< HEAD
->>>>>>> dcfe42f66da7528460f2994664f36126b05bcf10
     arel (6.0.2)
-    autoprefixer-rails (5.2.1)
-=======
-    arel (6.0.3)
     autoprefixer-rails (5.2.1.1)
->>>>>>> add in+
       execjs
       json
     binding_of_caller (0.7.2)

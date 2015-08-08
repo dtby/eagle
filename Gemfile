@@ -1,4 +1,5 @@
 source 'https://ruby.taobao.org/'
+# source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -45,7 +46,7 @@ group :development, :test do
 end
 
 # for database
-gem 'mysql2'
+# gem 'mysql2'
 # for annotate
 gem 'annotate'
 #Official Sass port of Bootstrap
