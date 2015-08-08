@@ -39,5 +39,5 @@
 class AnalogPoint < ActiveRecord::Base
   self.table_name = "ptai"
   has_many :analog_alarms, :class_name => 'AnalogAlarm', :foreign_key => :PointID
-  has_many :point_state, :class_name => 'PointState', :foreign_key => :PointID
+  has_many :point_states, :class_name => 'PointState', :foreign_key => :PointID
 end
