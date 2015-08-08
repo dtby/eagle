@@ -29,4 +29,7 @@
 
 class DigitalPoint < ActiveRecord::Base
   self.table_name = "ptdi"
+
+  has_many :digital_alarms, :class_name => 'DigitalAlarm', :foreign_key => :PointID
+  has_many :point_states, :class_name => 'PointState', :foreign_key => :PointID
 end

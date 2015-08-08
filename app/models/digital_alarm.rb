@@ -17,4 +17,6 @@
 
 class DigitalAlarm < ActiveRecord::Base
   self.table_name = "cos"
+
+  belongs_to :digital_point, class_name: DigitalPoint, :foreign_key => :PointID
 end
