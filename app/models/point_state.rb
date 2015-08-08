@@ -13,4 +13,6 @@
 
 class PointState < ActiveRecord::Base
   self.table_name = "ptsts"
+
+  belongs_to :analog_point, class_name: AnalogPoint, :foreign_key => :PointID
 end

@@ -19,4 +19,6 @@
 
 class AnalogAlarm < ActiveRecord::Base
   self.table_name = "alm"
+
+  belongs_to :analog_point, class_name: AnalogPoint, :foreign_key => :PointID
 end
