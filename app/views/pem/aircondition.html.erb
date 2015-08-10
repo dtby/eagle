@@ -1,38 +1,43 @@
 <div class="clearfix">
 	<div class="col-xs-5 p-xs">
-		<div class="panel panel-default" id="r_t">
+		<div class="panel panel-default" id="side1">
 			<div class="panel-heading text-center">全年节能</div>
 			<div class="panel-body">
 				<div id="energy1" style="height:180px"></div>
 				<div class="col-xs-6 text-center">
-					减少支出<br>￥5万
+					减少支出<br><span class="unit">￥5万</span>
 				</div>
 				<div class="col-xs-6 text-center">
-					减少排放<br>6407mm
+					减少排放<br><span class="unit">6407mm</span>
 				</div>
 			</div>
 		</div>
 
-		<div class="panel panel-default" id="r_b">
+		<div class="panel panel-default" id="side2">
 			<div class="panel-heading text-center">全年耗能</div>
 			<div class="panel-body">
 				<div id="energy2" style="height:180px"></div>
 				<div class="col-xs-6 text-center">
-					增加支出<br>￥8万
+					增加支出<br><span class="unit">￥8万</span>
 				</div>
 				<div class="col-xs-6 text-center">
-					增加排放<br>8000mm
+					增加排放<br><span class="unit">8000mm</span>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="col-xs-7 p-xs">
-		<div class="panel panel-default" id="left">
+		<div class="panel panel-default" id="side">
 			<div class="panel-heading text-center">全年节能</div>
 			<div class="panel-body">
 				<div id="energy31" style="height:440px"></div>
 				<div id="energy32" style="height:440px"></div>
 				<div id="energy33" style="height:440px"></div>
+				<div class="row text-center">
+					<div class="col-xs-4">暖通空调电耗<br><span class="unit">10.1万 KWH</span></div>
+					<div class="col-xs-4">动力设备电耗<br><span class="unit">56.4万 KWH</span></div>
+					<div class="col-xs-4">公共照明及<br>其他电耗<br><span class="unit">20.6万 KWH</span></div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -40,18 +45,21 @@
 <!--全年节能  -->
 <script type="text/javascript">
 	//设置3个模块的高度
-	var left = document.body.clientHeight - 100;
-	var r_t = left * 0.5 - 10;
-	var r_b = left * 0.5 -10;
-	$("#left").height(left);
-
-	$("#energy31").height((left - 60) * 0.4);
-	$("#energy32").height((left - 60) * 0.2);
-	$("#energy33").height((left - 60) * 0.4);
-	$("#r_t").height(r_t);
-	$("#pue").height(r_t-60);
-	$("#r_b").height(r_b);
-	$("#camera").height(r_b-60);
+	var side = document.body.clientHeight - 100;
+	var side1 = side * 0.5 - 10;
+	var side2 = side * 0.5 -10;
+	//双倍部分的高度
+	$("#side").height(side);
+	//双倍部分内部图表容器大小
+	$("#energy31").height((side - 60) * 0.4);
+	$("#energy32").height((side - 60) * 0.2);
+	$("#energy33").height((side - 60) * 0.3);
+	//单倍部分1的高度及图表高度
+	$("#side1").height(side1);
+	$("#energy1").height(side1-150);
+	//单倍部分2的高度及图表高度
+	$("#side2").height(side2);
+	$("#energy2").height(side2-150);
 
 	// 路径配置
 	require.config({
@@ -76,7 +84,7 @@
 					position : 'center',
 					formatter : '{b}',
 					textStyle: {
-						baseline : 'bottom'
+						baseline : 'top'
 					}
 				},
 				labelLine : {
@@ -91,7 +99,8 @@
 						return 100 - params.value + '%'
 					},
 					textStyle: {
-						baseline : 'top'
+						baseline : 'bottom',
+						fontSize: 30,
 					}
 				}
 			},
@@ -100,7 +109,7 @@
 			normal : {
 				color: '#ccc',
 				label : {
-					show : true,
+					show : false,
 					position : 'center'
 				},
 				labelLine : {
@@ -111,30 +120,30 @@
 				color: 'rgba(0,0,0,0)'
 			}
 		};
-		var radius = [55, 60];
+		var radius = ['55%', '60%'];
 		var  option = {
 
 			series : [
 			{
 				type : 'pie',
-				center : ['25%', '40%'],
+				center : ['25%', '50%'],
 				radius : radius,
 				x: '30%', // for funnel
 				itemStyle : labelFromatter,
 				data : [
 				{name:'other', value:70, itemStyle : labelBottom},
-				{name:'A相电流', value:30,itemStyle : labelTop}
+				{name:'', value:30,itemStyle : labelTop}
 				]
 			},
 			{
 				type : 'pie',
-				center : ['75%', '40%'],
+				center : ['75%', '50%'],
 				radius : radius,
 				x:'50%', // for funnel
 				itemStyle : labelFromatter,
 				data : [
 				{name:'other', value:70, itemStyle : labelBottom},
-				{name:'B相电流', value:30,itemStyle : labelTop}
+				{name:'', value:30,itemStyle : labelTop}
 				]
 			},
 			]
@@ -160,7 +169,7 @@
 					position : 'center',
 					formatter : '{b}',
 					textStyle: {
-						baseline : 'bottom'
+						baseline : 'top'
 					}
 				},
 				labelLine : {
@@ -175,7 +184,8 @@
 						return 100 - params.value + '%'
 					},
 					textStyle: {
-						baseline : 'top'
+						baseline : 'bottom',
+						fontSize: 30
 					}
 				}
 			},
@@ -184,7 +194,7 @@
 			normal : {
 				color: '#ccc',
 				label : {
-					show : true,
+					show : false,
 					position : 'center'
 				},
 				labelLine : {
@@ -195,32 +205,32 @@
 				color: 'rgba(0,0,0,0)'
 			}
 		};
-		var radius = [55, 60];
+		var radius = ['55%', '60%'];
 		var  option = {
 
 			series : [
-			{
-				type : 'pie',
-				center : ['25%', '40%'],
-				radius : radius,
-				x: '30%', // for funnel
-				itemStyle : labelFromatter,
-				data : [
-				{name:'other', value:30, itemStyle : labelBottom},
-				{name:'A相电流', value:70,itemStyle : labelTop}
-				]
-			},
-			{
-				type : 'pie',
-				center : ['75%', '40%'],
-				radius : radius,
-				x:'50%', // for funnel
-				itemStyle : labelFromatter,
-				data : [
-				{name:'other', value:30, itemStyle : labelBottom},
-				{name:'B相电流', value:70,itemStyle : labelTop}
-				]
-			},
+				{
+					type : 'pie',
+					center : ['25%', '50%'],
+					radius : radius,
+					x: '30%', // for funnel
+					itemStyle : labelFromatter,
+					data : [
+					{name:'other', value:30, itemStyle : labelBottom},
+					{name:'', value:70,itemStyle : labelTop}
+					]
+				},
+				{
+					type : 'pie',
+					center : ['75%', '50%'],
+					radius : radius,
+					x:'50%', // for funnel
+					itemStyle : labelFromatter,
+					data : [
+					{name:'other', value:30, itemStyle : labelBottom},
+					{name:'', value:70,itemStyle : labelTop}
+					]
+				}
 			]
 		};
 		// 为echarts对象加载数据 
@@ -389,7 +399,7 @@
 			var labelTop = {
 				normal : {
 					label : {
-						show : true,
+						show : false,
 						position : 'center',
 						formatter : '{b}',
 						textStyle: {
@@ -411,7 +421,8 @@
 						},
 						textStyle: {
 							baseline : 'bottom',
-							fontSize: 30
+							fontSize: 30,
+							color: '#676A6C'
 						}
 					}
 				},
@@ -431,7 +442,7 @@
 					color: 'rgba(0,0,0,0)'
 				}
 			};
-			var radius = ['47%', '50%'];
+			var radius = ['70%', '75%'];
 			var option = {
 				legend: {
 					x : 'center',
@@ -441,7 +452,7 @@
 				series : [
 					{
 						type : 'pie',
-						center : ['16.6%', '30%'],
+						center : ['16.6%', '50%'],
 						radius : radius,
 						x:'60%', // for funnel
 						itemStyle : labelFromatter,
@@ -453,7 +464,7 @@
 
 					{
 						type : 'pie',
-						center : ['50%', '30%'],
+						center : ['50%', '50%'],
 						radius : radius,
 						x:'60%', // for funnel
 						itemStyle : labelFromatter,
@@ -465,7 +476,7 @@
 
 					{
 						type : 'pie',
-						center : ['83.3%', '30%'],
+						center : ['83.3%', '50%'],
 						radius : radius,
 						x:'60%', // for funnel
 						itemStyle : labelFromatter,
