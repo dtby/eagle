@@ -48,3 +48,6 @@ end
 gem 'annotate'
 #Official Sass port of Bootstrap
 gem 'bootstrap-sass', '~> 3.3.5'
+# for Authentication
+gem 'devise'
+gem 'devise-ios-rails'
