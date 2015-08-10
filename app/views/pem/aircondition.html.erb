@@ -3,25 +3,26 @@
 		<div class="panel panel-default" id="side1">
 			<div class="panel-heading text-center">全年节能</div>
 			<div class="panel-body">
-				<div id="energy1" style="height:180px"></div>
 				<div class="col-xs-6 text-center">
-					减少支出<br><span class="unit">￥5万</span>
+				<div class="energy col-xs-12 energy1" style="height:180px"></div>
+				<div class="col-xs-12">减少支出<br><span class="unit">￥5万</span></div>
 				</div>
 				<div class="col-xs-6 text-center">
-					减少排放<br><span class="unit">6407mm</span>
+				<div class="energy col-xs-12 energy2" style="height:180px"></div>
+				<div class="col-xs-12">减少排放<br><span class="unit">6407mm</span></div>
 				</div>
 			</div>
 		</div>
-
 		<div class="panel panel-default" id="side2">
 			<div class="panel-heading text-center">全年耗能</div>
 			<div class="panel-body">
-				<div id="energy2" style="height:180px"></div>
 				<div class="col-xs-6 text-center">
-					增加支出<br><span class="unit">￥8万</span>
+				<div class="energy col-xs-12 energy3" style="height:180px"></div>
+				<div class="col-xs-12">增加支出<br><span class="unit">￥8万</span></div>
 				</div>
 				<div class="col-xs-6 text-center">
-					增加排放<br><span class="unit">8000mm</span>
+				<div class="energy col-xs-12 energy2" style="height:180px"></div>
+				<div class="col-xs-12">增加排放<br><span class="unit">8000mm</span></div>
 				</div>
 			</div>
 		</div>
@@ -82,9 +83,10 @@
 		'echarts',
 		'echarts/chart/pie'
 		],
-		function (ec) {
-		var myChart = ec.init(document.getElementById('energy1')); 
-		
+		function (pie) {
+		// var myChart = ec.init(document.getElementById('energy1')); 
+		$(".energy").each(function(){
+		var myEnergy = pie.init($(this).get(0));   
 		var labelTop = {
 			normal : {
 				label : {
@@ -134,7 +136,7 @@
 			series : [
 			{
 				type : 'pie',
-				center : ['25%', '50%'],
+				center : ['50%', '50%'],
 				radius : radius,
 				x: '30%', // for funnel
 				itemStyle : labelFromatter,
@@ -143,108 +145,13 @@
 				{name:'', value:30,itemStyle : labelTop}
 				]
 			},
-			{
-				type : 'pie',
-				center : ['75%', '50%'],
-				radius : radius,
-				x:'50%', // for funnel
-				itemStyle : labelFromatter,
-				data : [
-				{name:'other', value:70, itemStyle : labelBottom},
-				{name:'', value:30,itemStyle : labelTop}
-				]
-			},
 			]
 		};
-		myChart.setOption(option); 
+		myEnergy.setOption(option); 
+		});
 		}
 	);
 
-	// 全年耗能图表模块
-	require(
-		[
-		'echarts',
-		'echarts/chart/pie'
-		],
-		function (ec) {
-		// 基于准备好的dom，初始化echarts图表
-		var myChart = ec.init(document.getElementById('energy2')); 
-		
-		var labelTop = {
-			normal : {
-				label : {
-					show : true,
-					position : 'center',
-					formatter : '{b}',
-					textStyle: {
-						baseline : 'top'
-					}
-				},
-				labelLine : {
-					show : false
-				}
-			}
-		};
-		var labelFromatter = {
-			normal : {
-				label : {
-					formatter : function (params){
-						return 100 - params.value + '%'
-					},
-					textStyle: {
-						baseline : 'bottom',
-						fontSize: 30
-					}
-				}
-			},
-		}
-		var labelBottom = {
-			normal : {
-				color: '#ccc',
-				label : {
-					show : false,
-					position : 'center'
-				},
-				labelLine : {
-					show : false
-				}
-			},
-			emphasis: {
-				color: 'rgba(0,0,0,0)'
-			}
-		};
-		var radius = ['55%', '60%'];
-		var  option = {
-
-			series : [
-				{
-					type : 'pie',
-					center : ['25%', '50%'],
-					radius : radius,
-					x: '30%', // for funnel
-					itemStyle : labelFromatter,
-					data : [
-					{name:'other', value:30, itemStyle : labelBottom},
-					{name:'', value:70,itemStyle : labelTop}
-					]
-				},
-				{
-					type : 'pie',
-					center : ['75%', '50%'],
-					radius : radius,
-					x:'50%', // for funnel
-					itemStyle : labelFromatter,
-					data : [
-					{name:'other', value:30, itemStyle : labelBottom},
-					{name:'', value:70,itemStyle : labelTop}
-					]
-				}
-			]
-		};
-		// 为echarts对象加载数据 
-		myChart.setOption(option); 
-	}
-);
 	
 	// 右侧全年节能分支结构
 	require(
