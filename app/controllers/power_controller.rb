@@ -1,8 +1,8 @@
 class PowerController < ApplicationController
-	def air_c    
+	def crac    
 	end
 
-	def air_d
+	def temperature
 	end
 
 	def air_d

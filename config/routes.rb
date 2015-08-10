@@ -7,9 +7,9 @@ Rails.application.routes.draw do
     collection do 
       get :ups
       get :distrib
-      get :air_c
+      get :crac
       get :air_d
-      get :air_w
+      get :temperature
       get :cabinet
     end
   end
