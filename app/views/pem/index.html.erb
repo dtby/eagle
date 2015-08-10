@@ -17,7 +17,10 @@
         <div class="panel panel-default" id="r_b">
         	<div class="panel-heading text-center text-muted">表盘与摄像头</div>
         	<div class="panel-body">
-	       <div style="height:280px" class="camera"></div>
+              <div style="height:140px" class="camera col-md-6"></div>
+              <div style="height:140px" class="camera col-md-6"></div> 
+              <div style="height:140px" class="camera col-md-6"></div>
+	       <div style="height:140px" class="camera_pic col-md-6"><%= image_tag "carbon_shot.jpg",width:"55%" %></div>
               </div>
         </div>
     </div>
@@ -34,7 +37,7 @@
 	$("#r_t").height(r_t);
 	$("#pue").height(r_t-60);
 	$("#r_b").height(r_b);
-	$(".camera").height(r_b-60);
+	$("#camera").height(r_b-60);
 
 	// 路径配置
 	require.config({
@@ -146,188 +149,115 @@
 	],
 	function (pue){
 		var pueChart = pue.init(document.getElementById('pue'), 'macarons'); 
-              option = {
-              tooltip : {
-                  formatter: "{a} <br/>{b} : {c}%"
-              },
-              toolbox: {
-                  show : true,
-                  feature : {
-                      mark : {show: true},
-                      restore : {show: true},
-                      saveAsImage : {show: true}
-                  }
-              },
-              series : [
-                  {
-                      name:'业务指标',
-                      type:'gauge',
-                      splitNumber: 10,       // 分割段数，默认为5
-                      axisLine: {            // 坐标轴线
-                          lineStyle: {       // 属性lineStyle控制线条样式
-                              color: [[0.2, '#228b22'],[0.8, '#48b'],[1, '#ff4500']], 
-                              width: 8
-                          }
-                      },
-                      axisTick: {            // 坐标轴小标记
-                          splitNumber: 10,   // 每份split细分多少段
-                          length :12,        // 属性length控制线长
-                          lineStyle: {       // 属性lineStyle控制线条样式
-                              color: 'auto'
-                          }
-                      },
-                      axisLabel: {           // 坐标轴文本标签，详见axis.axisLabel
-                          textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-                              color: 'auto'
-                          }
-                      },
-                      splitLine: {           // 分隔线
-                          show: true,        // 默认显示，属性show控制显示与否
-                          length :30,         // 属性length控制线长
-                          lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
-                              color: 'auto'
-                          }
-                      },
-                      pointer : {
-                          width : 5
-                      },
-                      title : {
-                          show : true,
-                          offsetCenter: [0, '-40%'],       // x, y，单位px
-                          textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-                              fontWeight: 'bolder'
-                          }
-                      },
-                      detail : {
-                          formatter:'{value}%',
-                          textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-                              color: 'auto',
-                              fontWeight: 'bolder'
-                          }
-                      },
-                      data:[{value: 50, name: '完成率'}]
-                  }
-              ]
-          };
-
-          clearInterval(timeTicket);
-          timeTicket = setInterval(function (){
-              option.series[0].data[0].value = (Math.random()*100).toFixed(2) - 0;
-              myChart.setOption(option,true);
-          },2000);
+		option = {
+			tooltip : {
+				formatter: "{a} <br/>{b} : {c}%"
+			},
+			series : [
+				{
+					name:'业务指标',
+					type:'gauge',
+					center: ['50%', '50%'],
+					radius: [0, '100%'],
+					detail : {formatter:'{value}%'},
+					data:[{value: 50, name: 'PUE'}]
+				}
+			]
+		};
+		timeTicket = setInterval(function (){
+			option.series[0].data[0].value = (Math.random()*100).toFixed(2) - 0;
+			pueChart.setOption(option, true);
+		},2000);
 	}
 );
 </script>
 <!-- 摄像头 -->
 <script type="text/javascript">
-	// 路径配置
-	require.config({
-		paths: {
-			echarts: '/assets/echarts'
-		}
-	});
+  // 路径配置
+  require.config({
+    paths: {
+      echarts: '/assets/echarts'
+    }
+  });
 
-	// 使用
-	require(
-	[
-		'echarts',
-		'echarts/chart/pie'
-	],
-	function (ec) {
-		$(".camera").each(function(){
-			var camera = ec.init($(this).get(0));   
-			var labelTop = {
-				normal : {
-					label : {
-						show : true,
-						position : 'center',
-						formatter : '{b}',
-						textStyle: {
-							baseline : 'top',
-							color: '#7e7e7e',
-							fontSize: 10
-						}
-					},
-					labelLine : {
-						show : false
-					}
-				}
-			
-              	};
-			var labelFromatter = {
-				normal : {
-					label : {
-						formatter : function (params){
-							return 100 - params.value + '%'
-						},
-						textStyle: {
-							baseline : 'bottom',
-							fontSize: 24
-						}
-					}
-				},
-			}
-			var labelBottom = {
-				normal : {
-					color: '#eee',
-					label : {
-						show : true,
-						position : 'center'
-					},
-					labelLine : {
-						show : false
-					}
-				},
-				emphasis: {
-					color: 'rgba(0,0,0,0)'
-				}
-			};
-			var radius = ['40%', '43%'];
-			var option = {
-				legend: {
-					x : 'center',
-					y : 'center',
-					data:[]
-				},
-				series : [
-					{
-						type : 'pie',
-						center : ['25%', '25%'],
-						radius : radius,
-						x:'60%', // for funnel
-						itemStyle : labelFromatter,
-						data : [
-							{name:'other', value:60, itemStyle : labelBottom},
-							{name:'输入总功率', value:40,itemStyle : labelTop}
-	            				]
-	          			},
-				        {
-				          	type : 'pie',
-				          	center : ['75%', '25%'],
-				          	radius : radius,
-						x:'80%', // for funnel
-						itemStyle : labelFromatter,
-						data : [
-						{name:'other', value:43, itemStyle : labelBottom},
-						{name:'输入总功率', value:57,itemStyle : labelTop}
-						]
-					},
-
-				        {
-				          	type : 'pie',
-				          	center : ['25%', '75%'],
-				          	radius : radius,
-						x:'80%', // for funnel
-						itemStyle : labelFromatter,
-						data : [
-						{name:'other', value:23, itemStyle : labelBottom},
-						{name:'输入总功率', value:77,itemStyle : labelTop}
-						]
-					},
-				],
-			};
-			camera.setOption(option); 
-		});
-	});
+  // 使用
+  require(
+  [
+    'echarts',
+    'echarts/chart/pie'
+  ],
+  function (ec) {
+    $(".camera").each(function(){
+      var camera = ec.init($(this).get(0));   
+      var labelTop = {
+        normal : {
+          label : {
+            show : true,
+            position : 'center',
+            formatter : '{b}',
+            textStyle: {
+              baseline : 'top',
+              color: '#7e7e7e',
+              fontSize: 10
+            }
+          },
+          labelLine : {
+            show : false
+          }
+        }
+      
+                };
+      var labelFromatter = {
+        normal : {
+          label : {
+            formatter : function (params){
+              return 100 - params.value + '%'
+            },
+            textStyle: {
+              baseline : 'bottom',
+              fontSize: 24
+            }
+          }
+        },
+      }
+      var labelBottom = {
+        normal : {
+          color: '#eee',
+          label : {
+            show : true,
+            position : 'center'
+          },
+          labelLine : {
+            show : false
+          }
+        },
+        emphasis: {
+          color: 'rgba(0,0,0,0)'
+        }
+      };
+      var radius = ['50%', '63%'];
+      var option = {
+        legend: {
+          x : 'center',
+          y : 'center',
+          data:[]
+        },
+        series : [
+          {
+            type : 'pie',
+            center : ['50%', '50%'],
+            radius : radius,
+            x:'80%', // for funnel
+            itemStyle : labelFromatter,
+            data : [
+              {name:'other', value:60, itemStyle : labelBottom},
+              {name:'输入总功率', value:40,itemStyle : labelTop}
+                      ]
+                  },
+        ],
+      };
+      camera.setOption(option); 
+    });
+  });
                     
 </script>
