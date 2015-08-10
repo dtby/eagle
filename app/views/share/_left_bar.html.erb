@@ -53,14 +53,14 @@
 					<li class="disabled <%= "active" if params[:controller] == '' && params[:action] == '' %>">
 						<%= link_to "温湿度", "#" %>
 					</li>
-					<li class="<%= "active" if params[:controller] == 'power' && params[:action] == 'air_c' %>">
-						<%= link_to "精密空调", air_c_power_index_path %>
+					<li class="<%= "active" if params[:controller] == 'power' && params[:action] == 'crac' %>">
+						<%= link_to "精密空调", crac_power_index_path %>
 					</li>
 					<li class="disabled <%= "active" if params[:controller] == '' && params[:action] == '' %>">
 						<%= link_to "漏水检测", "#" %>
 					</li>
-					<li class="<%= "active" if params[:controller] == 'power' && params[:action] == 'air_w' %>">
-						<%= link_to "机柜温度",  air_w_power_index_path %>
+					<li class="<%= "active" if params[:controller] == 'power' && params[:action] == 'temperature' %>">
+						<%= link_to "机柜温度",  temperature_power_index_path %>
 					</li>
 				</ul>
 			</li>

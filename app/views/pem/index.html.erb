@@ -1,27 +1,26 @@
 <div class="clearfix">
-	<div class="col-md-8 p-xs text-center animated fadeInLeftBig">
-		<div class="panel panel-default" id="left">
-			<div class="panel-heading text-center text-muted">碳排放与全球气候变化</div>
-			<div class="panel-body">
-				<div style="height:405px" class="carbon_chart1"></div>
-			</div>
-		</div>
-	</div>
-	<div class="col-md-4 p-xs animated fadeInRightBig">
-		<div class="panel panel-default" id="r_t">
-			<div class="panel-heading text-center text-muted">实时 PUE 值</div>
-			<div class="panel-body">
-				<div style="height:180px" id="pue"></div>
-			</div>
-		</div>
-		<div class="panel panel-default" id="r_b">
-			<div class="panel-heading text-center text-muted">表盘与摄像头</div>
-			<div class="panel-body">
-				<div style="height:280px" id="camera"></div>
-			</div>
-		</div>
-	</div>
-
+    <div class="col-md-8 p-xs text-center animated fadeInLeftBig">
+        <div class="panel panel-default" id="left">
+        	<div class="panel-heading text-center text-muted">碳排放与全球气候变化</div>
+        	<div class="panel-body">
+	       <div style="height:405px" class="carbon_chart1"></div>
+        	</div>
+        </div>
+    </div>
+    <div class="col-md-4 p-xs animated fadeInRightBig">
+        <div class="panel panel-default" id="r_t">
+        	<div class="panel-heading text-center text-muted">实时 PUE 值</div>
+        	<div class="panel-body">
+	       <div style="height:180px" id="pue"></div>
+        	</div>
+        </div>
+        <div class="panel panel-default" id="r_b">
+        	<div class="panel-heading text-center text-muted">表盘与摄像头</div>
+        	<div class="panel-body">
+	   <div style="height:280px" id="camera"></div>
+        	</div>
+        </div>
+    </div>
 </div>
 
 
@@ -204,7 +203,8 @@
 						show : false
 					}
 				}
-			};
+			
+            };
 			var labelFromatter = {
 				normal : {
 					label : {
@@ -264,7 +264,6 @@
 						]
 					},
 
-<<<<<<< HEAD
 				        {
 				          	type : 'pie',
 				          	center : ['25%', '75%'],
@@ -276,284 +275,8 @@
 						{name:'输入总功率', value:77,itemStyle : labelTop}
 						]
 					},
-=======
-                      var option = {
-                            tooltip : {
-                                trigger: 'axis'
-                            },
-                            /*toolbox: {
-                                show : true,
-                                feature : {
-                                    mark : {show: true},
-                                    dataView : {show: true, readOnly: false},
-                                    restore : {show: true},
-                                    saveAsImage : {show: true}
-                                }
-                            },*/
-                            calculable : true,
-                            grid:{
-                            y:20,
-                            x2:50,
-                            y2:20,
-                            x:50
-                            },
-                            xAxis : [
-                                {
-                                    type : 'category',
-                                    boundaryGap : false,
-                                    data : ['1','2','3','4','5','6','7','8','9','10','11','12']
-                                }
-                            ],
-                            yAxis : [
-                                {
-                                    type : 'value',
-                                    axisLabel : {
-                                        formatter: '{value} ml'
-                                    }
-                                },
-                                {
-                                    type : 'value',
-                                    name : '温度',
-                                    axisLabel : {
-                                        formatter: '{value} °C'
-                                    }
-                                }
-                            ],
-                            series : [
-                              {
-                                    name:'平均温度',
-                                    type:'line',
-                                    smooth:false,
-                                    yAxisIndex: 1,
-                                    data:[1.0, 7.2, -3.3, 6.5, 2.3, -1.02, 0.203, -2.34, 0.230, -1.65, 1.20, -0.6]
-                                },
-                                 {
-                                    name:'搜索引擎',
-                                   smooth:true,
-                                    type:'line',
-                                    stack: '总量',
-                                    itemStyle: {normal: {areaStyle: {type: 'default',color:'#ffb51b'}}},
-                                    data:[120, 120, 120, 120, 120, 120, 120, 120, 120,200, 330, 1820]
-                                },
-                                {
-                                    name:'邮件营销',
-                                  smooth:true,
-                                    type:'line',
-                                    stack: '总量',
-                                    itemStyle: {normal: {areaStyle: {type: 'default',color:'#32f6cc'}}},
-                                    data:[620, 650, 420, 720, 420, 720, 420, 720, 320,500, 830, 1820]
-                                }
-                            ]
-                            };
-                      // 为echarts对象加载数据 
-                myChart.setOption(option); 
-                });
-<<<<<<< HEAD
->>>>>>> add shot
-
-					{
-						type : 'pie',
-						center : ['75%', '75%'],
-						radius : radius,
-						x:'60%', // for funnel
-						itemStyle : labelFromatter,
-						data : [
-							{name:'other', value:70, itemStyle : labelBottom},
-							{name:'输入总功率', value:30,itemStyle : labelTop}
-	            				]
-	          			}
-
-	        		]
-	        	};
-			camera.setOption(option); 
-		}
-	);
-=======
-            }
-        );
-
-        
-        require(
-            [
-            'echarts',
-                'echarts/chart/pie' // 使用柱状图就加载bar模块，按需加载
-                ],
-                function (ec) {
-                // 基于准备好的dom，初始化echarts图表
-                 $(".carbon_shot").each(function(){
-                     var myChart = ec.init($(this).get(0));   
-                // var myChart = ec.init(document.getElementById('load3')); 
-                
-                var labelTop = {
-                    normal : {
-                        label : {
-                            show : true,
-                            position : 'center',
-                            formatter : '{b}',
-                            textStyle: {
-                                baseline : 'bottom'
-                            }
-                        },
-                        labelLine : {
-                            show : false
-                        }
-                    }
-                };
-                var labelFromatter = {
-                    normal : {
-                        label : {
-                            formatter : function (params){
-                                return 100 - params.value + '%'
-                            },
-                            textStyle: {
-                                baseline : 'top'
-                            }
-                        }
-                    },
-                }
-                var labelBottom = {
-                    normal : {
-                        color: '#ccc',
-                        label : {
-                            show : true,
-                            position : 'center'
-                        },
-                        labelLine : {
-                            show : false
-                        }
-                    },
-                    emphasis: {
-                        color: 'rgba(0,0,0,0)'
-                    }
-                };
-                var radius = [30, 40];
-                var  option = {
-
-                    series : [
-                    {
-                        type : 'pie',
-                        center : ['25%', '25%'],
-                        radius : radius,
-                        x: '30%', // for funnel
-                        itemStyle : labelFromatter,
-                        data : [
-                        {name:'other', value:40, itemStyle : labelBottom},
-                        {name:'', value:60,itemStyle : labelTop}
-                        ]
-                      },
-                      {
-                        type : 'pie',
-                        center : ['70%', '25%'],
-                        radius : radius,
-                        x:'50%', // for funnel
-                        itemStyle : labelFromatter,
-                        data : [
-                        {name:'other', value:60, itemStyle : labelBottom},
-                        {name:'', value:40,itemStyle : labelTop}
-                        ]
-                      },
-                      {
-                        type : 'pie',
-                        center : ['25%','70%'],
-                        radius : radius,
-                        x:'70%', // for funnel
-                        itemStyle : labelFromatter,
-                        data : [
-                        {name:'other', value:20, itemStyle : labelBottom},
-                        {name:'', value:80,itemStyle : labelTop}
-                        ]
-                      },
-                      ]
-                    };
-                    // 为echarts对象加载数据 
-                   myChart.setOption(option); 
-                  });
-                }
-              );
-
-
-         require(
-            [
-                'echarts',
-                'echarts/chart/gauge', // 使用柱状图就加载bar模块，按需加载
-            ],
-
-            function (ec) {
-                // 基于准备好的dom，初始化echarts图表
-                $(".carbon_chart2").each(function(){
-                     var myChart = ec.init($(this).get(0));   
-                     var    option = {
-                        tooltip : {
-                            formatter: "{a} <br/>{b} : {c}%"
-                        },
-                        toolbox: {
-                            show : true,
-                            feature : {
-                                mark : {show: true},
-                                restore : {show: true},
-                                saveAsImage : {show: true}
-                            }
-                        },
-                        series : [
-                            {
-                                name:'业务指标',
-                                type:'gauge',
-                                splitNumber: 10,       // 分割段数，默认为5
-                                axisLine: {            // 坐标轴线
-                                    lineStyle: {       // 属性lineStyle控制线条样式
-                                        color: [[0.2, '#228b22'],[0.8, '#48b'],[1, '#ff4500']], 
-                                        width: 8
-                                    }
-                                },
-                                axisTick: {            // 坐标轴小标记
-                                    splitNumber: 10,   // 每份split细分多少段
-                                    length :12,        // 属性length控制线长
-                                    lineStyle: {       // 属性lineStyle控制线条样式
-                                        color: 'auto'
-                                    }
-                                },
-                                axisLabel: {           // 坐标轴文本标签，详见axis.axisLabel
-                                    textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-                                        color: 'auto'
-                                    }
-                                },
-                                splitLine: {           // 分隔线
-                                    show: true,        // 默认显示，属性show控制显示与否
-                                    length :30,         // 属性length控制线长
-                                    lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
-                                        color: 'auto'
-                                    }
-                                },
-                                pointer : {
-                                    width : 5
-                                },
-                                title : {
-                                    show : true,
-                                    offsetCenter: [0, '-40%'],       // x, y，单位px
-                                    textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-                                        fontWeight: 'bolder'
-                                    }
-                                },
-                                detail : {
-                                    formatter:'{value}%',
-                                    textStyle: {       // 其余属性默认使用全局文本样式，详见TEXTSTYLE
-                                        color: 'auto',
-                                        fontWeight: 'bolder'
-                                    }
-                                },
-                                data:[{value: 50, name: '完成率'}]
-                            }
-                        ]
-                        };
-
-                        clearInterval(timeTicket);
-                        timeTicket = setInterval(function (){
-                        option.series[0].data[0].value = (Math.random()*100).toFixed(2) - 0;
-                        myChart.setOption(option,true);
-                        },2000);
-                  });
-                }
-              );
+ ],
+};
+});
                     
->>>>>>> add carbon
 </script>
