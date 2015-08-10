@@ -17,7 +17,7 @@
         <div class="panel panel-default" id="r_b">
         	<div class="panel-heading text-center text-muted">表盘与摄像头</div>
         	<div class="panel-body">
-	   <div style="height:280px" id="camera"></div>
+			<div style="height:0px" class="camera"></div>
         	</div>
         </div>
     </div>
@@ -34,7 +34,7 @@
 	$("#r_t").height(r_t);
 	$("#pue").height(r_t-60);
 	$("#r_b").height(r_b);
-	$("#camera").height(r_b-60);
+	$(".camera").height(r_b-60);
 
 	// 路径配置
 	require.config({
@@ -180,13 +180,13 @@
 
 	// 使用
 	require(
-		[
-			'echarts',
-			'echarts/chart/pie'
-		],
-		function (pie) {
-			// 基于准备好的dom，初始化echarts图表
-			var camera = pie.init(document.getElementById('camera')); 
+	[
+		'echarts',
+		'echarts/chart/pie'
+	],
+	function (ec) {
+		$(".camera").each(function(){
+			var camera = ec.init($(this).get(0));   
 			var labelTop = {
 				normal : {
 					label : {
@@ -204,7 +204,7 @@
 					}
 				}
 			
-            };
+              	};
 			var labelFromatter = {
 				normal : {
 					label : {
@@ -233,7 +233,7 @@
 					color: 'rgba(0,0,0,0)'
 				}
 			};
-			var radius = ['37%', '40%'];
+			var radius = ['40%', '43%'];
 			var option = {
 				legend: {
 					x : 'center',
@@ -275,8 +275,10 @@
 						{name:'输入总功率', value:77,itemStyle : labelTop}
 						]
 					},
- ],
-};
-});
+				],
+			};
+			camera.setOption(option); 
+		});
+	});
                     
 </script>
