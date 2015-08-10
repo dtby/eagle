@@ -32,11 +32,19 @@
 			<div class="panel-body">
 				<div id="energy31" style="height:440px"></div>
 				<div id="energy32" style="height:440px"></div>
-				<div id="energy33" style="height:440px"></div>
 				<div class="row text-center">
-					<div class="col-xs-4">暖通空调电耗<br><span class="unit">10.1万 KWH</span></div>
-					<div class="col-xs-4">动力设备电耗<br><span class="unit">56.4万 KWH</span></div>
-					<div class="col-xs-4">公共照明及<br>其他电耗<br><span class="unit">20.6万 KWH</span></div>
+					<div class="col-xs-4">
+						<div id="energy331" style="height:0px"></div>
+						暖通空调电耗<br><span class="unit">10.1万 KWH</span>
+					</div>
+					<div class="col-xs-4">
+						<div id="energy332" style="height:0px"></div>
+						动力设备电耗<br><span class="unit">56.4万 KWH</span>
+					</div>
+					<div class="col-xs-4">
+						<div id="energy333" style="height:0px"></div>
+						公共照明及<br>其他电耗<br><span class="unit">20.6万 KWH</span>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -47,13 +55,13 @@
 	//设置3个模块的高度
 	var side = document.body.clientHeight - 100;
 	var side1 = side * 0.5 - 10;
-	var side2 = side * 0.5 -10;
+	var side2 = side * 0.5 - 10;
 	//双倍部分的高度
 	$("#side").height(side);
 	//双倍部分内部图表容器大小
 	$("#energy31").height((side - 60) * 0.4);
 	$("#energy32").height((side - 60) * 0.2);
-	$("#energy33").height((side - 60) * 0.3);
+	$("#energy331, #energy332, #energy333").height((side - 60) * 0.3);
 	//单倍部分1的高度及图表高度
 	$("#side1").height(side1);
 	$("#energy1").height(side1-150);
@@ -277,7 +285,7 @@
 					lineStyle: {
 						color: '#000',
 						width: 1,
-						type: 'broken' // 'curve'|'broken'|'solid'|'dotted'|'dashed'
+						type: 'dotted' // 'curve'|'broken'|'solid'|'dotted'|'dashed'
 					}
 				},
 				emphasis: {
@@ -311,12 +319,12 @@
 							}
 						}
 					},
-					symbolSize: [180, 40],
+					symbolSize: [260, 40],
 				},
 				{
 					name: '苹果',
 					symbol: 'image://images/pem-energy1.png',
-					symbolSize: [180, 40],
+					symbolSize: [260, 40],
 					itemStyle: {
 						normal: {
 							label: {
@@ -330,7 +338,7 @@
 				{
 					name: '华为',
 					symbol: 'image:////images/pem-energy2.png',
-					symbolSize: [180, 40],
+					symbolSize: [260, 40],
 					itemStyle: {
 						normal: {
 							label: {
@@ -365,21 +373,16 @@
 					trigger: 'item',
 					formatter: "{a} <br/>{b} : {c} ({d}%)"
 				},
-				legend: {
-					orient : 'vertical',
-					x : 'left',
-					data:['联盟广告','视频广告','搜索引擎']
-				},
 				series : [
 					{
 						name:'电耗来源',
 						type:'pie',
-						radius : '70%',
-						center: ['50%', '60%'],
+						radius : '80%',
+						center: ['50%', '55%'],
 						data:[
-							{value:300, name:'公共照明及其他电耗'},
-							{value:888, name:'动力设备电耗'},
-							{value:888, name:'暖通空调电耗'}
+							{value:200, name:'公共照明及其他电耗'},
+							{value:400, name:'动力设备电耗'},
+							{value:400, name:'暖通空调电耗'}
 						]
 					}
 				]				
@@ -388,16 +391,17 @@
 		}
 	);
 
-	// 全年节能环形图
+	// 全年节能环形图（1）
 	require(
 		[
 			'echarts',
 			'echarts/chart/pie'
 		],
 		function (pie) {
-			var energy33 = pie.init(document.getElementById('energy33')); 
+			var energy33 = pie.init(document.getElementById('energy331')); 
 			var labelTop = {
 				normal : {
+					color: '#DA70D6',
 					label : {
 						show : false,
 						position : 'center',
@@ -452,16 +456,83 @@
 				series : [
 					{
 						type : 'pie',
-						center : ['16.6%', '50%'],
+						center : ['50%', '50%'],
 						radius : radius,
 						x:'60%', // for funnel
 						itemStyle : labelFromatter,
 						data : [
 							{name:'other', value:60, itemStyle : labelBottom},
-							{name:'输入总功率', value:40,itemStyle : labelTop}
+							{name:'暖通空调电耗', value:40,itemStyle : labelTop}
 	            				]
-	          			},
-
+	          			}
+	        		]
+	        	};
+			energy33.setOption(option); 
+		}
+	);
+	// 全年节能环形图（2）
+	require(
+		[
+			'echarts',
+			'echarts/chart/pie'
+		],
+		function (pie) {
+			var energy33 = pie.init(document.getElementById('energy332')); 
+			var labelTop = {
+				normal : {
+					color: '#87CEFA',
+					label : {
+						show : false,
+						position : 'center',
+						formatter : '{b}',
+						textStyle: {
+							baseline : 'top',
+							color: '#7e7e7e',
+							fontSize: 10
+						}
+					},
+					labelLine : {
+						show : false
+					}
+				}
+			};
+			var labelFromatter = {
+				normal : {
+					label : {
+						formatter : function (params){
+							return 100 - params.value + '%'
+						},
+						textStyle: {
+							baseline : 'bottom',
+							fontSize: 30,
+							color: '#676A6C'
+						}
+					}
+				},
+			}
+			var labelBottom = {
+				normal : {
+					color: '#eee',
+					label : {
+						show : true,
+						position : 'center'
+					},
+					labelLine : {
+						show : false
+					}
+				},
+				emphasis: {
+					color: 'rgba(0,0,0,0)'
+				}
+			};
+			var radius = ['70%', '75%'];
+			var option = {
+				legend: {
+					x : 'center',
+					y : 'center',
+					data:[]
+				},
+				series : [
 					{
 						type : 'pie',
 						center : ['50%', '50%'],
@@ -469,23 +540,89 @@
 						x:'60%', // for funnel
 						itemStyle : labelFromatter,
 						data : [
-							{name:'other', value:50, itemStyle : labelBottom},
-							{name:'输入总功率', value:50,itemStyle : labelTop}
+							{name:'other', value:60, itemStyle : labelBottom},
+							{name:'动力设备电耗', value:40,itemStyle : labelTop}
 	            				]
-	          			},
-
+	          			}
+	        		]
+	        	};
+			energy33.setOption(option); 
+		}
+	);
+	// 全年节能环形图（3）
+	require(
+		[
+			'echarts',
+			'echarts/chart/pie'
+		],
+		function (pie) {
+			var energy33 = pie.init(document.getElementById('energy333')); 
+			var labelTop = {
+				normal : {
+					color: '#FF7F50',
+					label : {
+						show : false,
+						position : 'center',
+						formatter : '{b}',
+						textStyle: {
+							baseline : 'top',
+							color: '#7e7e7e',
+							fontSize: 10
+						}
+					},
+					labelLine : {
+						show : false
+					}
+				}
+			};
+			var labelFromatter = {
+				normal : {
+					label : {
+						formatter : function (params){
+							return 100 - params.value + '%'
+						},
+						textStyle: {
+							baseline : 'bottom',
+							fontSize: 30,
+							color: '#676A6C'
+						}
+					}
+				},
+			}
+			var labelBottom = {
+				normal : {
+					color: '#eee',
+					label : {
+						show : true,
+						position : 'center'
+					},
+					labelLine : {
+						show : false
+					}
+				},
+				emphasis: {
+					color: 'rgba(0,0,0,0)'
+				}
+			};
+			var radius = ['70%', '75%'];
+			var option = {
+				legend: {
+					x : 'center',
+					y : 'center',
+					data:[]
+				},
+				series : [
 					{
 						type : 'pie',
-						center : ['83.3%', '50%'],
+						center : ['50%', '50%'],
 						radius : radius,
 						x:'60%', // for funnel
 						itemStyle : labelFromatter,
 						data : [
-							{name:'other', value:70, itemStyle : labelBottom},
-							{name:'输入总功率', value:30,itemStyle : labelTop}
+							{name:'other', value:80, itemStyle : labelBottom},
+							{name:'公共照明及其他电耗', value:20,itemStyle : labelTop}
 	            				]
 	          			}
-
 	        		]
 	        	};
 			energy33.setOption(option); 
