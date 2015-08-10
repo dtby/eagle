@@ -29,7 +29,7 @@
 		position: absolute;
 		width: 30%;
 		left: -30%;
-		top: 23%;		
+		top: 20%;		
 	}	
 	.table-right{
 		position: absolute;
@@ -71,6 +71,7 @@
 //power/cabinet.scss
 .power__cabinet{
 	.cabinet-table{
+
 		th,td{
 			text-align: center;
 			line-height: 0.15;
@@ -126,7 +127,7 @@
 	border:1px solid #E0E1E1;
 	border-radius:0 5px 5px 0;
 	color:blue;
-      padding:0 0 20px 0;
+        padding:0 0 20px 0;
 }
  .water_g {
     border:1px solid #E0E1E1;
