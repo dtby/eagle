@@ -23,26 +23,13 @@
 			<!-- 提示信息 -->
 			<li class="dropdown">
 				<a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-					<i class="fa fa-envelope"></i>  <span class="label label-warning">16</span>
+					<i class="fa fa-envelope"></i>  <span class="label label-warning"></span>
 				</a>
 				<ul class="dropdown-menu dropdown-messages">
 					<li>
 						<div class="dropdown-messages-box">
-							<a href="#" class="pull-left">
-								<%=image_tag  "profile_small.jpg", class:"img-circle" %>
-							</a>
-							<div class="media-body">
-								<small class="pull-right">46h ago</small>
-								<strong>Mike Loreipsum</strong> started following <strong>Monica Smith</strong>. <br>
-								<small class="text-muted">3 days ago at 7:58 pm - 10.06.2014</small>
-							</div>
-						</div>
-					</li>
-					<li class="divider"></li>
-					<li>
-						<div class="dropdown-messages-box">
 							<a href="profile.html" class="pull-left">
-								<%=image_tag  "profile_small.jpg", class:"img-circle" %>
+								<%=image_tag  "profile_small.jpg", class:"img-circle", width: '48', height: '48' %>
 							</a>
 							<div class="media-body ">
 								<small class="pull-right text-navy">5h ago</small>
@@ -80,15 +67,6 @@
 				</a>
 				<ul class="dropdown-menu dropdown-alerts">
 					<li>
-						<a href="mailbox.html">
-							<div>
-								<i class="fa fa-envelope fa-fw"></i> You have 16 messages
-								<span class="pull-right text-muted small">4 minutes ago</span>
-							</div>
-						</a>
-					</li>
-					<li class="divider"></li>
-					<li>
 						<a href="profile.html">
 							<div>
 								<i class="fa fa-twitter fa-fw"></i> 3 New Followers
@@ -116,10 +94,18 @@
 					</li>
 				</ul>
 			</li>
-			<li>
-				<a href="<%= root_path %>">
-					<i class="fa fa-sign-out"></i> 退出
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding: 15px;">
+					<%=image_tag  "profile_small.jpg", width: '28', height: '28' %>
+					<b class="caret"></b>
 				</a>
+				<ul class="dropdown-menu">
+					<li><a href="#">个人资料</a></li>
+					<li><a href="#">联系方式</a></li>
+					<li><a href="#">关于</a></li>
+					<li class="divider"></li>
+					<li><a href="<%= root_path %>"><i class="fa fa-sign-out"></i>  退出</a></li>
+				</ul>
 			</li>
 		</ul>
 		<!-- 右上角消息提示部分 end-->

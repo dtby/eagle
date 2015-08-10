@@ -12,29 +12,29 @@
 							<table class="table table-bordered">
 								<thead>
 									<tr>
-										<th colspan="2">输出</th>
+										<td colspan="2">输出</td>
 									</tr>
 								</thead>
 								<tbody>
 									<tr>
-										<th scope="row">总有功功率</th>
-										<td>230.4</td>
+										<td scope="row">总有功功率</td>
+										<td class="unit">230.4</td>
 									</tr>
 									<tr>
-										<th scope="row">总无关功率</th>
-										<td>232.1</td>
+										<td scope="row">总无关功率</td>
+										<td class="unit">232.1</td>
 									</tr>
 									<tr>
-										<th scope="row">功率因数</th>
-										<td>230.4</td>
+										<td scope="row">功率因数</td>
+										<td class="unit">230.4</td>
 									</tr>
 									<tr>
-										<th scope="row">频率</th>
-										<td>230.4</td>
+										<td scope="row">频率</td>
+										<td class="unit">230.4</td>
 									</tr>
 									<tr>
-										<th scope="row">电度</th>
-										<td>230.4</td>
+										<td scope="row">电度</td>
+										<td class="unit">230.4</td>
 									</tr>
 								</tbody>
 							</table>
@@ -63,8 +63,8 @@
 					<div class="table-responsive cabinet-table">
 						<table class="table table-bordered">
 							<tbody>
-								<tr>
-									<th scope="row">频率</th>
+								<tr class="active">
+									<td scope="row">频率</td>
 									<td>230.4</td>
 								</tr>
 							</tbody>
@@ -75,8 +75,8 @@
 					<div class="table-responsive cabinet-table">
 						<table class="table table-bordered">
 							<tbody>
-								<tr>
-									<th scope="row">频率</th>
+								<tr class="active">
+									<td scope="row">频率</td>
 									<td>230.4</td>
 								</tr>
 							</tbody>
@@ -87,8 +87,8 @@
 					<div class="table-responsive cabinet-table">
 						<table class="table table-bordered">
 							<tbody>
-								<tr>
-									<th scope="row">频率</th>
+								<tr class="active">
+									<td scope="row">频率</td>
 									<td>230.4</td>
 								</tr>
 							</tbody>
@@ -107,8 +107,8 @@
 					<div class="table-responsive cabinet-table">
 						<table class="table table-bordered">
 							<tbody>
-								<tr>
-									<th scope="row">频率</th>
+								<tr class="active">
+									<td scope="row">频率</td>
 									<td>230.4</td>
 								</tr>
 							</tbody>
@@ -119,8 +119,8 @@
 					<div class="table-responsive cabinet-table">
 						<table class="table table-bordered">
 							<tbody>
-								<tr>
-									<th scope="row">频率</th>
+								<tr class="active">
+									<td scope="row">频率</td>
 									<td>230.4</td>
 								</tr>
 							</tbody>
@@ -131,8 +131,8 @@
 					<div class="table-responsive cabinet-table">
 						<table class="table table-bordered">
 							<tbody>
-								<tr>
-									<th scope="row">频率</th>
+								<tr class="active">
+									<td scope="row">频率</td>
 									<td>230.4</td>
 								</tr>
 							</tbody>
@@ -192,7 +192,7 @@
 							},
 							textStyle: {
 								baseline : 'bottom',
-								fontSize: 24
+								fontSize: 24,
 							}
 						}
 					},
@@ -504,7 +504,7 @@
 			itemStyle : labelFromatter,
 			data : [
 			{name:'other', value:70, itemStyle : labelBottom},
-			{name:'A相电压', value:30,itemStyle : labelTop}
+			{name:'AB相电压', value:30,itemStyle : labelTop}
 			]
 		  },
 		  {
@@ -515,7 +515,7 @@
 			itemStyle : labelFromatter,
 			data : [
 			{name:'other', value:70, itemStyle : labelBottom},
-			{name:'B相电压', value:30,itemStyle : labelTop}
+			{name:'BC相电压', value:30,itemStyle : labelTop}
 			]
 		  },
 		  {
@@ -526,7 +526,7 @@
 			itemStyle : labelFromatter,
 			data : [
 			{name:'other', value:70, itemStyle : labelBottom},
-			{name:'C相电压', value:30,itemStyle : labelTop}
+			{name:'AC相电压', value:30,itemStyle : labelTop}
 			]
 		  },
 		  ]

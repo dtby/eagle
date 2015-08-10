@@ -1,29 +1,29 @@
 <div class="clearfix">
-    <div class="col-md-8 p-xs text-center animated fadeInLeftBig">
-        <div class="panel panel-default" id="left">
-        	<div class="panel-heading text-center text-muted">碳排放与全球气候变化</div>
-        	<div class="panel-body">
-	       <div style="height:405px" class="carbon_chart1"></div>
-        	</div>
-        </div>
-    </div>
-    <div class="col-md-4 p-xs animated fadeInRightBig">
-        <div class="panel panel-default" id="r_t">
-        	<div class="panel-heading text-center text-muted">实时 PUE 值</div>
-        	<div class="panel-body">
-	       <div style="height:180px" id="pue"></div>
-        	</div>
-        </div>
-        <div class="panel panel-default" id="r_b">
-        	<div class="panel-heading text-center text-muted">表盘与摄像头</div>
-        	<div class="panel-body">
-              <div style="height:120px" class="camera col-md-6"></div>
-              <div style="height:120px" class="camera col-md-6"></div> 
-              <div style="height:120px" class="camera col-md-6"></div>
-	       <div style="height:120px" class="camera_pic col-md-6"><%= image_tag "carbon_shot.jpg",width:"100px" %></div>
-              </div>
-        </div>
-    </div>
+	<div class="col-md-8 p-xs text-center animated fadeInLeftBig">
+		<div class="panel panel-default" id="left">
+			<div class="panel-heading text-center text-muted">碳排放与全球气候变化</div>
+			<div class="panel-body">
+				<div style="height:0px" class="carbon_chart1"></div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4 p-xs animated fadeInRightBig">
+		<div class="panel panel-default" id="r_t">
+			<div class="panel-heading text-center text-muted">实时 PUE 值</div>
+			<div class="panel-body">
+				<div style="height:180px" id="pue"></div>
+			</div>
+		</div>
+		<div class="panel panel-default" id="r_b">
+			<div class="panel-heading text-center text-muted">表盘与摄像头</div>
+			<div class="panel-body">
+				<div style="height:120px" class="camera col-md-6"></div>
+				<div style="height:120px" class="camera col-md-6"></div>
+				<div style="height:120px" class="camera col-md-6"></div>
+				<div style="height:120px" class="camera_pic col-md-6"><%= image_tag "carbon_shot.jpg",width:"100px" %></div>
+			</div>
+		</div>
+	</div>
 </div>
 
 
@@ -33,7 +33,7 @@
 	var r_t = left * 0.45 - 10;
 	var r_b = left * 0.55 -10;
 	$("#left").height(left);
-	$("#carbon_chart1").height(left-60);
+	$(".carbon_chart1").height(left);
 	$("#r_t").height(r_t);
 	$("#pue").height(r_t-60);
 	$("#r_b").height(r_b);
@@ -61,8 +61,8 @@
 			 	grid: {
 			 		x: 60,
 			 		x2: 60,
-			 		y: 60,
-			 		y2: 60
+			 		y: 100,
+			 		y2: 120
 			 	},
 			 	tooltip : {
 			 		trigger: 'axis'
