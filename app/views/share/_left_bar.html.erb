@@ -3,22 +3,9 @@
 		<ul class="nav metismenu" id="side-menu">
 			<!-- brand -->
 			<li class="nav-header">
-				<div class="dropdown profile-element">
-					<a data-toggle="dropdown" class="dropdown-toggle" href="#">
-						<span class="clear"> 
-							<span class="block m-t-xs">
-								<i class="fa fa-bar-chart"></i>
-								<strong class="font-bold"><%= Time.now.strftime("%A %R %p")%></strong>
-							</span>
-						</span>
-					</a>
-					<ul class="dropdown-menu animated fadeInRight m-t-xs">
-						<li><a href="#">Profile</a></li>
-						<li><a href="#">Contacts</a></li>
-						<li><a href="#">Mailbox</a></li>
-						<li class="divider"></li>
-						<li><a href="#">Logout</a></li>
-					</ul>
+				<div class="dropdown profile-element" style="color: #fff;">
+						<span class="block m-t-xs"> <strong class="font-bold"><%= Time.now.strftime("%A %R %p")%></strong></span>
+						<span class="block text-muted text-xs m-t-xs">机房1</span>
 				</div>
 				<div class="logo-element">
 					iGrid

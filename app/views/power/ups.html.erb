@@ -1,13 +1,10 @@
 <div class="clearfix">
-	<div class="col-xs-8 p-xs">
+	<div class="col-md-8 p-xs">
 		<div class="mblock left">
 			<div class="row">
-
-				<div class="col-xs-3 p-r">
-
-				</div>
+				<div class="col-xs-3 p-r"></div>
 				<div class="col-xs-9 p-l">
-					<%=image_tag"power-ups1.jpg",width:"80%", height: "100%"%>
+					<%=image_tag"power-ups1.jpg",width:"80%", height: "100%", id: 'ups_img'%>
 					<!-- 左侧表格1 -->
 					<div class="table-responsive table-left1">
 						<table class="table table-bordered">
@@ -132,7 +129,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-xs-4 p-xs">
+	<div class="col-md-4 p-xs">
 		<div class="row">
 			<div class="col-xs-12">
 				<div class="mblock part-bar">
@@ -161,6 +158,8 @@
 	$("#ups_bar").height(r_t-20);
 	$(".part-pie").height(r_b);
 	$("#ups_pie").height(r_b);
+
+	$("#ups_img").height(left-10);
 
 	// 路径配置
 	require.config({
@@ -205,6 +204,11 @@
 					{
 						name:'负载率',
 						type:'bar',
+						itemStyle:{
+							normal:{
+								color:'#00cae1'
+							}	
+						},
 						data:[7.0, 16.9, 40.0, 12.2, 32.6, 20.0, 30.4, 18.6, 22.2, 3.3,2.0, 4.9, 7.0, 23.2, 23.2, 25.6, 76.7, 135.6, 25.6, 76.7, 32.6, 20.0, 6.4, 3.3],
 					}
 				],
@@ -256,7 +260,7 @@
 						},
 						textStyle: {
 							baseline : 'bottom',
-							fontSize: 30
+							fontSize: 20
 						}
 					}
 				},
@@ -276,7 +280,7 @@
 					color: 'rgba(0,0,0,0)'
 				}
 			};
-			var radius = ['25%', '28%'];
+			var radius = ['30%', '33%'];
 			var option = {
 				legend: {
 					x : 'center',
