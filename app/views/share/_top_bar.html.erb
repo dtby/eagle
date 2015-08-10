@@ -3,18 +3,24 @@
 		<!-- 左侧导航栏收起按钮 -->
 		<div class="navbar-header">
 			<a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
-			<form role="search" class="navbar-form-custom" action="search_results.html">
-				<div class="form-group">
-					<input type="text" placeholder="搜索..." class="form-control" name="top-search" id="top-search">
-				</div>
-			</form>
 		</div>
 		<!-- 左侧导航栏收起按钮  end-->
 		<!-- 右上角消息提示部分 -->
 		<ul class="nav navbar-top-links navbar-right">
-			<li>
-				<span class="m-r-sm text-muted welcome-message">监控平台</span>
-			</li>
+			<!-- 机房选择 -->
+			<li class="dropdown">
+				<a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+					<i class="fa fa-home fa-lg"></i>机房
+				</a>
+				<ul class="dropdown-menu">
+					<li><%= link_to "机房1", "#" %></li>
+					<li class="divider"></li>
+					<li><%= link_to "机房2", "#" %></li>
+					<li class="divider"></li>
+					<li><%= link_to "机房3", "#" %></li>
+				</ul>
+			</li><!-- 机房选择end -->
+			<!-- 提示信息 -->
 			<li class="dropdown">
 				<a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
 					<i class="fa fa-envelope"></i>  <span class="label label-warning">16</span>
