@@ -1,26 +1,19 @@
 require 'mina/bundler'
 require 'mina/rails'
 require 'mina/git'
-# require 'mina/rbenv'  # for rbenv support. (http://rbenv.org)
-# require 'mina/rvm'    # for rvm support. (http://rvm.io)
+require 'mina/rvm'    # for rvm support. (http://rvm.io)
 
-# Basic settings:
-#   domain       - The hostname to SSH to.
-#   deploy_to    - Path to deploy into.
-#   repository   - Git repo to clone from. (needed by mina/git)
-#   branch       - Branch name to deploy. (needed by mina/git)
-
-set :domain, 'foobar.com'
-set :deploy_to, '/var/www/foobar.com'
-set :repository, 'git://...'
+set :domain, ''
+set :deploy_to, '/home/deploy/eagle'
+set :repository, 'https://github.com/dtby/eagle.git'
 set :branch, 'master'
 
 # For system-wide RVM install.
-#   set :rvm_path, '/usr/local/rvm/bin/rvm'
+set :rvm_path, '/home/deploy/.rvm/scripts/rvm'
 
 # Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
 # They will be linked in the 'deploy:link_shared_paths' step.
-set :shared_paths, ['config/database.yml', 'config/secrets.yml', 'log']
+set :shared_paths, ['config/database.yml', 'log', 'tmp']
 
 # Optional settings:
 #   set :user, 'foobar'    # Username in the server to SSH to.
@@ -35,7 +28,7 @@ task :environment do
   # invoke :'rbenv:load'
 
   # For those using RVM, use this to load an RVM version@gemset.
-  # invoke :'rvm:use[ruby-1.9.3-p125@default]'
+  invoke :'rvm:use[ruby 2.2.1]'
 end
 
 # Put any custom mkdir's in here for when `mina setup` is ran.
@@ -49,39 +42,59 @@ task :setup => :environment do
   queue! %[chmod g+rx,u+rwx "#{deploy_to}/#{shared_path}/config"]
 
   queue! %[touch "#{deploy_to}/#{shared_path}/config/database.yml"]
-  queue! %[touch "#{deploy_to}/#{shared_path}/config/secrets.yml"]
   queue  %[echo "-----> Be sure to edit '#{deploy_to}/#{shared_path}/config/database.yml' and 'secrets.yml'."]
-
-  queue %[
-    repo_host=`echo $repo | sed -e 's/.*@//g' -e 's/:.*//g'` &&
-    repo_port=`echo $repo | grep -o ':[0-9]*' | sed -e 's/://g'` &&
-    if [ -z "${repo_port}" ]; then repo_port=22; fi &&
-    ssh-keyscan -p $repo_port -H $repo_host >> ~/.ssh/known_hosts
-  ]
 end
 
 desc "Deploys the current version to the server."
 task :deploy => :environment do
-  to :before_hook do
-    # Put things to run locally before ssh
-  end
   deploy do
     # Put things that will set up an empty directory into a fully set-up
     # instance of your project.
     invoke :'git:clone'
-    invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
     invoke :'rails:assets_precompile'
-    invoke :'deploy:cleanup'
+    invoke :'deploy:link_shared_paths'
 
     to :launch do
-      queue "mkdir -p #{deploy_to}/#{current_path}/tmp/"
-      queue "touch #{deploy_to}/#{current_path}/tmp/restart.txt"
+      invoke :'unicorn:restart'
     end
   end
 end
 
+namespace :unicorn do
+  set :unicorn_pid, "#{deploy_to}/tmp/pids/unicorn.pid"
+  set :start_unicorn, %{
+    cd #{deploy_to} && unicorn -c config/unicorn.rb -E production -D
+  }
+ 
+#                                                                    Start task
+# ------------------------------------------------------------------------------
+  desc "Start unicorn"
+  task :start => :environment do
+    queue 'echo "-----> Start Unicorn"'
+    queue! start_unicorn
+  end
+ 
+#                                                                     Stop task
+# ------------------------------------------------------------------------------
+  desc "Stop unicorn"
+  task :stop do
+    queue 'echo "-----> Stop Unicorn"'
+    queue! %{
+      test -s "#{unicorn_pid}" && kill -QUIT `cat "#{unicorn_pid}"` && rm -rf "#{unicorn_pid}" && echo "Stop Ok" && exit 0
+      echo >&2 "Not running"
+    }
+  end
+ 
+#                                                                  Restart task
+# ------------------------------------------------------------------------------
+  desc "Restart unicorn using 'upgrade'"
+  task :restart => :environment do
+    invoke 'unicorn:stop'
+    invoke 'unicorn:start'
+  end
+end
 # For help in making your deploy script, see the Mina documentation:
 #
 #  - http://nadarei.co/mina
