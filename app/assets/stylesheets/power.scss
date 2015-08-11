@@ -49,16 +49,19 @@
 	.my-pic{
 		padding: 20px 0 40px;
 		position: relative;
+		img{
+			min-height: 480px;
+		}
 	}
 	.my-left{
 		position: absolute;
 		top:80px;
-		left: 280px;
+		left: 25%;
 	}
 	.my-right{
 		position: absolute;
 		top :80px;
-		right: 280px;
+		right: 25%;
 	}
 	.my-table{
 		width: 20%;
