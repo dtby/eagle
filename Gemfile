@@ -39,10 +39,11 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.0'
   gem 'shoulda-matchers'
   gem "factory_girl_rails", "~> 4.0"
-  gem 'sunspot_matchers'
 end
 
 # for annotate
 gem 'annotate'
 #Official Sass port of Bootstrap
 gem 'bootstrap-sass', '~> 3.3.5'
+#Really fast deployer and server automation tool
+gem 'mina'
