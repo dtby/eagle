@@ -10,7 +10,7 @@
 			<!-- 机房选择 -->
 			<li class="dropdown">
 				<a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-					<i class="fa fa-home fa-lg"></i>机房
+					<i class="fa fa-home fa-lg"></i>机房<b class="caret"></b>
 				</a>
 				<ul class="dropdown-menu">
 					<li><%= link_to "机房1", "#" %></li>
@@ -20,57 +20,16 @@
 					<li><%= link_to "机房3", "#" %></li>
 				</ul>
 			</li><!-- 机房选择end -->
-			<!-- 提示信息 -->
 			<li class="dropdown">
 				<a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-					<i class="fa fa-envelope"></i>  <span class="label label-warning"></span>
-				</a>
-				<ul class="dropdown-menu dropdown-messages">
-					<li>
-						<div class="dropdown-messages-box">
-							<a href="profile.html" class="pull-left">
-								<%=image_tag  "profile_small.jpg", class:"img-circle", width: '48', height: '48' %>
-							</a>
-							<div class="media-body ">
-								<small class="pull-right text-navy">5h ago</small>
-								<strong>Chris Johnatan Overtunk</strong> started following <strong>Monica Smith</strong>. <br>
-								<small class="text-muted">Yesterday 1:21 pm - 11.06.2014</small>
-							</div>
-						</div>
-					</li>
-					<li class="divider"></li>
-					<li>
-						<div class="dropdown-messages-box">
-							<a href="profile.html" class="pull-left">
-								<%=image_tag  "profile_small.jpg", class:"img-circle" %>
-							</a>
-							<div class="media-body ">
-								<small class="pull-right">23h ago</small>
-								<strong>Monica Smith</strong> love <strong>Kim Smith</strong>. <br>
-								<small class="text-muted">2 days ago at 2:30 am - 11.06.2014</small>
-							</div>
-						</div>
-					</li>
-					<li class="divider"></li>
-					<li>
-						<div class="text-center link-block">
-							<a href="mailbox.html">
-								<i class="fa fa-envelope"></i> <strong>Read All Messages</strong>
-							</a>
-						</div>
-					</li>
-				</ul>
-			</li>
-			<li class="dropdown">
-				<a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-					<i class="fa fa-bell"></i>  <span class="label label-primary">8</span>
+					<i class="fa fa-bell"></i>  <span class="label label-primary">2</span>
 				</a>
 				<ul class="dropdown-menu dropdown-alerts">
 					<li>
 						<a href="profile.html">
 							<div>
-								<i class="fa fa-twitter fa-fw"></i> 3 New Followers
-								<span class="pull-right text-muted small">12 minutes ago</span>
+								<i class="fa fa-twitter fa-fw"></i> 消息提醒
+								<span class="pull-right text-muted small">12 分钟前</span>
 							</div>
 						</a>
 					</li>
@@ -78,18 +37,15 @@
 					<li>
 						<a href="grid_options.html">
 							<div>
-								<i class="fa fa-upload fa-fw"></i> Server Rebooted
-								<span class="pull-right text-muted small">4 minutes ago</span>
+								<i class="fa fa-twitter fa-fw"></i> 消息提醒
+								<span class="pull-right text-muted small">4 分钟前</span>
 							</div>
 						</a>
 					</li>
 					<li class="divider"></li>
 					<li>
 						<div class="text-center link-block">
-							<a href="notifications.html">
-								<strong>See All Alerts</strong>
-								<i class="fa fa-angle-right"></i>
-							</a>
+							<a href="notifications.html"><strong>全部已读</strong></a>
 						</div>
 					</li>
 				</ul>

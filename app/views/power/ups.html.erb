@@ -168,12 +168,11 @@
 		}
 	});
 
-	// 使用
+	// 条形图
 	require(
 		[
 			'echarts',
 			'echarts/chart/bar', // 使用柱状图就加载bar模块，按需加载
-			'echarts/chart/pie'
 		],
 		function (bar) {
 			// 基于准备好的dom，初始化echarts图表
@@ -217,16 +216,8 @@
 			upsBar.setOption(option); 
 		}
 	);
-</script>
-<script type="text/javascript">
-	// 路径配置
-	require.config({
-		paths: {
-			echarts: '/assets/echarts'
-		}
-	});
 
-	// 使用
+	// 环形图
 	require(
 		[
 			'echarts',
