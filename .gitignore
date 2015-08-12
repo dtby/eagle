@@ -24,6 +24,7 @@ capybara-*.html
 /doc/
 /spec/tmp
 /config/database.yml
+/config/secrets.yml
 /releases
 /shared
 /scm
