@@ -24,6 +24,9 @@ capybara-*.html
 /doc/
 /spec/tmp
 /config/database.yml
+/releases
+/shared
+/scm
 
 
 /solr/

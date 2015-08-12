@@ -7,7 +7,7 @@ set :term_mode, nil
 
 set :domain, '112.124.97.145'
 set :deploy_to, '/home/deploy/eagle'
-set :repository, 'https://github.com/dtby/eagle'
+set :repository, 'https://github.com/dtby/eagle.git'
 set :branch, 'master'
 
 # For system-wide RVM install.
