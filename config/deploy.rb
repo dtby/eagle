@@ -3,9 +3,11 @@ require 'mina/rails'
 require 'mina/git'
 require 'mina/rvm'    # for rvm support. (http://rvm.io)
 
-set :domain, ''
+set :term_mode, nil
+
+set :domain, '112.124.97.145'
 set :deploy_to, '/home/deploy/eagle'
-set :repository, 'https://github.com/dtby/eagle.git'
+set :repository, 'https://github.com/dtby/eagle'
 set :branch, 'master'
 
 # For system-wide RVM install.
