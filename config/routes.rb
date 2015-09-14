@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
-  get '/home', to: 'welcome#index'
-  root 'welcome#login'
+
+  devise_for :users
+  root 'welcome#index'
 
   #动力
   resources :power, only: [:index] do

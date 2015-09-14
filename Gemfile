@@ -48,3 +48,5 @@ gem 'annotate'
 gem 'bootstrap-sass', '~> 3.3.5'
 #Really fast deployer and server automation tool
 gem 'mina'
+#Flexible authentication solution for Rails with Warden
+gem 'devise'
