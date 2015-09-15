@@ -8,4 +8,7 @@
 #
 
 class AnalogAlarm < ActiveRecord::Base
+  self.table_name = "alm"
+  self.abstract_class = true
+  establish_connection "dap".to_sym
 end

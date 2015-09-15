@@ -8,4 +8,7 @@
 #
 
 class DigitalPoint < ActiveRecord::Base
+  self.table_name = "ptdi"
+  self.abstract_class = true
+  establish_connection "dap".to_sym
 end

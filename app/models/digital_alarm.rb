@@ -8,4 +8,7 @@
 #
 
 class DigitalAlarm < ActiveRecord::Base
+  self.table_name = "cos" 
+  self.abstract_class = true
+  establish_connection "dap".to_sym
 end

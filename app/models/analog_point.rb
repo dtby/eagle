@@ -8,4 +8,7 @@
 #
 
 class AnalogPoint < ActiveRecord::Base
+  self.table_name = "ptai"
+  self.abstract_class = true
+  establish_connection "dap".to_sym
 end
