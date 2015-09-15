@@ -7,10 +7,9 @@
 #  updated_at :datetime         not null
 #
 
-require 'test_helper'
+FactoryGirl.define do
+  factory :point_state do
+    
+  end
 
-class PointStateTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
 end
