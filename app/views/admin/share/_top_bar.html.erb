@@ -7,19 +7,6 @@
 		<!-- 左侧导航栏收起按钮  end-->
 		<!-- 右上角消息提示部分 -->
 		<ul class="nav navbar-top-links navbar-right">
-			<!-- 机房选择 -->
-			<li class="dropdown">
-				<a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-					<i class="fa fa-home fa-lg"></i>机房<b class="caret"></b>
-				</a>
-				<ul class="dropdown-menu">
-					<li><%= link_to "机房1", "#" %></li>
-					<li class="divider"></li>
-					<li><%= link_to "机房2", "#" %></li>
-					<li class="divider"></li>
-					<li><%= link_to "机房3", "#" %></li>
-				</ul>
-			</li><!-- 机房选择end -->
 			<li class="dropdown">
 				<a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
 					<i class="fa fa-bell"></i>  <span class="label label-primary">2</span>
@@ -60,7 +47,11 @@
 					<li><a href="#">联系方式</a></li>
 					<li><a href="#">关于</a></li>
 					<li class="divider"></li>
-					<li><a href="<%= root_path %>"><i class="fa fa-sign-out"></i>  退出</a></li>
+					<li>
+						<%= link_to destroy_admin_session_path, method: :delete do %>
+							<i class="fa fa-sign-out"></i> 退出
+						<% end %>
+					</li>
 				</ul>
 			</li>
 		</ul>

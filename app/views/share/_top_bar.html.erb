@@ -60,7 +60,11 @@
 					<li><a href="#">联系方式</a></li>
 					<li><a href="#">关于</a></li>
 					<li class="divider"></li>
-					<li><a href="<%= root_path %>"><i class="fa fa-sign-out"></i>  退出</a></li>
+					<li>
+						<%= link_to destroy_user_session_path, method: :delete do %>
+							<i class="fa fa-sign-out"></i> 退出
+						<% end %>
+					</li>
 				</ul>
 			</li>
 		</ul>

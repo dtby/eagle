@@ -1,11 +1,15 @@
 Rails.application.routes.draw do
 
-  devise_for :admins
+  root to: "welcome#index"
+
+  devise_for :admins, controllers: {
+    sessions: 'admins/sessions',
+    passwords: 'admins/passwords'
+  }
+
   devise_for :users, controllers: {
     sessions: 'users/sessions'
   }
-
-  root to: "welcome#index"
 
   #动力
   resources :power, only: [:index] do
@@ -24,6 +28,10 @@ Rails.application.routes.draw do
     collection do
       get :aircondition
     end
+  end
+
+  namespace :admin do
+    root "home#index"
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
