@@ -2,7 +2,6 @@
   <%= render partial: "share/login_nav" %>
 <% end %>
 
-
 <div class="middle-box text-center animated">
   <div class="col-xs-10 col-xs-offset-1 mblock clearfix login-form">
     <div class="col-xs-10 col-xs-offset-1">
@@ -36,10 +35,10 @@
         <% end -%>
 
         <div class="actions">
-          <%= f.submit "用户登录", class: "btn btn-success btn-block" %>
+          <%= f.submit "管理员登录", class: "btn btn-success btn-block" %>
         </div>
       <% end %>
-      <%= render "users/shared/links" %>
+      <%= render "admins/shared/links" %>
     </div>
   </div>
 </div>

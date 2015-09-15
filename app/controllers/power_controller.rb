@@ -1,4 +1,4 @@
-class PowerController < ApplicationController
+class PowerController < BaseController
 	def crac    
 	end
 

@@ -1,0 +1,106 @@
+<nav class="navbar-default navbar-static-side" role="navigation">
+	<div class="sidebar-collapse">
+		<ul class="nav metismenu" id="side-menu">
+			<!-- brand -->
+			<li class="nav-header">
+				<div class="profile-element text-center" style="color: #fff;">
+					<p class="block"> <strong><%= Time.now.strftime("%A %R %p")%></strong></p>
+				</div>
+				<div class="logo-element">
+					iGrid
+				</div>
+			</li>
+			<!-- 动力 -->
+			<li  class="<%= "active" if params[:controller] == 'power' %>">
+				<a href="#"><i class="fa fa-paper-plane"></i> <span class="nav-label">动力</span><span class="fa arrow"></span></a>
+				<ul class="nav nav-second-level collapse">
+					<li class="<%= "active" if params[:controller] == 'power' && params[:action] == 'distrib' %>">
+						<%= link_to "配电", "#" %>
+					</li>
+					<li class="<%= "active" if params[:controller] == 'power' && params[:action] == 'ups' %>">
+						<%= link_to "UPS", "#" %>
+					</li>
+					<li class="<%= "active" if params[:controller] == 'power' && params[:action] == 'cabinet' %>">
+						<%= link_to "配电柜", "#" %>
+					</li>
+					<li class="<%= "active" if params[:controller] == '' && params[:action] == '' %>">
+						<%= link_to "电池", "#" %>
+					</li>
+					<li class="<%= "active" if params[:controller] == '' && params[:action] == '' %>">
+						<%= link_to "机柜动力", "#" %>
+					</li>
+					<li class="<%= "active" if params[:controller] == '' && params[:action] == '' %>">
+						<%= link_to "发电机", "#" %>
+					</li>
+					<li class="<%= "active" if params[:controller] == 'power' && params[:action] == 'air_d' %>">
+						<%= link_to "温湿度", "#" %>
+					</li>
+					<li class="<%= "active" if params[:controller] == 'power' && params[:action] == 'crac' %>">
+						<%= link_to "精密空调", "#" %>
+					</li>
+					<li class="<%= "active" if params[:controller] == '' && params[:action] == '' %>">
+						<%= link_to "漏水检测", "#" %>
+					</li>
+					<li class="<%= "active" if params[:controller] == 'power' && params[:action] == 'temperature' %>">
+						<%= link_to "机柜温度",  "#" %>
+					</li>
+				</ul>
+			</li>
+			<!-- 环境 -->
+			<li>
+				<a href="#"><i class="fa fa-globe"></i> <span class="nav-label">环境</span></a>
+			</li>
+			<!-- 联动 -->
+			<li>
+				<a href="#"><i class="fa fa-sitemap"></i> <span class="nav-label">联动</span></a>
+			</li>
+			<!-- 安全 -->
+			<li>
+				<a href="#"><i class="fa fa-check"></i> <span class="nav-label">安全</span></a>
+			</li>
+			<!-- 远程 -->
+			<li>
+				<a href="#"><i class="fa fa-cloud"></i> <span class="nav-label">远程</span></a>
+			</li>
+			<!-- 能效 -->
+			<li class="<%= "active" if params[:controller] == 'pem' %>">
+				<a href="#"><i class="fa fa-bar-chart"></i> <span class="nav-label">能效</span><span class="fa arrow"></span></a>
+				<ul class="nav nav-second-level collapse">
+					<li class="<%= "active" if params[:controller] == 'pem' && params[:action] == 'index' %>">
+						<%= link_to "全年能耗", pem_index_path %>
+					</li>
+					<li class="<%= "active" if params[:controller] == 'pem' && params[:action] == 'aircondition' %>">
+						<%= link_to "精密空调", aircondition_pem_index_path %>
+					</li>
+					<li class="<%= "active" if params[:controller] == '' && params[:action] == '' %>">
+						<%= link_to "漏水检测", "#" %>
+					</li>
+					<li class="<%= "active" if params[:controller] == '' && params[:action] == '' %>">
+						<%= link_to "机柜温度", "#" %>
+					</li>
+				</ul>
+			</li>
+			<!-- 部署 -->
+			<li>
+				<a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">部署</span></a>
+			</li>
+			<!-- 报表 -->
+			<li>
+				<a href="#"><i class="fa fa-files-o"></i> <span class="nav-label">报表</span></a>
+			</li>
+			<!-- 告警记录 -->
+			<li>
+				<a href="#"><i class="fa fa-list-ul"></i> <span class="nav-label">告警记录</span><span class="label label-info pull-right">3</span></a>
+			</li>
+			<li>
+				<a href="#"><i class="fa fa-home"></i> <span class="nav-label">机房</span><span class="label label-primary pull-right">3</span></a>
+			</li>
+			<li>
+				<a href="#"><i class="fa fa-users"></i> <span class="nav-label">用户</span><span class="label label-warning pull-right">1</span></a>
+			</li>
+			<li>
+				<a href="#"><i class="fa fa-user"></i> <span class="nav-label">管理员</span><span class="label label-danger pull-right">3</span></a>
+			</li>
+		</ul>
+	</div>
+</nav>

@@ -1,4 +1,4 @@
-class PemController < ApplicationController
+class PemController < BaseController
 	def index
 	end
 	
