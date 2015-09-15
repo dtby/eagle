@@ -7,10 +7,9 @@
 #  updated_at :datetime         not null
 #
 
-require 'test_helper'
+FactoryGirl.define do
+  factory :digital_alarm do
+    
+  end
 
-class DigitalAlarmTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
 end
