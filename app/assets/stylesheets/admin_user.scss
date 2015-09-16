@@ -12,9 +12,13 @@
  *= require_self
  *= require ./application/global
  */
+@import "application/variables";
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+html, body{
+	height: 100%;
+}
 .admin-user{
 	.login-form{
 		border-radius: 5px;

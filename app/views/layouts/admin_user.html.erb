@@ -13,7 +13,13 @@
 
 	<div class="admin-user">
 		<%= yield %>
-	</div>	
+	</div>
+
+	<script>
+		var BodyHeight = document.body.clientHeight;
+		var margin = (BodyHeight - 525)/2;
+		$(".login-form").css("margin-top", margin); 
+	</script>	
 </body>
 
 </html>
