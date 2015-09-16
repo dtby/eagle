@@ -19,7 +19,9 @@
 
 				<!-- 右侧中间内容部分 -->
 				<div class="row wrapper eagle-content <%= controller.controller_path.gsub('/','__') + '__' + controller.action_name %>">
-					<%= yield %>
+					<div class="clearfix">
+						<%= yield %>
+					</div>
 				</div>
 
 				<!-- 页脚 -->
@@ -28,7 +30,13 @@
 				<!-- 皮肤及设置 -->
 				<%= render partial: "/admin/share/setting" %>
 			</div>
-		</div>	
+		</div>
+		<script>
+			$(function(){
+				var content = document.body.clientHeight - 200;
+				$(".panel-height").height(content);
+			})
+		</script>	
 	</body>
 
 </html>

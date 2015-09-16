@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>Eagle</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag    'admin_user', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
@@ -11,7 +11,7 @@
 	<%= yield :login_nav %>
 	<%= render "share/flash" %>
 
-	<div class="users">
+	<div class="admin-user">
 		<%= yield %>
 	</div>	
 </body>
