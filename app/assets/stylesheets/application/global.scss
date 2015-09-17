@@ -18,6 +18,9 @@ body{
 .panel{
 	box-shadow: 0px 1px 1px 1px rgba(181, 181, 181, 0.8);
 	border: none;
+	.panel-heading{
+		padding: 5px 15px;
+	}
 }
 .panel-default > .panel-heading{
 	border-color: transparent;

@@ -29,11 +29,10 @@
 				<div class="form-group">
 					<div class="input-group m-b">
 						<%= f.check_box :remember_me %>&nbsp;
-						<%= f.label "记住我", class: "text-muted" %>
+						<%= f.label "记住我", for: "user_remember_me", class: "text-muted" %>
 					</div>
 				</div>
 				<% end -%>
-
 				<div class="actions">
 					<%= f.submit "用户登录", class: "btn btn-primary btn-block" %>
 				</div>
