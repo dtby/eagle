@@ -40,6 +40,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.0'
   gem 'shoulda-matchers'
   gem "factory_girl_rails", "~> 4.0"
+  gem 'awesome_print'
 end
 
 # for annotate
@@ -50,3 +51,5 @@ gem 'bootstrap-sass', '~> 3.3.5'
 gem 'mina'
 #Flexible authentication solution for Rails with Warden
 gem 'devise'
+
+gem 'seedbank'
