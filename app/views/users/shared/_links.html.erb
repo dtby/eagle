@@ -4,7 +4,7 @@
 
 <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
   <%= link_to "忘记密码？", new_password_path(resource_name) %>
-  <%= link_to "管理员>>", admin_root_path, class: "pull-right" %>
+  <%= link_to "管理员>>", new_admin_session_path, class: "pull-right" %>
 <% end -%>
 
 <%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
