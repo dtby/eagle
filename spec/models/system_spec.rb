@@ -4,7 +4,6 @@
 #
 #  id         :integer          not null, primary key
 #  sys_name   :string(255)
-#  sub_system :string(255)
 #  room_id    :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
