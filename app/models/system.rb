@@ -15,4 +15,8 @@
 
 class System < ActiveRecord::Base
   belongs_to :room
+
+  has_one :exclude_system, dependent: :destroy
+  # has_one :details, dependent: :destroy
+  has_many :sub_systems, dependent: :destroy
 end
