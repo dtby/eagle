@@ -1,5 +1,5 @@
 class Admins::SessionsController < Devise::SessionsController
-  layout 'user_or_admin'
+  layout 'admin_user'
 # before_filter :configure_sign_in_params, only: [:create]
 
   # GET /resource/sign_in
@@ -25,7 +25,7 @@ class Admins::SessionsController < Devise::SessionsController
   # end
 
   def after_sign_out_path_for(resource_or_scope)
-    admin_root_path
+    new_admin_session_path
   end
 
 end

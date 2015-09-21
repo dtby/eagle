@@ -8,7 +8,8 @@ Rails.application.routes.draw do
   }
 
   devise_for :users, controllers: {
-    sessions: 'users/sessions'
+    sessions: 'users/sessions',
+    passwords: 'users/passwords'
   }
 
   #动力
@@ -32,6 +33,8 @@ Rails.application.routes.draw do
 
   namespace :admin do
     root "home#index"
+    resources :users
+    resources :admins
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

@@ -1,0 +1,31 @@
+<% content_for :login_nav do %>
+	<%= render partial: "share/login_nav" %>
+<% end %>
+
+<div class="col-md-10 col-md-offset-1">
+	<div class="col-md-4 col-md-offset-4 mblock clearfix login-form">
+		<div class="col-xs-6 col-xs-offset-3 login-img">
+			<span>
+				<%= image_tag "login.png", class: "img-circle img-responsive" %>
+			</span>
+		</div>
+		<div class="col-xs-12">
+			<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+				<%= devise_error_messages! %>
+
+						<div class="form-group">
+							<div class="input-group m-b">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+								<%= f.email_field :email, autofocus: true, class: "form-control", placeholder: "输入登录邮箱" %>
+							</div>
+						</div>
+
+				<div class="actions">
+					<%= f.submit "找回密码", class: "btn btn-success btn-block" %>
+				</div>
+			<% end %>
+
+			<%= render "users/shared/links" %>
+		</div>
+	</div>
+</div>

@@ -2,9 +2,12 @@
 <html>
 <head>
   <title>iGrid监控平台后台管理系统</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
+  <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+  <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
 </head>
 
 	<body>
@@ -19,16 +22,23 @@
 
 				<!-- 右侧中间内容部分 -->
 				<div class="row wrapper eagle-content <%= controller.controller_path.gsub('/','__') + '__' + controller.action_name %>">
-					<%= yield %>
+					<div class="clearfix">
+						<%= yield %>
+					</div>
 				</div>
 
 				<!-- 页脚 -->
 				<%= render partial: "/admin/share/footer" %>
-
-				<!-- 皮肤及设置 -->
-				<%= render partial: "/admin/share/setting" %>
 			</div>
-		</div>	
+		</div>
+		<!-- 只有一个panel时设置满屏高度 -->
+		<script>
+			$(function(){
+				var content = document.body.clientHeight;
+				$(".panel-height").height(content - 200);
+				$(".mblock-height").height(content - 171)
+			})
+		</script>	
 	</body>
 
 </html>

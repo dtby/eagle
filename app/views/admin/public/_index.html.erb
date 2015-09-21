@@ -1,0 +1,39 @@
+<div class="col-md-12 p-xs animated fadeInRightBig">
+	<div class="panel panel-default" id="left">
+		<div class="panel-heading text-center text-muted">
+			<a href="<%= params[:controller] == "admin/admins" ? new_admin_admin_path : new_admin_user_path %>" title="添加<%= title %>">
+				<i class="fa fa-plus fa-lg pull-left"></i>
+			</a>
+			<%= title %>
+		</div>
+		<div class="panel-body panel-height">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>序号</th>
+						<th>登录邮箱</th>
+						<th>创建日期</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% items.each do |item| %>
+						<tr>
+							<th scope="row"><%= item.id %></th>
+							<td><%= item.email %></td>
+							<td><%= item.created_at %></td>
+							<td>
+								<%= link_to params[:controller] == "admin/admins" ? edit_admin_admin_path(item) : edit_admin_user_path(item), class: 'btn btn-xs btn-default', title: '编辑' do %>
+									<span class="glyphicon glyphicon-edit"></span>
+								<%end%>
+								<%= link_to [:admin, item], data:{ confirm: "确定要删除#{title}吗？" }, method: :delete, class: 'btn btn-xs btn-danger', title: '删除' do %>
+									<span class="glyphicon glyphicon-trash"></span>
+								<%end%>
+							</td>
+						</tr>
+					<% end %>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

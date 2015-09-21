@@ -1,0 +1,33 @@
+<div class="col-md-12 p-xs animated fadeInRightBig">
+	<div class="panel panel-default enough-height">
+		<div class="panel-heading text-center text-muted"><%= title%></div>
+		<div class="panel-body panel-height">
+			<div class="col-xs-6 col-xs-offset-3">
+				<br><br><br>
+				<%= form_for([:admin, item]) do |f| %>
+					<div class="form-group">
+						<div class="input-group m-b">
+							<span class="input-group-addon"><i class="fa fa-user"></i></span>
+							<%= f.email_field :email, class: "form-control", placeholder: "邮箱" %>
+						</div>
+					</div>
+
+					<div class="form-group">     
+						<div class="input-group m-b">
+							<span class="input-group-addon"><i class="fa fa-lock"></i></span>    
+							<%= f.text_field :password, autocomplete: "off", class: "form-control", placeholder: "设置密码(不小于6个字符)" %>   
+						</div>
+					</div>
+
+					<div class="actions">
+						<%= f.submit "#{params[:id].present? ? '更新' : '创建'}", class: "btn btn-success btn-block" %>
+					</div>
+					<p></p>
+					<%= link_to params[:controller] == "admin/admins" ? admin_admins_path : admin_users_path do %>
+						<button class="btn btn-default btn-block">取消</button>
+					<% end %>
+				<% end %>
+			</div>
+		</div>
+	</div>
+</div>
