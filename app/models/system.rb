@@ -9,7 +9,7 @@
 #
 
 class System < ActiveRecord::Base
-  has_one :exclude_system, dependent: :destroy
   # has_one :details, dependent: :destroy
   has_many :sub_systems, dependent: :destroy
+  has_many :exclude_menus, as: :menuable, dependent: :destroy
 end
