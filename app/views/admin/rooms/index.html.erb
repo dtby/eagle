@@ -1,0 +1,67 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>FooTable with row toggler, sorting and pagination</h5>
+                </div>
+                <div class="ibox-content">
+                    <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="15">
+                        <thead>
+                        <tr>
+
+                            <th data-toggle="true">No.</th>
+                            <th>3D布局图链接</th>
+                            <th>机房名称</th>
+                            <th data-hide="all">动力</th>
+                            <th data-hide="all">环境</th>
+                            <th data-hide="all">联动</th>
+                            <th data-hide="all">安全</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <% 20.times do %>
+                        <tr>
+                            <td>1</td>
+                            <td>www.buoyanetc.com</td>
+                            <td>嘉定区气象机房</td>
+                            <td><input type="checkbox" class="js-switch" checked /></td>
+                            <td><input type="checkbox" class="js-switch" checked /></td>
+                            <td><input type="checkbox" class="js-switch" /></td>
+                            <td><input type="checkbox" class="js-switch" checked /></td>
+                            <td></td>
+                        </tr>
+                        <% end %>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <td class="text-center" colspan="5">
+                                <ul class="pagination"></ul>
+                            </td>
+                        </tr>
+                        </tfoot>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ <script>
+    $(function() {
+        $('.footable').footable();
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+        elems.forEach(function(html) {
+            var switchery = new Switchery(html, { color: '#1AB394', size: 'small', disabled: 'true' });
+        });
+        var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch1'));
+        elems.forEach(function(html) {
+            var switchery_1 = new Switchery(html, { color: '#1AB394'});
+        });
+    });
+</script>

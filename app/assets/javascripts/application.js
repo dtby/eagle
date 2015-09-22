@@ -15,8 +15,11 @@
 //= require turbolinks
 //= require jquery.turbolinks
 //= require bootstrap-sprockets
-//= require_tree ./frame
-//= require ./echarts/echarts
+//= require ./frame/jquery.metisMenu
+//= require ./frame/jquery.slimscroll.min
+//= require ./frame/pace.min
+//= require ./frame/inspinia
+//= require ./frame/switchery
+//= require ./frame/footable.all.min
 //= require_tree ./echarts
-//= require_tree
 
