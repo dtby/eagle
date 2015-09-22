@@ -15,5 +15,5 @@
 #
 
 class Pattern < ActiveRecord::Base
-  belong_to :sub_system
+  belongs_to :sub_system
 end
