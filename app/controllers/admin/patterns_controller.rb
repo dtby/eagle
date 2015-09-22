@@ -1,2 +1,5 @@
-class Admin::PatternsController < ApplicationController
+class Admin::PatternsController < Admin::BaseController
+	def index
+		
+	end
 end
