@@ -9,6 +9,9 @@
 #
 
 class Room < ActiveRecord::Base
+  has_many :menus, dependent: :destroy
+  has_many :systems, through: :menus
+
   def self.get_computer_room_list
     # 名字-> [{系统 -> 设备}, ... {系统 -> 设备}]
     point_hash = {}
