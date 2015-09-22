@@ -12,4 +12,8 @@ class System < ActiveRecord::Base
   # has_one :details, dependent: :destroy
   has_many :sub_systems, dependent: :destroy
   has_many :exclude_menus, as: :menuable, dependent: :destroy
+
+  def name
+    sys_name
+  end
 end

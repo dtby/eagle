@@ -10,96 +10,45 @@
 					iGrid
 				</div>
 			</li>
-			<!-- 动力 -->
-			<li  class="<%= "active" if params[:controller] == 'power' %>">
-				<a href="#"><i class="fa fa-paper-plane"></i> <span class="nav-label">动力</span><span class="fa arrow"></span></a>
-				<ul class="nav nav-second-level collapse">
-					<li class="<%= "active" if params[:controller] == 'power' && params[:action] == 'distrib' %>">
-						<%= link_to "配电", "#" %>
-					</li>
-					<li class="<%= "active" if params[:controller] == 'power' && params[:action] == 'ups' %>">
-						<%= link_to "UPS", "#" %>
-					</li>
-					<li class="<%= "active" if params[:controller] == 'power' && params[:action] == 'cabinet' %>">
-						<%= link_to "配电柜", "#" %>
-					</li>
-					<li class="<%= "active" if params[:controller] == '' && params[:action] == '' %>">
-						<%= link_to "电池", "#" %>
-					</li>
-					<li class="<%= "active" if params[:controller] == '' && params[:action] == '' %>">
-						<%= link_to "机柜动力", "#" %>
-					</li>
-					<li class="<%= "active" if params[:controller] == '' && params[:action] == '' %>">
-						<%= link_to "发电机", "#" %>
-					</li>
-					<li class="<%= "active" if params[:controller] == 'power' && params[:action] == 'air_d' %>">
-						<%= link_to "温湿度", "#" %>
-					</li>
-					<li class="<%= "active" if params[:controller] == 'power' && params[:action] == 'crac' %>">
-						<%= link_to "精密空调", "#" %>
-					</li>
-					<li class="<%= "active" if params[:controller] == '' && params[:action] == '' %>">
-						<%= link_to "漏水检测", "#" %>
-					</li>
-					<li class="<%= "active" if params[:controller] == 'power' && params[:action] == 'temperature' %>">
-						<%= link_to "机柜温度",  "#" %>
-					</li>
-				</ul>
-			</li>
-			<!-- 环境 -->
+			<!-- 一级菜单 -->
+			<% @systems.each do |system| %>
+				<li>
+					<%= link_to '#' do %>
+						<i class="fa <%= menu_tree_icon(system.name) %>"></i> <span class="nav-label"><%= system.name %></span>
+						<%= '<span class="fa arrow"></span>'.html_safe if system.sub_systems.present? %>
+					<% end %>
+					<!-- 二级菜单 -->
+					<%= '<ul class="nav nav-second-level collapse">'.html_safe if system.sub_systems.present? %>
+					<% system.sub_systems.each do |sub_system| %>
+						<li>
+							<%= link_to '#' do %>
+								<%= sub_system.name %> 
+								<%= '<span class="fa arrow"></span>'.html_safe if sub_system.patterns.present? %>
+							<% end %>
+							<!-- 三级菜单 -->
+							<%= '<ul class="nav nav-third-level collapse">'.html_safe if sub_system.patterns.present? %>
+							<% sub_system.patterns.each do |pattern| %>
+								<li>
+									<%= link_to pattern.name, '#' %>
+								</li>
+							<% end %>
+							<%= '</ul>'.html_safe if sub_system.patterns.present? %>
+							<!-- 三级菜单 -->
+						</li>
+					<% end %>
+					<%= '</ul>'.html_safe if system.sub_systems.present? %>
+					<!-- 二级菜单 -->
+				</li>
+			<% end %>
+			<!-- 一级菜单 -->
 			<li>
-				<a href="#"><i class="fa fa-globe"></i> <span class="nav-label">环境</span></a>
-			</li>
-			<!-- 联动 -->
-			<li>
-				<a href="#"><i class="fa fa-sitemap"></i> <span class="nav-label">联动</span></a>
-			</li>
-			<!-- 安全 -->
-			<li>
-				<a href="#"><i class="fa fa-check"></i> <span class="nav-label">安全</span></a>
-			</li>
-			<!-- 远程 -->
-			<li>
-				<a href="#"><i class="fa fa-cloud"></i> <span class="nav-label">远程</span></a>
-			</li>
-			<!-- 能效 -->
-			<li class="<%= "active" if params[:controller] == 'pem' %>">
-				<a href="#"><i class="fa fa-bar-chart"></i> <span class="nav-label">能效</span><span class="fa arrow"></span></a>
-				<ul class="nav nav-second-level collapse">
-					<li class="<%= "active" if params[:controller] == 'pem' && params[:action] == 'index' %>">
-						<%= link_to "全年能耗", pem_index_path %>
-					</li>
-					<li class="<%= "active" if params[:controller] == 'pem' && params[:action] == 'aircondition' %>">
-						<%= link_to "精密空调", aircondition_pem_index_path %>
-					</li>
-					<li class="<%= "active" if params[:controller] == '' && params[:action] == '' %>">
-						<%= link_to "漏水检测", "#" %>
-					</li>
-					<li class="<%= "active" if params[:controller] == '' && params[:action] == '' %>">
-						<%= link_to "机柜温度", "#" %>
-					</li>
-				</ul>
-			</li>
-			<!-- 部署 -->
-			<li>
-				<a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">部署</span></a>
-			</li>
-			<!-- 报表 -->
-			<li>
-				<a href="#"><i class="fa fa-files-o"></i> <span class="nav-label">报表</span></a>
-			</li>
-			<!-- 告警记录 -->
-			<li>
-				<a href="#"><i class="fa fa-list-ul"></i> <span class="nav-label">告警记录</span><span class="label label-info pull-right">3</span></a>
+				<a href="#"><i class="fa fa-home"></i> <span class="nav-label">机房</span></a>
 			</li>
 			<li>
-				<a href="#"><i class="fa fa-home"></i> <span class="nav-label">机房</span><span class="label label-primary pull-right">3</span></a>
+				<a href="<%= admin_users_path %>"><i class="fa fa-users"></i> <span class="nav-label">用户</span></a>
 			</li>
 			<li>
-				<a href="<%= admin_users_path %>"><i class="fa fa-users"></i> <span class="nav-label">用户</span><span class="label label-warning pull-right">1</span></a>
-			</li>
-			<li>
-				<a href="<%= admin_admins_path %>"><i class="fa fa-user"></i> <span class="nav-label">管理员</span><span class="label label-danger pull-right">3</span></a>
+				<a href="<%= admin_admins_path %>"><i class="fa fa-user"></i> <span class="nav-label">管理员</span></a>
 			</li>
 		</ul>
 	</div>
