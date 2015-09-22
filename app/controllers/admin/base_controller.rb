@@ -1,8 +1,7 @@
 class Admin::BaseController < ApplicationController
+	layout 'admin'
 	before_action :authenticate_admin!
-  before_action :set_left_bar
-  layout 'admin'
-
+	before_action :set_left_bar
 
   private
 

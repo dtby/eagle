@@ -11,6 +11,8 @@
 				<thead>
 					<tr>
 						<th>序号</th>
+						<th>姓名</th>
+						<th>登录帐号</th>
 						<th>登录邮箱</th>
 						<th>创建日期</th>
 						<th>操作</th>
@@ -20,6 +22,8 @@
 					<% items.each do |item| %>
 						<tr>
 							<th scope="row"><%= item.id %></th>
+							<th></th>
+							<th></th>
 							<td><%= item.email %></td>
 							<td><%= item.created_at %></td>
 							<td>

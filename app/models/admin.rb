@@ -15,10 +15,13 @@
 #  last_sign_in_ip        :string(255)
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
+#  name                   :string(255)      default(""), not null
+#  phone                  :string(255)      default(""), not null
 #
 # Indexes
 #
 #  index_admins_on_email                 (email) UNIQUE
+#  index_admins_on_phone                 (phone) UNIQUE
 #  index_admins_on_reset_password_token  (reset_password_token) UNIQUE
 #
 
