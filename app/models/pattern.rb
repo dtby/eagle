@@ -16,4 +16,14 @@
 
 class Pattern < ActiveRecord::Base
   belongs_to :sub_system
+
+  # 不同型号对应节点，分组返回数据
+  # 返回值：{ group: [ point ] }
+  def point_group
+    {
+      '旁路输入' => ['A组', 'B组', 'C组', 'D组', 'E组'],
+      '旁路输出' => ['A组', 'B组', 'C组', 'D组', 'E组'],
+      '电池电压' => ['正电压', '负电压', '总电压']
+    }
+  end
 end
