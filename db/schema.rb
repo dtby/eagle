@@ -54,26 +54,6 @@ ActiveRecord::Schema.define(version: 20150922071802) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "exclude_menus", force: :cascade do |t|
-    t.integer  "room_id",       limit: 4
-    t.integer  "menuable_id",   limit: 4
-    t.string   "menuable_type", limit: 255
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-  end
-
-  add_index "exclude_menus", ["menuable_id", "menuable_type"], name: "index_exclude_menus_on_menuable_id_and_menuable_type", using: :btree
-  add_index "exclude_menus", ["room_id"], name: "index_exclude_menus_on_room_id", using: :btree
-
-  create_table "exclude_systems", force: :cascade do |t|
-    t.boolean  "show"
-    t.integer  "system_id",  limit: 4
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
-  end
-
-  add_index "exclude_systems", ["system_id"], name: "index_exclude_systems_on_system_id", using: :btree
-
   create_table "menus", force: :cascade do |t|
     t.integer  "room_id",       limit: 4
     t.integer  "menuable_id",   limit: 4
@@ -142,7 +122,6 @@ ActiveRecord::Schema.define(version: 20150922071802) do
   add_index "users", ["phone"], name: "index_users_on_phone", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
-  add_foreign_key "exclude_systems", "systems"
   add_foreign_key "menus", "rooms"
   add_foreign_key "patterns", "sub_systems"
   add_foreign_key "sub_systems", "systems"

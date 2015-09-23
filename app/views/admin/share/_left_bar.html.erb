@@ -10,9 +10,26 @@
 					iGrid
 				</div>
 			</li>
+
+			<li class="<%= 'active' if params[:controller] == 'admin/rooms' %>">
+				<%= link_to admin_rooms_path do %>
+					<i class="fa fa-home"></i> <span class="nav-label">机房</span>
+				<% end %>
+			</li>
+			<li class="<%= 'active' if params[:controller] == 'admin/admins' %>">
+				<%= link_to admin_admins_path do %>
+					<i class="fa fa-user"></i> <span class="nav-label">管理员</span>
+				<% end %>
+			</li>
+			<li class="<%= 'active' if params[:controller] == 'admin/users' %>">
+				<%= link_to admin_users_path do %>
+					<i class="fa fa-users"></i> <span class="nav-label">用户</span>
+				<% end %>
+			</li>
+
 			<!-- 一级菜单 -->
 			<% @systems.each do |system| %>
-				<li>
+				<li class="<%= 'active' if params[:controller] == 'admin/patterns' && system == @pattern.try(:sub_system).try(:system) %>" >
 					<%= link_to '#' do %>
 						<i class="fa <%= menu_tree_icon(system.name) %>"></i> <span class="nav-label"><%= system.name %></span>
 						<%= '<span class="fa arrow"></span>'.html_safe if system.sub_systems.present? %>
@@ -20,7 +37,7 @@
 					<!-- 二级菜单 -->
 					<%= '<ul class="nav nav-second-level collapse">'.html_safe if system.sub_systems.present? %>
 					<% system.sub_systems.each do |sub_system| %>
-						<li>
+						<li class="<%= 'active' if params[:controller] == 'admin/patterns' && sub_system == @pattern.try(:sub_system) %>">
 							<%= link_to '#' do %>
 								<%= sub_system.name %> 
 								<%= '<span class="fa arrow"></span>'.html_safe if sub_system.patterns.present? %>
@@ -28,8 +45,8 @@
 							<!-- 三级菜单 -->
 							<%= '<ul class="nav nav-third-level collapse">'.html_safe if sub_system.patterns.present? %>
 							<% sub_system.patterns.each do |pattern| %>
-								<li>
-									<%= link_to pattern.name, '#' %>
+								<li  class="<%= 'active' if params[:controller] == 'admin/patterns' && pattern == @pattern %>">
+									<%= link_to pattern.name, admin_pattern_path(pattern) %>
 								</li>
 							<% end %>
 							<%= '</ul>'.html_safe if sub_system.patterns.present? %>
@@ -41,15 +58,6 @@
 				</li>
 			<% end %>
 			<!-- 一级菜单 -->
-			<li>
-				<a href="#"><i class="fa fa-home"></i> <span class="nav-label">机房</span></a>
-			</li>
-			<li>
-				<a href="<%= admin_users_path %>"><i class="fa fa-users"></i> <span class="nav-label">用户</span></a>
-			</li>
-			<li>
-				<a href="<%= admin_admins_path %>"><i class="fa fa-user"></i> <span class="nav-label">管理员</span></a>
-			</li>
 		</ul>
 	</div>
 </nav>

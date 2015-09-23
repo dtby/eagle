@@ -32,11 +32,11 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    root "home#index"
-    resources :users
-    resources :patterns
-    resources :admins
-    resources :rooms
+    root 'home#index'
+    resources :users # 用户
+    resources :patterns # 型号设置
+    resources :admins # 管理用户
+    resources :rooms # 机房管理
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

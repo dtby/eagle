@@ -10,7 +10,7 @@
 
 class System < ActiveRecord::Base
   # has_one :details, dependent: :destroy
-  has_many :sub_systems, dependent: :destroy
+  has_many :sub_systems, dependent: :destroy # 所有三级菜单
   has_many :menus, as: :menuable, dependent: :destroy
 
   def name
