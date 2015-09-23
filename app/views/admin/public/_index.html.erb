@@ -1,13 +1,19 @@
 <div class="col-md-12 p-xs animated fadeInRightBig">
 	<div class="panel panel-default" id="left">
 		<div class="panel-heading text-center text-muted">
-			<a href="<%= params[:controller] == "admin/admins" ? new_admin_admin_path : new_admin_user_path %>" title="添加<%= title %>">
-				<i class="fa fa-plus fa-lg pull-left"></i>
-			</a>
+			<% if params[:controller] == "admin/admins" %>
+				<%= link_to new_admin_admin_path, remote: true, format: :js, title: "添加#{title}" do %>
+					<i class="fa fa-plus fa-lg pull-left"></i>
+				<% end %>
+			<% else %>
+				<%= link_to new_admin_user_path, remote: true, format: :js, title: "添加#{title}" do %>
+					<i class="fa fa-plus fa-lg pull-left"></i>
+				<% end %>
+			<% end %>
 			<%= title %>
 		</div>
-		<div class="panel-body panel-height">
-			<table class="table table-striped">
+		<div class="panel-body table-responsive panel-height">
+			<table class="table table-striped ">
 				<thead>
 					<tr>
 						<th>序号</th>
@@ -22,16 +28,22 @@
 					<% items.each do |item| %>
 						<tr>
 							<th scope="row"><%= item.id %></th>
-							<th></th>
-							<th></th>
+							<td><%= item.name %></td>
+							<td><%= item.phone %></td>
 							<td><%= item.email %></td>
 							<td><%= item.created_at %></td>
 							<td>
-								<%= link_to params[:controller] == "admin/admins" ? edit_admin_admin_path(item) : edit_admin_user_path(item), class: 'btn btn-xs btn-default', title: '编辑' do %>
-									<span class="glyphicon glyphicon-edit"></span>
-								<%end%>
+								<% if params[:controller] == "admin/admins" %>
+									<%= link_to edit_admin_admin_path(item), remote: true, format: :js, class: 'btn btn-xs btn-default', title: '编辑' do %>
+										<span class="glyphicon glyphicon-edit"></span>
+									<%end%>
+								<% else %>
+									<%= link_to edit_admin_user_path(item), remote: true, format: :js, class: 'btn btn-xs btn-default', title: '编辑' do %>
+										<span class="glyphicon glyphicon-edit"></span>
+									<%end%>
+								<% end %>
 								<%= link_to [:admin, item], data:{ confirm: "确定要删除#{title}吗？" }, method: :delete, class: 'btn btn-xs btn-danger', title: '删除' do %>
-									<span class="glyphicon glyphicon-trash"></span>
+								<span class="glyphicon glyphicon-trash"></span>
 								<%end%>
 							</td>
 						</tr>
@@ -41,3 +53,4 @@
 		</div>
 	</div>
 </div>
+<%= render partial: "/admin/public/admin_modal" %>

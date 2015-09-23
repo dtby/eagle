@@ -1,11 +1,13 @@
 class Admin::AdminsController < Admin::BaseController
 	before_action :set_admin, only: [:edit, :update, :destroy]
+	respond_to :html, :js
 	def index
 		@admins = Admin.all
 	end
 
 	def new
 		@admin = Admin.new
+		respond_with @admin
 	end
 
 	def create
@@ -18,6 +20,7 @@ class Admin::AdminsController < Admin::BaseController
 	end
 
 	def edit
+		respond_with @admin
 	end
 
 	def update
@@ -35,7 +38,7 @@ class Admin::AdminsController < Admin::BaseController
 
 	 private
 	 def admin_params
-	 	params.require(:admin).permit(:email, :password)
+	 	params.require(:admin).permit(:email, :password, :name, :phone)
 	 end
 	 def set_admin
 	 	@admin = Admin.find(params[:id])

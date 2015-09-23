@@ -1,11 +1,13 @@
 class Admin::UsersController < Admin::BaseController
 	before_action :set_user, only: [:edit, :update, :destroy]
+	respond_to :html, :js
 	def index
 		@users = User.all
 	end
 
 	def new
 		@user = User.new
+		respond_with @user
 	end
 
 	def create
@@ -18,6 +20,7 @@ class Admin::UsersController < Admin::BaseController
 	end
 
 	def edit
+		respond_with @user
 	end
 
 	def update
@@ -36,7 +39,7 @@ class Admin::UsersController < Admin::BaseController
 	private
 	
 	def user_params
-		params.require(:user).permit(:email, :password)
+		params.require(:user).permit(:email, :password, :name, :phone)
 	end
 
 	def set_user
