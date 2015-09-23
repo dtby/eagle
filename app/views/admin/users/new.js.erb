@@ -1,0 +1,2 @@
+$("#adminModalContent").html("<%= escape_javascript( render partial: "admin/public/new_or_edit", locals: { item: @user } )%>")
+$('#adminModal').modal('show');
