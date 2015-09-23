@@ -1,61 +1,61 @@
 <div class="wrapper wrapper-content animated fadeInRight">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="ibox float-e-margins">
-                <div class="ibox-title">
-                    <h5>FooTable with row toggler, sorting and pagination</h5>
-                </div>
-                <div class="ibox-content">
-                    <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="15">
-                        <thead>
-                        <tr>
-                            <th data-toggle="true">No.</th>
-                            <th>机房名称</th>
-                            <th>3D布局图链接</th>
-                            <th data-hide="all">动力</th>
-                            <th data-hide="all">环境</th>
-                            <th data-hide="all">联动</th>
-                            <th data-hide="all">安全</th>
-                            <th>操作</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <% 20.times do %>
-                        <tr>
-                            <td>1</td>
-                            <td>嘉定区气象机房</td>
-                            <td>www.buoyanetc.com</td>
-                            <td><input type="checkbox" class="js-switch" checked /></td>
-                            <td><input type="checkbox" class="js-switch" checked /></td>
-                            <td><input type="checkbox" class="js-switch" /></td>
-                            <td><input type="checkbox" class="js-switch" checked /></td>
-                            <td>
-                                <a data-toggle="modal" class="btn btn-xs btn-default" title="编辑" href="#modal-form">
-                                <span class="glyphicon glyphicon-edit"></span>
-                                </a>                                
-                                <a data-confirm="确定要删除管理员列表吗？" class="btn btn-xs btn-danger" title="删除" rel="nofollow" data-method="delete" href="/admin/admin/rooms">
-                                <span class="glyphicon glyphicon-trash"></span>
-                                </a>
-                            </td>
-                        </tr>
-                        <% end %>
-                        </tbody>
-                        <tfoot>
-                        <tr>
-                            <td class="text-center" colspan="5">
-                                <ul class="pagination"></ul>
-                            </td>
-                        </tr>
-                        </tfoot>
-                    </table>
-                    <%= render 'rooms_modal' %>
-                </div>
-            </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>机房详细参数状况表</h5>
         </div>
+        <div class="ibox-content">
+          <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="12">
+            <thead>
+              <tr>
+                <th data-toggle="true">No.</th>
+                <th>机房名称</th>
+                <th>3D布局图链接</th>
+                <th data-hide="all">动力参数显示情况</th>
+                <th data-hide="all">环境参数显示情况</th>
+                <th data-hide="all">联动参数显示情况</th>
+                <th data-hide="all">安全参数显示情况</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% 20.times do %>
+              <tr>
+                <td>1</td>
+                <td>嘉定区气象机房</td>
+                <td>www.buoyanetc.com</td>
+                <td><input type="checkbox" class="js-switch" checked /></td>
+                <td><input type="checkbox" class="js-switch" checked /></td>
+                <td><input type="checkbox" class="js-switch" /></td>
+                <td><input type="checkbox" class="js-switch" checked /></td>
+                <td>
+                  <a data-toggle="modal" class="btn btn-xs btn-default" title="编辑" href="#modal-form">
+                    <span class="glyphicon glyphicon-edit"></span>
+                  </a>                                
+                  <a data-confirm="确定要删除管理员列表吗？" class="btn btn-xs btn-danger" title="删除" rel="nofollow" data-method="delete" href="/admin/admin/rooms">
+                    <span class="glyphicon glyphicon-trash"></span>
+                  </a>
+                </td>
+              </tr>
+              <% end %>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td class="text-center" colspan="5">
+                  <ul class="pagination"></ul>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+          <%= render 'rooms_modal' %>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 <script>
-    $(function() {
-        $('.footable').footable();
-    });
+  $(function() {
+    $('.footable').footable();
+  });
 </script>

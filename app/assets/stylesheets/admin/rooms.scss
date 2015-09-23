@@ -1,4 +1,18 @@
 .switchery {
-	height: 20px!important;
-	width: 30px;
+	height: 20px;
+	width: 35px;
+	small {
+		height: 20px;
+		width: 20px;
+	}
+}
+.modal-dialog {
+	width: 800px;
+	padding-top: 5%;
+}
+.footable-row-detail-row {
+	line-height: 2.1em;
+	.footable-row-detail-name {
+		padding-right: 10px;
+	}
 }
