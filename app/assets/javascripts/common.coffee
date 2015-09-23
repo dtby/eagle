@@ -1,6 +1,5 @@
 $ ->
   # 页面加载改变checkbox显示样式
-<<<<<<< HEAD
   CKboxDisable = Array::slice.call(document.querySelectorAll(".js-switch-disabled"))
   CKboxDisable.forEach (html) ->
     new Switchery(html,
@@ -14,4 +13,5 @@ $ ->
   CKbox.forEach (html) ->
     new Switchery(html,
       color: "#1AB394"
+      size: 'small'
     )

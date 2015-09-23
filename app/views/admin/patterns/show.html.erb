@@ -1,17 +1,13 @@
-<div class="container">
-  <div class="row">
     <% index = 0 %>
     <% @groups.each do |group, points| %>
       <% if index < (@groups.size + 1)/2 %>
-        <%= '<div class="col-sm-6 col-sm-lg">'.html_safe if index == 0 %>
+        <%= '<div class="col-sm-6 col-lg-6">'.html_safe if index == 0 %>
           <%= render partial: 'group', locals: {group: group, points: points, index: index} %>
         <%= '</div>'.html_safe if index == ((@groups.size + 1)/2-1) %>
       <% else %>
-        <%= '<div class="col-sm-6 col-sm-lg">'.html_safe if index == (@groups.size + 1)/2 %>
+        <%= '<div class="col-sm-6 col-lg-6">'.html_safe if index == (@groups.size + 1)/2 %>
           <%= render partial: 'group', locals: {group: group, points: points, index: index} %>
         <%= '</div>'.html_safe if index == (@groups.size - 1) %>
       <% end %>
       <% index += 1 %>
     <% end %>
-  </div>
-</div>
