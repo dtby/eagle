@@ -1,18 +1,28 @@
 <div class="col-md-12 p-xs animated fadeInRightBig" id="authenticatePanel">
-	<div class="panel panel-default" id="left">
-		<div class="panel-heading text-center text-muted">
-			<% if params[:controller] == "admin/admins" %>
-				<%= link_to new_admin_admin_path, remote: true, format: :js, title: "添加#{title}" do %>
-					<i class="fa fa-plus fa-lg pull-left"></i>
+	<div id="authenticatePanel" class="ibox float-e-margins">
+		<div class="ibox-title">
+			<div class="text-center">
+				<!-- 新增用户或管理员 -->
+				<% if params[:controller] == "admin/admins" %>
+					<%= link_to new_admin_admin_path, remote: true, format: :js, title: "添加#{title}" do %>
+						<i class="fa fa-plus fa-lg pull-left"></i>
+					<% end %>
+				<% else %>
+					<%= link_to new_admin_user_path, remote: true, format: :js, title: "添加#{title}" do %>
+						<i class="fa fa-plus fa-lg pull-left"></i>
+					<% end %>
 				<% end %>
-			<% else %>
-				<%= link_to new_admin_user_path, remote: true, format: :js, title: "添加#{title}" do %>
-					<i class="fa fa-plus fa-lg pull-left"></i>
-				<% end %>
-			<% end %>
-			<%= "#{title}列表" %>
+			
+				<%= "#{title}列表" %>
+
+				<div class="ibox-tools">
+					<a class="collapse-link">
+						<i class="fa fa-chevron-up"></i>
+					</a>
+				</div>
+			</div>
 		</div>
-		<div class="panel-body table-responsive panel-height">
+		<div class="ibox-content">
 			<table class="table table-striped ">
 				<thead>
 					<tr>
@@ -53,12 +63,5 @@
 		</div>
 	</div>
 </div>
+
 <%= render partial: "/admin/public/admin_modal" %>
-<!-- 只有一个panel时设置满屏高度 -->
-<script>
-	$(function(){
-		var content = document.body.clientHeight;
-		$(".panel-height").height(content - 200);
-		$(".mblock-height").height(content - 171)
-	})
-</script>	

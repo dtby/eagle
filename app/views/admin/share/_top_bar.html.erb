@@ -37,7 +37,13 @@
 					</li>
 				</ul>
 			</li>
-			<li class="dropdown">
+			<li><%= current_admin.email %></li>
+			<li>
+				<%= link_to destroy_admin_session_path, method: :delete do %>
+					<i class="fa fa-sign-out"></i> 退出
+				<% end %>
+			</li>
+<!-- 			<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding: 15px;">
 					<%=image_tag  "profile_small.jpg", width: '28', height: '28' %>
 					<b class="caret"></b>
@@ -53,7 +59,7 @@
 						<% end %>
 					</li>
 				</ul>
-			</li>
+			</li> -->
 		</ul>
 		<!-- 右上角消息提示部分 end-->
 	</nav>
