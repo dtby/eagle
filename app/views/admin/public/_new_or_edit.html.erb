@@ -1,4 +1,4 @@
-<%= form_for([:admin, item]) do |f| %>
+<%= form_for([:admin, item], remote: true, format: :js) do |f| %>
 	<div class="form-group">
 		<div class="input-group m-b">
 			<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>

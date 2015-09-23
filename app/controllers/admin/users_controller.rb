@@ -1,8 +1,9 @@
 class Admin::UsersController < Admin::BaseController
 	before_action :set_user, only: [:edit, :update, :destroy]
+	before_action :set_users, only: [:index, :create, :update, :destroy]
 	respond_to :html, :js
+
 	def index
-		@users = User.all
 	end
 
 	def new
@@ -13,7 +14,7 @@ class Admin::UsersController < Admin::BaseController
 	def create
 		@user = User.new(user_params)
 		if @user.save
-			redirect_to admin_users_path
+			respond_with @users
 		else
 			render :new
 		end
@@ -25,7 +26,7 @@ class Admin::UsersController < Admin::BaseController
 
 	def update
 		if @user.update(user_params)
-			redirect_to admin_users_path
+			respond_with @users
 		else
 			render :edit
 		end
@@ -33,16 +34,20 @@ class Admin::UsersController < Admin::BaseController
 
 	def destroy
 		@user.destroy
-		redirect_to admin_users_path
+		respond_with @users
 	end
 
 	private
 	
 	def user_params
-		params.require(:user).permit(:email, :password, :name, :phone)
+		params.require(:user).permit(:email, :password, :name, :phone, :password_confirmation)
 	end
 
 	def set_user
 		@user = User.find(params[:id])
+	end
+
+	def set_users
+		@users = User.all
 	end
 end

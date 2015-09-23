@@ -1,4 +1,4 @@
-<div class="col-md-12 p-xs animated fadeInRightBig">
+<div class="col-md-12 p-xs animated fadeInRightBig" id="authenticatePanel">
 	<div class="panel panel-default" id="left">
 		<div class="panel-heading text-center text-muted">
 			<% if params[:controller] == "admin/admins" %>
@@ -10,7 +10,7 @@
 					<i class="fa fa-plus fa-lg pull-left"></i>
 				<% end %>
 			<% end %>
-			<%= title %>
+			<%= "#{title}列表" %>
 		</div>
 		<div class="panel-body table-responsive panel-height">
 			<table class="table table-striped ">
@@ -42,7 +42,7 @@
 										<span class="glyphicon glyphicon-edit"></span>
 									<%end%>
 								<% end %>
-								<%= link_to [:admin, item], data:{ confirm: "确定要删除#{title}吗？" }, method: :delete, class: 'btn btn-xs btn-danger', title: '删除' do %>
+								<%= link_to [:admin, item], data:{ confirm: "确定要删除#{title}吗？" }, remote: true, format: :js, method: :delete, class: 'btn btn-xs btn-danger', title: '删除' do %>
 								<span class="glyphicon glyphicon-trash"></span>
 								<%end%>
 							</td>
@@ -54,3 +54,11 @@
 	</div>
 </div>
 <%= render partial: "/admin/public/admin_modal" %>
+<!-- 只有一个panel时设置满屏高度 -->
+<script>
+	$(function(){
+		var content = document.body.clientHeight;
+		$(".panel-height").height(content - 200);
+		$(".mblock-height").height(content - 171)
+	})
+</script>	
