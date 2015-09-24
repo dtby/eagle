@@ -25,7 +25,7 @@ class Admin::UsersController < Admin::BaseController
 	end
 
 	def update
-		if @user.update(user_params)
+		if @user.update_user(user_params)
 			respond_with @users
 		else
 			render :edit

@@ -23,3 +23,4 @@
 //= require ./echarts/echarts
 //= require_tree ./echarts/chart
 //= require common 
+//= require turbolinks

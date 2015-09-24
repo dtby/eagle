@@ -6,6 +6,7 @@
 #  name       :string(255)
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  link       :string(255)
 #
 
 class Room < ActiveRecord::Base
@@ -37,6 +38,7 @@ class Room < ActiveRecord::Base
     end
   end
 
+<<<<<<< HEAD
   def self.datas_to_hash class_name, group_hash
     class_name.all.each do |ap|
       # BayName: 机房A-配电系统
@@ -53,4 +55,11 @@ class Room < ActiveRecord::Base
   end
 
 
+
+  #  机房菜单字符串数组
+  # 返回值: ［"#{menu_id}_#{menu_type}"］
+  def menu_to_s
+    room_menus = menus.pluck(:menuable_id, :menuable_type)
+    room_menus.collect{|x| x.join('_')}
+  end
 end

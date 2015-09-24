@@ -24,7 +24,7 @@ class Admin::AdminsController < Admin::BaseController
 	end
 
 	def update
-		if @admin.update(admin_params)
+		if @admin.update_admin(admin_params)
 			respond_with @admins
 		else
 			render :edit

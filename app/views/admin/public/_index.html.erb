@@ -1,24 +1,17 @@
 <div class="col-md-12 p-xs animated fadeInRightBig" id="authenticatePanel">
 	<div id="authenticatePanel" class="ibox float-e-margins">
 		<div class="ibox-title text-center">
-			<h5>
-				<%= "#{title}列表" %>
-			</h5>
-			<div class="ibox-tools">
-				<!-- 新增用户或管理员 -->
-				<% if params[:controller] == "admin/admins" %>
-					<%= link_to new_admin_admin_path, remote: true, format: :js, title: "添加#{title}" do %>
-						<i class="fa fa-plus"></i>
-					<% end %>
-				<% else %>
-					<%= link_to new_admin_user_path, remote: true, format: :js, title: "添加#{title}" do %>
-						<i class="fa fa-plus"></i>
-					<% end %>
+			<h5><%= "#{title}列表" %></h5>
+			<!-- 新增用户或管理员 -->
+			<% if params[:controller] == "admin/admins" %>
+				<%= link_to new_admin_admin_path, remote: true, format: :js, class: "ibox-title-new", title: "添加#{title}" do %>
+					<i class="fa fa-plus fa-lg"></i>
 				<% end %>
-				<a class="collapse-link">
-					<i class="fa fa-chevron-up"></i>
-				</a>
-			</div>
+			<% else %>
+				<%= link_to new_admin_user_path, remote: true, format: :js, class: "ibox-title-new", title: "添加#{title}" do %>
+					<i class="fa fa-plus fa-lg"></i>
+				<% end %>
+			<% end %>
 		</div>
 		<div class="ibox-content table-responsive">
 			<table class="table table-striped ">

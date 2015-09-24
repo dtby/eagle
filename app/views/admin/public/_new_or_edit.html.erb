@@ -32,7 +32,7 @@
 	<div class="form-group">     
 		<div class="input-group m-b">
 			<span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>    
-			<%= f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "设置密码(不小于6个字符)" %>   
+			<%= f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "#{ item.name.nil? ? "设置密码(不小于6个字符)" : "更新密码(不填写则不更新密码)" }" %>   
 		</div>
 		<% if item.errors[:password].any? %>
 			<dd class="error text-danger"><%= item.errors[:password][0] %></dd>
@@ -42,7 +42,7 @@
 	<div class="form-group">     
 		<div class="input-group m-b">
 			<span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>    
-			<%= f.password_field :password_confirmation, autocomplete: "off", class: "form-control", placeholder: "确认密码" %>   
+			<%= f.password_field :password_confirmation, autocomplete: "off", class: "form-control", placeholder: "#{ item.name.nil? ? "确认密码" : "确认密码(不填写则不更新密码)" }" %>   
 		</div>
 		<% if item.errors[:password_confirmation].any? %>
 			<dd class="error text-danger"><%= item.errors[:password_confirmation][0] %></dd>
