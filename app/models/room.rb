@@ -38,7 +38,6 @@ class Room < ActiveRecord::Base
     end
   end
 
-<<<<<<< HEAD
   def self.datas_to_hash class_name, group_hash
     class_name.all.each do |ap|
       # BayName: 机房A-配电系统
