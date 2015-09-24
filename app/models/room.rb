@@ -10,7 +10,7 @@
 
 class Room < ActiveRecord::Base
 
-
+  has_many :systems
   def self.get_computer_room_list
     # 名字-> [{系统 -> 设备}, ... {系统 -> 设备}]
     point_hash = {}
@@ -25,10 +25,28 @@ class Room < ActiveRecord::Base
       room = Room.find_or_create_by(name: room)
       system_hash.each do |sys_name, sub_systems|
         sub_systems.each do |sub_system|
-          system = System.find_or_create_by(sys_name: sys_name, sub_system: sub_system.first)
+          system = System.find_or_create_by(sys_name: sys_name, sub_system: sub_system.first, room: room)
         end
       end
     end
   end
+
+  def self.datas_to_hash class_name, group_hash
+    class_name.all.each do |ap|
+      # BayName: 机房A-配电系统
+      # 机房A -> 配电系统 -> 配电柜 -> 
+      bay_info = ap.BayName.split("-")
+      group_hash[bay_info.first] = {} unless group_hash[bay_info.first].present?
+      group_hash[bay_info.first][ap.GroupName] = {} unless group_hash[bay_info.first][ap.GroupName].present?
+
+      point_hash = {}
+      group_hash[bay_info.first][ap.GroupName][bay_info.second] = [] unless group_hash[bay_info.first][ap.GroupName][bay_info.second].present?
+      temp_arr = {}
+      temp_arr[ap.PointName] = ap.PointID
+      group_hash[bay_info.first][ap.GroupName][bay_info.second] << temp_arr
+    end
+    group_hash
+  end
+
 
 end
