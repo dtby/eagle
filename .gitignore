@@ -23,6 +23,7 @@ capybara-*.html
 /public/assets/
 /coverage/
 /doc/
+/data/
 /spec/tmp
 /config/database.yml
 /config/secrets.yml

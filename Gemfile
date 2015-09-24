@@ -52,3 +52,4 @@ gem 'mina'
 # Flexible authentication solution for Rails with Warden
 gem 'devise'
 gem 'seedbank'
+gem 'settingslogic', '~> 2.0.9'
