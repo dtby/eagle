@@ -4,6 +4,9 @@
 			<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
 			<%= f.text_field :name, class: "form-control", placeholder: "姓名" %>
 		</div>
+		<% if item.errors[:name].any? %>
+			<dd class="error text-danger"><%= item.errors[:name][0] %></dd>
+		<% end %>
 	</div>
 
 	<div class="form-group">
@@ -11,6 +14,9 @@
 			<span class="input-group-addon"><span class="glyphicon glyphicon-phone"></span></span>
 			<%= f.text_field :phone, class: "form-control", placeholder: "手机号码" %>
 		</div>
+		<% if item.errors[:phone].any? %>
+			<dd class="error text-danger"><%= item.errors[:phone][0] %></dd>
+		<% end %>
 	</div>
 
 	<div class="form-group">
@@ -18,6 +24,9 @@
 			<span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
 			<%= f.email_field :email, class: "form-control", placeholder: "邮箱" %>
 		</div>
+		<% if item.errors[:email].any? %>
+			<dd class="error text-danger"><%= item.errors[:email][0] %></dd>
+		<% end %>
 	</div>
 
 	<div class="form-group">     
@@ -25,6 +34,9 @@
 			<span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>    
 			<%= f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "设置密码(不小于6个字符)" %>   
 		</div>
+		<% if item.errors[:password].any? %>
+			<dd class="error text-danger"><%= item.errors[:password][0] %></dd>
+		<% end %>
 	</div>
 
 	<div class="form-group">     
@@ -32,6 +44,9 @@
 			<span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>    
 			<%= f.password_field :password_confirmation, autocomplete: "off", class: "form-control", placeholder: "确认密码" %>   
 		</div>
+		<% if item.errors[:password_confirmation].any? %>
+			<dd class="error text-danger"><%= item.errors[:password_confirmation][0] %></dd>
+		<% end %>
 	</div>
 
 	<div class="actions">
