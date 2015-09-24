@@ -16,7 +16,7 @@
 
 class Pattern < ActiveRecord::Base
   # pattern节点配置目录
-  CONFIGFILEPATH = "#{Rails.root}/data/patterns/"
+  CONFIGFILEDIR = "#{Rails.root}/data/patterns/"
 
   belongs_to :sub_system
 
@@ -30,35 +30,48 @@ class Pattern < ActiveRecord::Base
     }
   end
 
+  # 根据分组配置获取当前组的显示配置
+  # 返回值：[ exclude_point ]
+  def getting_point_by_group(group)
+    return [] unless File.exist?(config_file_path) 
+    exclude_points = YAML::load_file(config_file_path) || {}
+    exclude_points[group] || []
+  end
+
   # 配置文件名
   def config_file_name
     "pattern#{id}.yml"
   end
 
+  # 配置文件完整路径
+  def config_file_path
+    File.join(CONFIGFILEDIR, config_file_name)
+  end
+
   # 配置文件创建
   def config_file_create
-    file_path = File.join(CONFIGFILEPATH, config_file_name)
-    FileUtils.mkdir_p(CONFIGFILEPATH) unless File.exist?(CONFIGFILEPATH)
-    unless File.exist?(file_path) 
-      file = File.new(file_path, 'w') 
+    FileUtils.mkdir_p(CONFIGFILEDIR) unless File.exist?(CONFIGFILEDIR)
+    unless File.exist?(config_file_path) 
+      file = File.new(config_file_path, 'w') 
       file.close
     end
   end
 
   # exclude节点设置
   # 参数：{ group : { [point] }}
-  def setting_point(point_info)
-    file_path = File.join(CONFIGFILEPATH, config_file_name)
-    pattern_config = YAML::load_file(file_path) || {}
+  def setting_point(exclude_point_info)
+    # 配置文件创建
+    config_file_create
 
-    # 新的配置
-    point_info.each do |key, value|
-      pattern_config[key] = value
-    end
+    # 载入配置
+    exclude_points = YAML::load_file(config_file_path) || {}
 
-    # 将新的配置写入文件
-    File.open(file_path, 'w') do |f| 
-      f.write pattern_config.to_yaml 
+    # 配置
+    exclude_point_info.each { |key, value| exclude_points[key] = value }
+
+    # 将配置写入文件
+    File.open(config_file_path, 'w') do |f| 
+      f.write exclude_points.to_yaml 
       f.close
     end
   end
