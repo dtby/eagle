@@ -1,5 +1,5 @@
 <% flash.each do |name, msg| -%>
-	<%= content_tag :div, msg, class: "alert alert-dismissible alert-#{alert_name(name)}" do %>
+	<%= content_tag :div, msg, class: "alert alert-dismissible alert-#{alert_name(name)} user-flash" do %>
 		<button type="button" class="close" data-dismiss="alert">×</button>
 		<%= msg %>
 	<% end %>

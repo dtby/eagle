@@ -30,4 +30,14 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
+         
+  validates :phone, :name, presence: true
+
+  attr_accessor :login
+
+  def self.find_for_database_authentication(warden_conditions)
+  	conditions = warden_conditions.dup
+  	login = conditions.delete(:login)
+  	where(conditions).where(["phone = :value OR name = :value", { :value => login.strip }]).first
+  end
 end

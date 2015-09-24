@@ -20,7 +20,7 @@
 					<li><%= link_to "机房3", "#" %></li>
 				</ul>
 			</li><!-- 机房选择end -->
-			<li><%= current_user.email %></li>
+			<li><%= current_user.name %></li>
 			<li>
 				<%= link_to destroy_user_session_path, method: :delete do %>
 					<i class="fa fa-sign-out"></i> 退出
