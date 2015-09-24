@@ -54,6 +54,15 @@ ActiveRecord::Schema.define(version: 20150924070140) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "exclude_systems", force: :cascade do |t|
+    t.boolean  "show"
+    t.integer  "system_id",  limit: 4
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "exclude_systems", ["system_id"], name: "index_exclude_systems_on_system_id", using: :btree
+
   create_table "menus", force: :cascade do |t|
     t.integer  "room_id",       limit: 4
     t.integer  "menuable_id",   limit: 4
@@ -132,6 +141,7 @@ ActiveRecord::Schema.define(version: 20150924070140) do
   add_index "users", ["phone"], name: "index_users_on_phone", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "exclude_systems", "systems"
   add_foreign_key "menus", "rooms"
   add_foreign_key "patterns", "sub_systems"
   add_foreign_key "sub_systems", "systems"
