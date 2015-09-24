@@ -8,7 +8,7 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-sm-12">
-            <form role="form">
+            <%= form_tag admin_pattern_path(pattern), method: :patch do %>
               <table class="table table-bordered text-center">
                 <thead>
                   <tr>
@@ -20,7 +20,10 @@
                   <% points.each do |point| %>
                     <tr>
                       <td><%= point %></td>
-                      <td><input type="checkbox" class="js-switch" checked /></td>
+                      <td>
+                        <%= hidden_field_tag "points[#{group}][#{point}]", 0 %>
+                        <%= check_box_tag "points[#{group}][#{point}]", 1 , point_show?(exclude_points, group, point), class: 'js-switch' %>
+                      </td>
                     </tr>
                   <% end %>
                 </tbody>
@@ -28,7 +31,7 @@
               <div class="text-center">
                 <button class="btn btn-primary" type="submit"><strong>确认</strong></button>
               </div>
-            </form>
+            <% end %>
           </div>
         </div>
       </div>

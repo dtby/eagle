@@ -19,7 +19,9 @@
         <% points.each do |point| %>
           <tr>
             <td><%= point %></td>
-            <td><input type="checkbox" class="js-switch-disabled" checked /></td>
+            <td>
+              <%= check_box_tag 'point', '', point_show?(exclude_points, group, point), class: 'js-switch-disabled' %>
+            </td>
           </tr>
         <% end %>
       </tbody>
@@ -27,6 +29,7 @@
     <div class="text-center">
     <a data-toggle="modal" class="btn btn-primary" href="#modal-form<%= index %>">设置</a>
     </div>
-    <%= render partial: 'setting', locals: {group: group, points: points, index: index} %>
+    <%= render partial: 'setting', locals: { exclude_points: exclude_points, pattern: pattern,
+                                            group: group, points: points, index: index } %>
   </div>
 </div>

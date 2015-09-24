@@ -30,12 +30,42 @@ class Pattern < ActiveRecord::Base
     }
   end
 
-  # 根据分组配置获取当前组的显示配置
-  # 返回值：[ exclude_point ]
-  def getting_point_by_group(group)
-    return [] unless File.exist?(config_file_path) 
+  # exclude节点设置
+  # 参数：{ group : { [point] }}
+  def setting_point(exclude_point_info)
+    # 配置文件创建
+    config_file_create
+
+    # 载入配置
     exclude_points = YAML::load_file(config_file_path) || {}
-    exclude_points[group] || []
+
+    # 配置
+    exclude_point_info.each { |key, value| exclude_points[key] = value }
+
+    # 将配置写入文件
+    File.open(config_file_path, 'w') do |f| 
+      f.write exclude_points.to_yaml 
+      f.close
+    end
+  end
+
+  # 根据分组配置获取当前组的显示配置
+  # 返回值：{ group : { [point] }}
+  def getting_exclude_points
+    return {} unless File.exist?(config_file_path) 
+    exclude_points = YAML::load_file(config_file_path) || {}
+    exclude_points
+  end
+
+  # 参数：页面传入的hash { group : { point: 0, point: 1 }}
+  # 返回值：exclude的point节点, { group : { [point] }}
+  def self.exclude_points_by_params(params)
+    exclude_points = {}
+    params.each do |group , point|
+      ep = point.select{ |p, v| v == '0' }
+      exclude_points[group] = ep.keys if ep.present?
+    end
+    exclude_points
   end
 
   # 配置文件名
@@ -56,23 +86,5 @@ class Pattern < ActiveRecord::Base
       file.close
     end
   end
-
-  # exclude节点设置
-  # 参数：{ group : { [point] }}
-  def setting_point(exclude_point_info)
-    # 配置文件创建
-    config_file_create
-
-    # 载入配置
-    exclude_points = YAML::load_file(config_file_path) || {}
-
-    # 配置
-    exclude_point_info.each { |key, value| exclude_points[key] = value }
-
-    # 将配置写入文件
-    File.open(config_file_path, 'w') do |f| 
-      f.write exclude_points.to_yaml 
-      f.close
-    end
-  end
+  
 end
