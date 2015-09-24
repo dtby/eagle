@@ -1,16 +1,32 @@
-<div class="col-md-12 p-xs animated fadeInRightBig">
-	<div class="panel panel-default" id="left">
-		<div class="panel-heading text-center text-muted">
-			<a href="<%= params[:controller] == "admin/admins" ? new_admin_admin_path : new_admin_user_path %>" title="添加<%= title %>">
-				<i class="fa fa-plus fa-lg pull-left"></i>
-			</a>
-			<%= title %>
+<div class="col-md-12 p-xs animated fadeInRightBig" id="authenticatePanel">
+	<div id="authenticatePanel" class="ibox float-e-margins">
+		<div class="ibox-title text-center">
+			<h5>
+				<%= "#{title}列表" %>
+			</h5>
+			<div class="ibox-tools">
+				<!-- 新增用户或管理员 -->
+				<% if params[:controller] == "admin/admins" %>
+					<%= link_to new_admin_admin_path, remote: true, format: :js, title: "添加#{title}" do %>
+						<i class="fa fa-plus"></i>
+					<% end %>
+				<% else %>
+					<%= link_to new_admin_user_path, remote: true, format: :js, title: "添加#{title}" do %>
+						<i class="fa fa-plus"></i>
+					<% end %>
+				<% end %>
+				<a class="collapse-link">
+					<i class="fa fa-chevron-up"></i>
+				</a>
+			</div>
 		</div>
-		<div class="panel-body panel-height">
-			<table class="table table-striped">
+		<div class="ibox-content table-responsive">
+			<table class="table table-striped ">
 				<thead>
 					<tr>
 						<th>序号</th>
+						<th>姓名</th>
+						<th>登录帐号</th>
 						<th>登录邮箱</th>
 						<th>创建日期</th>
 						<th>操作</th>
@@ -20,14 +36,22 @@
 					<% items.each do |item| %>
 						<tr>
 							<th scope="row"><%= item.id %></th>
+							<td><%= item.name %></td>
+							<td><%= item.phone %></td>
 							<td><%= item.email %></td>
-							<td><%= item.created_at %></td>
+							<td><%= item.created_at.strftime("%F %R") %></td>
 							<td>
-								<%= link_to params[:controller] == "admin/admins" ? edit_admin_admin_path(item) : edit_admin_user_path(item), class: 'btn btn-xs btn-default', title: '编辑' do %>
-									<span class="glyphicon glyphicon-edit"></span>
-								<%end%>
-								<%= link_to [:admin, item], data:{ confirm: "确定要删除#{title}吗？" }, method: :delete, class: 'btn btn-xs btn-danger', title: '删除' do %>
-									<span class="glyphicon glyphicon-trash"></span>
+								<% if params[:controller] == "admin/admins" %>
+									<%= link_to edit_admin_admin_path(item), remote: true, format: :js, class: 'btn btn-xs btn-default', title: '编辑' do %>
+										<span class="glyphicon glyphicon-edit"></span>
+									<%end%>
+								<% else %>
+									<%= link_to edit_admin_user_path(item), remote: true, format: :js, class: 'btn btn-xs btn-default', title: '编辑' do %>
+										<span class="glyphicon glyphicon-edit"></span>
+									<%end%>
+								<% end %>
+								<%= link_to [:admin, item], data:{ confirm: "确定要删除#{title}吗？" }, remote: true, format: :js, method: :delete, class: 'btn btn-xs btn-danger', title: '删除' do %>
+								<span class="glyphicon glyphicon-trash"></span>
 								<%end%>
 							</td>
 						</tr>
@@ -37,3 +61,5 @@
 		</div>
 	</div>
 </div>
+
+<%= render partial: "/admin/public/admin_modal" %>

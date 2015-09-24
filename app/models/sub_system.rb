@@ -15,4 +15,6 @@
 
 class SubSystem < ActiveRecord::Base
   belongs_to :system
+  has_many :menus, as: :menuable, dependent: :destroy
+  has_many :patterns, dependent: :destroy
 end

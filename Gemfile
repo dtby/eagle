@@ -1,6 +1,5 @@
 source 'https://ruby.taobao.org/'
 
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.3'
 # Use mysql as the database for Active Record
@@ -39,14 +38,18 @@ group :development, :test do
   gem 'spring'
   gem 'rspec-rails', '~> 3.0'
   gem 'shoulda-matchers'
-  gem "factory_girl_rails", "~> 4.0"
+  gem 'factory_girl_rails', '~> 4.0'
+  gem 'awesome_print'
+  gem 'pry'
 end
 
 # for annotate
 gem 'annotate'
-#Official Sass port of Bootstrap
+# Official Sass port of Bootstrap
 gem 'bootstrap-sass', '~> 3.3.5'
-#Really fast deployer and server automation tool
+# Really fast deployer and server automation tool
 gem 'mina'
-#Flexible authentication solution for Rails with Warden
+# Flexible authentication solution for Rails with Warden
 gem 'devise'
+gem 'seedbank'
+gem 'settingslogic', '~> 2.0.9'

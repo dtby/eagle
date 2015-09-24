@@ -1,0 +1,3 @@
+$("#adminModalContent").html("<%= escape_javascript( render partial: "admin/public/new_or_edit", locals: { item: @admin } )%>")
+$('#myModalLabel').text("新增管理员");
+$('#adminModal').modal('show');
