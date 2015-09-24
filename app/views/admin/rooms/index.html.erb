@@ -1,56 +1,52 @@
-<div class="wrapper wrapper-content animated fadeInRight">
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="ibox float-e-margins">
-        <div class="ibox-title">
-          <h5>机房详细参数状况表</h5>
-        </div>
-        <div class="ibox-content">
-          <table class="footable table table-stripped text-center toggle-arrow-tiny" data-page-size="12">
-            <thead>
-              <tr>
-                <th class="text-center" data-toggle="true">No.</th>
-                <th class="text-center">机房名称</th>
-                <th class="text-center">3D布局图链接</th>
-                <th data-hide="all">动力参数显示情况</th>
-                <th data-hide="all">环境参数显示情况</th>
-                <th data-hide="all">联动参数显示情况</th>
-                <th data-hide="all">安全参数显示情况</th>
-                <th class="text-center">操作</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% 20.times do %>
-              <tr>
-                <td>1</td>
-                <td>嘉定区气象机房</td>
-                <td>www.buoyanetc.com</td>
-                <td><input type="checkbox" class="js-switch-disabled" checked /></td>
-                <td><input type="checkbox" class="js-switch-disabled" checked /></td>
-                <td><input type="checkbox" class="js-switch-disabled" /></td>
-                <td><input type="checkbox" class="js-switch-disabled" checked /></td>
-                <td>
-                  <a data-toggle="modal" class="btn btn-xs btn-default" title="编辑" href="#modal-form">
-                    <span class="glyphicon glyphicon-edit"></span>
-                  </a>                                
-                  <a data-confirm="确定要删除管理员列表吗？" class="btn btn-xs btn-danger" title="删除" rel="nofollow" data-method="delete" href="/admin/admin/rooms">
-                    <span class="glyphicon glyphicon-trash"></span>
-                  </a>
-                </td>
-              </tr>
-              <% end %>
-            </tbody>
-            <tfoot>
-              <tr>
-                <td class="text-center" colspan="5">
-                  <ul class="pagination"></ul>
-                </td>
-              </tr>
-            </tfoot>
-          </table>
-          <%= render 'rooms_modal' %>
-        </div>
-      </div>
+<div class="col-md-12 p-xs animated fadeInRightBig" id="authenticatePanel">
+  <div class="ibox float-e-margins">
+    <div class="ibox-title">
+      <h5>机房详细参数状况表</h5>
+    </div>
+    <div class="ibox-content">
+      <table class="footable table table-stripped text-center toggle-arrow-tiny" data-page-size="12">
+        <thead>
+          <tr>
+            <th class="text-center" data-toggle="true">No.</th>
+            <th class="text-center">机房名称</th>
+            <th class="text-center">3D布局图链接</th>
+            <th data-hide="all">动力参数显示情况</th>
+            <th data-hide="all">环境参数显示情况</th>
+            <th data-hide="all">联动参数显示情况</th>
+            <th data-hide="all">安全参数显示情况</th>
+            <th class="text-center">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% 20.times do %>
+          <tr>
+            <td>1</td>
+            <td>嘉定区气象机房</td>
+            <td>www.buoyanetc.com</td>
+            <td><input type="checkbox" class="js-switch-disabled" checked /></td>
+            <td><input type="checkbox" class="js-switch-disabled" checked /></td>
+            <td><input type="checkbox" class="js-switch-disabled" /></td>
+            <td><input type="checkbox" class="js-switch-disabled" checked /></td>
+            <td>
+              <a data-toggle="modal" class="btn btn-xs btn-default" title="编辑" href="#modal-form">
+                <span class="glyphicon glyphicon-edit"></span>
+              </a>                                
+              <a data-confirm="确定要删除管理员列表吗？" class="btn btn-xs btn-danger" title="删除" rel="nofollow" data-method="delete" href="/admin/admin/rooms">
+                <span class="glyphicon glyphicon-trash"></span>
+              </a>
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td class="text-center" colspan="5">
+              <ul class="pagination"></ul>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+      <%= render 'rooms_modal' %>
     </div>
   </div>
 </div>

@@ -1,12 +1,12 @@
 <% index = 0 %>
 <% @groups.each do |group, points| %>
   <% if index < (@groups.size + 1)/2 %>
-    <%= '<div class="col-sm-6 col-lg-6">'.html_safe if index == 0 %>
+    <%= '<div class="col-sm-6 col-lg-6 p-xs">'.html_safe if index == 0 %>
       <%= render partial: 'group', locals: { exclude_points: @exclude_points, pattern: @pattern, 
                                             group: group, points: points, index: index } %>
     <%= '</div>'.html_safe if index == ((@groups.size + 1)/2-1) %>
   <% else %>
-    <%= '<div class="col-sm-6 col-lg-6">'.html_safe if index == (@groups.size + 1)/2 %>
+    <%= '<div class="col-sm-6 col-lg-6 p-xs">'.html_safe if index == (@groups.size + 1)/2 %>
       <%= render partial: 'group', locals: { exclude_points: @exclude_points, pattern: @pattern, 
                                             group: group, points: points, index: index } %>
     <%= '</div>'.html_safe if index == (@groups.size - 1) %>
