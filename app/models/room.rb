@@ -26,13 +26,10 @@ class Room < ActiveRecord::Base
     # 机房 => { 系统 => 子系统 => {点 => 数据}
     point_hash.each do |room, system_hash|
       room = Room.find_or_create_by(name: room)
-      system_hash.each do |sys_name, sub_systems|
-        sub_systems.each do |sub_name, points|
-          system = System.find_or_create_by(sys_name: sys_name)
-          sub_system = SubSystem.find_or_create_by(name: sub_name, system: system)
-          points.each do | point, value|
-            Pattern.find_or_create_by(name: point, sub_system: sub_system)
-          end
+      system_hash.each do |sub_name, patterns|
+        sub_system = SubSystem.find_by(name: sub_name)
+        patterns.each do | name, v|
+          Pattern.find_or_create_by(name: name, sub_system: sub_system)  
         end
       end
     end
