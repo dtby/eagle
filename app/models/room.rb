@@ -31,7 +31,7 @@ class Room < ActiveRecord::Base
         patterns.each do | name, points|
           pattern = Pattern.find_or_create_by(name: name, sub_system: sub_system)  
           points.each do |name, value|
-            Point.find_or_create_by(name: name, pattern: pattern)
+            p = Point.find_or_create_by(name: name, pattern: pattern, point_index: value)
           end
         end
       end
