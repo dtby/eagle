@@ -10,7 +10,12 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *= require_self
- *= require_tree ./frame/.
+ *= require ./frame/animate
+ *= require ./frame/chosen
+ *= require ./frame/font-awesome
+ *= require ./frame/footable.core
+ *= require ./frame/style
+ *= require ./frame/switchery
  *= require_tree ./admin/.
  *= require_tree ./application/.
  */

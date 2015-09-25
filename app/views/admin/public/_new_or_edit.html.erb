@@ -49,6 +49,8 @@
 		<% end %>
 	</div>
 
+	<%= render partial: "admin/public/select_input" %>
+
 	<div class="actions">
 		<%= f.submit "#{params[:id].present? ? '更新' : '创建'}", class: "btn btn-success btn-block" %>
 	</div>

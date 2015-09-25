@@ -14,10 +14,11 @@
 //= require jquery.turbolinks
 //= require jquery_ujs
 //= require bootstrap-sprockets
-//= require ./frame/jquery.metisMenu
-//= require ./frame/jquery.slimscroll.min
-//= require ./frame/pace.min
 //= require ./frame/inspinia
+//= require ./frame/pace.min
+//= require ./frame/jquery.slimscroll.min
+//= require ./frame/chosen.jquery
+//= require ./frame/jquery.metisMenu
 //= require ./frame/switchery
 //= require ./frame/footable.all.min
 //= require ./echarts/echarts
