@@ -514,7 +514,7 @@
 
         AbstractChosen.default_single_text = "Select an Option";
 
-        AbstractChosen.default_no_result_text = "No results match";
+        AbstractChosen.default_no_result_text = "没有找到结果匹配";
 
         return AbstractChosen;
 
@@ -566,7 +566,8 @@
             }
             container_props = {
                 'class': container_classes.join(' '),
-                'style': "width: " + (this.container_width()) + ";",
+                //'style': "width: " + (this.container_width()) + ";",
+                'style': "width: " + "100%" + ";",
                 'title': this.form_field.title
             };
             if (this.form_field.id.length) {
