@@ -26,7 +26,14 @@ class Admin::RoomsController < Admin::BaseController
 	end
 
 	def update
-    
+    if @room.update(room_params)
+    	Menu.update_menus_by_room(@room, params[:list])
+			flash[:notice] = "更新成功"
+			return redirect_to admin_rooms_path
+		else
+			flash[:notice] = "更新失败"
+			return redirect_to admin_rooms_path
+		end
   end
 
 	def show
@@ -34,6 +41,10 @@ class Admin::RoomsController < Admin::BaseController
 	end
 
 	private 
+
+	def room_params
+		params.require(:room).permit(:name, :link)
+	end
 
   def set_room
     @room = Room.where(id: params[:id]).first

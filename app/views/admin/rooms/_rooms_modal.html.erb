@@ -27,7 +27,7 @@
                       </a>
                     </div>
                     <%= '<div class="col-lg-12 ibox-padding rooms-ibox-content">'.html_safe if system.sub_systems.present? %>
-                    <%= "<div class='ibox-content' style='#{"display: none" unless menus.include?("#{system.id}_System")}'>".html_safe if system.sub_systems.present? %>
+                    <%= "<div class='ibox-content'>".html_safe if system.sub_systems.present? %>
                     <% system.sub_systems.each do |sub_system| %>
                       <div class="col-lg-6 ibox-padding text-center"><%= sub_system.name %></div>
                       <div class="col-lg-6 ibox-padding text-center">
@@ -47,11 +47,4 @@
     </div>
   </div>
 </div>
-<%= javascript_include_tag 'common', 'data-turbolinks-track' => false %>
-<script>
-
-  $(function() {
-    $('.footable').footable();
-  });
-</script>
 
