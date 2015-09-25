@@ -19,15 +19,21 @@ class Pattern < ActiveRecord::Base
   CONFIGFILEDIR = "#{Rails.root}/data/patterns/"
 
   belongs_to :sub_system
+  has_many :points, dependent: :destroy
 
   # 不同型号对应节点，分组返回数据
   # 返回值：{ group: [ point ] }
   def point_group
     {
-      '旁路输入' => ['A组', 'B组', 'C组', 'D组', 'E组'],
-      '电池电压' => ['正电压', '负电压', '总电压'],
-      '旁路输出' => ['A组', 'B组', 'C组', 'D组', 'E组']
+      self.name => self.points.group(:name).pluck(:name)
     }
+    # 以上与设计时，略有不同，
+    # 是因为在数据库找不到类似于'旁路输入'、'电池电压'、'旁路输出'等的字段
+    # {
+    #   '旁路输入' => ['A组', 'B组', 'C组', 'D组', 'E组'],
+    #   '电池电压' => ['正电压', '负电压', '总电压'],
+    #   '旁路输出' => ['A组', 'B组', 'C组', 'D组', 'E组']
+    # }
   end
 
   # exclude节点设置

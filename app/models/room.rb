@@ -28,8 +28,11 @@ class Room < ActiveRecord::Base
       room = Room.find_or_create_by(name: room)
       system_hash.each do |sub_name, patterns|
         sub_system = SubSystem.find_by(name: sub_name)
-        patterns.each do | name, v|
-          Pattern.find_or_create_by(name: name, sub_system: sub_system)  
+        patterns.each do | name, points|
+          pattern = Pattern.find_or_create_by(name: name, sub_system: sub_system)  
+          points.each do |name, value|
+            Point.find_or_create_by(name: name, pattern: pattern)
+          end
         end
       end
     end
