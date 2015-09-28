@@ -15,30 +15,43 @@
               <div class="col-lg-12 col-sm-12 input-padding">
                 <%= f.text_field :link, class: 'form-control', placeholder: '3D布局图链接'%>
               </div>
-              <div class="menus">
-                <div class="col-lg-6 ibox-padding text-center">菜单</div>
-                <div class="col-lg-6 ibox-padding text-center">是否显示</div>
-                <% @systems.each do |system| %>
-                  <div class="ibox float-e-margins">
-                    <div class="col-lg-6 ibox-padding text-center"><%= system.name %></div> 
-                    <div class="col-lg-6 ibox-padding text-center">
-                      <a class="collapse-link">
+
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th class="text-center">一级菜单</th>
+                    <th class="text-center">是否显示</th>
+                    <th class="text-center">二级菜单</th>
+                    <th class="text-center">是否显示</th>
+                  </tr>
+                </thead>
+                <tbody data-no-turbolink>
+                  <% @systems.each do |system| %>
+                    <tr>
+                      <td rowspan="<%= system.sub_systems.size + 1 %>">
+                        <%= system.name %>
+                      </td>
+                      <td rowspan="<%= system.sub_systems.size + 1 %>">
                         <%= check_box_tag 'list[]', "#{system.id}_System", menus.include?("#{system.id}_System"), class: "js-switch-modal" %>
-                      </a>
-                    </div>
-                    <%= '<div class="col-lg-12 ibox-padding rooms-ibox-content">'.html_safe if system.sub_systems.present? %>
-                    <%= "<div class='ibox-content'>".html_safe if system.sub_systems.present? %>
+                      </td>
+                      <% unless system.sub_systems.present? %>
+                        <td></td>
+                        <td></td>
+                      <% end %>
+                    </tr>
                     <% system.sub_systems.each do |sub_system| %>
-                      <div class="col-lg-6 ibox-padding text-center"><%= sub_system.name %></div>
-                      <div class="col-lg-6 ibox-padding text-center">
-                      <%= check_box_tag 'list[]', "#{sub_system.id}_SubSystem", menus.include?("#{sub_system.id}_SubSystem"), class: "js-switch-modal" %>
-                      </div>
+                      <tr>
+                        <td valign="center">
+                          <%= sub_system.name %>
+                        </td>
+                        <td>
+                          <%= check_box_tag 'list[]', "#{sub_system.id}_SubSystem", menus.include?("#{sub_system.id}_SubSystem"), class: "js-switch-modal" %>
+                        </td>
+                      </tr>
                     <% end %>
-                    <%= '</div>'.html_safe if system.sub_systems.present? %>
-                    <%= '</div>'.html_safe if system.sub_systems.present? %>
-                  </div>
-                <% end %>
-              </div>
+                  <% end %>
+                </tbody>
+              </table>
               <button class="btn btn-sm sub-btn btn-primary pull-right" type="submit"><strong>提交</strong></button>
             <% end %>
           </div>
@@ -54,7 +67,6 @@
   CKboxDisable.forEach(function(html) {
     return new Switchery(html, {
       color: "#1AB394",
-      disabled: true,
       size: 'small'
     });
   });
