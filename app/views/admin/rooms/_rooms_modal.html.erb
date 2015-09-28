@@ -23,7 +23,7 @@
                     <div class="col-lg-6 ibox-padding text-center"><%= system.name %></div> 
                     <div class="col-lg-6 ibox-padding text-center">
                       <a class="collapse-link">
-                        <%= check_box_tag 'list[]', "#{system.id}_System", menus.include?("#{system.id}_System"), class: "js-switch" %>
+                        <%= check_box_tag 'list[]', "#{system.id}_System", menus.include?("#{system.id}_System"), class: "js-switch-modal" %>
                       </a>
                     </div>
                     <%= '<div class="col-lg-12 ibox-padding rooms-ibox-content">'.html_safe if system.sub_systems.present? %>
@@ -31,7 +31,7 @@
                     <% system.sub_systems.each do |sub_system| %>
                       <div class="col-lg-6 ibox-padding text-center"><%= sub_system.name %></div>
                       <div class="col-lg-6 ibox-padding text-center">
-                      <%= check_box_tag 'list[]', "#{sub_system.id}_SubSystem", menus.include?("#{sub_system.id}_SubSystem"), class: "js-switch" %>
+                      <%= check_box_tag 'list[]', "#{sub_system.id}_SubSystem", menus.include?("#{sub_system.id}_SubSystem"), class: "js-switch-modal" %>
                       </div>
                     <% end %>
                     <%= '</div>'.html_safe if system.sub_systems.present? %>
@@ -47,4 +47,16 @@
     </div>
   </div>
 </div>
+
+<script>
+  var CKboxDisable;
+  CKboxDisable = Array.prototype.slice.call(document.querySelectorAll(".js-switch-modal"));
+  CKboxDisable.forEach(function(html) {
+    return new Switchery(html, {
+      color: "#1AB394",
+      disabled: true,
+      size: 'small'
+    });
+  });
+</script>
 
