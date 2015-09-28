@@ -15,4 +15,6 @@
 
 class Device < ActiveRecord::Base
   belongs_to :pattern
+
+  has_many :points, dependent: :destroy
 end

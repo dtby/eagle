@@ -19,7 +19,7 @@ class Pattern < ActiveRecord::Base
   CONFIGFILEDIR = "#{Rails.root}/data/patterns/"
 
   belongs_to :sub_system
-  has_many :points, dependent: :destroy
+  has_many :devices, dependent: :destroy
 
   # 不同型号对应节点，分组返回数据
   # 返回值：{ group: [ point ] }
@@ -43,7 +43,7 @@ class Pattern < ActiveRecord::Base
     ps = PointState.where(pid: point.point_index.to_i).try(:last)
     value = ps.try(:value)
     value
-    
+
   end
 
   # exclude节点设置

@@ -15,5 +15,5 @@
 #
 
 class Point < ActiveRecord::Base
-  belongs_to :pattern
+  belongs_to :device
 end
