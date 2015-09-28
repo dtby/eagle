@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150928034457) do
+ActiveRecord::Schema.define(version: 20150928145009) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -91,13 +91,13 @@ ActiveRecord::Schema.define(version: 20150928034457) do
 
   create_table "points", force: :cascade do |t|
     t.string   "name",        limit: 255
-    t.integer  "pattern_id",  limit: 4
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
     t.string   "point_index", limit: 255
+    t.integer  "device_id",   limit: 4
   end
 
-  add_index "points", ["pattern_id"], name: "index_points_on_pattern_id", using: :btree
+  add_index "points", ["device_id"], name: "index_points_on_device_id", using: :btree
 
   create_table "rooms", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -155,7 +155,7 @@ ActiveRecord::Schema.define(version: 20150928034457) do
   add_foreign_key "devices", "patterns"
   add_foreign_key "menus", "rooms"
   add_foreign_key "patterns", "sub_systems"
-  add_foreign_key "points", "patterns"
+  add_foreign_key "points", "devices"
   add_foreign_key "sub_systems", "systems"
   add_foreign_key "user_rooms", "rooms"
   add_foreign_key "user_rooms", "users"

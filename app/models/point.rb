@@ -4,14 +4,14 @@
 #
 #  id          :integer          not null, primary key
 #  name        :string(255)
-#  pattern_id  :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  point_index :string(255)
+#  device_id   :integer
 #
 # Indexes
 #
-#  index_points_on_pattern_id  (pattern_id)
+#  index_points_on_device_id  (device_id)
 #
 
 class Point < ActiveRecord::Base
