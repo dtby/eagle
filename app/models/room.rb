@@ -14,6 +14,7 @@ class Room < ActiveRecord::Base
   has_many :menus, dependent: :destroy
   has_many :systems, source: 'menuable', source_type: 'System', through: :menus
 
+  # Room.get_computer_room_list
   def self.get_computer_room_list
     # 名字-> [{系统 -> 设备}, ... {系统 -> 设备}]
     point_hash = {}
@@ -27,15 +28,23 @@ class Room < ActiveRecord::Base
     point_hash.each do |room, system_hash|
       room = Room.find_or_create_by(name: room)
       system_hash.each do |sub_name, patterns|
-        sub_system = SubSystem.find_by(name: sub_name)
+        sub_system = SubSystem.find_or_create_by(name: sub_name)
         patterns.each do | name, points|
-          pattern = Pattern.find_or_create_by(name: name, sub_system: sub_system)  
+          pattern = select_pattern_by_name name
+          device = Device.find_or_create_by(name: name, pattern: pattern)
           points.each do |name, value|
-            p = Point.find_or_create_by(name: name, pattern: pattern, point_index: value)
+            p = Point.find_or_create_by(name: name, device: device, point_index: value)
           end
         end
       end
     end
+  end
+
+  def self.select_pattern_by_name name
+    Pattern.all.each do |p|
+      return p if name.include? p.name
+    end
+    nil
   end
 
   def self.datas_to_hash class_name, group_hash

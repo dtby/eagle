@@ -24,9 +24,11 @@ class Pattern < ActiveRecord::Base
   # 不同型号对应节点，分组返回数据
   # 返回值：{ group: [ point ] }
   def point_group
-    {
-      self.name => self.points.group(:name).pluck(:name)
-    }
+    point_group = {}
+    self.devices.each do |device|
+      point_group[device.try(:name)] = device.try(:points).group(:name).pluck(:name)
+    end
+    point_group
     # 以上与设计时，略有不同，
     # 是因为在数据库找不到类似于'旁路输入'、'电池电压'、'旁路输出'等的字段
     # {
