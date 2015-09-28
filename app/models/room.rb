@@ -13,6 +13,7 @@ class Room < ActiveRecord::Base
 
   has_many :menus, dependent: :destroy
   has_many :systems, source: 'menuable', source_type: 'System', through: :menus
+  has_many :sub_systems, source: 'menuable', source_type: 'SubSystem', through: :menus
   has_many :user_rooms
   has_many :users, through: :user_rooms
 
@@ -55,12 +56,15 @@ class Room < ActiveRecord::Base
     group_hash
   end
 
-
-
   #  机房菜单字符串数组
   # 返回值: ［"#{menu_id}_#{menu_type}"］
   def menu_to_s
     room_menus = menus.pluck(:menuable_id, :menuable_type)
     room_menus.collect{|x| x.join('_')}
+  end
+
+  # 获取一级菜单可显示的二级菜单
+  def sub_systems_by_system(system)
+    sub_systems.includes(:system, :patterns).select{ |sub| sub.system == system}
   end
 end

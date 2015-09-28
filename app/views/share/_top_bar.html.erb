@@ -13,11 +13,9 @@
 					<i class="fa fa-home fa-lg"></i>机房<b class="caret"></b>
 				</a>
 				<ul class="dropdown-menu">
-					<li><%= link_to "机房1", "#" %></li>
-					<li class="divider"></li>
-					<li><%= link_to "机房2", "#" %></li>
-					<li class="divider"></li>
-					<li><%= link_to "机房3", "#" %></li>
+					<% current_user.rooms.each do |room| %>
+						<li><%= link_to room.name, room_path(room) %></li>
+					<% end %>
 				</ul>
 			</li><!-- 机房选择end -->
 			<li><%= current_user.name %></li>

@@ -2,16 +2,6 @@ Rails.application.routes.draw do
 
   root to: "welcome#index"
 
-  devise_for :admins, controllers: {
-    sessions: 'admins/sessions',
-    passwords: 'admins/passwords'
-  }
-
-  devise_for :users, controllers: {
-    sessions: 'users/sessions',
-    passwords: 'users/passwords'
-  }
-
   #动力
   resources :power, only: [:index] do
     collection do 
@@ -31,6 +21,10 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :rooms, only: [:show] do
+    
+  end
+
   namespace :admin do
     root 'home#index'
     resources :users # 用户
@@ -38,6 +32,16 @@ Rails.application.routes.draw do
     resources :admins # 管理用户
     resources :rooms # 机房管理
   end
+
+  devise_for :admins, controllers: {
+    sessions: 'admins/sessions',
+    passwords: 'admins/passwords'
+  }
+
+  devise_for :users, controllers: {
+    sessions: 'users/sessions',
+    passwords: 'users/passwords'
+  }
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

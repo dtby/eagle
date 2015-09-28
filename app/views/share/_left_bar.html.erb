@@ -5,98 +5,54 @@
 			<li class="nav-header">
 				<div class="profile-element text-center" style="color: #fff;">
 					<p class="block"> <strong><%= Time.now.strftime("%A %R %p")%></strong></p>
-					<span class="label label-primary">机房1</span>
+					<% if @room.present? %>
+						<span class="label label-primary"><%= @room.name %></span>
+					<% end %>
 				</div>
 				<div class="logo-element">
 					iGrid
 				</div>
 			</li>
-			<!-- 主界面 -->
-			<li class="<%= "active" if params[:controller] == 'welcome' && params[:action] == 'index' %>">
-				<a href="<%= root_path %>"><i class="fa fa-th-large"></i> <span class="nav-label">主界面</span></span></a>
-			</li>
-			<!-- 动力 -->
-			<li  class="<%= "active" if params[:controller] == 'power' %>">
-				<a href="#"><i class="fa fa-paper-plane"></i> <span class="nav-label">动力</span><span class="fa arrow"></span></a>
-				<ul class="nav nav-second-level collapse">
-					<li class="<%= "active" if params[:controller] == 'power' && params[:action] == 'distrib' %>">
-						<%= link_to "配电", distrib_power_index_path %>
+			
+			<% if @room.present? %>
+				<li class="<%= "active" if params[:controller] == 'rooms' %>">
+					<%= link_to room_path(@room) do %>
+						<i class="fa fa-th-large"></i> <span class="nav-label">主界面</span></span>
+					<% end %>
+				</li>
+
+				<!-- 一级菜单 -->
+				<% @room.systems.each do |system| %>
+					<li class="<%= 'active' if params[:controller] == 'admin/patterns' && system == @pattern.try(:sub_system).try(:system) %>" >
+						<%= link_to '#' do %>
+							<i class="fa <%= menu_tree_icon(system.name) %>"></i> <span class="nav-label"><%= system.name %></span>
+							<%= '<span class="fa arrow"></span>'.html_safe if @room.sub_systems_by_system(system).present? %>
+						<% end %>
+						<!-- 二级菜单 -->
+						<%= '<ul class="nav nav-second-level collapse">'.html_safe if @room.sub_systems_by_system(system).present? %>
+						<% @room.sub_systems_by_system(system).each do |sub_system| %>
+							<li class="<%= 'active' if params[:controller] == 'admin/patterns' && sub_system == @pattern.try(:sub_system) %>">
+								<%= link_to '#' do %>
+									<%= sub_system.name %> 
+									<%= '<span class="fa arrow"></span>'.html_safe if sub_system.patterns.present? %>
+								<% end %>
+								<!-- 三级菜单 -->
+								<%= '<ul class="nav nav-third-level collapse">'.html_safe if sub_system.patterns.present? %>
+								<% sub_system.patterns.each do |pattern| %>
+									<li  class="<%= 'active' if params[:controller] == 'admin/patterns' && pattern == @pattern %>">
+										<%= link_to pattern.name, '#' %>
+									</li>
+								<% end %>
+								<%= '</ul>'.html_safe if sub_system.patterns.present? %>
+								<!-- 三级菜单 -->
+							</li>
+						<% end %>
+						<%= '</ul>'.html_safe if @room.sub_systems_by_system(system).present? %>
+						<!-- 二级菜单 -->
 					</li>
-					<li class="<%= "active" if params[:controller] == 'power' && params[:action] == 'ups' %>">
-						<%= link_to "UPS", ups_power_index_path %>
-					</li>
-					<li class="<%= "active" if params[:controller] == 'power' && params[:action] == 'cabinet' %>">
-						<%= link_to "配电柜", cabinet_power_index_path %>
-					</li>
-					<li class="disabled <%= "active" if params[:controller] == '' && params[:action] == '' %>">
-						<%= link_to "电池", "#" %>
-					</li>
-					<li class="disabled <%= "active" if params[:controller] == '' && params[:action] == '' %>">
-						<%= link_to "机柜动力", "#" %>
-					</li>
-					<li class="disabled <%= "active" if params[:controller] == '' && params[:action] == '' %>">
-						<%= link_to "发电机", "#" %>
-					</li>
-					<li class="<%= "active" if params[:controller] == 'power' && params[:action] == 'air_d' %>">
-						<%= link_to "温湿度", air_d_power_index_path %>
-					</li>
-					<li class="<%= "active" if params[:controller] == 'power' && params[:action] == 'crac' %>">
-						<%= link_to "精密空调", crac_power_index_path %>
-					</li>
-					<li class="disabled <%= "active" if params[:controller] == '' && params[:action] == '' %>">
-						<%= link_to "漏水检测", "#" %>
-					</li>
-					<li class="<%= "active" if params[:controller] == 'power' && params[:action] == 'temperature' %>">
-						<%= link_to "机柜温度",  temperature_power_index_path %>
-					</li>
-				</ul>
-			</li>
-			<!-- 环境 -->
-			<li>
-				<a href="#"><i class="fa fa-globe"></i> <span class="nav-label">环境</span></a>
-			</li>
-			<!-- 联动 -->
-			<li>
-				<a href="#"><i class="fa fa-sitemap"></i> <span class="nav-label">联动</span></a>
-			</li>
-			<!-- 安全 -->
-			<li>
-				<a href="#"><i class="fa fa-check"></i> <span class="nav-label">安全</span></a>
-			</li>
-			<!-- 远程 -->
-			<li>
-				<a href="#"><i class="fa fa-cloud"></i> <span class="nav-label">远程</span></a>
-			</li>
-			<!-- 能效 -->
-			<li class="<%= "active" if params[:controller] == 'pem' %>">
-				<a href="#"><i class="fa fa-bar-chart"></i> <span class="nav-label">能效</span><span class="fa arrow"></span></a>
-				<ul class="nav nav-second-level collapse">
-					<li class="<%= "active" if params[:controller] == 'pem' && params[:action] == 'index' %>">
-						<%= link_to "全年能耗", pem_index_path %>
-					</li>
-					<li class="<%= "active" if params[:controller] == 'pem' && params[:action] == 'aircondition' %>">
-						<%= link_to "精密空调", aircondition_pem_index_path %>
-					</li>
-					<li class="disabled <%= "active" if params[:controller] == '' && params[:action] == '' %>">
-						<%= link_to "漏水检测", "#" %>
-					</li>
-					<li class="disabled <%= "active" if params[:controller] == '' && params[:action] == '' %>">
-						<%= link_to "机柜温度", "#" %>
-					</li>
-				</ul>
-			</li>
-			<!-- 部署 -->
-			<li>
-				<a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">部署</span></a>
-			</li>
-			<!-- 报表 -->
-			<li>
-				<a href="#"><i class="fa fa-files-o"></i> <span class="nav-label">报表</span></a>
-			</li>
-			<!-- 告警记录 -->
-			<li>
-				<a href="#"><i class="fa fa-list-ul"></i> <span class="nav-label">告警记录</span><span class="label label-info pull-right">3</span></a>
-			</li>
+				<% end %>
+				<!-- 一级菜单 -->
+			<% end %>
 		</ul>
 	</div>
 </nav>
