@@ -23,12 +23,12 @@ class Admin::UsersController < Admin::BaseController
 	end
 
 	def edit
-		@user_rooms = @user.rooms
 		respond_with @user
 	end
 
 	def update
 		if @user.update_user(user_params)
+			UserRoom.update_user_rooms(@user, params[:user_rooms])
 			respond_with @users
 		else
 			render :edit

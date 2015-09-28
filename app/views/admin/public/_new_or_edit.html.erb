@@ -50,15 +50,8 @@
 	</div>
 
 	<% if params[:controller] == "admin/users" %>
-		<% if params[:action] == "edit" %>
-			<div id="selected_rooms" class="sr-only">
-				<% user_rooms.each do |room| %>
-				<span><%= room.name %>,<%= room.id %>,</span>			
-				<% end %>
-			</div>
-		<% end %>
 		<div class="input-group" style="width: 100%;">
-			<%= select_tag :user_rooms, options_from_collection_for_select(rooms, "id", "name"), multiple: true, 
+			<%= select_tag :user_rooms, options_from_collection_for_select(rooms, "id", "name", item.rooms.pluck(:id)), multiple: true, 
 			class: "chosen-select", style: "width:100%", tabindex: "4", prompt: "所有机房", "data-placeholder" => "机房(多选)" %>
 		</div>
 		<br>
@@ -82,16 +75,4 @@
       for (var selector in config) {
             $(selector).chosen(config[selector]);
       }
-
-      $(function(){
-      	      //编辑时多选表单已选内容
-	      var selected = $("#selected_rooms span").text().split(",");
-	      var choices = "";
-	      var i;
-	      for(i = 0; selected[i] != ""; i++){
-	      		choices += "<li class='search-choice'><span>" + selected[i] + "</span><a class='search-choice-close' data-option-array-index='" + selected[++i] + "'></a></li>"
-	      }
-	      var search = "<li class='search-field'><input type='text' value='' class='' autocomplete='off' style='width: 25px;' tabindex='4'></li>"
-	      $(".chosen-choices").html(choices + search);
-      })
 </script>
