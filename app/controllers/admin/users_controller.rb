@@ -1,6 +1,7 @@
 class Admin::UsersController < Admin::BaseController
 	before_action :set_user, only: [:edit, :update, :destroy]
 	before_action :set_users, only: [:index, :create, :update, :destroy]
+	before_action :set_rooms, only: [:index, :new, :edit]
 	respond_to :html, :js
 
 	def index
@@ -49,5 +50,9 @@ class Admin::UsersController < Admin::BaseController
 
 	def set_users
 		@users = User.all
+	end
+
+	def set_rooms
+		@rooms = Room.all
 	end
 end
