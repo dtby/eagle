@@ -20,10 +20,11 @@ class UserRoom < ActiveRecord::Base
 
 	#保存用户有权限的机房
 	def self.save_user_rooms(user, rooms)
+		create_rooms = rooms.to_a
+		pp create_rooms, "create_rooms 11111111111111111111111"
 		UserRoom.transaction do
-			if rooms.present?
-				pp rooms.present?, "!!!!!!!!!!!!!!!!!"
-				rooms.each do |room|
+			unless create_rooms.empty?
+				create_rooms.each do |room|
 					UserRoom.create(user_id: user.id, room_id: room)
 				end
 			end
@@ -33,16 +34,12 @@ class UserRoom < ActiveRecord::Base
 	#更新用户有权限的机房
 	def self.update_user_rooms(user, rooms)
 		old_rooms = self.where(user_id: user.id).pluck(:room_id).collect{ |x| x.to_s }
-		pp old_rooms, "old_rooms ___________________________"
 		new_rooms = rooms.to_a.dup
-		pp new_rooms, "new_rooms ______________________________"
 
 		#新增机房
 		create_rooms = new_rooms - old_rooms
-		pp create_rooms, "create_rooms ______________________________"
 		#应删除的机房
 		delete_rooms = old_rooms - new_rooms
-		pp delete_rooms, "delete_rooms ______________________________"
 
 		create_rooms.each do |create_room|
 			self.create(user_id: user.id, room_id: create_room)
