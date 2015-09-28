@@ -1,8 +1,6 @@
 class BaseController < ApplicationController
 	before_action :authenticate_user!, :authenticate_and_set_room
 
-  private
-
   # 验证用户是否有访问当前机房的权限
   def authenticate_and_set_room
     # room赋值
@@ -15,7 +13,7 @@ class BaseController < ApplicationController
     # room权限
     if params[:controller].include?('rooms')
       # room是否存在
-      redirect_to root_path unless @room.present?
+      return redirect_to root_path unless @room.present?
       unless UserRoom.where(room: @room, user: current_user).first.present?
         flash[:error] = '没有权限查看当前机房信息'
         return redirect_to root_path
