@@ -16,4 +16,11 @@
 
 class Point < ActiveRecord::Base
   belongs_to :pattern
+
+  # 取得节点的value值
+  def value
+    ps = PointState.where(pid: point_index.to_i).try(:last)
+    value = ps.try(:value)
+    value
+  end
 end
