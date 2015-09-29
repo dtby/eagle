@@ -41,13 +41,11 @@ class Pattern < ActiveRecord::Base
   end
 
   def get_value_by_point_name point_name
-
     point = self.points.find_by(name: point_name)
     return nil unless point.present?
     ps = PointState.where(pid: point.point_index.to_i).try(:last)
     value = ps.try(:value)
     value
-
   end
 
   # exclude节点设置

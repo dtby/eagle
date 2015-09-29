@@ -1,2 +1,2 @@
 $("#adminModal").modal('hide');
-$("#authenticatePanel").replaceWith("<%= escape_javascript( render partial: "admin/public/index", locals: { title: "管理员", items: @admins} ) %>");
+$("#index_list").html("<%= escape_javascript( render @admins ) %>");
