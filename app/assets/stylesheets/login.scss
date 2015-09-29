@@ -10,21 +10,8 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *= require_self
- *= require ./application/global
+ *= require ./login/main
  */
 @import "application/variables";
 @import "bootstrap-sprockets";
 @import "bootstrap";
-
-html, body{
-	height: 100%;
-}
-.admin-user{
-	.login-form{
-		border-radius: 5px;
-		padding: 40px 20px 60px 20px;
-		.login-img{
-			margin-bottom: 40px;
-		}
-	}
-}

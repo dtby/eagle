@@ -21,7 +21,6 @@ class UserRoom < ActiveRecord::Base
 	#保存用户有权限的机房
 	def self.save_user_rooms(user, rooms)
 		create_rooms = rooms.to_a
-		pp create_rooms, "create_rooms 11111111111111111111111"
 		UserRoom.transaction do
 			unless create_rooms.empty?
 				create_rooms.each do |room|

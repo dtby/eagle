@@ -28,3 +28,17 @@
 </div>
 
 <%= render partial: "admin/share/admin_user_modal" %>
+
+<script>
+	$(function() {
+		setTimeout(function() {
+			toastr.options = {
+				closeButton: true,
+				progressBar: true,
+				showMethod: 'slideDown',
+				timeOut: 4000
+			};
+			toastr.info('Responsive Admin Theme', 'Welcome to iGrid');
+		}, 1300);
+	})
+</script>

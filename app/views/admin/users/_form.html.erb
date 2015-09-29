@@ -50,7 +50,11 @@
 	</div>
 
 	<div class="input-group" style="width: 100%;">
-		<%= select_tag :user_rooms, options_from_collection_for_select(@rooms, "id", "name", @user.rooms.pluck(:id)), multiple: true, class: "chosen-select", style: "width:100%", tabindex: "4", prompt: "所有机房", "data-placeholder" => "机房(多选)" %>
+		<% if @user_rooms.present? %>
+			<%= select_tag :user_rooms, options_from_collection_for_select(@rooms, "id", "name", @user_rooms), multiple: true, class: "chosen-select", style: "width:100%", tabindex: "4", prompt: "所有机房", "data-placeholder" => "机房(多选)" %>
+		<% else %>
+			<%= select_tag :user_rooms, options_from_collection_for_select(@rooms, "id", "name", @user.rooms.pluck(:id)), multiple: true, class: "chosen-select", style: "width:100%", tabindex: "4", prompt: "所有机房", "data-placeholder" => "机房(多选)" %>
+		<% end %>		
 	</div>
 	<br>
 

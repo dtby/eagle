@@ -11,11 +11,13 @@
  * file per style scope.
  *= require_self
  *= require ./frame/animate
+ *= require ./frame/chosen
  *= require ./frame/font-awesome
  *= require ./frame/footable.core
  *= require ./frame/style
  *= require ./frame/switchery
- *= require_tree ./application/.
+ *= require ./frame/toastr.min
+ *= require_tree ./admin/.
  *= require global
  */
 @import "bootstrap-sprockets";

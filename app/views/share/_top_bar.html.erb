@@ -18,7 +18,11 @@
 					<% end %>
 				</ul>
 			</li><!-- 机房选择end -->
-			<li><%= current_user.name %></li>
+			<li>
+				<%= link_to "javascript: void(0)" do %>
+					<i class="fa fa-user"></i> <%= current_user.name %>
+				<% end %>
+			</li>
 			<li>
 				<%= link_to destroy_user_session_path, method: :delete do %>
 					<i class="fa fa-sign-out"></i> 退出

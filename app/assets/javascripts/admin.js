@@ -17,10 +17,10 @@
 //= require ./frame/inspinia
 //= require ./frame/pace.min
 //= require ./frame/jquery.slimscroll.min
+//= require ./frame/chosen.jquery
 //= require ./frame/jquery.metisMenu
 //= require ./frame/switchery
 //= require ./frame/footable.all.min
-//= require ./echarts/echarts
-//= require_tree ./echarts/chart
-//= require_tree ./application/.
+//= require ./frame/toastr.min
+//= require_tree ./admin/.
 //= require turbolinks

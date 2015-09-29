@@ -20,6 +20,7 @@ class Admin::UsersController < Admin::BaseController
 			respond_with @users
 		else
 			flash[:error] = "创建失败"
+			@user_rooms = params[:user_rooms]
 			render :new
 		end
 	end
@@ -35,6 +36,7 @@ class Admin::UsersController < Admin::BaseController
 			respond_with @users
 		else
 			flash[:error] = "更新失败"
+			@user_rooms = params[:user_rooms]
 			render :edit
 		end
 	end
