@@ -6,7 +6,7 @@ class BaseController < ApplicationController
     # room赋值
     if params[:controller] == 'rooms' && params[:action] == 'show'
       @room = Room.where(id: params[:id]).first
-    elsif params[:controller] == 'patterns'
+    elsif params[:controller] == 'devices'
       @room = Room.where(id: params[:room_id]).first
     end
 

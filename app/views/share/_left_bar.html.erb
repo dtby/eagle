@@ -23,7 +23,7 @@
 
 				<!-- 一级菜单 -->
 				<% @room.systems.each do |system| %>
-					<li class="<%= 'active' if params[:controller] == 'admin/patterns' && system == @pattern.try(:sub_system).try(:system) %>" >
+					<li class="<%= 'active' if params[:controller] == 'devices' && system == @device.try(:pattern).try(:sub_system).try(:system) %>" >
 						<%= link_to '#' do %>
 							<i class="fa <%= menu_tree_icon(system.name) %>"></i> <span class="nav-label"><%= system.name %></span>
 							<%= '<span class="fa arrow"></span>'.html_safe if @room.sub_systems_by_system(system).present? %>
@@ -31,19 +31,19 @@
 						<!-- 二级菜单 -->
 						<%= '<ul class="nav nav-second-level collapse">'.html_safe if @room.sub_systems_by_system(system).present? %>
 						<% @room.sub_systems_by_system(system).each do |sub_system| %>
-							<li class="<%= 'active' if params[:controller] == 'admin/patterns' && sub_system == @pattern.try(:sub_system) %>">
+							<li class="<%= 'active' if params[:controller] == 'devices' && sub_system == @device.try(:pattern).try(:sub_system) %>">
 								<%= link_to '#' do %>
 									<%= sub_system.name %> 
 									<%= '<span class="fa arrow"></span>'.html_safe if sub_system.patterns.present? %>
 								<% end %>
 								<!-- 三级菜单 -->
 								<%= '<ul class="nav nav-third-level collapse">'.html_safe if sub_system.patterns.present? %>
-								<% sub_system.patterns.each do |pattern| %>
-									<li  class="<%= 'active' if params[:controller] == 'admin/patterns' && pattern == @pattern %>">
-										<%= link_to pattern.name, '#' %>
+								<% sub_system.devices.each do |device| %>
+									<li  class="<%= 'active' if params[:controller] == 'devices' && device == @device %>">
+										<%= link_to device.name, room_device_path(@room, device) %>
 									</li>
 								<% end %>
-								<%= '</ul>'.html_safe if sub_system.patterns.present? %>
+								<%= '</ul>'.html_safe if sub_system.devices.present? %>
 								<!-- 三级菜单 -->
 							</li>
 						<% end %>
