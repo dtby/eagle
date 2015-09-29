@@ -38,6 +38,7 @@ class Pattern < ActiveRecord::Base
     # }
   end
 
+<<<<<<< HEAD
   def get_value_by_point_name point_name
 
     point = self.points.find_by(name: point_name)
@@ -47,6 +48,16 @@ class Pattern < ActiveRecord::Base
     value
 
   end
+=======
+  # delete by fw 20150928 该方法已经移入Point model
+  # def get_value_by_point_name point_name
+  #   point = self.points.find_by(name: point_name)
+  #   return nil unless point.present?
+  #   ps = PointState.where(pid: point.point_index.to_i).try(:last)
+  #   value = ps.try(:value)
+  #   value
+  # end
+>>>>>>> bb198cf300e17e2b4942f28034bb6f3bbf273f5c
 
   # exclude节点设置
   # 参数：{ group : { [point] }}

@@ -1,6 +1,7 @@
 class Admin::UsersController < Admin::BaseController
 	before_action :set_user, only: [:edit, :update, :destroy]
 	before_action :set_users, only: [:index, :create, :update, :destroy]
+	before_action :set_rooms, only: [:index, :new, :edit]
 	respond_to :html, :js
 
 	def index
@@ -14,6 +15,7 @@ class Admin::UsersController < Admin::BaseController
 	def create
 		@user = User.new(user_params)
 		if @user.save
+			UserRoom.save_user_rooms(@user, params[:user_rooms])
 			respond_with @users
 		else
 			render :new
@@ -21,6 +23,7 @@ class Admin::UsersController < Admin::BaseController
 	end
 
 	def edit
+		@user_rooms = @user.rooms
 		respond_with @user
 	end
 
@@ -49,5 +52,9 @@ class Admin::UsersController < Admin::BaseController
 
 	def set_users
 		@users = User.all
+	end
+
+	def set_rooms
+		@rooms = Room.all
 	end
 end

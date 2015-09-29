@@ -17,4 +17,13 @@
 class UserRoom < ActiveRecord::Base
   belongs_to :user
   belongs_to :room
+
+  #保存用户有权限的机房
+  def self.save_user_rooms(user, rooms)
+  	UserRoom.transaction do
+  		rooms.each do |room|
+  			UserRoom.create(user_id: user.id, room_id: room)
+  		end
+  	end
+  end
 end
