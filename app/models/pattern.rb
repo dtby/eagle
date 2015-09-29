@@ -25,9 +25,11 @@ class Pattern < ActiveRecord::Base
   # 返回值：{ group: [ point ] }
   def point_group
     point_group = {}
+    point_group[self.name] = []
     self.devices.each do |device|
-      point_group[device.try(:name)] = device.try(:points).group(:name).pluck(:name)
+      point_group[self.name].concat device.try(:points).group(:name).pluck(:name)
     end
+    point_group[self.name].uniq!
     point_group
     # 以上与设计时，略有不同，
     # 是因为在数据库找不到类似于'旁路输入'、'电池电压'、'旁路输出'等的字段
@@ -38,7 +40,6 @@ class Pattern < ActiveRecord::Base
     # }
   end
 
-<<<<<<< HEAD
   def get_value_by_point_name point_name
 
     point = self.points.find_by(name: point_name)
@@ -48,16 +49,6 @@ class Pattern < ActiveRecord::Base
     value
 
   end
-=======
-  # delete by fw 20150928 该方法已经移入Point model
-  # def get_value_by_point_name point_name
-  #   point = self.points.find_by(name: point_name)
-  #   return nil unless point.present?
-  #   ps = PointState.where(pid: point.point_index.to_i).try(:last)
-  #   value = ps.try(:value)
-  #   value
-  # end
->>>>>>> bb198cf300e17e2b4942f28034bb6f3bbf273f5c
 
   # exclude节点设置
   # 参数：{ group : { [point] }}
