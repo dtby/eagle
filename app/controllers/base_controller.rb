@@ -1,5 +1,5 @@
 class BaseController < ApplicationController
-	before_action :authenticate_user!, :authenticate_and_set_room
+  before_action :authenticate_user!, :authenticate_and_set_room
 
   # 验证用户是否有访问当前机房的权限
   def authenticate_and_set_room
