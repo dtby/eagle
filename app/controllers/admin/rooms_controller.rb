@@ -25,13 +25,13 @@ class Admin::RoomsController < Admin::BaseController
 
 	def edit
 		@menus = @room.menu_to_s
-		@users = User.all
 		respond_with @room,@menus
 	end
 
 	def update
     if @room.update(room_params)
     	Menu.update_menus_by_room(@room, params[:list])
+    	UserRoom.update_room_users(@room, params[:user_rooms])
 			flash[:notice] = "更新成功"
 			return redirect_to admin_rooms_path
 		else

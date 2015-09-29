@@ -55,7 +55,8 @@ class UserRoom < ActiveRecord::Base
 		UserRoom.transaction do
 			unless add_users.empty?
 				add_users.each do |user|
-					UserRoom.create(room_id: room.id, user_id: user)				
+					UserRoom.create(room_id: room.id, user_id: user)
+				end
 			end
 		end
 	end
