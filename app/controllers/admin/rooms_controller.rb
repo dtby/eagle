@@ -4,13 +4,13 @@ class Admin::RoomsController < Admin::BaseController
 
 	def new
 		@room = Room.new
-		redirect_to admin_rooms_path
+		respond_with @room
 	end
 
 	def create
 		@room = Room.new(room_params)
 		if @room.save
-			redirect_to admin_rooms_path
+			respond_with @rooms
 		else
 			render :new
 		end

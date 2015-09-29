@@ -8,14 +8,14 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-lg-12">
-            <%= form_for room, url: admin_room_path(room), method: :patch do |f| %>
+            <%= form_for [:admin, room] do |f| %>
               <div class="col-lg-12 col-sm-12 input-padding">
                 <%= f.text_field :name, class: 'form-control', placeholder: '机房名称'%>
               </div>
               <div class="col-lg-12 col-sm-12 input-padding">
                 <%= f.text_field :link, class: 'form-control', placeholder: '3D布局图链接'%>
               </div>
-
+              <% unless params[:action] == "new" %>
               <table class="table table-bordered">
                 <thead>
                   <tr>
@@ -52,6 +52,7 @@
                   <% end %>
                 </tbody>
               </table>
+              <% end %>
               <button class="btn btn-sm sub-btn btn-primary pull-right" type="submit"><strong>提交</strong></button>
             <% end %>
           </div>
