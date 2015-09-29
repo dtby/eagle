@@ -1,7 +1,7 @@
 class Admin::UsersController < Admin::BaseController
 	before_action :set_user, only: [:edit, :update, :destroy]
 	before_action :set_users, only: [:index, :create, :update, :destroy]
-	before_action :set_rooms, only: [:index, :new, :edit]
+	before_action :set_rooms, except: [:destroy]
 	respond_to :html, :js
 
 	def index
@@ -16,21 +16,25 @@ class Admin::UsersController < Admin::BaseController
 		@user = User.new(user_params)
 		if @user.save
 			UserRoom.save_user_rooms(@user, params[:user_rooms])
+			flash[:notice] = "创建成功"
 			respond_with @users
 		else
+			flash[:error] = "创建失败"
 			render :new
 		end
 	end
 
 	def edit
-		@user_rooms = @user.rooms
 		respond_with @user
 	end
 
 	def update
 		if @user.update_user(user_params)
+			UserRoom.update_user_rooms(@user, params[:user_rooms])
+			flash[:notice] = "更新成功"
 			respond_with @users
 		else
+			flash[:error] = "更新失败"
 			render :edit
 		end
 	end
