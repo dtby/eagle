@@ -10,8 +10,11 @@ class Admin::RoomsController < Admin::BaseController
 	def create
 		@room = Room.new(room_params)
 		if @room.save
+			UserRoom.room_belongs_to_users(@room, params[:user_rooms])
+			flash[:notice] = "创建成功"
 			respond_with @rooms
 		else
+			flash[:error] = "创建失败"
 			render :new
 		end
 	end
@@ -22,6 +25,7 @@ class Admin::RoomsController < Admin::BaseController
 
 	def edit
 		@menus = @room.menu_to_s
+		@users = User.all
 		respond_with @room,@menus
 	end
 

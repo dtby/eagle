@@ -52,6 +52,16 @@
                   <% end %>
                 </tbody>
               </table>
+
+
+
+              <div class="input-group" style="width: 100%;">
+                <%= select_tag :user_rooms, options_from_collection_for_select(@users, "id", "name", @users.pluck(:id)), multiple: true, class: "chosen-select", style: "width:100%", tabindex: "4", prompt: "所有用户", "data-placeholder" => "用户(多选)" %>
+              </div>
+              <br>
+
+
+
               <% end %>
               <button class="btn btn-sm sub-btn btn-primary pull-right" type="submit"><strong>提交</strong></button>
             <% end %>
@@ -71,5 +81,19 @@
       size: 'small'
     });
   });
+</script>
+
+<script>
+  //配置多选表单
+      var config = {
+            '.chosen-select'           : {},
+            '.chosen-select-deselect'  : {allow_single_deselect:true},
+            '.chosen-select-no-single' : {disable_search_threshold:10},
+            '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+            '.chosen-select-width'     : {width:"90%"}
+      }
+      for (var selector in config) {
+            $(selector).chosen(config[selector]);
+      }
 </script>
 
