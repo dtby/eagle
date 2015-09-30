@@ -1,82 +1,23 @@
 <div class="clearfix">
   <div class="col-xs-12 p-xs">
     <div class="mblock">
-      <h2 class="text-center text-muted">智能配电-机房列头柜 1</h2>
+      <h2 class="text-center text-muted"><%= device.name %></h2>
       <div class="table-responsive my-table  my-left">
         <table class="table table-bordered">
           <thead>
             <tr>
-            <th colspan="2">输出</th>
+            <th colspan="2"><%= device.pattern.name %></th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th scope="row">A组</th>
-              <td class="unit">230.4</td>
-            </tr>
-            <tr>
-              <th scope="row">B组</th>
-              <td class="unit">232.1</td>
-            </tr>
-            <tr>
-              <th scope="row">C组</th>
-              <td class="unit">230.4</td>
-            </tr>
-            <tr>
-              <th scope="row">D组</th>
-              <td class="unit">230.4</td>
-            </tr>
-            <tr>
-              <th scope="row">E组</th>
-              <td class="unit">230.4</td>
-            </tr>
-            <tr>
-              <th scope="row">F组</th>
-              <td class="unit">230.4</td>
-            </tr>
-            <tr>
-              <th scope="row">G组</th>
-              <td class="unit">230.4</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="table-responsive my-table my-right">
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-            <th colspan="2">输出</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">A组</th>
-              <td class="unit">230.4</td>
-            </tr>
-            <tr>
-              <th scope="row">B组</th>
-              <td class="unit">232.1</td>
-            </tr>
-            <tr>
-              <th scope="row">C组</th>
-              <td class="unit">230.4</td>
-            </tr>
-            <tr>
-              <th scope="row">D组</th>
-              <td class="unit">230.4</td>
-            </tr>
-            <tr>
-              <th scope="row">E组</th>
-              <td class="unit">230.4</td>
-            </tr>
-            <tr>
-              <th scope="row">F组</th>
-              <td class="unit">230.4</td>
-            </tr>
-            <tr>
-              <th scope="row">G组</th>
-              <td class="unit">230.4</td>
-            </tr>
+            <% device.points.each do |point| %>
+              <% unless exclude_points[device.pattern.name] && exclude_points[device.pattern.name].include?(point.name) %>
+                <tr>
+                  <th scope="row"><%= point.name %></th>
+                  <td class="unit">230.4</td>
+                </tr>
+              <% end %>
+            <% end %>
           </tbody>
         </table>
       </div>
