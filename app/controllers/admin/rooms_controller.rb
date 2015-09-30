@@ -41,6 +41,7 @@ class Admin::RoomsController < Admin::BaseController
 
   def destroy
   	@room.destroy
+  	redirect_to  admin_rooms_path
   end
 
 	def show
