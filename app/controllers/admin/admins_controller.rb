@@ -13,7 +13,7 @@ class Admin::AdminsController < Admin::BaseController
 	def create
 		@admin = Admin.new(admin_params)
 		if @admin.save
-			flash.now[:success] = "创建管理员成功"
+			flash[:success] = "创建管理员成功"
 			respond_to do |format|
 				format.js { render js: "location.href = '#{admin_admins_path}'" }
 			end
@@ -28,7 +28,7 @@ class Admin::AdminsController < Admin::BaseController
 
 	def update
 		if @admin.update_admin(admin_params)
-			flash.now[:success] = "更新管理员成功"
+			flash[:success] = "更新管理员成功"
 			respond_to do |format|
 				format.js { render js: "location.href = '#{admin_admins_path}'" }
 			end
@@ -39,7 +39,7 @@ class Admin::AdminsController < Admin::BaseController
 
 	def destroy
 		@admin.destroy
-		flash.now[:success] = "删除管理员成功"
+		flash[:success] = "删除管理员成功"
 		respond_to do |format|
 			format.js { render js: "location.href = '#{admin_admins_path}'" }
 		end
