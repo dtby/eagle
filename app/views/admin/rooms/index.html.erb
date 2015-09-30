@@ -29,9 +29,9 @@
                   <%= link_to edit_admin_room_path(room), class: 'btn btn-xs btn-default', remote: true, format: :js do %>
                     <span class="glyphicon glyphicon-edit"></span>
                   <% end %>
-                  <a data-confirm="确定要删除管理员列表吗？" class="btn btn-xs btn-danger" title="删除" rel="nofollow" data-method="delete" href="/admin/admin/rooms">
+                  <%= link_to admin_room_path(room), method: :delete, class: 'btn btn-xs btn-danger' do %>
                     <span class="glyphicon glyphicon-trash"></span>
-                  </a>
+                  <% end %>
                 </td>
               </tr>
             <% end %>

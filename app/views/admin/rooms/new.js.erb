@@ -1,3 +1,3 @@
-$("#roomModalContent").html("<%= escape_javascript( render "rooms_modal", room: @room )%>");
-$('#roomModal').modal('show')
-$(".modal-header").click();
+$(".modal-backdrop").remove();
+$("#roomModalContent").html("<%= escape_javascript( render "rooms_modal", room: @room, menus: @menus  )%>");
+$('#roomModal').modal('show');
