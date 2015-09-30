@@ -28,7 +28,7 @@
             </div>
             <div class="form-group">
               <div class="input-group" style="width: 100%;">
-                <%= select_tag :user_rooms, options_from_collection_for_select(User.all, "id", "name", room.users.pluck(:id)), multiple: true, class: "chosen-select", style: "width:100%", tabindex: "4", prompt: "所有用户", "data-placeholder" => "用户(多选)" %>
+                <%= select_tag :user_rooms, options_from_collection_for_select(User.all, "id", "name", params[:user_rooms] || room.users.pluck(:id)), multiple: true, class: "chosen-select", style: "width:100%", tabindex: "4", prompt: "所有用户", "data-placeholder" => "用户(多选)" %>
               </div>
             </div>
               <% unless params[:action] == "new" || params[:action] == "create" %>
@@ -49,7 +49,7 @@
                         <%= system.name %>
                       </td>
                       <td rowspan="<%= system.sub_systems.size + 1 %>">
-                        <%= check_box_tag 'list[]', "#{system.id}_System", menus.include?("#{system.id}_System"), class: "js-switch-modal" %>
+                        <%= check_box_tag 'list[]', "#{system.id}_System", params[:list].try(:include?, "#{system.id}_System") || menus.include?("#{system.id}_System"), class: "js-switch-modal" %>
                       </td>
                       <% unless system.sub_systems.present? %>
                         <td></td>
@@ -62,7 +62,7 @@
                           <%= sub_system.name %>
                         </td>
                         <td>
-                          <%= check_box_tag 'list[]', "#{sub_system.id}_SubSystem", menus.include?("#{sub_system.id}_SubSystem"), class: "js-switch-modal" %>
+                          <%= check_box_tag 'list[]', "#{sub_system.id}_SubSystem", params[:list].try(:include?, "#{sub_system.id}_SubSystem") || menus.include?("#{sub_system.id}_SubSystem"), class: "js-switch-modal" %>
                         </td>
                       </tr>
                     <% end %>
@@ -70,8 +70,7 @@
                 </tbody>
               </table>
               <% end %>
-              <br>
-              <button class="btn btn-sm sub-btn btn-primary pull-right" type="submit"><strong>提交</strong></button>
+              <div class="text-center"><button class="btn sub-btn btn-primary" type="submit"><strong>提交</strong></button></div>
             <% end %>
           </div>
         </div>
@@ -89,9 +88,7 @@
       size: 'small'
     });
   });
-</script>
 
-<script>
   //配置多选表单
   var config = {
     '.chosen-select'           : {},

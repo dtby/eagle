@@ -12,7 +12,8 @@
 class Room < ActiveRecord::Base
 
   validates_presence_of :name, :link
-  validates_uniqueness_of :name, :link
+  validates_uniqueness_of :name
+  
   has_many :menus, dependent: :destroy
   has_many :systems, source: 'menuable', source_type: 'System', through: :menus
   has_many :sub_systems, source: 'menuable', source_type: 'SubSystem', through: :menus
