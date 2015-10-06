@@ -21,7 +21,6 @@ class UserRoom < ActiveRecord::Base
 	#保存用户有权限的机房
 	def self.save_user_rooms(user, rooms)
 		create_rooms = rooms.to_a
-		pp create_rooms, "create_rooms 11111111111111111111111"
 		UserRoom.transaction do
 			unless create_rooms.empty?
 				create_rooms.each do |room|
@@ -47,6 +46,37 @@ class UserRoom < ActiveRecord::Base
 
 		delete_rooms.each do |delete_room|
 			self.where(user_id: user.id, room_id: delete_room).destroy_all
+		end
+	end
+
+	# 保存有权限操作此机房的用户
+	def self.room_belongs_to_users(room, users)
+		add_users = users.to_a
+		UserRoom.transaction do
+			unless add_users.empty?
+				add_users.each do |user|
+					UserRoom.create(room_id: room.id, user_id: user)
+				end
+			end
+		end
+	end
+
+	#更新有权限操作次机房的新用户
+	def self.update_room_users(room, users)
+		old_users = self.where(room_id: room.id).pluck(:user_id).collect{ |x| x.to_s }
+		new_users = users.to_a.dup
+
+		#新增用户
+		create_users = new_users - old_users
+		#应删除的机房
+		delete_users = old_users - new_users
+
+		create_users.each do |create_user|
+			self.create(room_id: room.id, user_id: create_user)
+		end
+
+		delete_users.each do |delete_user|
+			self.where(room_id: room.id, user_id: delete_user).destroy_all
 		end
 	end
 end

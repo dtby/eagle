@@ -1,0 +1,7 @@
+<% if @room.errors.present? %>
+	$(".modal-backdrop").remove();
+	$("#roomModalContent").html("<%= escape_javascript( render "rooms_modal", room: @room, menus: @menus  )%>");
+	$('#roomModal').modal('show');
+<% else %>
+	location.href = "<%= admin_rooms_path %>"
+<% end  %>

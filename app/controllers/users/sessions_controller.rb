@@ -1,5 +1,5 @@
 class Users::SessionsController < Devise::SessionsController
-  layout 'admin_user'
+  layout 'login'
 # before_filter :configure_sign_in_params, only: [:create]
 
   # GET /resource/sign_in

@@ -12,7 +12,7 @@ class Admin::PatternsController < Admin::BaseController
 
   def update
     @exclude_points = Pattern.exclude_points_by_params(params[:points])
-    @pattern.setting_point(@exclude_points)
+    @pattern.setting_point(params[:points].keys, @exclude_points)
     flash[:notice] = '设置成功'
     redirect_to admin_pattern_path(@pattern)
   end

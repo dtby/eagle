@@ -49,8 +49,8 @@ class Pattern < ActiveRecord::Base
   end
 
   # exclude节点设置
-  # 参数：{ group : { [point] }}
-  def setting_point(exclude_point_info)
+  # 参数：groups ; { group : { [point] }}
+  def setting_point(groups, exclude_point_info)
     # 配置文件创建
     config_file_create
 
@@ -58,7 +58,9 @@ class Pattern < ActiveRecord::Base
     exclude_points = YAML::load_file(config_file_path) || {}
 
     # 配置
-    exclude_point_info.each { |key, value| exclude_points[key] = value }
+    groups.each do |group|
+      exclude_points[group] = exclude_point_info[group]
+    end
 
     # 将配置写入文件
     File.open(config_file_path, 'w') do |f| 

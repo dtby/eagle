@@ -16,10 +16,13 @@ class Admin::UsersController < Admin::BaseController
 		@user = User.new(user_params)
 		if @user.save
 			UserRoom.save_user_rooms(@user, params[:user_rooms])
-			flash[:notice] = "创建成功"
-			respond_with @users
+			flash[:success] = "创建用户成功"
+			respond_to do |format|
+				format.js { render js: "location.href = '#{admin_users_path}'" }
+			end
 		else
-			flash[:error] = "创建失败"
+			flash[:error] = "创建用户失败"
+			@user_rooms = params[:user_rooms]
 			render :new
 		end
 	end
@@ -31,17 +34,23 @@ class Admin::UsersController < Admin::BaseController
 	def update
 		if @user.update_user(user_params)
 			UserRoom.update_user_rooms(@user, params[:user_rooms])
-			flash[:notice] = "更新成功"
-			respond_with @users
+			flash[:success] = "更新用户成功"
+			respond_to  do |format|
+				format.js { render js: "location.href = '#{admin_users_path}'" }
+			end
 		else
-			flash[:error] = "更新失败"
+			flash[:error] = "更新用户失败"
+			@user_rooms = params[:user_rooms]
 			render :edit
 		end
 	end
 
 	def destroy
 		@user.destroy
-		respond_with @users
+		flash[:success] = "删除用户成功"
+		respond_to do |format|
+			format.js { render js: "location.href = '#{admin_users_path}'" }
+		end
 	end
 
 	private

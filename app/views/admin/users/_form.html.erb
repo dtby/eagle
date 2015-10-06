@@ -32,7 +32,7 @@
 	<div class="form-group">     
 		<div class="input-group m-b">
 			<span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>    
-			<%= f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "#{ @user.name.empty? ? "设置密码(不小于6个字符)" : "更新密码(不填写则不更新密码)" }" %>   
+			<%= f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "#{ params[:action] == "new" ? "设置密码(不小于6个字符)" : "更新密码(不填写则不更新密码)" }" %>   
 		</div>
 		<% if @user.errors[:password].any? %>
 			<dd class="error text-danger"><%= @user.errors[:password][0] %></dd>
@@ -42,7 +42,7 @@
 	<div class="form-group">     
 		<div class="input-group m-b">
 			<span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>    
-			<%= f.password_field :password_confirmation, autocomplete: "off", class: "form-control", placeholder: "#{ @user.name.empty? ? "确认密码" : "确认密码(不填写则不更新密码)" }" %>   
+			<%= f.password_field :password_confirmation, autocomplete: "off", class: "form-control", placeholder: "#{ params[:action] == "new" ? "确认密码" : "确认密码(不填写则不更新密码)" }" %>   
 		</div>
 		<% if @user.errors[:password_confirmation].any? %>
 			<dd class="error text-danger"><%= @user.errors[:password_confirmation][0] %></dd>
@@ -50,7 +50,11 @@
 	</div>
 
 	<div class="input-group" style="width: 100%;">
-		<%= select_tag :user_rooms, options_from_collection_for_select(@rooms, "id", "name", @user.rooms.pluck(:id)), multiple: true, class: "chosen-select", style: "width:100%", tabindex: "4", prompt: "所有机房", "data-placeholder" => "机房(多选)" %>
+		<% if @user_rooms.present? %>
+			<%= select_tag :user_rooms, options_from_collection_for_select(@rooms, "id", "name", @user_rooms), multiple: true, class: "chosen-select", style: "width:100%", tabindex: "4", prompt: "所有机房", "data-placeholder" => "机房(多选)" %>
+		<% else %>
+			<%= select_tag :user_rooms, options_from_collection_for_select(@rooms, "id", "name", @user.rooms.pluck(:id)), multiple: true, class: "chosen-select", style: "width:100%", tabindex: "4", prompt: "所有机房", "data-placeholder" => "机房(多选)" %>
+		<% end %>		
 	</div>
 	<br>
 

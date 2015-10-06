@@ -1,12 +1,12 @@
 class BaseController < ApplicationController
-	before_action :authenticate_user!, :authenticate_and_set_room
+  before_action :authenticate_user!, :authenticate_and_set_room
 
   # 验证用户是否有访问当前机房的权限
   def authenticate_and_set_room
     # room赋值
     if params[:controller] == 'rooms' && params[:action] == 'show'
       @room = Room.where(id: params[:id]).first
-    elsif params[:controller] == 'patterns'
+    elsif params[:controller] == 'devices'
       @room = Room.where(id: params[:room_id]).first
     end
 

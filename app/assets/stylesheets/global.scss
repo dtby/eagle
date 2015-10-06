@@ -1,9 +1,7 @@
+/**后台管理页面与前台界面共用全局样式**/
+
 body{
 	background-color: #2F4050;
-}
-.login-body{
-	background-color: #F3F3F4 !important;
-	height: 100%;
 }
 /**无title背景块**/
 .mblock{
@@ -42,10 +40,9 @@ body{
 	font-size: 10px;
 	color: #0178D6;
 }
-//登录flash
-.user-flash{
-	position: fixed;
-	width: 100%;
-	top: 60;
-	right: 0;
+//toastr
+#toast-container{
+	.toast-error:before, .toast-success:before, .toast-warning:before, .toast-info:before{
+		content: " ";	
+	}
 }

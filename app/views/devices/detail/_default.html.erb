@@ -1,0 +1,26 @@
+<div class="clearfix">
+  <div class="col-xs-12 p-xs">
+    <div class="mblock">
+      <h2 class="text-center text-muted"><%= device.name %></h2>
+      <div class="table-responsive my-table  my-left">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+            <th colspan="2"><%= device.pattern.name %></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% device.points.each do |point| %>
+              <% unless exclude_points[device.pattern.name] && exclude_points[device.pattern.name].include?(point.name) %>
+                <tr>
+                  <th scope="row"><%= point.name %></th>
+                  <td class="unit">230.4</td>
+                </tr>
+              <% end %>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

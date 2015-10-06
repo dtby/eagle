@@ -13,7 +13,10 @@ class Admin::AdminsController < Admin::BaseController
 	def create
 		@admin = Admin.new(admin_params)
 		if @admin.save
-			respond_with @admins
+			flash[:success] = "创建管理员成功"
+			respond_to do |format|
+				format.js { render js: "location.href = '#{admin_admins_path}'" }
+			end
 		else
 			render :new
 		end
@@ -25,7 +28,10 @@ class Admin::AdminsController < Admin::BaseController
 
 	def update
 		if @admin.update_admin(admin_params)
-			respond_with @admins
+			flash[:success] = "更新管理员成功"
+			respond_to do |format|
+				format.js { render js: "location.href = '#{admin_admins_path}'" }
+			end
 		else
 			render :edit
 		end
@@ -33,7 +39,10 @@ class Admin::AdminsController < Admin::BaseController
 
 	def destroy
 		@admin.destroy
-		respond_with @admins
+		flash[:success] = "删除管理员成功"
+		respond_to do |format|
+			format.js { render js: "location.href = '#{admin_admins_path}'" }
+		end
 	end
 
 	 private

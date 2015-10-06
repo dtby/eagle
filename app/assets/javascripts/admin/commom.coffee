@@ -15,4 +15,3 @@ $ ->
       color: "#1AB394"
       size: 'small'
     )
-

@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   end
 
   resources :rooms, only: [:show] do
-    
+    resources :devices, only: [:show] # 设备
   end
 
   namespace :admin do

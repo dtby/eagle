@@ -21,6 +21,7 @@ class Menu < ActiveRecord::Base
 
   # 参数: room,机房；list，菜单［"#{menuable_id}_#{menuable_type}"］］
   def self.update_menus_by_room(room, menus)
+    return if menus.blank?
   	old_menus = room.menu_to_s
   	add_menus = menus - old_menus
   	delete_menus = old_menus - menus

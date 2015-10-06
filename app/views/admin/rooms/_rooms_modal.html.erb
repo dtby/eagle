@@ -8,14 +8,31 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-lg-12">
-            <%= form_for room, url: admin_room_path(room), method: :patch do |f| %>
-              <div class="col-lg-12 col-sm-12 input-padding">
+            <%#= form_for room, url: admin_room_path(room), method: :patch do |f| %>
+            <%= form_for [:admin, room], remote: true, format: :js do |f| %>
+            <div class="form-group">
+              <div class="input-group input-padding" style="width: 100%;">
                 <%= f.text_field :name, class: 'form-control', placeholder: '机房名称'%>
               </div>
-              <div class="col-lg-12 col-sm-12 input-padding">
+              <% if room.errors[:name].any? %>
+                <dd class="error text-danger"><%= room.errors[:name][0] %></dd>
+              <% end %>
+            </div>
+            <div class="form-group">
+              <div class="input-group input-padding" style="width: 100%;">
                 <%= f.text_field :link, class: 'form-control', placeholder: '3D布局图链接'%>
               </div>
-
+              <% if room.errors[:link].any? %>
+                <dd class="error text-danger"><%= room.errors[:link][0] %></dd>
+              <% end %>
+            </div>
+            <div class="form-group">
+              <div class="input-group" style="width: 100%;">
+                <%= select_tag :user_rooms, options_from_collection_for_select(User.all, "id", "name", params[:user_rooms] || room.users.pluck(:id)), multiple: true, class: "chosen-select", style: "width:100%", tabindex: "4", prompt: "所有用户", "data-placeholder" => "用户(多选)" %>
+              </div>
+            </div>
+              <% unless params[:action] == "new" || params[:action] == "create" %>
+              <div><h3>分级菜单详情列表</h3></div>
               <table class="table table-bordered">
                 <thead>
                   <tr>
@@ -32,7 +49,7 @@
                         <%= system.name %>
                       </td>
                       <td rowspan="<%= system.sub_systems.size + 1 %>">
-                        <%= check_box_tag 'list[]', "#{system.id}_System", menus.include?("#{system.id}_System"), class: "js-switch-modal" %>
+                        <%= check_box_tag 'list[]', "#{system.id}_System", params[:list].try(:include?, "#{system.id}_System") || menus.include?("#{system.id}_System"), class: "js-switch-modal" %>
                       </td>
                       <% unless system.sub_systems.present? %>
                         <td></td>
@@ -45,14 +62,15 @@
                           <%= sub_system.name %>
                         </td>
                         <td>
-                          <%= check_box_tag 'list[]', "#{sub_system.id}_SubSystem", menus.include?("#{sub_system.id}_SubSystem"), class: "js-switch-modal" %>
+                          <%= check_box_tag 'list[]', "#{sub_system.id}_SubSystem", params[:list].try(:include?, "#{sub_system.id}_SubSystem") || menus.include?("#{sub_system.id}_SubSystem"), class: "js-switch-modal" %>
                         </td>
                       </tr>
                     <% end %>
                   <% end %>
                 </tbody>
               </table>
-              <button class="btn btn-sm sub-btn btn-primary pull-right" type="submit"><strong>提交</strong></button>
+              <% end %>
+              <div class="text-center"><button class="btn sub-btn btn-primary" type="submit"><strong>提交</strong></button></div>
             <% end %>
           </div>
         </div>
@@ -70,5 +88,17 @@
       size: 'small'
     });
   });
+
+  //配置多选表单
+  var config = {
+    '.chosen-select'           : {},
+    '.chosen-select-deselect'  : {allow_single_deselect:true},
+    '.chosen-select-no-single' : {disable_search_threshold:10},
+    '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+    '.chosen-select-width'     : {width:"90%"}
+  }
+  for (var selector in config) {
+    $(selector).chosen(config[selector]);
+  }
 </script>
 

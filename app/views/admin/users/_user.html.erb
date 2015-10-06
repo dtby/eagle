@@ -1,5 +1,6 @@
+<% @users.each_with_index do |user, index| %>
 <tr>
-	<th scope="row"><%= user.id %></th>
+	<th scope="row"><%= index + 1 %></th>
 	<td><%= user.name %></td>
 	<td><%= user.phone %></td>
 	<td><%= user.email %></td>
@@ -19,3 +20,4 @@
 		<%end%>
 	</td>
 </tr>
+<% end %>
