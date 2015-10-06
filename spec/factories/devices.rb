@@ -7,10 +7,12 @@
 #  pattern_id :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  room_id    :integer
 #
 # Indexes
 #
 #  index_devices_on_pattern_id  (pattern_id)
+#  index_devices_on_room_id     (room_id)
 #
 
 FactoryGirl.define do
