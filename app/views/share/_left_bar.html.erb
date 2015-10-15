@@ -38,7 +38,7 @@
 								<% end %>
 								<!-- 三级菜单 -->
 								<%= '<ul class="nav nav-third-level collapse">'.html_safe if sub_system.patterns.present? %>
-								<% sub_system.devices.each do |device| %>
+								<% sub_system.devices.by_room(@room.id).each do |device| %>
 									<li  class="<%= 'active' if params[:controller] == 'devices' && device == @device %>">
 										<%= link_to device.name, room_device_path(@room, device) %>
 									</li>

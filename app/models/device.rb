@@ -16,6 +16,8 @@
 #
 
 class Device < ActiveRecord::Base
+  scope :by_room, ->(room_id) { where("room_id = ?", room_id) }
+
   belongs_to :pattern
   belongs_to :room
 
