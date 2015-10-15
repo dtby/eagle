@@ -11,7 +11,7 @@
 
 class Room < ActiveRecord::Base
 
-  validates_presence_of :name, :link
+  validates_presence_of :name#, :link
   validates_uniqueness_of :name
   
   has_many :menus, dependent: :destroy
@@ -32,7 +32,7 @@ class Room < ActiveRecord::Base
   end
 
   def self.generate_system  point_hash
-    # 机房 => { 系统 => 子系统 => {点 => 数据}
+    # 机房 => { 系统 => 子系统 => { 点 => 数据 }
     point_hash.each do |room, system_hash|
       room = Room.find_or_create_by(name: room)
       system_hash.each do |sub_name, patterns|
