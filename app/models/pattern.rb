@@ -20,24 +20,30 @@ class Pattern < ActiveRecord::Base
 
   belongs_to :sub_system
   has_many :devices, dependent: :destroy
+  has_many :points, through: :devices
 
   # 不同型号对应节点，分组返回数据
   # 返回值：{ group: [ point ] }
   def point_group
-    point_group = {}
-    point_group[self.name] = []
-    self.devices.each do |device|
-      point_group[self.name].concat device.try(:points).group(:name).pluck(:name)
-    end
-    point_group[self.name].uniq!
-    point_group
-    # 以上与设计时，略有不同，
     # 是因为在数据库找不到类似于'旁路输入'、'电池电压'、'旁路输出'等的字段
     # {
     #   '旁路输入' => ['A组', 'B组', 'C组', 'D组', 'E组'],
     #   '电池电压' => ['正电压', '负电压', '总电压'],
     #   '旁路输出' => ['A组', 'B组', 'C组', 'D组', 'E组']
     # }
+
+    point_group = {}
+    all_points = points.group(:name).pluck(:name)
+    all_points.each do |point_name|
+      next unless point_name.include?('-')
+      group = point_name.split('-', 2).try(:first)
+      if group.present?
+        pn = point_name.split('-', 2).try(:last)
+        point_group[group].blank? ? point_group[group] = [pn] : point_group[group].push(pn)
+      end
+    end
+    point_group
+
   end
 
   def get_value_by_point_name point_name

@@ -15,15 +15,14 @@ SubSystem.destroy_all
 SubSystem.create!([
   { id: 1, system_id: 1, name: '配电系统' }, 
   { id: 2, system_id: 1, name: 'UPS系统' },
-  { id: 3, system_id: 1, name: '配电柜' },
-  { id: 4, system_id: 1, name: '电池' },
+  { id: 3, system_id: 1, name: '电池' },
+  { id: 4, system_id: 1, name: '配电柜' },
   { id: 5, system_id: 1, name: '机柜动力' },
   { id: 6, system_id: 1, name: '发电机' },
-  { id: 7, system_id: 1, name: '温湿度系统' },
-  { id: 8, system_id: 1, name: '空调系统' },
-  { id: 9, system_id: 1, name: '漏水检测' },
-  { id: 10, system_id: 6, name: '全年能耗' },
-  { id: 11, system_id: 6, name: '漏水检测' }
+  { id: 7, system_id: 2, name: '温湿度系统' },
+  { id: 8, system_id: 2, name: '精密空调' },
+  { id: 9, system_id: 2, name: '漏水检测' },
+  { id: 11, system_id: 2, name: '机柜环境' }
 ])
 
 
