@@ -28,8 +28,8 @@ SubSystem.create!([
 
 Pattern.destroy_all
 Pattern.create!([
-  { id: 1, sub_system_id: 1, name: '配电', partial_path: 'power_1' }, 
-  { id: 2, sub_system_id: 2, name: 'UPS', partial_path: 'ups_1' },
+  { id: 1, sub_system_id: 1, name: '配电', partial_path: 'power' }, 
+  { id: 2, sub_system_id: 2, name: 'UPS', partial_path: 'ups' },
   # { id: 2, sub_system_id: 1, name: '配电2', partial_path: 'power_2' },
   # { id: 4, sub_system_id: 2, name: 'UPS2', partial_path: 'ups_2' }
 ])
