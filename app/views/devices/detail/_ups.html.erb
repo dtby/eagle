@@ -1,6 +1,6 @@
 <div class="clearfix power__ups">
   <div class="col-md-8 p-xs">
-    <div class="mblock">
+    <div class="mblock left">
       <div class="row">
         <div class="col-xs-3 p-r"></div>
         <div class="col-xs-9 p-l">
@@ -10,14 +10,14 @@
             <table class="table table-bordered">
               <thead>
                 <tr>
-                  <th colspan="2">市电输入</th>
+                  <th colspan="2" class="text-center">市电输入</th>
                 </tr>
               </thead>
               <tbody>
                 <% @points["市电输入"].each do |point| %>
                   <% unless exclude_points["市电输入"] && exclude_points["市电输入"].include?(point[0]) %>
                     <tr>
-                      <td width="60%"><%= point[0] %></td>
+                      <td width="68%" align="center"><b><%= point[0] %></b></td>
                       <td align="center"><%= point[1] %></td>
                     </tr>
                   <% end %>
@@ -30,14 +30,14 @@
             <table class="table table-bordered">
               <thead>
                 <tr>
-                  <th colspan="2">UPS输出</th>
+                  <th colspan="2" class="text-center">UPS输出</th>
                 </tr>
               </thead>
               <tbody>
                 <% @points["UPS输出"].each do |point| %>
                   <% unless exclude_points["UPS输出"] && exclude_points["UPS输出"].include?(point[0]) %>
                     <tr>
-                      <td width="60%"><%= point[0] %></td>
+                      <td width="60%" align="center"><b><%= point[0] %></b></td>
                       <td align="center"><%= point[1] %></td>
                     </tr>
                   <% end %>
@@ -50,44 +50,20 @@
             <table class="table table-bordered">
               <thead>
                 <tr>
-                  <th colspan="2">电池模块</th>
+                  <th colspan="2" class="text-center">电池模块</th>
                 </tr>
               </thead>
               <tbody>
                 <% @points["电池模块"].each do |point| %>
                 <% unless exclude_points["电池模块"] && exclude_points["电池模块"].include?(point[0]) %>
                 <tr>
-                  <td width="60%"><%= point[0] %></td>
+                  <td width="60%" align="center"><b><%= point[0] %></b></td>
                   <td align="center"><%= point[1] %></td>
                 </tr>
                 <% end %>
                 <% end %>
               </tbody>
             </table>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <div class="panel panel-default warn-info">
-            <div class="panel-heading text-center">报警信息</div>
-            <div class="panel-body">
-              <table class="table">
-                <tr>
-                  <% keys = @points["告警"].try(:keys) || [] %>
-                  <% (1..4).each do |i|%>
-                    <td class="air_d_grey">
-                      <% (1..(keys.size/5)).each do |j| %>
-                        <div class="info-row">
-                          <span class="grey_d0 grey_d1"><%= keys[i*j - 1] %></span>
-                          <span class="grey_d0 grey_d2"><%= @points["告警"][keys[i*j - 1]]%></span>
-                        </div><br>
-                      <% end %>
-                    </td>
-                  <% end %>
-                </tr>
-              </table>
-            </div>
           </div>
         </div>
       </div>
@@ -110,7 +86,31 @@
       </div>
     </div>
   </div>
+  <div class="col-md-12">
+    <div class="panel panel-default warn-info">
+      <div class="panel-heading text-center">报警信息</div>
+      <div class="panel-body">
+        <table class="table">
+          <tr>
+            <% keys = @points["告警"].try(:keys) || [] %>
+            <% (1..5).each do |i|%>
+            <td class="air_d_grey">
+              <% (1..(keys.size/5)).each do |j| %>
+              <div class="info-row">
+                <span class="grey_d0 grey_d1"><%= keys[i*j - 1] %></span>
+                <span class="grey_d0 grey_d2"><%= @points["告警"][keys[i*j - 1]]%></span>
+              </div><br>
+              <% end %>
+            </td>
+            <% end %>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
+
+
 
 <script type="text/javascript">
   //设置3个模块的高度
