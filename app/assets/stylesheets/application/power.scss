@@ -19,11 +19,24 @@
 	img{
 		position: relative;
 	}
+	table {
+		tr {
+			padding: 10px;
+			th {
+				font-size: 16px;
+				padding: 10px;
+			}
+
+			td {
+				padding: 10px;
+			}
+		}
+	}
 	.table-left1{
 		position: absolute;
 		width: 30%;
 		left: -30%;
-		top: 0px;		
+		top: 30px;		
 	}
 	.table-left2{
 		position: absolute;
@@ -34,14 +47,29 @@
 	.table-right{
 		position: absolute;
 		width: 35%;
-		right: 15px;
-		top: 28%;
+		right: 25px;
+		top: 24%;
 	}
 	.table-bottom{
 		position: absolute;
 		width: 30%;
 		bottom: -20px;
 		right: 20%;
+	}
+
+	.warn-info {
+		margin-top: 40px;
+		.air_d_grey {
+			.info-row {
+				padding-top: 15px;
+				padding-bottom: 15px;
+				margin:10px auto;
+				.grey_d0 {
+					background-color:#EBECEC;
+					padding:5px 20px;
+				}
+			}
+		}
 	}
 }
 //power/distrib.scss
@@ -127,7 +155,7 @@
 .grey_d2 {
 	border:1px solid #E0E1E1;
 	border-radius:0 5px 5px 0;
-	color:blue;
+	color: blue;
 }
 .grey_d3 {
 	border:1px solid #E0E1E1;
