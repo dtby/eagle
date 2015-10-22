@@ -21,6 +21,6 @@ class Point < ActiveRecord::Base
   # # 取得节点的value
   def value
     ps = PointState.where(pid: point_index.to_i).first
-    ps.value
+    ps.try(:value)
   end
 end

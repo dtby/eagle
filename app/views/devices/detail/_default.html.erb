@@ -10,11 +10,11 @@
             </tr>
           </thead>
           <tbody>
-            <% device.points.each do |point| %>
-              <% unless exclude_points[device.pattern.name] && exclude_points[device.pattern.name].include?(point.name) %>
+            <% @points.keys.each do |group| %>
+              <% @points[group].each do |p, v| %>
                 <tr>
-                  <th scope="row"><%= point.name %></th>
-                  <td class="unit"><%= point.value %></td>
+                  <th scope="row"><%= p %></th>
+                  <td class="unit"><%= v %></td>
                 </tr>
               <% end %>
             <% end %>
