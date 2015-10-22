@@ -40,7 +40,7 @@ class Pattern < ActiveRecord::Base
     # }
   end
 
-  def get_value_by_point_name point_name
+  def get_value_by_point_name devise, point_name
     point = self.points.find_by(name: point_name)
     return nil unless point.present?
     ps = PointState.where(pid: point.point_index.to_i).try(:last)
