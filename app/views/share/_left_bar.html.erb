@@ -34,16 +34,16 @@
 							<li class="<%= 'active' if params[:controller] == 'devices' && sub_system == @device.try(:pattern).try(:sub_system) %>">
 								<%= link_to '#' do %>
 									<%= sub_system.name %> 
-									<%= '<span class="fa arrow"></span>'.html_safe if sub_system.patterns.present? %>
+									<%= '<span class="fa arrow"></span>'.html_safe if sub_system.devices.by_room(@room.id).present? %>
 								<% end %>
 								<!-- 三级菜单 -->
-								<%= '<ul class="nav nav-third-level collapse">'.html_safe if sub_system.patterns.present? %>
-								<% sub_system.devices.each do |device| %>
+								<%= '<ul class="nav nav-third-level collapse">'.html_safe if sub_system.devices.by_room(@room.id).present? %>
+								<% sub_system.devices.by_room(@room.id).each do |device| %>
 									<li  class="<%= 'active' if params[:controller] == 'devices' && device == @device %>">
 										<%= link_to device.name, room_device_path(@room, device) %>
 									</li>
 								<% end %>
-								<%= '</ul>'.html_safe if sub_system.devices.present? %>
+								<%= '</ul>'.html_safe if sub_system.devices.by_room(@room.id).present? %>
 								<!-- 三级菜单 -->
 							</li>
 						<% end %>

@@ -1,1 +1,5 @@
-<%= render partial: 'devices/detail/default', locals: { device: @device, exclude_points: @exclude_points } %>
+<% if @device.pattern.partial_path == "ups" %>
+  <%= render partial: 'devices/detail/ups', locals: { device: @device, exclude_points: @exclude_points } %>
+<% else %>
+  <%= render partial: 'devices/detail/default', locals: { device: @device, exclude_points: @exclude_points } %>
+<% end %>

@@ -11,7 +11,7 @@ class BaseController < ApplicationController
     end
 
     # room权限
-    if params[:controller].include?('rooms')
+    if params[:controller] == "rooms" || params[:controller] == "devices"
       # room是否存在
       return redirect_to root_path unless @room.present?
       unless UserRoom.where(room: @room, user: current_user).first.present?
