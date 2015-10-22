@@ -33,15 +33,22 @@ class Pattern < ActiveRecord::Base
     # }
 
     point_group = {}
+    others = [] # 未分组的节点
     all_points = points.group(:name).pluck(:name)
     all_points.each do |point_name|
-      next unless point_name.include?('-')
-      group = point_name.split('-', 2).try(:first)
-      if group.present?
-        pn = point_name.split('-', 2).try(:last)
-        point_group[group].blank? ? point_group[group] = [pn] : point_group[group].push(pn)
+      if point_name.include?('-')
+        group = point_name.split('-', 2).try(:first)
+        if group.present?
+          pn = point_name.split('-', 2).try(:last)
+          point_group[group].blank? ? point_group[group] = [pn] : point_group[group].push(pn)
+        end
+      else
+        others.push(point_name)
       end
     end
+    
+    point_group["其他"] = others if others.present?
+
     point_group
 
   end
