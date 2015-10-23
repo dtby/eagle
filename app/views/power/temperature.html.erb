@@ -1,205 +1,133 @@
-<div class="clearfix text-center animated fadeInRightBig">
-	<div class="col-md-8 p-xs ">
-		<div class="col-xs-12 left mblock">
-			<div style="height:175px" class="air-fw"></div>
-			<div  style="height:175px" class="air-fw"></div>
-			<div style="height:175px" class="air-fw"></div>
-			<div style="height:175px" class="air-fw"></div>
-		</div>
-	</div>
-	<div class=" col-md-4 p-xs">
-		<div class="col-xs-12 right1 mblock">
-			<div class="text-muted text-left">°C</div>
-			<div style="height:170px" class="air-fw2"></div>
-			<div class="text-muted text-left">°C</div>
-			<div style="height:170px" class="air-fw2"></div>
-		</div>
-		<div class="col-xs-12 right2">
-			<div class="panel panel-default row">
-				<div class="panel-heading">历史数据</div>
-				<div class="panel-body">
-					<p></p>
-					<form class="form-inline">
-						<div class="form-group has-feedback">
-							<div class="input-group">
-								<input type="text" class="form-control" id="inputGroupSuccess3">
-								<span class="input-group-btn">
-										<button type="button" class="btn btn-white"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-								</span>
-							</div>
-						</div>
-					</form>
-					<div class="historical_data">
-						<p>历史数据：</p>
-						<p >日期：</p>
-					</div>
-					<div class="text-muted text-left">°C</div>
-					<div style="height:160px" class="air-fw2"></div>
-				</div>
-			</div>
-		</div>
-	</div>
+<div class="temperature">
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-body text-center">
+        <h2><%= "温度" %></h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-12 content">
+    <%=image_tag "temperature.png", width: "100%", id: 'temperatureImg'%>
+    <div class="data text-center show1">
+      <div>99&#8451;</div>
+      <div>22%</div>
+    </div>
+
+    <div class="data text-center show2">
+      <div>99&#8451;</div>
+      <div>22%</div>
+    </div>
+
+    <div class="data text-center show3">
+      <div>99&#8451;</div>
+      <div>22%</div>
+    </div>
+
+    <div class="data text-center show4">
+      <div>99&#8451;</div>
+      <div>22%</div>
+    </div>
+
+    <div class="data text-center show5">
+      <div>99&#8451;</div>
+      <div>22%</div>
+    </div>
+
+    <div class="data text-center show6">
+      <div>99&#8451;</div>
+      <div>22%</div>
+    </div>
+
+    <div class="data text-center show7">
+      <div>99&#8451;</div>
+      <div>22%</div>
+    </div>
+
+    <div class="data text-center show8">
+      <div>99&#8451;</div>
+      <div>22%</div>
+    </div>
+
+    <div class="data text-center show9">
+      <div>99&#8451;</div>
+      <div>22%</div>
+    </div>
+
+    <div class="data text-center show10">
+      <div>99&#8451;</div>
+      <div>22%</div>
+    </div>
+
+    <div class="data text-center show11">
+      <div>99&#8451;</div>
+      <div>22%</div>
+    </div>
+
+    <div class="data text-center show12">
+      <div>99&#8451;</div>
+      <div>22%</div>
+    </div>
+
+    <div class="data text-center show13">
+      <div>99&#8451;</div>
+      <div>22%</div>
+    </div>
+
+    <div class="data text-center show14">
+      <div>99&#8451;</div>
+      <div>22%</div>
+    </div>
+
+    <div class="data text-center show15">
+      <div>99&#8451;</div>
+      <div>22%</div>
+    </div>
+
+    <div class="data text-center show16">
+      <div>99&#8451;</div>
+      <div>22%</div>
+    </div>
+
+    <div class="data text-center show17">
+      <div>99&#8451;</div>
+      <div>22%</div>
+    </div>
+
+    <div class="data text-center show18">
+      <div>99&#8451;</div>
+      <div>22%</div>
+    </div>
+
+    <div class="data text-center show19">
+      <div>99&#8451;</div>
+      <div>22%</div>
+    </div>
+
+    <div class="data text-center show20">
+      <div>99&#8451;</div>
+      <div>22%</div>
+    </div>
+
+    <div class="data text-center show21">
+      <div>99&#8451;</div>
+      <div>22%</div>
+    </div>
+
+    <div class="data text-center show22">
+      <div>99&#8451;</div>
+      <div>22%</div>
+    </div>
+
+    <div class="data text-center show23">
+      <div>99&#8451;</div>
+      <div>22%</div>
+    </div>
+
+    <div class="data text-center show24">
+      <div>99&#8451;</div>
+      <div>22%</div>
+    </div>
+  </div>
 </div>
 
-<script type="text/javascript">
-	var right1 = $(".right1").height();
-	var right2 = $(".right2").height();
-	$(".left").height(right1 + right2);
-	// 路径配置
-	require.config({
-		paths: {
-			echarts: '/assets/echarts'
-		}
-	});
-	
-	// 使用
-	require(
-		[
-		'echarts',
-		'echarts/chart/bar', // 使用柱状图就加载bar模块，按需加载
-		],
-
-			function (ec) {
-			// 基于准备好的dom，初始化echarts图表
-			$(".air-fw").each(function(){
-				var myChart = ec.init($(this).get(0));   
-				var option = {
-					grid:{
-						y:30,
-						x2:30,
-						x:40,
-					},
-					tooltip : {
-						trigger: 'axis'
-					},
-					calculable : true,
-
-					xAxis : [
-					{
-						splitLine : {
-							show:false,
-						},
-						axisTick : {    // 轴标记
-							show:false,
-						},
-						axisLine : {    // 轴线
-							show: true,
-							lineStyle: {
-								color: '#CCCCCC',
-								type: 'solid',
-								width: 2
-							}
-						},
-						type : 'category',
-						data : ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31','32','33','34','35','36']
-					}
-					],
-					yAxis : [
-					{
-						type : 'value',
-						axisLine : {    // 轴线
-							show: true,
-							lineStyle: {
-								color: '#CCCCCC',
-								type: 'solid',
-								width: 2
-							}
-						},
-						axisLabel:{
-							formatter: '{value} °', 
-						},
-						splitLine : {
-							show:true,
-							lineStyle: {
-								color: '#CCCCCC',
-								type: 'dotted',
-								width: 2
-							}
-						},
-					}
-
-					],
-					series : [
-					{
-						name:'机柜温度',
-						type:'bar',
-						itemStyle:{
-							normal:{
-								color:'#00cae1'
-							}	
-						},
-						data:[60, 59, 90, 26.4, 28.7, 70.7, 175.6, 182.2, 147, 18.8, 60, 23,26, 59, 90, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 188, 60, 23,126, 59, 190, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 188, 60, 123], 
-					}
-					]
-				};
-
-				// 为echarts对象加载数据 
-				myChart.setOption(option); 
-			});
-		}
-	);
-
-	require(
-		[
-		'echarts',
-		'echarts/chart/line' // 使用柱状图就加载bar模块，按需加载
-		],
-		function (ec) {
-			$(".air-fw2").each(function(){
-				var myChart = ec.init($(this).get(0));   
-				var option = {
-					grid:{
-						y:10,
-						x2:5,
-						x:20
-					},
-					tooltip : {
-						trigger: 'axis'
-					},
-					calculable : true,
-					xAxis : [
-					{
-						type : 'category',
-						boundaryGap : false,
-						splitLine : {
-							show:false,
-						},
-						data : ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24']
-					}
-					],
-					yAxis : [
-						{
-							type : 'value',
-							axisLine : {    // 轴线
-								show: true,
-								lineStyle: {
-									color: '#CCCCCC',
-									type: 'solid',
-									width: 2
-								}
-							},
-							splitLine : {
-								show:true,
-								lineStyle: {
-									color: '#CCCCCC',
-									type: 'dotted',
-									width: 2
-								}
-							}
-						}
-					],
-					series : [
-						{
-							name:'机柜温度',
-							smooth:true,
-							type:'line',
-							data:[11, 11, 15, 13, 12, 13, 11, 11, 15, 13, 12, 13, 11, 11, 15, 13, 12, 13, 11, 11, 15, 13, 12, 13],
-						}
-					]
-				};
-			// 为echarts对象加载数据 
-			myChart.setOption(option); 
-			});
-		}
-	);
-</script>
