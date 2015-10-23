@@ -36,9 +36,10 @@ class Room < ActiveRecord::Base
     point_hash.each do |room, system_hash|
       room = Room.find_or_create_by(name: room)
       system_hash.each do |sub_name, patterns|
+        sub_name, pattern_name = sub_name.split("-")
         sub_system = SubSystem.find_or_create_by(name: sub_name)
         patterns.each do | name, points|
-          pattern = select_pattern_by_name name, sub_system.id
+          pattern = Pattern.find_by(sub_system_id: sub_system.id, name: pattern_name)
           device = Device.find_or_create_by(name: name, pattern: pattern, room: room)
           points.each do |name, value|
             p = Point.find_or_create_by(name: name, device: device, point_index: value)
@@ -46,13 +47,6 @@ class Room < ActiveRecord::Base
         end
       end
     end
-  end
-
-  def self.select_pattern_by_name name, sub_system_id
-    Pattern.where(sub_system_id: sub_system_id).each do |p|
-      return p if name.include? p.name
-    end
-    nil
   end
 
   def self.datas_to_hash class_name, group_hash
