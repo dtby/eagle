@@ -360,3 +360,32 @@
 		
 	}
 }
+
+//风冷冷风机组系统
+.cold-wind {
+	background-color: #fff;
+	h3 {
+		color: #666;
+		margin: 10px;
+	}
+	.fa-circle {
+		color: #009bfa;
+		&.green {
+			color: #00ffc0;
+		}
+	}
+	.table {
+		background-color: #e9e9ea;
+		color: #7f7f81;
+		&.table-bottom {
+			margin-top: 106px;
+		}
+		tr {
+			th { 
+				height: 36px; 
+				font-size: 16px;
+			}
+		} 
+		tr:nth-child(even) > td {background-color: #f2f2f2;}  
+	}
+}

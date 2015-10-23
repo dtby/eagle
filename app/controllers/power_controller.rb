@@ -16,4 +16,7 @@ class PowerController < BaseController
 	
 	def cabinet
 	end
+
+	def wind
+	end
 end

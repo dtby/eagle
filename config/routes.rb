@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       get :air_d
       get :temperature
       get :cabinet
+      get :wind
     end
   end
 
