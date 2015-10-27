@@ -369,9 +369,19 @@
 		margin: 10px;
 	}
 	.fa-circle {
-		color: #009bfa;
+		// color: #009bfa;
+		color: #00ffc0;
 		&.green {
 			color: #00ffc0;
+		}
+		&.yellow {
+			color: yellow;
+		}
+		&.orange {
+			color: orange;
+		}
+		&.red {
+			color: red;
 		}
 	}
 	.table {

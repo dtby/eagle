@@ -1,5 +1,7 @@
-<% if @device.pattern.partial_path == "ups" %>
-  <%= render partial: 'devices/detail/ups', locals: { device: @device, exclude_points: @exclude_points } %>
+<% if @device.pattern.partial_path == "gafc" %>
+  <%= render partial: 'devices/detail/gafc', locals: { device: @device, exclude_points: @exclude_points } %>
+<% elsif @device.pattern.partial_path == "cool_sys_weitu" %>
+  <%= render partial: 'devices/detail/cool_sys_weitu', locals: { device: @device, exclude_points: @exclude_points } %>
 <% else %>
   <%= render partial: 'devices/detail/default', locals: { device: @device, exclude_points: @exclude_points } %>
 <% end %>

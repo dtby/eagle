@@ -1,3 +1,5 @@
+
+
 # == Schema Information
 #
 # Table name: rooms
