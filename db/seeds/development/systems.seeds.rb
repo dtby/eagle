@@ -24,11 +24,11 @@ SubSystem.create!([
   { id: 9, system_id: 2, name: '漏水检测' },
   { id: 11, system_id: 2, name: '机柜环境' },
   { id: 10, system_id: 1, name: '电量仪系统' },
-  { id: 12, system_id: 1, name: '风冷系统' },
-  { id: 13, system_id: 1, name: '普通温湿度系统' },
+  { id: 12, system_id: 2, name: '风冷系统' },
+  { id: 13, system_id: 2, name: '普通温湿度系统' },
   { id: 14, system_id: 1, name: '空调系统' },
-  { id: 15, system_id: 1, name: '消防系统' },
-  { id: 16, system_id: 1, name: '漏水系统' }
+  { id: 15, system_id: 4, name: '消防系统' },
+  { id: 16, system_id: 2, name: '漏水系统' }
 ])
 # {"配电系统"=>nil, "UPS系统"=>"GAFC", "空调系统"=>"7053", 
 # "温湿度系统"=>"th802", "电量仪系统"=>"UMW450", "风冷系统"=>"威图", "普通温湿度系统"=>"普通温湿度", "消防系统"=>"7053", "漏水系统"=>"7053", nil=>nil}
