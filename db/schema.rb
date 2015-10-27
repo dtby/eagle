@@ -157,7 +157,6 @@ ActiveRecord::Schema.define(version: 20151006042707) do
   add_foreign_key "devices", "patterns"
   add_foreign_key "devices", "rooms"
   add_foreign_key "menus", "rooms"
-  add_foreign_key "patterns", "sub_systems"
   add_foreign_key "points", "devices"
   add_foreign_key "sub_systems", "systems"
   add_foreign_key "user_rooms", "rooms"
