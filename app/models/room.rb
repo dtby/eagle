@@ -39,6 +39,10 @@ class Room < ActiveRecord::Base
       room = Room.find_or_create_by(name: room)
       system_hash.each do |sub_name, patterns|
         sub_name, pattern_name = sub_name.split("-")
+
+        sub_name.delete! "普通" if sub_name.present? && (sub_name.include? "普通")
+        pattern_name = "普通温湿度" if pattern_name == "th802"
+        
         sub_system = SubSystem.find_or_create_by(name: sub_name)
         patterns.each do | name, points|
           pattern = Pattern.find_by(sub_system_id: sub_system.id, name: pattern_name)
