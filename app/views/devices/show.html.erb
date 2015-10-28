@@ -4,6 +4,8 @@
   <%= render partial: 'devices/detail/cool_sys_weitu', locals: { device: @device, exclude_points: @exclude_points } %>
 <% elsif @device.pattern.partial_path == "commen_temp" %>
   <%= render partial: 'devices/detail/commen_temp', locals: { device: @device, exclude_points: @exclude_points } %>
+<% elsif @device.pattern.partial_path == "weitu" %>
+  <%= render partial: 'devices/detail/weitu', locals: { device: @device, exclude_points: @exclude_points } %>
 <% else %>
   <%= render partial: 'devices/detail/default', locals: { device: @device, exclude_points: @exclude_points } %>
 <% end %>
