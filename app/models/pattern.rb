@@ -34,7 +34,7 @@ class Pattern < ActiveRecord::Base
 
     point_group = {}
     others = [] # 未分组的节点
-    all_points = points.group(:name).order("name asc").pluck(:name)
+    all_points = points.group(:name).order("points.id asc").pluck(:name)
     all_points.each do |point_name|
       if point_name.include?('-')
         group = point_name.split('-', 2).try(:first).try(:strip)
