@@ -361,6 +361,92 @@
 	}
 }
 
+//漏水
+.leaking {
+	.content {
+		position: relative;
+	}
+
+	.data {
+		color: #fff;
+		position: absolute;
+		
+		.fa-circle {
+			&.green {
+				color: #00ffc0;
+			}
+			&.red {
+				color: red;
+			}
+		}
+		
+		&.show1 {
+			top: 16%;
+			left: 20%;
+		}
+
+		&.show2 {
+			top: 21%;
+			left: 20%;
+		}
+
+		&.show3 {
+			top: 57%;
+			left: 17%;
+		}
+
+		&.show4 {
+			top: 32%;
+			left: 34%;
+		}
+
+		&.show5 {
+			top: 49%;
+			left: 34%;
+		}
+
+		&.show6 {
+			top: 58%;
+			left: 34%;
+		}
+
+		&.show7 {
+			top: 16%;
+			left: 38%;
+		}
+
+		&.show8 {
+			top: 21%;
+			left: 38%;
+		}
+
+		&.show9 {
+			top: 30%;
+			left: 42%;
+		}
+		
+		&.show10 {
+			top: 56%;
+			left: 41%;
+		}
+
+		&.show11 {
+			top: 16%;
+			left: 55%;
+		}
+
+		&.show12 {
+			top: 21%;
+			left: 55%;
+		}
+
+		&.show13 {
+			top: 56%;
+			left: 58%;
+		}
+	}
+}
+
 //风冷冷风机组系统
 .cold-wind {
 	background-color: #fff;
