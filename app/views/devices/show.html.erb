@@ -8,6 +8,8 @@
   <%= render partial: 'devices/detail/weitu', locals: { device: @device, exclude_points: @exclude_points } %>
 <% elsif @device.pattern.partial_path == "leaking_7053" %>
   <%= render partial: 'devices/detail/leaking_7053', locals: { device: @device, exclude_points: @exclude_points } %>
+<% elsif @device.pattern.partial_path == "fire_7053" %>
+  <%= render partial: 'devices/detail/fire_7053', locals: { device: @device, exclude_points: @exclude_points } %>
 <% else %>
   <%= render partial: 'devices/detail/default', locals: { device: @device, exclude_points: @exclude_points } %>
 <% end %>

@@ -361,6 +361,179 @@
 	}
 }
 
+
+//消防烟感
+.fire {
+	.content {
+		position: relative;
+	}
+
+	.data {
+		color: #fff;
+		position: absolute;
+
+		.fa-circle {
+			font-size: 18px;
+			&.green {
+				color: #00ffc0;
+			}
+			&.red {
+				color: red;
+			}
+		}
+		
+		&.show1 {
+			top: 26%;
+			left: 25%;
+		}
+
+		&.show2 {
+			top: 42%;
+			left: 24%;
+		}
+
+		&.show3 {
+			top: 54%;
+			left: 23%;
+		}
+
+		&.show4 {
+			top: 68%;
+			left: 22%;
+		}
+
+		&.show5 {
+			top: 32%;
+			left: 28%;
+		}
+
+		&.show6 {
+			top: 59%;
+			left: 27%;
+		}
+
+		&.show7 {
+			top: 26%;
+			left: 32%;
+		}
+
+		&.show8 {
+			top: 42%;
+			left: 31%;
+		}
+
+		&.show9 {
+			top: 54%;
+			left: 31%;
+		}
+		
+		&.show10 {
+			top: 68%;
+			left: 30%;
+		}
+
+		&.show11 {
+			top: 23%;
+			left: 39%;
+		}
+
+		&.show12 {
+			top: 26%;
+			left: 39%;
+		}
+
+		&.show13 {
+			top: 31%;
+			left: 39%;
+		}
+
+		&.show14 {
+			top: 34%;
+			left: 39%;
+		}
+
+		&.show15 {
+			top: 38%;
+			left: 39%;
+		}
+
+		&.show16 {
+			top: 49%;
+			left: 38%;
+		}
+
+		&.show17 {
+			top: 53%;
+			left: 38%;
+		}
+
+		&.show18 {
+			top: 58%;
+			left: 38%;
+		}
+
+		&.show19 {
+			top: 26%;
+			left: 46%;
+		}
+
+		&.show20 {
+			top: 42%;
+			left: 46%;
+		}
+
+		&.show21 {
+			top: 54%;
+			left: 46%;
+		}
+
+		&.show22 {
+			top: 68%;
+			left: 46%;
+		}
+
+		&.show23 {
+			top: 32%;
+			left: 50%;
+		}
+
+		&.show24 {
+			top: 58%;
+			left: 50%;
+		}
+
+		&.show25 {
+			top: 26%;
+			left: 53%;
+		}
+
+		&.show26 {
+			top: 42%;
+			left: 53%;
+		}
+
+		&.show27 {
+			top: 54%;
+			left: 53%;
+		}
+
+		&.show28 {
+			top: 68%;
+			left: 53%;
+		}
+
+		&.show29 {
+			top: 23%;
+			left: 67%;
+		}
+
+		&.show30 {
+			top: 23%;
+			left: 72%;
+		}
+	}
+}
+
 //漏水
 .leaking {
 	.content {
@@ -370,8 +543,9 @@
 	.data {
 		color: #fff;
 		position: absolute;
-		
+
 		.fa-circle {
+			font-size: 18px;
 			&.green {
 				color: #00ffc0;
 			}
