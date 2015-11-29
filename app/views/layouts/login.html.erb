@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>iGrid监控平台—验证</title>
+  <%= stylesheet_link_tag    'login', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+  <%= favicon_link_tag "favicon_logo.ico" %>
+</head>
+
+<body class="login-body">
+	<%= yield :login_nav %>
+	<%= render "share/flash" %>
+
+	<div class="admin-user">
+		<%= yield %>
+	</div>
+
+	<script>
+		var BodyHeight = document.body.clientHeight;
+		var margin = (BodyHeight - 525)/2;
+		$(".login-form").css("margin-top", margin); 
+	</script>	
+</body>
+
+</html>

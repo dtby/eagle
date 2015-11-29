@@ -1,0 +1,53 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>机房详细参数状况表</h5>
+          <!-- 新增机房 -->
+            <%= link_to new_admin_room_path, remote: true, format: :js, class: "ibox-title-new room-new" do %>
+              <i class="fa fa-plus fa-lg"></i>
+            <% end %>
+        </div>
+        <div class="ibox-content"> 
+          <table class="footable table table-stripped text-center toggle-arrow-tiny" data-page-size="2">
+            <thead>
+              <tr>
+                <th class="text-center" data-toggle="true">No.</th>
+                <th class="text-center">机房名称</th>
+                <th class="text-center">3D布局图链接</th>
+                <th class="text-center">操作</th>
+              </tr>
+            </thead>
+            <tbody data-no-turbolink>
+            <% @rooms.each_with_index do |room, index| %>
+              <tr>
+                <td><%= index + 1 %></td>
+                <td><%= room.name %></td>
+                <td><%= room.link %></td>
+                <td>
+                  <%= link_to edit_admin_room_path(room), class: 'btn btn-xs btn-default', remote: true, format: :js do %>
+                    <span class="glyphicon glyphicon-edit"></span>
+                  <% end %>
+                  <%= link_to admin_room_path(room), method: :delete, class: 'btn btn-xs btn-danger' do %>
+                    <span class="glyphicon glyphicon-trash"></span>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td class="text-center" colspan="5">
+                  <ul class="pagination"></ul>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="roomModalContent"></div>
+  

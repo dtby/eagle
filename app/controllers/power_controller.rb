@@ -1,4 +1,4 @@
-class PowerController < ApplicationController
+class PowerController < BaseController
 	def crac    
 	end
 
@@ -15,5 +15,8 @@ class PowerController < ApplicationController
 	end
 	
 	def cabinet
+	end
+
+	def wind
 	end
 end

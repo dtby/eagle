@@ -11,12 +11,16 @@
 // about supported directives.
 //
 //= require jquery
-//= require jquery_ujs
-//= require turbolinks
 //= require jquery.turbolinks
+//= require jquery_ujs
 //= require bootstrap-sprockets
-//= require_tree ./admin
+//= require ./frame/inspinia
+//= require ./frame/pace.min
+//= require ./frame/jquery.slimscroll.min
+//= require ./frame/jquery.metisMenu
+//= require ./frame/switchery
+//= require ./frame/footable.all.min
 //= require ./echarts/echarts
-//= require_tree ./echarts
-//= require_tree
-
+//= require_tree ./echarts/chart
+//= require_tree ./application/.
+//= require turbolinks

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>iGrid监控平台后台管理系统</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <%= stylesheet_link_tag    'admin', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'admin', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+  <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+  <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+  <%= favicon_link_tag "favicon_logo.ico" %>
+</head>
+
+	<body>
+		<div id="wrapper">
+			<!-- 左侧导航栏部分 -->
+			<%= render partial: "/admin/share/left_bar" %>
+
+			<!-- 右侧内容页 -->
+			<div id="page-wrapper" class="gray-bg">
+				<!-- 顶部导航 -->
+				<%= render partial: "/admin/share/top_bar" %>
+
+				<!-- 右侧中间内容部分 -->
+				<div class="row wrapper eagle-content <%= controller.controller_path.gsub('/','__') + '__' + controller.action_name %>">
+					<div class="clearfix">
+						<%= yield %>
+					</div>
+				</div>
+
+				<!-- flash -->
+				<%= render partial: "admin/share/flash_info" %>
+				<!-- 页脚 -->
+				<%= render partial: "/admin/share/footer" %>
+			</div>
+		</div>
+	</body>
+
+</html>

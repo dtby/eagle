@@ -1,14 +1,10 @@
 # == Schema Information
 #
-# Table name: ptsts
+# Table name: point_states
 #
-#  PointID   :integer          default(0), not null
-#  ValueType :integer          default(0), not null
-#  Status    :string(64)
-#  Confirm   :string(64)
-#  Flag      :boolean          default(FALSE)
-#  ADate     :date
-#  ATime     :time
+#  id         :integer          not null, primary key
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 
 require 'test_helper'

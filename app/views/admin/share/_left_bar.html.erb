@@ -1,0 +1,63 @@
+<nav class="navbar-default navbar-static-side" role="navigation">
+	<div class="sidebar-collapse">
+		<ul class="nav metismenu" id="side-menu" data-no-turbolink>
+			<!-- brand -->
+			<li class="nav-header">
+				<div class="profile-element text-center" style="color: #fff;">
+					<p class="block"> <strong><%= Time.now.strftime("%A %R %p")%></strong></p>
+				</div>
+				<div class="logo-element">
+					iGrid
+				</div>
+			</li>
+
+			<li class="<%= 'active' if params[:controller] == 'admin/rooms' %>">
+				<%= link_to admin_rooms_path do %>
+					<i class="fa fa-home"></i> <span class="nav-label">机房</span>
+				<% end %>
+			</li>
+			<li class="<%= 'active' if params[:controller] == 'admin/admins' %>">
+				<%= link_to admin_admins_path do %>
+					<i class="fa fa-user"></i> <span class="nav-label">管理员</span>
+				<% end %>
+			</li>
+			<li class="<%= 'active' if params[:controller] == 'admin/users' %>">
+				<%= link_to admin_users_path do %>
+					<i class="fa fa-users"></i> <span class="nav-label">用户</span>
+				<% end %>
+			</li>
+
+			<!-- 一级菜单 -->
+			<% @systems.each do |system| %>
+				<li class="<%= 'active' if params[:controller] == 'admin/patterns' && system == @pattern.try(:sub_system).try(:system) %>" >
+					<%= link_to '#' do %>
+						<i class="fa <%= menu_tree_icon(system.name) %>"></i> <span class="nav-label"><%= system.name %></span>
+						<%= '<span class="fa arrow"></span>'.html_safe if system.sub_systems.present? %>
+					<% end %>
+					<!-- 二级菜单 -->
+					<%= '<ul class="nav nav-second-level collapse">'.html_safe if system.sub_systems.present? %>
+					<% system.sub_systems.each do |sub_system| %>
+						<li class="<%= 'active' if params[:controller] == 'admin/patterns' && sub_system == @pattern.try(:sub_system) %>">
+							<%= link_to '#' do %>
+								<%= sub_system.name %> 
+								<%= '<span class="fa arrow"></span>'.html_safe if sub_system.patterns.present? %>
+							<% end %>
+							<!-- 三级菜单 -->
+							<%= '<ul class="nav nav-third-level collapse">'.html_safe if sub_system.patterns.present? %>
+							<% sub_system.patterns.each do |pattern| %>
+								<li  class="<%= 'active' if params[:controller] == 'admin/patterns' && pattern == @pattern %>">
+									<%= link_to pattern.name, admin_pattern_path(pattern) %>
+								</li>
+							<% end %>
+							<%= '</ul>'.html_safe if sub_system.patterns.present? %>
+							<!-- 三级菜单 -->
+						</li>
+					<% end %>
+					<%= '</ul>'.html_safe if system.sub_systems.present? %>
+					<!-- 二级菜单 -->
+				</li>
+			<% end %>
+			<!-- 一级菜单 -->
+		</ul>
+	</div>
+</nav>

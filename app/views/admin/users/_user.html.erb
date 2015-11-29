@@ -1,0 +1,23 @@
+<% @users.each_with_index do |user, index| %>
+<tr>
+	<th scope="row"><%= index + 1 %></th>
+	<td><%= user.name %></td>
+	<td><%= user.phone %></td>
+	<td><%= user.email %></td>
+	<td><%= user.created_at.strftime("%F %R") %></td>
+	<td>
+		<% if params[:controller] == "admin/admins" %>
+			<%= link_to edit_admin_admin_path(user), remote: true, format: :js, class: 'btn btn-xs btn-default', title: '编辑' do %>
+				<span class="glyphicon glyphicon-edit"></span>
+			<%end%>
+		<% else %>
+			<%= link_to edit_admin_user_path(user), remote: true, format: :js, class: 'btn btn-xs btn-default', title: '编辑' do %>
+				<span class="glyphicon glyphicon-edit"></span>
+			<%end%>
+		<% end %>
+		<%= link_to [:admin, user], data:{ confirm: "确定要删除用户吗？" }, remote: true, format: :js, method: :delete, class: 'btn btn-xs btn-danger', title: '删除' do %>
+		<span class="glyphicon glyphicon-trash"></span>
+		<%end%>
+	</td>
+</tr>
+<% end %>

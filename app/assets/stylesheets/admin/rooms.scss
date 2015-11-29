@@ -1,0 +1,60 @@
+.rooms-modal {
+	.ibox-padding {
+		// border: 1px solid #e7eaec;
+		line-height: 23px;
+		padding: 5px 0;
+	}
+	.input-padding {
+		margin-bottom: 10px;
+	}
+	.modal-dialog {
+		padding-top: 1%;
+	}
+	.footable-row-detail-row {
+		line-height: 2.1em;
+		.footable-row-detail-name {
+			padding-right: 10px;
+		}
+	}
+
+	.rooms-ibox-title {
+		min-height: 66px;
+		.ibox-icon {
+			line-height: 30px;
+		}
+	}
+	.sub-btn {
+		margin-right: 35px;
+		margin-top: 20px;
+	}
+	.border-bottom {
+		border-bottom: 0px!important;
+	}
+	.rooms-ibox-content {
+		background-color: #F7F7F7;
+		padding: 0;
+		border-top: 0;
+		border-bottom: 0;
+		.ibox-content {
+			background-color: #F7F7F7;
+			padding: 0;
+			border: none;
+		}
+	}
+
+	table tr td {
+		text-align: center;
+		vertical-align: middle;
+	}
+}
+.room-new {
+	padding-left: 14px;
+}
+.switchery {
+	height: 20px;
+	width: 35px;
+	small {
+		height: 20px;
+		width: 20px;
+	}
+}

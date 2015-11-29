@@ -1,0 +1,70 @@
+<%= form_for([:admin, @admin], remote: true, format: :js) do |f| %>
+	<div class="form-group">
+		<div class="input-group m-b">
+			<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+			<%= f.text_field :name, class: "form-control", placeholder: "姓名" %>
+		</div>
+		<% if @admin.errors[:name].any? %>
+			<dd class="error text-danger"><%= @admin.errors[:name][0] %></dd>
+		<% end %>
+	</div>
+
+	<div class="form-group">
+		<div class="input-group m-b">
+			<span class="input-group-addon"><span class="glyphicon glyphicon-phone"></span></span>
+			<%= f.text_field :phone, class: "form-control", placeholder: "手机号码" %>
+		</div>
+		<% if @admin.errors[:phone].any? %>
+			<dd class="error text-danger"><%= @admin.errors[:phone][0] %></dd>
+		<% end %>
+	</div>
+
+	<div class="form-group">
+		<div class="input-group m-b">
+			<span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+			<%= f.email_field :email, class: "form-control", placeholder: "邮箱" %>
+		</div>
+		<% if @admin.errors[:email].any? %>
+			<dd class="error text-danger"><%= @admin.errors[:email][0] %></dd>
+		<% end %>
+	</div>
+
+	<div class="form-group">     
+		<div class="input-group m-b">
+			<span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>    
+			<%= f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "#{ params[:action] == "new" ? "设置密码(不小于6个字符)" : "更新密码(不填写则不更新密码)" }" %>   
+		</div>
+		<% if @admin.errors[:password].any? %>
+			<dd class="error text-danger"><%= @admin.errors[:password][0] %></dd>
+		<% end %>
+	</div>
+
+	<div class="form-group">     
+		<div class="input-group m-b">
+			<span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>    
+			<%= f.password_field :password_confirmation, autocomplete: "off", class: "form-control", placeholder: "#{ params[:action] == "new" ? "确认密码" : "确认密码(不填写则不更新密码)" }" %>   
+		</div>
+		<% if @admin.errors[:password_confirmation].any? %>
+			<dd class="error text-danger"><%= @admin.errors[:password_confirmation][0] %></dd>
+		<% end %>
+	</div>
+
+	<div class="actions">
+		<%= f.submit "#{params[:id].present? ? '更新' : '创建'}", class: "btn btn-success btn-block" %>
+	</div>
+	<p></p>
+<% end %>
+
+<script>
+	//配置多选表单
+      var config = {
+            '.chosen-select'           : {},
+            '.chosen-select-deselect'  : {allow_single_deselect:true},
+            '.chosen-select-no-single' : {disable_search_threshold:10},
+            '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+            '.chosen-select-width'     : {width:"90%"}
+      }
+      for (var selector in config) {
+            $(selector).chosen(config[selector]);
+      }
+</script>

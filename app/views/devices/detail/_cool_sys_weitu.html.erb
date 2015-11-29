@@ -1,0 +1,132 @@
+<div class="cold-wind">
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-heading text-center">
+        <h3><%= "风冷冷水机组系统" %></h3>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-md-4">
+            <table class="table table-bordered">
+              <tr>
+                <th colspan="2" class="text-center">Slaver1状态告警</th>
+              </tr>
+              <% @points["告警Slaver1"].keys.each_with_index do |pn, index| %>
+                <% if index%2 == 0 %>
+                  <tr>
+                <% end %>
+                  <td width="50%"><i class="fa fa-circle <%= 'red' if point_value(pn, @points["告警Slaver1"], exclude_points["告警Slaver1"]) == "1" %>"></i>&nbsp;&nbsp;<%= pn %></td>
+                <% if index%2 == 1 %>
+                  </tr>
+                <% end %>
+              <% end %>
+            </table>
+
+            <table class="table table-bordered">
+              <tr>
+                <th colspan="2" class="text-center">Slaver2状态告警</th>
+              </tr>
+              <% @points["告警Slaver2"].keys.each_with_index do |pn, index| %>
+                <% if index%2 == 0 %>
+                  <tr>
+                <% end %>
+                  <td width="50%"><i class="fa fa-circle <%= 'red' if point_value(pn, @points["告警Slaver2"], exclude_points["告警Slaver2"]) == "1" %>"></i>&nbsp;&nbsp;<%= pn %></td>
+                <% if index%2 == 1 %>
+                  </tr>
+                <% end %>
+              <% end %>
+            </table>
+
+            <table class="table table-bordered">
+              <tr>
+                <th colspan="2" class="text-center">Slaver3状态告警</th>
+              </tr>
+              <% @points["告警Slaver3"].keys.each_with_index do |pn, index| %>
+                <% if index%2 == 0 %>
+                  <tr>
+                <% end %>
+                  <td width="50%"><i class="fa fa-circle <%= 'red' if point_value(pn, @points["告警Slaver3"], exclude_points["告警Slaver3"]) == "1" %>"></i>&nbsp;&nbsp;<%= pn %></td>
+                <% if index%2 == 1 %>
+                  </tr>
+                <% end %>
+              <% end %>
+            </table>
+          </div>
+
+          <div class="col-md-8">
+            <div class="row">
+              <div class="col-md-6">
+                <%= image_tag "cold-wind.gif", style: "width: 100%; padding-top: 48%;" %>
+              </div>
+              <div class="col-md-6">
+                <table class="table table-bordered">
+                  <tr>
+                    <th class="text-center">Slaver1</th>
+                    <th class="text-center">Slaver2</th>
+                  </tr>
+                  <% size = @points["Slaver1"].size > @points["Slaver2"].size ? @points["Slaver1"].size : @points["Slaver2"].size %>
+                  <% (0...size).each do |i| %>
+                    <tr>
+                      <td width="50%">
+                        <%= "#{@points["Slaver1"].keys[i]}：#{point_value(@points["Slaver1"].keys[i], @points["Slaver1"], exclude_points["Slaver1"])}" if @points["Slaver1"].keys[i].present? %>
+                      </td>
+                      <td width="50%">
+                        <%= "#{@points["Slaver2"].keys[i]}：#{point_value(@points["Slaver2"].keys[i], @points["Slaver2"], exclude_points["Slaver2"])}" if @points["Slaver2"].keys[i].present? %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </table>
+                <table class="table table-bordered">
+                  <tr>
+                    <th class="text-center">Slaver3</th>
+                    <th class="text-center">系统</th>
+                  </tr>
+                  <% size = @points["Slaver3"].size > @points["系统"].size ? @points["Slaver3"].size : @points["系统"].size %>
+                  <% (0...size).each do |i| %>
+                    <tr>
+                      <td width="50%">
+                        <%= "#{@points["Slaver3"].keys[i]}：#{point_value(@points["Slaver3"].keys[i], @points["Slaver3"], exclude_points["Slaver3"])}" if @points["Slaver3"].keys[i].present? %>
+                      </td>
+                      <td width="50%">
+                        <%= "#{@points["系统"].keys[i]}：#{point_value(@points["系统"].keys[i], @points["系统"], exclude_points["系统"])}" if @points["系统"].keys[i].present? %>
+                      </td>
+                    </tr>
+                  <% end %>
+                </table>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <table class="table table-bordered table-bottom">
+                  <tr>
+                    <th colspan="4" class="text-center"></th>
+                  </tr>
+                  <% @points["告警FC"].keys.each_with_index do |pn, index| %>
+                    <% if index%4 == 0 %>
+                      <tr>
+                    <% end %>
+                      <td width="25%"><i class="fa fa-circle <%= 'red' if point_value(pn, @points["告警FC"], exclude_points["告警FC"]) == "1" %>"></i>&nbsp;&nbsp;<%= pn %></td>
+                    <% if index%4 == 3 %>
+                      </tr>
+                    <% end %>
+                  <% end %>
+                  <% @points["告警Sys"].keys.each_with_index do |pn, index| %>
+                    <% if index%4 == 0 %>
+                      <tr>
+                    <% end %>
+                      <td width="25%"><i class="fa fa-circle <%= 'red' if point_value(pn, @points["告警Sys"], exclude_points["告警Sys"]) == "1" %>"></i>&nbsp;&nbsp;<%= pn %></td>
+                    <% if index%4 == 3 %>
+                      </tr>
+                    <% end %>
+                  <% end %>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+</div>

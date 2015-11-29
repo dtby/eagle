@@ -1,19 +1,19 @@
 # == Schema Information
 #
-# Table name: ptsts
+# Table name: point_states
 #
-#  PointID   :integer          default(0), not null
-#  ValueType :integer          default(0), not null
-#  Status    :string(64)
-#  Confirm   :string(64)
-#  Flag      :boolean          default(FALSE)
-#  ADate     :date
-#  ATime     :time
+#  id         :integer          not null, primary key
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 
 class PointState < ActiveRecord::Base
-  self.table_name = "ptsts"
+  self.table_name = "litop_point"
+  self.abstract_class = true
+  establish_connection "3droom_db".to_sym
 
-  belongs_to :analog_point, class_name: AnalogPoint, :foreign_key => :PointID
-  belongs_to :digital_point, class_name: DigitalPoint, :foreign_key => :PointID
+  # 由于源数据库中存在type字段
+  # 在rails中，默认用这个字段来处理继承。
+  # 为防止报错，添加以下语句
+  self.inheritance_column = ""
 end

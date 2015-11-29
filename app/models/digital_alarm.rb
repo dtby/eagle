@@ -1,22 +1,14 @@
 # == Schema Information
 #
-# Table name: cos
+# Table name: digital_alarms
 #
-#  HostA           :string(16)
-#  HostB           :string(16)
-#  PointID         :integer          default(0)
-#  Status          :integer          default(0)
-#  ADate           :date
-#  ATime           :time
-#  AMSecond        :integer          default(0)
-#  AckFlag         :boolean          default(FALSE)
-#  User            :string(32)
-#  Note            :string(255)
-#  ConfirmDateTime :datetime
+#  id         :integer          not null, primary key
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 
 class DigitalAlarm < ActiveRecord::Base
-  self.table_name = "cos"
-
-  belongs_to :digital_point, class_name: DigitalPoint, :foreign_key => :PointID
+  self.table_name = "cos" 
+  self.abstract_class = true
+  establish_connection "dap".to_sym
 end

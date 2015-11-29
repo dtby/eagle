@@ -16,16 +16,47 @@ default: &default
   username: root
   password:
   socket: /tmp/mysql.sock
+  # socket: 119.10.8.197/mysql.sock
+
+dap:
+  adapter: mysql2
+  database: dap
+  username: dap
+  password: admin
+  host: 119.10.8.197
+  port: 3306
+
+3droom_db:
+  adapter: mysql2
+  database: 3droom_db
+  username: dap
+  password: admin
+  host: 119.10.8.197
+  port: 3306
 
 development:
-  <<: *default
+  adapter: mysql2
+  encoding: utf8
+  pool: 5
+  username: root
+  password:
+  socket: /tmp/mysql.sock
   database: eagle_development
+
+# development:
+#   <<: *default
+#   database: eagle_development
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
-  <<: *default
+  adapter: mysql2
+  encoding: utf8
+  pool: 5
+  username: root
+  password:
+  socket: /tmp/mysql.sock
   database: eagle_test
 
 # As with config/secrets.yml, you never want to store sensitive information,
@@ -49,6 +80,6 @@ test:
 #
 production:
   <<: *default
-  database: eagle_production
-  username: eagle
-  password: <%= ENV['EAGLE_DATABASE_PASSWORD'] %>
+  database: dap
+  # username: root
+  # password: <%= ENV['EAGLE_DATABASE_PASSWORD'] %>

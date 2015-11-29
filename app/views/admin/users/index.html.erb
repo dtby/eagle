@@ -1,0 +1,30 @@
+<div class="col-md-12 p-xs animated fadeInRightBig" id="authenticatePanel">
+	<div id="authenticatePanel" class="ibox float-e-margins">
+		<div class="ibox-title text-center">
+			<h5><%= "用户列表" %></h5>
+			<!-- 新增用户 -->
+			<%= link_to new_admin_user_path, remote: true, format: :js, class: "ibox-title-new", title: "添加用户" do %>
+				<i class="fa fa-plus fa-lg"></i>
+			<% end %>
+		</div>
+		<div class="ibox-content table-responsive">
+			<table class="table table-striped ">
+				<thead>
+					<tr>
+						<th>序号</th>
+						<th>姓名</th>
+						<th>登录帐号</th>
+						<th>登录邮箱</th>
+						<th>创建日期</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<%= render partial: "user" %>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<%= render partial: "admin/share/admin_user_modal" %>

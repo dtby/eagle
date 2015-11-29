@@ -1,0 +1,661 @@
+// Place all the styles related to the power controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+//power/ups.scss
+.power__ups{
+	.p-r{
+		padding-right: 0;
+	}
+	.p-l{
+		padding-left: 0;
+	}
+	.table{
+		font-size: 10px;
+		th, td{
+			line-height: 0.2;
+		}
+	}
+	img{
+		position: relative;
+	}
+	table {
+		tr {
+			padding: 10px;
+			th {
+				font-size: 16px;
+				padding: 10px;
+			}
+
+			td {
+				padding: 10px;
+			}
+		}
+	}
+	.table-left1{
+		position: absolute;
+		width: 30%;
+		left: -30%;
+		top: 30px;		
+	}
+	.table-left2{
+		position: absolute;
+		width: 30%;
+		left: -30%;
+		top: 35%;		
+	}	
+	.table-right{
+		position: absolute;
+		width: 35%;
+		right: 25px;
+		top: 28%;
+	}
+	.table-bottom{
+		position: absolute;
+		width: 30%;
+		bottom: -20px;
+		right: 20%;
+	}
+
+	.warn-info {
+		.air_d_grey {
+			.info-row {
+				padding-top: 15px;
+				padding-bottom: 15px;
+				margin:10px auto;
+				.grey_d0 {
+					background-color:#EBECEC;
+					padding:5px 20px;
+				}
+			}
+		}
+	}
+}
+//power/distrib.scss
+.power__distrib{
+	.my-pic{
+		padding: 20px 0 40px;
+		position: relative;
+		img{
+			min-height: 480px;
+		}
+	}
+	.my-left{
+		position: absolute;
+		top:80px;
+		left: 25%;
+	}
+	.my-right{
+		position: absolute;
+		top :80px;
+		right: 25%;
+	}
+	.my-table{
+		width: 20%;
+		th,td{
+			text-align: center;
+			line-height: 0.15;
+		}
+	}
+}
+//power/cabinet.scss
+.power__cabinet{
+	.cabinet-table{
+		margin: 0 auto;
+		width: 80%;
+		th,td{
+			text-align: center;
+			line-height: 0.15;
+		}
+	}
+}
+
+.air_tab4  {
+	text-align:center;
+	.air_s1 {
+		border:1px solid #E0E1E1;
+		border-radius:3px;
+		background-color:#EBECEC;
+		padding:10px auto;
+		margin:20px 24px;
+		width:20%;
+	}
+	.air_s2 {
+		border-left:1px solid #E0E1E1;
+		padding:10px auto;
+		margin-left:20px;
+	}
+}
+
+.power__crac{
+	.air-warn i{
+		color: #02A8FE;
+	}
+	.part-status i{
+		color: #00DCB0;
+	}
+}
+
+.water_tab {
+	padding:0 0 20px 0;
+	.water_g {
+		border:1px solid #E0E1E1;
+		margin-bottom:20px;
+	}
+}
+.grey_d {
+	background-color:#EBECEC;
+	padding:5px 3%;
+}
+.grey_d1 {
+	border:1px solid #E0E1E1;
+	border-radius:5px 0 0 5px;
+}
+.grey_d2 {
+	border:1px solid #E0E1E1;
+	border-radius:0 5px 5px 0;
+	color: blue;
+}
+.grey_d3 {
+	border:1px solid #E0E1E1;
+	border-radius:5px 0 0 5px;
+	margin-left:10%;
+}
+.grey_d4 {
+	border:1px solid #E0E1E1;
+	border-radius:0 5px 5px 0;
+	color:blue;
+        padding:0 0 20px 0;
+}
+ .water_g {
+    border:1px solid #E0E1E1;
+    font-size:3em;
+    padding:15% 0 17% 0;
+    margin-bottom:20px;
+  }
+  .water_g1 {
+    background:transparent image-url("water_wave.jpg") left top no-repeat;
+    background-size:contain;
+    }
+    .water_g2 {
+    background:transparent image-url("water_wave2.jpg") left top no-repeat;
+    background-size:contain;
+    }
+.water_tab1 {
+	padding:0px;
+	.table1 {
+		margin-bottom:0px;
+		.open1 {
+			color:#4A8CF6;
+		}
+		.close1 {
+			color:#EF6FB5;
+		}
+	}
+}
+
+
+
+.panel3 {
+	margin-top:20px;
+	.air_d_grey {
+		.span1 {
+			margin:10px auto;
+		}
+		.grey_d0 {
+			background-color:#EBECEC;
+			padding:5px 20px;
+		}
+	}
+}
+
+.air_w1 {
+  padding-left:0px;
+}
+.air_w_chart2 {
+  margin-top:10px;
+}
+.historical_data {
+  text-align:left;
+  padding:20px 0 0 40px;
+}
+.camera_pic {
+	text-align:center;
+	padding-top:4%;
+}
+
+//温湿度
+.temperature {
+	.content {
+		position: relative;
+	}
+
+	.data {
+		background-color: #1ab394;
+		color: #fff;
+		font-size: 8px;
+		position: absolute;
+		border: 1px solid #fff;
+		width: 3%;
+		
+		&.show1 {
+			top: 23%;
+			left: 24%;
+		}
+
+		&.show2 {
+			top: 42%;
+			left: 23%;
+		}
+
+		&.show3 {
+			top: 68%;
+			left: 21%;
+		}
+
+		&.show4 {
+			top: 33%;
+			left: 27%;
+		}
+
+		&.show5 {
+			top: 42%;
+			left: 26%;
+		}
+
+		&.show6 {
+			top: 55%;
+			left: 26%;
+		}
+
+		&.show7 {
+			top: 23%;
+			left: 31%;
+		}
+
+		&.show8 {
+			top: 42%;
+			left: 29%;
+		}
+
+		&.show9 {
+			top: 68%;
+			left: 29%;
+		}
+		
+		&.show10 {
+			top: 23%;
+			left: 38%;
+		}
+
+		&.show11 {
+			top: 29%;
+			left: 38%;
+		}
+
+		&.show12 {
+			top: 35%;
+			left: 38%;
+		}
+
+		&.show13 {
+			top: 56%;
+			left: 37%;
+		}
+
+		&.show14 {
+			top: 23%;
+			left: 46%;
+		}
+
+		&.show15 {
+			top: 42%;
+			left: 46%;
+		}
+
+		&.show16 {
+			top: 68%;
+			left: 45%;
+		}
+
+		&.show17 {
+			top: 33%;
+			left: 49%;
+		}
+
+		&.show18 {
+			top: 42%;
+			left: 49%;
+		}
+
+		&.show19 {
+			top: 55%;
+			left: 49%;
+		}
+
+		&.show20 {
+			top: 23%;
+			left: 52%;
+		}
+
+		&.show21 {
+			top: 42%;
+			left: 52%;
+		}
+
+		&.show22 {
+			top: 68%;
+			left: 52%;
+		}
+
+		&.show23 {
+			top: 23%;
+			left: 66%;
+		}
+
+		&.show24 {
+			top: 23%;
+			left: 72%;
+		}
+		
+	}
+}
+
+
+//消防烟感
+.fire {
+	.content {
+		position: relative;
+	}
+
+	.data {
+		color: #fff;
+		position: absolute;
+
+		.fa-circle {
+			font-size: 18px;
+			&.green {
+				color: #00ffc0;
+			}
+			&.red {
+				color: red;
+			}
+		}
+		
+		&.show1 {
+			top: 26%;
+			left: 25%;
+		}
+
+		&.show2 {
+			top: 42%;
+			left: 24%;
+		}
+
+		&.show3 {
+			top: 54%;
+			left: 23%;
+		}
+
+		&.show4 {
+			top: 68%;
+			left: 22%;
+		}
+
+		&.show5 {
+			top: 32%;
+			left: 28%;
+		}
+
+		&.show6 {
+			top: 59%;
+			left: 27%;
+		}
+
+		&.show7 {
+			top: 26%;
+			left: 32%;
+		}
+
+		&.show8 {
+			top: 42%;
+			left: 31%;
+		}
+
+		&.show9 {
+			top: 54%;
+			left: 31%;
+		}
+		
+		&.show10 {
+			top: 68%;
+			left: 30%;
+		}
+
+		&.show11 {
+			top: 23%;
+			left: 39%;
+		}
+
+		&.show12 {
+			top: 26%;
+			left: 39%;
+		}
+
+		&.show13 {
+			top: 31%;
+			left: 39%;
+		}
+
+		&.show14 {
+			top: 34%;
+			left: 39%;
+		}
+
+		&.show15 {
+			top: 38%;
+			left: 39%;
+		}
+
+		&.show16 {
+			top: 49%;
+			left: 38%;
+		}
+
+		&.show17 {
+			top: 53%;
+			left: 38%;
+		}
+
+		&.show18 {
+			top: 58%;
+			left: 38%;
+		}
+
+		&.show19 {
+			top: 26%;
+			left: 46%;
+		}
+
+		&.show20 {
+			top: 42%;
+			left: 46%;
+		}
+
+		&.show21 {
+			top: 54%;
+			left: 46%;
+		}
+
+		&.show22 {
+			top: 68%;
+			left: 46%;
+		}
+
+		&.show23 {
+			top: 32%;
+			left: 50%;
+		}
+
+		&.show24 {
+			top: 58%;
+			left: 50%;
+		}
+
+		&.show25 {
+			top: 26%;
+			left: 53%;
+		}
+
+		&.show26 {
+			top: 42%;
+			left: 53%;
+		}
+
+		&.show27 {
+			top: 54%;
+			left: 53%;
+		}
+
+		&.show28 {
+			top: 68%;
+			left: 53%;
+		}
+
+		&.show29 {
+			top: 23%;
+			left: 67%;
+		}
+
+		&.show30 {
+			top: 23%;
+			left: 72%;
+		}
+	}
+}
+
+//漏水
+.leaking {
+	.content {
+		position: relative;
+	}
+
+	.data {
+		color: #fff;
+		position: absolute;
+
+		.fa-circle {
+			font-size: 18px;
+			&.green {
+				color: #00ffc0;
+			}
+			&.red {
+				color: red;
+			}
+		}
+		
+		&.show1 {
+			top: 16%;
+			left: 20%;
+		}
+
+		&.show2 {
+			top: 21%;
+			left: 20%;
+		}
+
+		&.show3 {
+			top: 57%;
+			left: 17%;
+		}
+
+		&.show4 {
+			top: 32%;
+			left: 34%;
+		}
+
+		&.show5 {
+			top: 49%;
+			left: 34%;
+		}
+
+		&.show6 {
+			top: 58%;
+			left: 34%;
+		}
+
+		&.show7 {
+			top: 16%;
+			left: 38%;
+		}
+
+		&.show8 {
+			top: 21%;
+			left: 38%;
+		}
+
+		&.show9 {
+			top: 30%;
+			left: 42%;
+		}
+		
+		&.show10 {
+			top: 56%;
+			left: 41%;
+		}
+
+		&.show11 {
+			top: 16%;
+			left: 55%;
+		}
+
+		&.show12 {
+			top: 21%;
+			left: 55%;
+		}
+
+		&.show13 {
+			top: 56%;
+			left: 58%;
+		}
+	}
+}
+
+//风冷冷风机组系统
+.cold-wind {
+	background-color: #fff;
+	h3 {
+		color: #666;
+		margin: 10px;
+	}
+	.fa-circle {
+		// color: #009bfa;
+		color: #00ffc0;
+		&.green {
+			color: #00ffc0;
+		}
+		&.yellow {
+			color: yellow;
+		}
+		&.orange {
+			color: orange;
+		}
+		&.red {
+			color: red;
+		}
+	}
+	.table {
+		background-color: #e9e9ea;
+		color: #7f7f81;
+		&.table-bottom {
+			margin-top: 60px;
+		}
+		tr {
+			th { 
+				height: 36px; 
+				font-size: 16px;
+			}
+		} 
+		tr:nth-child(even) > td {background-color: #f2f2f2;}  
+	}
+}

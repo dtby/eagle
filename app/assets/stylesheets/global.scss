@@ -1,10 +1,9 @@
-@import "variables";
+/**后台管理页面与前台界面共用全局样式**/
+
 body{
-	background-color: $body-bg;
+	background-color: #2F4050;
 }
-.login-body{
-	background-color: $login-bg !important;
-}
+/**无title背景块**/
 .mblock{
 	padding: 15px;
 	background-color: #fff;
@@ -15,12 +14,20 @@ body{
 		display: table;
 	}
 }
+/**有title背景块**/
 .panel{
 	box-shadow: 0px 1px 1px 1px rgba(181, 181, 181, 0.8);
 	border: none;
+	.panel-heading{
+		padding: 5px 15px;
+	}
 }
 .panel-default > .panel-heading{
 	border-color: transparent;
+	i{
+		line-height: 18px;
+		color: #333;
+	}
 }
 .eagle-content{
 	padding: 20px 10px 40px 10px;
@@ -32,4 +39,10 @@ body{
 .unit{
 	font-size: 10px;
 	color: #0178D6;
+}
+//toastr
+#toast-container{
+	.toast-error:before, .toast-success:before, .toast-warning:before, .toast-info:before{
+		content: " ";	
+	}
 }
