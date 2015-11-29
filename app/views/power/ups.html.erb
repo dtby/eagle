@@ -1,0 +1,356 @@
+<div class="clearfix">
+	<div class="col-md-8 p-xs">
+		<div class="mblock left">
+			<div class="row">
+				<div class="col-xs-3 p-r"></div>
+				<div class="col-xs-9 p-l">
+					<%=image_tag"power-ups1.jpg",width:"80%", height: "100%", id: 'ups_img'%>
+					<!-- 左侧表格1 -->
+					<div class="table-responsive table-left1">
+						<table class="table table-bordered">
+							<thead>
+								<tr>
+									<th colspan="3">旁路输入</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<th scope="row"></th>
+									<td>电压V</td>
+									<td>功率KVA</td>
+								</tr>
+								<tr>
+									<th scope="row">A组</th>
+									<td>230.4</td>
+									<td>0</td>
+								</tr>
+								<tr>
+									<th scope="row">B组</th>
+									<td>232.1</td>
+									<td>0</td>
+								</tr>
+								<tr>
+									<th scope="row">C组</th>
+									<td>230.4</td>
+									<td>0</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<!-- 左侧表格2 -->
+					<div class="table-responsive table-left2">
+						<table class="table table-bordered">
+							<thead>
+								<tr>
+									<th colspan="3">旁路输入</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<th scope="row"></th>
+									<td>电压V</td>
+									<td>功率KVA</td>
+								</tr>
+								<tr>
+									<th scope="row">A组</th>
+									<td>230.4</td>
+									<td>0</td>
+								</tr>
+								<tr>
+									<th scope="row">B组</th>
+									<td>232.1</td>
+									<td>0</td>
+								</tr>
+								<tr>
+									<th scope="row">C组</th>
+									<td>230.4</td>
+									<td>0</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<!-- 右侧表格 -->
+					<div class="table-responsive table-right">
+						<table class="table table-bordered">
+							<thead>
+								<tr>
+									<th colspan="3">旁路输入</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<th scope="row"></th>
+									<td>电压V</td>
+									<td>功率KVA</td>
+								</tr>
+								<tr>
+									<th scope="row">A组</th>
+									<td>230.4</td>
+									<td>0</td>
+								</tr>
+								<tr>
+									<th scope="row">B组</th>
+									<td>232.1</td>
+									<td>0</td>
+								</tr>
+								<tr>
+									<th scope="row">C组</th>
+									<td>230.4</td>
+									<td>0</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<!-- 下部表格 -->
+					<div class="table-responsive table-bottom">
+						<table class="table table-bordered">
+							<thead>
+								<tr>
+									<th colspan="2">电池电压</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>正电压</td>
+									<td>430.8</td>
+								</tr>
+								<tr>
+									<td>负电压</td>
+									<td>431.5</td>
+								</tr>
+								<tr>
+									<td>总电压</td>
+									<td>862.3</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4 p-xs">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="mblock part-bar">
+					<span class="text-muted">输出负载率</span>
+					<div id="ups_bar"style="width: 100%;"></div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="mblock part-pie">
+					<div id="ups_pie"style="width: 100%;"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	//设置3个模块的高度
+	var left = document.body.clientHeight - 100;
+	var r_t = left * 0.4 - 25;
+	var r_b = left * 0.6 -25;
+	$(".left").height(left);
+	$(".part-bar").height(r_t);
+	$("#ups_bar").height(r_t-20);
+	$(".part-pie").height(r_b);
+	$("#ups_pie").height(r_b);
+
+	$("#ups_img").height(left-10);
+
+	// 路径配置
+	require.config({
+		paths: {
+			echarts: '/assets/echarts'
+		}
+	});
+
+	// 条形图
+	require(
+		[
+			'echarts',
+			'echarts/chart/bar', // 使用柱状图就加载bar模块，按需加载
+		],
+		function (bar) {
+			// 基于准备好的dom，初始化echarts图表
+			var upsBar = bar.init(document.getElementById('ups_bar'), 'macarons'); 
+
+			var option = {
+				grid : {
+					y : 5,
+					x2 : 5,
+					y2 : 5,
+					x : 5
+				},
+				tooltip : {
+					trigger: 'axis'
+				},
+				xAxis : [
+					{
+						type : 'category',
+						data : ['','','','','','','','','','','','','','','','','','','','','','','','']
+					}
+				],
+				yAxis : [
+					{
+						type : 'value'
+					}
+				],
+				series : [
+					{
+						name:'负载率',
+						type:'bar',
+						itemStyle:{
+							normal:{
+								color:'#00cae1'
+							}	
+						},
+						data:[7.0, 16.9, 40.0, 12.2, 32.6, 20.0, 30.4, 18.6, 22.2, 3.3,2.0, 4.9, 7.0, 23.2, 23.2, 25.6, 76.7, 135.6, 25.6, 76.7, 32.6, 20.0, 6.4, 3.3],
+					}
+				],
+			};
+			// 为echarts对象加载数据 
+			upsBar.setOption(option); 
+		}
+	);
+
+	// 环形图
+	require(
+		[
+			'echarts',
+			'echarts/chart/pie'
+		],
+		function (pie) {
+			// 基于准备好的dom，初始化echarts图表
+			var upsPie = pie.init(document.getElementById('ups_pie')); 
+			var labelTop = {
+				normal : {
+					label : {
+						show : true,
+						position : 'center',
+						formatter : '{b}',
+						textStyle: {
+							baseline : 'top',
+							color: '#7e7e7e',
+							fontSize: 10
+						}
+					},
+					labelLine : {
+						show : false
+					}
+				}
+			};
+			var labelFromatter = {
+				normal : {
+					label : {
+						formatter : function (params){
+							return 100 - params.value + '%'
+						},
+						textStyle: {
+							baseline : 'bottom',
+							fontSize: 20
+						}
+					}
+				},
+			}
+			var labelBottom = {
+				normal : {
+					color: '#eee',
+					label : {
+						show : true,
+						position : 'center'
+					},
+					labelLine : {
+						show : false
+					}
+				},
+				emphasis: {
+					color: 'rgba(0,0,0,0)'
+				}
+			};
+			var radius = ['30%', '33%'];
+			var option = {
+				legend: {
+					x : 'center',
+					y : 'center',
+					data:[]
+				},
+				series : [
+					{
+						type : 'pie',
+						center : ['25%', '16.6%'],
+						radius : radius,
+						x:'60%', // for funnel
+						itemStyle : labelFromatter,
+						data : [
+							{name:'other', value:60, itemStyle : labelBottom},
+							{name:'输入总功率', value:40,itemStyle : labelTop}
+	            				]
+	          			},
+				        {
+				          	type : 'pie',
+				          	center : ['75%', '16.6%'],
+				          	radius : radius,
+						x:'80%', // for funnel
+						itemStyle : labelFromatter,
+						data : [
+						{name:'other', value:43, itemStyle : labelBottom},
+						{name:'输入总功率', value:57,itemStyle : labelTop}
+						]
+					},
+
+					{
+						type : 'pie',
+						center : ['25%', '50%'],
+						radius : radius,
+						x:'60%', // for funnel
+						itemStyle : labelFromatter,
+						data : [
+							{name:'other', value:50, itemStyle : labelBottom},
+							{name:'输入总功率', value:50,itemStyle : labelTop}
+	            				]
+	          			},
+				        {
+				          	type : 'pie',
+				          	center : ['75%', '50%'],
+				          	radius : radius,
+						x:'80%', // for funnel
+						itemStyle : labelFromatter,
+						data : [
+						{name:'other', value:23, itemStyle : labelBottom},
+						{name:'输入总功率', value:77,itemStyle : labelTop}
+						]
+					},
+
+					{
+						type : 'pie',
+						center : ['25%', '83.3%'],
+						radius : radius,
+						x:'60%', // for funnel
+						itemStyle : labelFromatter,
+						data : [
+							{name:'other', value:70, itemStyle : labelBottom},
+							{name:'输入总功率', value:30,itemStyle : labelTop}
+	            				]
+	          			},
+				        {
+				          	type : 'pie',
+				          	center : ['75%', '83.3%'],
+				          	radius : radius,
+						x:'80%', // for funnel
+						itemStyle : labelFromatter,
+						data : [
+						{name:'other', value:73, itemStyle : labelBottom},
+						{name:'输入总功率', value:27,itemStyle : labelTop}
+						]
+					}
+	        		]
+	        	};
+			upsPie.setOption(option); 
+		}
+	);
+</script>
+

@@ -16,3 +16,7 @@
 //= require jquery.turbolinks
 //= require bootstrap-sprockets
 //= require_tree ./admin
+//= require ./echarts/echarts
+//= require_tree ./echarts
+//= require_tree
+

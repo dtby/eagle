@@ -1,0 +1,538 @@
+<div class="clearfix">
+	<div class="col-md-6 p-xs">
+		<div id="top_left" class="panel panel-default">
+			<div class="panel-heading text-center">数据显示</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-xs-6 text-center">
+						<%=image_tag"power-cabinet.png",width:"80%", class: "data_img"%>
+					</div>                                                                
+					<div class="col-xs-6"> 
+						<div class="table-responsive cabinet-table">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<td colspan="2">输出</td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td scope="row">总有功功率</td>
+										<td class="unit">230.4</td>
+									</tr>
+									<tr>
+										<td scope="row">总无关功率</td>
+										<td class="unit">232.1</td>
+									</tr>
+									<tr>
+										<td scope="row">功率因数</td>
+										<td class="unit">230.4</td>
+									</tr>
+									<tr>
+										<td scope="row">频率</td>
+										<td class="unit">230.4</td>
+									</tr>
+									<tr>
+										<td scope="row">电度</td>
+										<td class="unit">230.4</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6 p-xs">
+		<div id="top_right" class="panel panel-default">
+			<div class="panel-heading text-center">输出负载率</div>
+			<div class="panel-body">
+				<div id="load1"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="clearfix">
+	<div class="col-md-6 p-xs">
+		<div class="panel panel-default">
+			<div class="panel-heading text-center">功率</div>
+			<div class="panel-body">
+				<div id="load2" style="height:270px"></div>
+				<div class="col-xs-4 text-center">
+					<div class="table-responsive cabinet-table">
+						<table class="table table-bordered">
+							<tbody>
+								<tr class="active">
+									<td scope="row">频率</td>
+									<td>230.4</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="col-xs-4">
+					<div class="table-responsive cabinet-table">
+						<table class="table table-bordered">
+							<tbody>
+								<tr class="active">
+									<td scope="row">频率</td>
+									<td>230.4</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="col-xs-4">
+					<div class="table-responsive cabinet-table">
+						<table class="table table-bordered">
+							<tbody>
+								<tr class="active">
+									<td scope="row">频率</td>
+									<td>230.4</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6 p-xs">
+		<div class="panel panel-default">
+			<div class="panel-heading text-center">电压</div>
+			<div class="panel-body">
+				<div id="load3" style="height:270px"></div>
+				<div class="col-xs-4">
+					<div class="table-responsive cabinet-table">
+						<table class="table table-bordered">
+							<tbody>
+								<tr class="active">
+									<td scope="row">频率</td>
+									<td>230.4</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="col-xs-4">
+					<div class="table-responsive cabinet-table">
+						<table class="table table-bordered">
+							<tbody>
+								<tr class="active">
+									<td scope="row">频率</td>
+									<td>230.4</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="col-xs-4">
+					<div class="table-responsive cabinet-table">
+						<table class="table table-bordered">
+							<tbody>
+								<tr class="active">
+									<td scope="row">频率</td>
+									<td>230.4</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--输出负载率 -->
+<script type="text/javascript">
+		//设置左右两模块等高
+		var height = $("#top_left").height();
+		$("#top_right").height(height);
+		$("#load1").height(height-60);			
+
+		// 路径配置
+		require.config({
+			paths: {
+				echarts: '/assets/echarts'
+			}
+		});
+		
+		// 使用
+		require(
+			[
+			'echarts',
+				'echarts/chart/pie' // 使用柱状图就加载bar模块，按需加载
+				],
+				function (ec) {
+				// 基于准备好的dom，初始化echarts图表
+				var myChart = ec.init(document.getElementById('load1')); 
+				
+				var labelTop = {
+					normal : {
+						label : {
+							show : true,
+							position : 'center',
+							formatter : '{b}',
+							textStyle: {
+								baseline : 'top',
+								fontSize: 12
+							}
+						},
+						labelLine : {
+							show : false
+						}
+					}
+				};
+				var labelFromatter = {
+					normal : {
+						label : {
+							formatter : function (params){
+								return 100 - params.value + '%'
+							},
+							textStyle: {
+								baseline : 'bottom',
+								fontSize: 24,
+							}
+						}
+					},
+				}
+				var labelBottom = {
+					normal : {
+						color: '#ccc',
+						label : {
+							show : true,
+							position : 'center'
+						},
+						labelLine : {
+							show : false
+						}
+					},
+					emphasis: {
+						color: 'rgba(0,0,0,0)'
+					}
+				};
+				var radius = [45, 50];
+				var  option = {
+
+					series : [
+					{
+						type : 'pie',
+						center : ['15%', '50%'],
+						radius : radius,
+			x: '30%', // for funnel
+			itemStyle : labelFromatter,
+			data : [
+			{name:'other', value:25, itemStyle : labelBottom},
+			{name:'A相电流', value:75,itemStyle : labelTop}
+			]
+		  },
+		  {
+			type : 'pie',
+			center : ['50%', '50%'],
+			radius : radius,
+			x:'50%', // for funnel
+			itemStyle : labelFromatter,
+			data : [
+			{name:'other', value:25, itemStyle : labelBottom},
+			{name:'B相电流', value:75,itemStyle : labelTop}
+			]
+		  },
+		  {
+			type : 'pie',
+			center : ['85%','50%'],
+			radius : radius,
+			x:'70%', // for funnel
+			itemStyle : labelFromatter,
+			data : [
+			{name:'other', value:25, itemStyle : labelBottom},
+			{name:'C相电流', value:75,itemStyle : labelTop}
+			]
+		  },
+		  ]
+		};
+				// 为echarts对象加载数据 
+				myChart.setOption(option); 
+			  }
+			  );
+</script>
+<!-- 功率 -->
+<script type="text/javascript">
+		// 路径配置
+		require.config({
+			paths: {
+				echarts: '/assets/echarts'
+			}
+		});
+		
+		// 使用
+		require(
+			[
+			'echarts',
+				'echarts/chart/pie' // 使用柱状图就加载bar模块，按需加载
+				],
+				function (ec) {
+				// 基于准备好的dom，初始化echarts图表
+				var myChart = ec.init(document.getElementById('load2')); 
+				
+				var labelTop = {
+					normal : {
+						label : {
+							show : true,
+							position : 'center',
+							formatter : '{b}',
+							textStyle: {
+								baseline : 'top',
+								fontSize: 12
+							}
+						},
+						labelLine : {
+							show : false
+						}
+					}
+				};
+				var labelFromatter = {
+					normal : {
+						label : {
+							formatter : function (params){
+								return 100 - params.value + '%'
+							},
+							textStyle: {
+								baseline : 'bottom',
+								fontSize: 24
+							}
+						}
+					},
+				}
+				var labelBottom = {
+					normal : {
+						color: '#ccc',
+						label : {
+							show : true,
+							position : 'center'
+						},
+						labelLine : {
+							show : false
+						}
+					},
+					emphasis: {
+						color: 'rgba(0,0,0,0)'
+					}
+				};
+				var radius = [45, 50];
+				var  option = {
+
+					series : [
+					{
+						type : 'pie',
+						center : ['16.5%', '25%'],
+						radius : radius,
+			x: '30%', // for funnel
+			itemStyle : labelFromatter,
+			data : [
+			{name:'other', value:70, itemStyle : labelBottom},
+			{name:'A相有功', value:30,itemStyle : labelTop}
+			]
+		  },
+		  {
+			type : 'pie',
+			center : ['50%', '25%'],
+			radius : radius,
+			x:'50%', // for funnel
+			itemStyle : labelFromatter,
+			data : [
+			{name:'other', value:70, itemStyle : labelBottom},
+			{name:'B相有功', value:30,itemStyle : labelTop}
+			]
+		  },
+		  {
+			type : 'pie',
+			center : ['83.5%','25%'],
+			radius : radius,
+			x:'70%', // for funnel
+			itemStyle : labelFromatter,
+			data : [
+			{name:'other', value:70, itemStyle : labelBottom},
+			{name:'C相有功', value:30,itemStyle : labelTop}
+			]
+		  },
+		  {
+			type : 'pie',
+			center : ['16.5%', '70%'],
+			radius : radius,
+			x:'30%', // for funnel
+			itemStyle : labelFromatter,
+			data : [
+			{name:'other', value:70, itemStyle : labelBottom},
+			{name:'A相有功', value:30,itemStyle : labelTop}
+			]
+		  },
+		  {
+			type : 'pie',
+			center : ['50%', '70%'],
+			radius : radius,
+			x:'50%', // for funnel
+			itemStyle : labelFromatter,
+			data : [
+			{name:'other', value:70, itemStyle : labelBottom},
+			{name:'B相有功', value:30,itemStyle : labelTop}
+			]
+		  },
+		  {
+			type : 'pie',
+			center : ['83.5%', '70%'],
+			radius : radius,
+			x:'70%', // for funnel
+			itemStyle : labelFromatter,
+			data : [
+			{name:'other', value:70, itemStyle : labelBottom},
+			{name:'C相有功', value:30,itemStyle : labelTop}
+			]
+		  },
+		  ]
+		};
+		// 为echarts对象加载数据 
+		myChart.setOption(option); 
+		}
+		);
+</script>
+<!-- 电压 -->
+<script type="text/javascript">
+		// 路径配置
+		require.config({
+			paths: {
+				echarts: '/assets/echarts'
+			}
+		});
+		
+		// 使用
+		require(
+			[
+			'echarts',
+				'echarts/chart/pie' // 使用柱状图就加载bar模块，按需加载
+				],
+				function (ec) {
+				// 基于准备好的dom，初始化echarts图表
+				var myChart = ec.init(document.getElementById('load3')); 
+				
+				var labelTop = {
+					normal : {
+						label : {
+							show : true,
+							position : 'center',
+							formatter : '{b}',
+							textStyle: {
+								baseline : 'top',
+								fontSize: 12
+							}
+						},
+						labelLine : {
+							show : false
+						}
+					}
+				};
+				var labelFromatter = {
+					normal : {
+						label : {
+							formatter : function (params){
+								return 100 - params.value + '%'
+							},
+							textStyle: {
+								baseline : 'bottom',
+								fontSize: 26
+							}
+						}
+					},
+				}
+				var labelBottom = {
+					normal : {
+						color: '#ccc',
+						label : {
+							show : true,
+							position : 'center'
+						},
+						labelLine : {
+							show : false
+						}
+					},
+					emphasis: {
+						color: 'rgba(0,0,0,0)'
+					}
+				};
+				var radius = [45, 50];
+				var  option = {
+
+					series : [
+					{
+						type : 'pie',
+						center : ['16.5%', '25%'],
+						radius : radius,
+			x: '30%', // for funnel
+			itemStyle : labelFromatter,
+			data : [
+			{name:'other', value:70, itemStyle : labelBottom},
+			{name:'A相电压', value:30,itemStyle : labelTop}
+			]
+		  },
+		  {
+			type : 'pie',
+			center : ['50%', '25%'],
+			radius : radius,
+			x:'50%', // for funnel
+			itemStyle : labelFromatter,
+			data : [
+			{name:'other', value:70, itemStyle : labelBottom},
+			{name:'B相电压', value:30,itemStyle : labelTop}
+			]
+		  },
+		  {
+			type : 'pie',
+			center : ['83.5%','25%'],
+			radius : radius,
+			x:'70%', // for funnel
+			itemStyle : labelFromatter,
+			data : [
+			{name:'other', value:70, itemStyle : labelBottom},
+			{name:'C相电压', value:30,itemStyle : labelTop}
+			]
+		  },
+		  {
+			type : 'pie',
+			center : ['16.5%', '70%'],
+			radius : radius,
+			x:'30%', // for funnel
+			itemStyle : labelFromatter,
+			data : [
+			{name:'other', value:70, itemStyle : labelBottom},
+			{name:'AB相电压', value:30,itemStyle : labelTop}
+			]
+		  },
+		  {
+			type : 'pie',
+			center : ['50%', '70%'],
+			radius : radius,
+			x:'50%', // for funnel
+			itemStyle : labelFromatter,
+			data : [
+			{name:'other', value:70, itemStyle : labelBottom},
+			{name:'BC相电压', value:30,itemStyle : labelTop}
+			]
+		  },
+		  {
+			type : 'pie',
+			center : ['83.5%', '70%'],
+			radius : radius,
+			x:'70%', // for funnel
+			itemStyle : labelFromatter,
+			data : [
+			{name:'other', value:70, itemStyle : labelBottom},
+			{name:'AC相电压', value:30,itemStyle : labelTop}
+			]
+		  },
+		  ]
+		};
+				// 为echarts对象加载数据 
+				myChart.setOption(option); 
+			  }
+			  );
+</script>

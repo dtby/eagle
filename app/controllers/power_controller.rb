@@ -1,0 +1,19 @@
+class PowerController < ApplicationController
+	def crac    
+	end
+
+	def temperature
+	end
+
+	def air_d
+	end
+
+	def ups
+	end
+
+	def distrib
+	end
+	
+	def cabinet
+	end
+end

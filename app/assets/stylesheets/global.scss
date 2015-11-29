@@ -1,12 +1,14 @@
 @import "variables";
-html, body{
-	height: 100%;
+body{
 	background-color: $body-bg;
+}
+.login-body{
+	background-color: $login-bg !important;
 }
 .mblock{
 	padding: 15px;
 	background-color: #fff;
-	box-shadow: 0px 1px 1px 1px rgba(181, 181, 181, 1);
+	box-shadow: 0px 1px 1px 1px rgba(181, 181, 181, 0.6);
 	margin-bottom: 20px;
 	&:before{
 		content: " ";
@@ -14,9 +16,20 @@ html, body{
 	}
 }
 .panel{
-	box-shadow: 0px 1px 1px 1px rgba(181, 181, 181, 1);
+	box-shadow: 0px 1px 1px 1px rgba(181, 181, 181, 0.8);
 	border: none;
 }
 .panel-default > .panel-heading{
 	border-color: transparent;
+}
+.eagle-content{
+	padding: 20px 10px 40px 10px;
+	.p-xs{
+		padding: 0 10px !important;
+	}
+}
+//数据单位样式
+.unit{
+	font-size: 10px;
+	color: #0178D6;
 }

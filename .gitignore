@@ -20,10 +20,17 @@ capybara-*.html
 /db/*.sqlite3
 /db/*.sqlite3-journal
 /public/system
+/public/assets/
 /coverage/
 /doc/
 /spec/tmp
 /config/database.yml
+/config/secrets.yml
+/releases
+/shared
+/scm
+
+
 /solr/
 **.orig
 rerun.txt
