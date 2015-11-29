@@ -47,7 +47,6 @@ end
 gem 'annotate'
 # Official Sass port of Bootstrap
 gem 'bootstrap-sass', '~> 3.3.5'
-<<<<<<< HEAD
 
 # for Authentication
 gem 'devise'
@@ -56,11 +55,9 @@ gem 'devise-ios-rails'
 #Really fast deployer and server automation tool
 gem 'mina'
 
-=======
 # Really fast deployer and server automation tool
 gem 'mina'
 # Flexible authentication solution for Rails with Warden
 gem 'devise'
 gem 'seedbank'
 gem 'settingslogic', '~> 2.0.9'
->>>>>>> develop
