@@ -221,15 +221,26 @@
 }
 .camera_pic {
 	text-align:center;
-	padding-top:4%;
+	padding-top: 4%;
 }
 
 //温湿度
 .temperature {
 	.content {
 		position: relative;
+		.top {
+			color: #000;
+			background: -webkit-gradient(linear, left top, right bottom, from(#00f656), to(#ffffff));
+		  background: -o-linear-gradient(left, #ffffff, #00f656);
+		  background: -moz-linear-gradient(left, #ffffff, #00f656);
+		}
+		.bottom {
+			color: #000;
+			background: -webkit-gradient(linear, left top, right bottom, from(#455fff), to(#ffffff));
+		  background: -o-linear-gradient(left, #ffffff, #455fff);
+		  background: -moz-linear-gradient(left, #ffffff, #455fff);
+		}
 	}
-
 	.data {
 		background-color: #1ab394;
 		color: #fff;
@@ -237,7 +248,6 @@
 		position: absolute;
 		border: 1px solid #fff;
 		width: 3%;
-		
 		&.show1 {
 			top: 23%;
 			left: 24%;
@@ -366,6 +376,15 @@
 .fire {
 	.content {
 		position: relative;
+		.status {
+			top: 10px;
+			left: 30px;
+			position: absolute;
+			color: #fff;
+			span {
+				color: green;
+			}
+		}
 	}
 
 	.data {
@@ -381,7 +400,6 @@
 				color: red;
 			}
 		}
-		
 		&.show1 {
 			top: 26%;
 			left: 25%;
@@ -443,17 +461,17 @@
 		}
 
 		&.show13 {
-			top: 31%;
+			top: 30%;
 			left: 39%;
 		}
 
 		&.show14 {
-			top: 34%;
+			top: 33%;
 			left: 39%;
 		}
 
 		&.show15 {
-			top: 38%;
+			top: 36%;
 			left: 39%;
 		}
 
