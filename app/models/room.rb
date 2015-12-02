@@ -1,5 +1,3 @@
-
-
 # == Schema Information
 #
 # Table name: rooms
@@ -82,5 +80,9 @@ class Room < ActiveRecord::Base
   # 获取一级菜单可显示的二级菜单
   def sub_systems_by_system(system)
     sub_systems.includes(:system, :patterns).select{ |sub| sub.system == system}
+  end
+
+  def self.monitor_db
+    puts "-----monitor_data-----\n"
   end
 end
