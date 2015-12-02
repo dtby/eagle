@@ -20,10 +20,10 @@
                 <% end %>
                 <div class="col-xs-12">
                   <% unless exclude_points["GIF"] && exclude_points["GIF"].include?("温度设点") %>
-                    <span class="grey_d grey_d1">温度设点</span><span class="grey_d grey_d2"><%= @points["GIF"]["温度设点"] %>%</span>                            
+                    <span class="grey_d grey_d1">温度设点</span><span class="grey_d grey_d2"><%= @points["GIF"]["温度设点"] %>%</span>
                   <% end %>
                   <% unless exclude_points["GIF"] && exclude_points["GIF"].include?("湿度设点") %>
-                    <span class="grey_d grey_d3">湿度设点</span><span class="grey_d grey_d2"><%= @points["GIF"]["湿度设点"] %>%</span>                            
+                    <span class="grey_d grey_d3">湿度设点</span><span class="grey_d grey_d2"><%= @points["GIF"]["湿度设点"] %>%</span>
                   <% end %>
                 </div>
               </div>

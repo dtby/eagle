@@ -14,6 +14,11 @@
 #  index_devices_on_pattern_id  (pattern_id)
 #  index_devices_on_room_id     (room_id)
 #
+# Foreign Keys
+#
+#  fk_rails_2deefbda3a  (pattern_id => patterns.id)
+#  fk_rails_3824183ebe  (room_id => rooms.id)
+#
 
 class Device < ActiveRecord::Base
   scope :by_room, ->(room_id) { where("room_id = ?", room_id) }

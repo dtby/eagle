@@ -13,14 +13,33 @@
 #
 #  index_points_on_device_id  (device_id)
 #
+# Foreign Keys
+#
+#  fk_rails_d6f3cdbe9a  (device_id => devices.id)
+#
 
 class Point < ActiveRecord::Base
   belongs_to :device
-  # belongs_to :pattern
+  has_one :point_alarm, dependent: :destroy
 
   # 取得节点的value
   def value
     ps = PointState.where(pid: point_index.to_i).first
     ps.try(:value)
   end
+
+  def self.monitor_db
+    datas_to_hash DigitalPoint
+  end
+
+  def self.datas_to_hash class_name
+    class_name.all.each do |ap|
+      point = Point.find_by(point_index: ap.PointID)
+      next unless point.present?
+      point_alarm = PointAlarm.find_or_create_by(point: point)
+      point_alarm.update(state: ap.COS) if ap.COS != point_alarm.state
+    end
+  end
+
+
 end

@@ -61,3 +61,6 @@ gem 'mina'
 gem 'devise'
 gem 'seedbank'
 gem 'settingslogic', '~> 2.0.9'
+
+# for monitor database
+gem 'clockwork'
