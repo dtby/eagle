@@ -34,10 +34,12 @@ class Point < ActiveRecord::Base
 
   def self.datas_to_hash class_name
     class_name.all.each do |ap|
-      # group_hash[ap.PointID] = ap.COS
-      point_alarm = PointAlarm.find_or_create_by(pid: ap.PointID)
+      point = Point.find_by(point_index: ap.PointID)
+      next unless point.present?
+      point_alarm = PointAlarm.find_or_create_by(point: point)
       point_alarm.update(state: ap.COS) if ap.COS != point_alarm.state
     end
   end
+
 
 end

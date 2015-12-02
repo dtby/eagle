@@ -20,4 +20,11 @@
 
 class PointAlarm < ActiveRecord::Base
   belongs_to :point
+
+  def self.get_alarm_point
+    point_alarms = {}
+    PointAlarm.where.not(state: 0).collect { |p| point_alarms[p.try(:point).try(:point_index)] = p.state}
+    point_alarms
+  end
+  
 end
