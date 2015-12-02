@@ -20,7 +20,7 @@
 
 class Point < ActiveRecord::Base
   belongs_to :device
-  # belongs_to :pattern
+  has_one :point_alarm, dependent: :destroy
 
   # 取得节点的value
   def value

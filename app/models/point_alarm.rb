@@ -19,4 +19,5 @@
 #
 
 class PointAlarm < ActiveRecord::Base
+  belongs_to :point
 end
