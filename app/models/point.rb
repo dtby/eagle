@@ -27,4 +27,17 @@ class Point < ActiveRecord::Base
     ps = PointState.where(pid: point_index.to_i).first
     ps.try(:value)
   end
+
+  def self.monitor_db
+    datas_to_hash DigitalPoint
+  end
+
+  def self.datas_to_hash class_name
+    class_name.all.each do |ap|
+      # group_hash[ap.PointID] = ap.COS
+      point_alarm = PointAlarm.find_or_create_by(pid: ap.PointID)
+      point_alarm.update(state: ap.COS) if ap.COS != point_alarm.state
+    end
+  end
+
 end
