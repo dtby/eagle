@@ -8,7 +8,7 @@ module Clockwork
   end
 
   every(3.seconds, "monitor_db.job") {
-    Room.monitor_db
+    Point.monitor_db
   }
 
 end
