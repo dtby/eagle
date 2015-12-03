@@ -1,5 +1,5 @@
 class BaseController < ApplicationController
-  before_action :authenticate_user!, :authenticate_and_set_room
+  before_action :authenticate_user!, :authenticate_and_set_room, :list_alerts
 
   # 验证用户是否有访问当前机房的权限
   def authenticate_and_set_room
@@ -20,6 +20,14 @@ class BaseController < ApplicationController
         flash[:error] = '没有权限查看当前机房信息'
         return redirect_to root_path
       end
+    end
+  end
+
+  def list_alerts
+    if @room.present?
+      @alerts = PointAlarm.get_alarm_point_by_room(@room.id)
+    else
+      []
     end
   end
 end

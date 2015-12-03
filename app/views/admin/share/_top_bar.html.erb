@@ -1,8 +1,9 @@
-<div class="row border-bottom">
-	<nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0; background: #fff;">
+<div class="row fixed-nav">
+	<nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0; background: #000;">
 		<!-- 左侧导航栏收起按钮 -->
-		<div class="navbar-header">
-			<a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+		<div class="navbar-header" style="margin-left: 20px;">
+			<a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#" style="position: absolute;left: 300px;"><i class="fa fa-bars"></i> </a>
+			<%= link_to image_tag('logo.png'), admin_root_path, style: "margin-top: 18px; margin-left: 20px; display: block;" %>
 		</div>
 		<!-- 左侧导航栏收起按钮  end-->
 		<!-- 右上角消息提示部分 -->

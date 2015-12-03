@@ -30,6 +30,7 @@ body{
 	}
 }
 .eagle-content{
+	margin-top: 60px;
 	padding: 20px 10px 40px 10px;
 	.p-xs{
 		padding: 0 10px !important;
@@ -45,4 +46,12 @@ body{
 	.toast-error:before, .toast-success:before, .toast-warning:before, .toast-info:before{
 		content: " ";	
 	}
+}
+
+.fixed-nav {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
 }
