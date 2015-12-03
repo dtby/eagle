@@ -28,7 +28,7 @@ class BaseController < ApplicationController
     if @room.present?
       @alerts = PointAlarm.get_alarm_point_by_room(@room.id)
     else
-      []
+      @alerts = []
     end
   end
 end
