@@ -24,7 +24,7 @@ class PointAlarm < ActiveRecord::Base
   # PointAlarm.get_alarm_point_by_room 1
   def self.get_alarm_point_by_room room_id
     devices = Device.by_room room_id
-    return unless devices.present?
+    return {} unless devices.present?
     points = []
     devices.collect { |device| points.concat device.points.pluck(:point_index)}
 
