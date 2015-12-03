@@ -22,8 +22,9 @@ class BaseController < ApplicationController
       end
     end
   end
-
+  private
   def list_alerts
+    @room = Room.where(id: params[:id]).first
     if @room.present?
       @alerts = PointAlarm.get_alarm_point_by_room(@room.id)
     else
