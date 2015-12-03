@@ -50,7 +50,7 @@ gem 'bootstrap-sass', '~> 3.3.5'
 
 # for Authentication
 gem 'devise'
-gem 'devise-ios-rails'
+# gem 'devise-ios-rails'
 
 #Really fast deployer and server automation tool
 gem 'mina'
