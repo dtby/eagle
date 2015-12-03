@@ -13,7 +13,6 @@
 					iGrid
 				</div>
 			</li>
-			
 			<% if @room.present? %>
 				<li class="<%= "active" if params[:controller] == 'rooms' %>">
 					<%= link_to room_path(@room) do %>
@@ -33,7 +32,7 @@
 						<% @room.sub_systems_by_system(system).each do |sub_system| %>
 							<li class="<%= 'active' if params[:controller] == 'devices' && sub_system == @device.try(:pattern).try(:sub_system) %>">
 								<%= link_to '#' do %>
-									<%= sub_system.name %> 
+									<%= sub_system.name %>
 									<%= '<span class="fa arrow"></span>'.html_safe if sub_system.devices.by_room(@room.id).present? %>
 								<% end %>
 								<!-- 三级菜单 -->
@@ -51,6 +50,12 @@
 						<!-- 二级菜单 -->
 					</li>
 				<% end %>
+				<li class="<%= "active" if params[:action] == 'alert' %>">
+				  <%= link_to alert_room_path(@room) do %>
+				    <i class="fa fa-list-ul"></i>
+				    <span class="nav-label">告警记录</span>
+				  <% end %>
+			  </li>
 				<!-- 一级菜单 -->
 			<% end %>
 		</ul>

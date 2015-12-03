@@ -7,8 +7,7 @@ System.create!([
   { id: 5, sys_name: '远程' },
   { id: 6, sys_name: '能效' },
   { id: 7, sys_name: '部署' },
-  { id: 8, sys_name: '报表' },
-  { id: 9, sys_name: '告警记录' }
+  { id: 8, sys_name: '报表' }
 ])
 
 SubSystem.destroy_all

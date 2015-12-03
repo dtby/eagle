@@ -14,7 +14,7 @@ module ApplicationHelper
 	def menu_tree_icon(menu)
 		icons = { 
 			'动力' => 'fa-paper-plane', '环境' => 'fa-globe', '联动' => 'fa-sitemap', '安全' => 'fa-check', '远程' => 'fa-cloud', 
-			'能效' => 'fa-bar-chart', '部署' => 'fa-desktop', '报表' => 'fa-files-o', '告警记录' => 'fa-list-ul'
+			'能效' => 'fa-bar-chart', '部署' => 'fa-desktop', '报表' => 'fa-files-o'
 		}
 		icons[menu] || 'fa-home'
 	end

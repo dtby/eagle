@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   #动力
   resources :power, only: [:index] do
-    collection do 
+    collection do
       get :ups
       get :distrib
       get :crac
@@ -24,6 +24,9 @@ Rails.application.routes.draw do
 
   resources :rooms, only: [:show] do
     resources :devices, only: [:show] # 设备
+    member do
+      get :alert
+    end
   end
 
   namespace :admin do
