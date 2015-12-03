@@ -14,7 +14,7 @@
 				</div>
 			</li>
 			<% if @room.present? %>
-				<li class="<%= "active" if params[:controller] == 'rooms' %>">
+				<li class="<%= "active" if params[:controller] == 'rooms' && params[:action] == 'show' %>">
 					<%= link_to room_path(@room) do %>
 						<i class="fa fa-th-large"></i> <span class="nav-label">主界面</span></span>
 					<% end %>
