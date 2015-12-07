@@ -65,3 +65,5 @@ gem 'settingslogic', '~> 2.0.9'
 # for monitor database
 gem 'clockwork'
 gem 'whenever'
+
+gem 'macaddr', '>= 1.7.1'
