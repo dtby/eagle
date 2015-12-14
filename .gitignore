@@ -32,6 +32,8 @@ capybara-*.html
 /scm
 /lience
 lience
+
+/lience
 /solr/
 **.orig
 rerun.txt
