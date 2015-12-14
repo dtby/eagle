@@ -15,5 +15,4 @@ class MacCode
     end
     line
   end
-
 end

@@ -46,7 +46,6 @@ class Pattern < ActiveRecord::Base
         others.push(point_name)
       end
     end
-    
     point_group["其他"] = others if others.present?
 
     point_group
@@ -76,8 +75,8 @@ class Pattern < ActiveRecord::Base
     end
 
     # 将配置写入文件
-    File.open(config_file_path, 'w') do |f| 
-      f.write exclude_points.to_yaml 
+    File.open(config_file_path, 'w') do |f|
+      f.write exclude_points.to_yaml
       f.close
     end
   end
@@ -85,7 +84,7 @@ class Pattern < ActiveRecord::Base
   # 根据分组配置获取当前组的显示配置
   # 返回值：{ group : { [point] }}
   def getting_exclude_points
-    return {} unless File.exist?(config_file_path) 
+    return {} unless File.exist?(config_file_path)
     exclude_points = YAML::load_file(config_file_path) || {}
     exclude_points
   end
@@ -114,10 +113,9 @@ class Pattern < ActiveRecord::Base
   # 配置文件创建
   def config_file_create
     FileUtils.mkdir_p(CONFIGFILEDIR) unless File.exist?(CONFIGFILEDIR)
-    unless File.exist?(config_file_path) 
-      file = File.new(config_file_path, 'w') 
+    unless File.exist?(config_file_path)
+      file = File.new(config_file_path, 'w')
       file.close
     end
   end
-  
 end

@@ -36,6 +36,4 @@ class Point < ActiveRecord::Base
       point_alarm.update(state: ap.COS) if ap.COS != point_alarm.state
     end
   end
-
-
 end
