@@ -11,6 +11,7 @@ class MacCode
     file = "#{Rails.root}/lience"
     line = ""
     File.open(file, "r").each_line do |l|
+      l.slice!("\n")  #清除string中自动生成\n
       line = line + l
     end
     line
