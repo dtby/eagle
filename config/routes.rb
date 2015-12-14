@@ -15,6 +15,13 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :point_alarms, only: [] do
+    member do
+      patch :checked, :unchecked
+      post :checked, :unchecked
+    end
+  end
+
   #能效
   resources :pem, only: [:index] do
     collection do

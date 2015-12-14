@@ -12,10 +12,6 @@
 #
 #  index_sub_systems_on_system_id  (system_id)
 #
-# Foreign Keys
-#
-#  fk_rails_52e604f8a0  (system_id => systems.id)
-#
 
 class SubSystem < ActiveRecord::Base
   belongs_to :system

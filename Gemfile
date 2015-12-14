@@ -54,9 +54,6 @@ gem 'devise'
 
 #Really fast deployer and server automation tool
 gem 'mina'
-
-# Really fast deployer and server automation tool
-gem 'mina'
 # Flexible authentication solution for Rails with Warden
 gem 'devise'
 gem 'seedbank'

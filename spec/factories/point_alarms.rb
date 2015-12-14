@@ -8,14 +8,11 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  point_id   :integer
+#  is_checked :boolean          default(FALSE)
 #
 # Indexes
 #
 #  index_point_alarms_on_point_id  (point_id)
-#
-# Foreign Keys
-#
-#  fk_rails_de15df710f  (point_id => points.id)
 #
 
 FactoryGirl.define do
