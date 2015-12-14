@@ -30,8 +30,13 @@ capybara-*.html
 /releases
 /shared
 /scm
+<<<<<<< HEAD
 /lience
 lience
+=======
+
+/lience
+>>>>>>> 81c1fc1ef168b303c8a5091b5f59aa21ea7a9062
 /solr/
 **.orig
 rerun.txt
