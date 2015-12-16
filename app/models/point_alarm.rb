@@ -13,10 +13,6 @@
 #
 #  index_point_alarms_on_point_id  (point_id)
 #
-# Foreign Keys
-#
-#  fk_rails_de15df710f  (point_id => points.id)
-#
 
 class PointAlarm < ActiveRecord::Base
   belongs_to :point

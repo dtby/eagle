@@ -37,15 +37,15 @@ class Room < ActiveRecord::Base
       room = Room.find_or_create_by(name: room)
       system_hash.each do |sub_name, patterns|
         sub_name, pattern_name = sub_name.split("-")
-
+        puts "sub_name is #{sub_name}, pattern_name is #{pattern_name}"
         sub_name.delete! "普通" if sub_name.present? && (sub_name.include? "普通")
         pattern_name = "普通温湿度" if pattern_name == "th802"
 
-        next if pattern_name.blank?
+        # next if pattern_name.blank?
         
         sub_system = SubSystem.find_or_create_by(name: sub_name)
         patterns.each do | name, points|
-          pattern = Pattern.find_by(sub_system_id: sub_system.id, name: pattern_name.strip)
+          pattern = Pattern.find_by(sub_system_id: sub_system.id, name: pattern_name.try(:strip))
           device = Device.find_or_create_by(name: name, pattern: pattern, room: room)
           points.each do |name, value|
             p = Point.find_or_create_by(name: name, device: device, point_index: value)
@@ -62,7 +62,7 @@ class Room < ActiveRecord::Base
       bay_info = ap.BayName.split("-")
       group_hash[bay_info.first] = {} unless group_hash[bay_info.first].present?
       group_hash[bay_info.first][ap.GroupName] = {} unless group_hash[bay_info.first][ap.GroupName].present?
-
+      puts "bay_info is #{bay_info}"
       point_hash = {}
       group_hash[bay_info.first][ap.GroupName][bay_info.second] = {} unless group_hash[bay_info.first][ap.GroupName][bay_info.second].present?
       group_hash[bay_info.first][ap.GroupName][bay_info.second][ap.PointName] = ap.PointID
