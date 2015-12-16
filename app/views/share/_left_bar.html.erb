@@ -56,6 +56,12 @@
 				    <span class="nav-label">告警记录</span>
 				  <% end %>
 			  </li>
+			  <li class="<%= "active" if params[:action] == 'video' %>">
+				  <%= link_to video_room_path(@room) do %>
+				    <i class="fa fa-list-ul"></i>
+				    <span class="nav-label">摄像头</span>
+				  <% end %>
+			  </li>
 				<!-- 一级菜单 -->
 			<% end %>
 		</ul>

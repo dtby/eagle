@@ -5,4 +5,7 @@ class RoomsController < BaseController
   def alert
     @alerts = PointAlarm.get_alarm_point_by_room(@room.id)
   end
+
+  def video
+  end
 end
