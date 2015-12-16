@@ -54,9 +54,6 @@ gem 'devise'
 
 #Really fast deployer and server automation tool
 gem 'mina'
-
-# Really fast deployer and server automation tool
-gem 'mina'
 # Flexible authentication solution for Rails with Warden
 gem 'devise'
 gem 'seedbank'
@@ -65,3 +62,5 @@ gem 'settingslogic', '~> 2.0.9'
 # for monitor database
 gem 'clockwork'
 gem 'whenever'
+
+gem 'macaddr', '>= 1.7.1'

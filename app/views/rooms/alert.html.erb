@@ -6,6 +6,7 @@
           <tr>
             <th class="text-center">Point ID</th>
             <th class="text-center">告警状态</th>
+            <th class="text-center">告警处理</th>
           </tr>
         </thead>
         <tbody>
@@ -13,6 +14,15 @@
             <tr>
               <td class="text-center"><%= alert[0] %></td>
               <td class="text-center"><%= alert[1] %></td>
+              <% point_id = Point.find_by(point_index: alert[0])%>
+              <% point_alarm = PointAlarm.find_by(point_id: point_id) %>
+              <td class="text-center">
+                <% unless point_alarm.is_checked %>
+                  <%= link_to "未处理", checked_point_alarm_path(point_id: point_id, room_id: params[:id]), method: :patch, data: {confirm: '确认处理该警告！'} %>
+                <% else %>
+                  已处理
+                <% end %>
+              </td>
             </tr>
           <% end %>
         </tbody>

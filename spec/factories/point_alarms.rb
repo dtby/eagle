@@ -8,6 +8,7 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  point_id   :integer
+#  is_checked :boolean          default(FALSE)
 #
 # Indexes
 #

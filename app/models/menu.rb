@@ -25,7 +25,7 @@ class Menu < ActiveRecord::Base
   	old_menus = room.menu_to_s
   	add_menus = menus - old_menus
   	delete_menus = old_menus - menus
-  	
+
   	add_menus.each do |m|
   		menuable_id = m.split('_')[0]
   		menuable_type = m.split('_')[1]

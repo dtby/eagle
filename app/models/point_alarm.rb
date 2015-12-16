@@ -8,6 +8,7 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  point_id   :integer
+#  is_checked :boolean          default(FALSE)
 #
 # Indexes
 #
@@ -31,5 +32,4 @@ class PointAlarm < ActiveRecord::Base
     end
     point_alarms
   end
-  
 end
