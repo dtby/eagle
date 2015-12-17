@@ -1,5 +1,11 @@
 <div class="row">
   <div class="col-xs-12">
+    <div class="btn-group" role="group" style="margin-bottom: 15px;" aria-label="...">
+      <%= link_to "未处理", "", class: "btn btn-primary" %>
+      <%= link_to "已处理", "", class: "btn btn-default" %>
+    </div>
+  </div>
+  <div class="col-xs-12">
     <div class="table-responsive">
       <table id="sample-table-1" class="table table-striped table-bordered table-hover">
         <thead>
@@ -14,11 +20,11 @@
             <tr>
               <td class="text-center"><%= alert[0] %></td>
               <td class="text-center"><%= alert[1] %></td>
-              <% point_id = Point.find_by(point_index: alert[0])%>
-              <% point_alarm = PointAlarm.find_by(point_id: point_id) %>
+              <% point = Point.find_by(point_index: alert[0])%>
+              <% point_alarm = PointAlarm.find_by(point_id: point.id) %>
               <td class="text-center">
                 <% unless point_alarm.is_checked %>
-                  <%= link_to "未处理", checked_point_alarm_path(point_id: point_id, room_id: params[:id]), method: :patch, data: {confirm: '确认处理该警告！'} %>
+                  <%= link_to "未处理", checked_point_alarm_path(point_id: point.id, room_id: params[:id]), method: :patch, data: {confirm: '确认处理该警告！'} %>
                 <% else %>
                   已处理
                 <% end %>
