@@ -33,6 +33,7 @@ Rails.application.routes.draw do
     resources :devices, only: [:show] # 设备
     member do
       get :alert
+      get :checked_alert
       get :video
     end
   end

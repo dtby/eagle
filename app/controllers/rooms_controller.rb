@@ -3,7 +3,12 @@ class RoomsController < BaseController
   end
 
   def alert
-    @alerts = PointAlarm.get_alarm_point_by_room(@room.id)
+    @alerts = PointAlarm.unchecked
+                        .get_alarm_point_by_room(@room.id)
+  end
+
+  def checked_alert
+    @alerts = PointAlarm.checked.get_alarm_point_by_room(@room.id)
   end
 
   def video

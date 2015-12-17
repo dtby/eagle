@@ -18,6 +18,22 @@
 class PointAlarm < ActiveRecord::Base
   belongs_to :point
 
+  #参数point_index
+  #返回单个point的id
+  def self.get_point_id point_index
+    Point.find_by(point_index: point_index).id
+  end
+
+  #参数point_index
+  #返回单个point_alarm对象
+  def self.get_point_alarm point_index
+    point = Point.find_by(point_index: point_index)
+    PointAlarm.find_by(point_id: point.id)
+  end
+
+  scope :checked, -> {where(is_checked: true)}
+  scope :unchecked, -> {where(is_checked: false)}
+
   # PointAlarm.get_alarm_point_by_room 1
   def self.get_alarm_point_by_room room_id
     devices = Device.by_room room_id

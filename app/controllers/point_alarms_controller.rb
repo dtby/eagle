@@ -3,8 +3,6 @@ class PointAlarmsController < BaseController
   before_action :set_point_alarm
 
   def checked
-    p "xxxxxxxxxxx"
-    p params[:room_id]
     if @point_alarm.update(is_checked: true)
       flash[:notice] = "处理成功"
       return redirect_to alert_room_path(@room)
@@ -15,8 +13,6 @@ class PointAlarmsController < BaseController
   end
 
   def unchecked
-    p "yyyyyyyyyyyyy"
-    p params[:room_id]
     if @point_alarm.update(is_checked: false)
       flash[:notice] = "处理成功"
       return redirect_to alert_room_path(@room)
@@ -28,7 +24,7 @@ class PointAlarmsController < BaseController
 
   private
   def set_point_alarm
-    @point_alarm = PointAlarm.find_by(point_id: params[:id])
+    @point_alarm = PointAlarm.find_by(point_id: params[:point_id])
   end
 
   def set_room
