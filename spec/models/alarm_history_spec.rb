@@ -3,7 +3,6 @@
 # Table name: alarm_histories
 #
 #  id           :integer          not null, primary key
-#  state        :integer
 #  point_id     :integer
 #  checked_time :datetime
 #  check_state  :integer

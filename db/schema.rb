@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151229084945) do
+ActiveRecord::Schema.define(version: 20151229090932) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -35,7 +35,6 @@ ActiveRecord::Schema.define(version: 20151229084945) do
   add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
 
   create_table "alarm_histories", force: :cascade do |t|
-    t.integer  "state",        limit: 4
     t.integer  "point_id",     limit: 4
     t.datetime "checked_time"
     t.integer  "check_state",  limit: 4
