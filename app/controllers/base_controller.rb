@@ -8,7 +8,9 @@ class BaseController < ApplicationController
       @room = Room.where(id: params[:id]).first
     elsif params[:controller] == 'rooms' && params[:action] == 'alert'
       @room = Room.where(id: params[:id]).first
-     elsif params[:controller] == 'rooms' && params[:action] == 'video'
+    elsif params[:controller] == 'rooms' && params[:action] == 'checked_alert'
+      @room = Room.where(id: params[:id]).first
+    elsif params[:controller] == 'rooms' && params[:action] == 'video'
       @room = Room.where(id: params[:id]).first
     elsif params[:controller] == 'devices'
       @room = Room.where(id: params[:room_id]).first
