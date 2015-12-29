@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151213122849) do
+ActiveRecord::Schema.define(version: 20151229084945) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -33,6 +33,17 @@ ActiveRecord::Schema.define(version: 20151213122849) do
   add_index "admins", ["email"], name: "index_admins_on_email", unique: true, using: :btree
   add_index "admins", ["phone"], name: "index_admins_on_phone", unique: true, using: :btree
   add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
+
+  create_table "alarm_histories", force: :cascade do |t|
+    t.integer  "state",        limit: 4
+    t.integer  "point_id",     limit: 4
+    t.datetime "checked_time"
+    t.integer  "check_state",  limit: 4
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "alarm_histories", ["point_id"], name: "index_alarm_histories_on_point_id", using: :btree
 
   create_table "analog_alarms", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -165,6 +176,7 @@ ActiveRecord::Schema.define(version: 20151213122849) do
   add_index "users", ["phone"], name: "index_users_on_phone", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "alarm_histories", "points"
   add_foreign_key "devices", "patterns"
   add_foreign_key "devices", "rooms"
   add_foreign_key "menus", "rooms"
