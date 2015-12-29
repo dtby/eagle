@@ -21,6 +21,8 @@
 
 class PointAlarm < ActiveRecord::Base
   belongs_to :point
+  after_update :update_alarm_history, if: "self.is_checked_changed?"
+  after_create :generate_alarm_history
 
   # PointAlarm.get_alarm_point_by_room 1
   def self.get_alarm_point_by_room room_id
@@ -36,4 +38,17 @@ class PointAlarm < ActiveRecord::Base
     end
     point_alarms
   end
+
+  private
+
+    def update_alarm_history
+      alarm_history = self.try(:point).try(:alarm_histories).try(:last)
+      alarm_history.check_state = self.state
+      alarm_history.checked_time = DateTime.now if self.is_checked
+      alarm_history.save
+    end
+
+    def generate_alarm_history
+      AlarmHistory.find_or_create_by(point: self.point, check_state: self.state)
+    end
 end
