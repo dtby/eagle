@@ -31,6 +31,7 @@ class Point < ActiveRecord::Base
 
   def self.monitor_db
     datas_to_hash DigitalPoint
+    nil
   end
 
   def self.datas_to_hash class_name
