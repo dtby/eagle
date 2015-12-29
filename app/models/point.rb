@@ -21,7 +21,8 @@
 class Point < ActiveRecord::Base
   belongs_to :device
   has_one :point_alarm, dependent: :destroy
-
+  has_many :alarm_histories, dependent: :destroy
+  
   # 取得节点的value
   def value
     ps = PointState.where(pid: point_index.to_i).first
