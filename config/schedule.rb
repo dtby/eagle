@@ -15,6 +15,10 @@ every 3.minutes do
   runner "Room.get_computer_room_list"
 end
 
+every 3.minutes do
+  runner "PictureDownload.start"
+end
+
 #
 # every 4.days do
 #   runner "AnotherModel.prune_old_records"
