@@ -1,7 +1,7 @@
 <div class="col-xs-12">
   <div class="btn-group" role="group" style="margin-bottom: 15px;" aria-label="...">
-    <%= link_to "未处理", alert_room_path(@room), class: "btn btn-default #{params['action'] =='alert' ? 'btn-active' : ''}" %>
-    <%= link_to "已处理", checked_alert_room_path(@room), class: "btn btn-default #{params['action'] =='checked_alert' ? 'btn-active' : ''}" %>
+    <%= link_to "未处理", alert_room_path(@room), class: "btn btn-default #{params['action'] =='alert' ? 'btn-active' : ''}", data: {disable_with: '加载中...'} %>
+    <%= link_to "已处理", checked_alert_room_path(@room), class: "btn btn-default #{params['action'] =='checked_alert' ? 'btn-active' : ''}", data: {disable_with: '加载中...'} %>
   </div>
 </div>
 <div class="col-xs-12">
