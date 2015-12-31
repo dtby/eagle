@@ -5,7 +5,8 @@ class PictureDownload
 
   def initialize
     @config = YAML.load_file('config/ftp.yml')
-    @path = "app/assets/images/monitor/"
+    # @path = "app/assets/images/monitor/"
+    @path = "public/monitor"
     FileUtils.makedirs(@path) unless File.exist?(@path)
 
     @ftp = Net::FTP.new
@@ -13,13 +14,16 @@ class PictureDownload
 
   def download start_time, end_time
     
+
     begin
       @ftp.connect(@config["url"], @config["port"])  
     rescue Exception => e
       return "Exception is #{e}"
     end
-    
-    @ftp.login
+    user = @config["user"] || "anonymous"
+    passwd = @config["passwd"]
+
+    @ftp.login(user, passwd)
     @ftp.chdir @config["path"]
     files = @ftp.nlst
     return "there is no file in this path" unless files.present?
