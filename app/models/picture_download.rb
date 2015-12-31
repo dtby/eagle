@@ -3,8 +3,16 @@ require 'yaml'
 
 class PictureDownload
 
-  def self.download start_time, end_time
-    PictureDownload.init_data # unless @ftp.present?
+  def initialize
+    @config = YAML.load_file('config/ftp.yml')
+    @path = "app/assets/images/monitor/"
+    FileUtils.makedirs(@path) unless File.exist?(@path)
+
+    @ftp = Net::FTP.new
+  end
+
+  def download start_time, end_time
+    
     begin
       @ftp.connect(@config["url"], @config["port"])  
     rescue Exception => e
@@ -26,13 +34,5 @@ class PictureDownload
       end
     end
     "#{download_size} files download"
-  end
-  
-  def self.init_data
-    @config = YAML.load_file('config/ftp.yml')
-    @path = "app/assets/images/monitor/"
-    FileUtils.makedirs(@path) unless File.exist?(@path)
-
-    @ftp = Net::FTP.new
   end
 end
