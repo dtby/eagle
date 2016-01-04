@@ -44,4 +44,25 @@ class PictureDownload
     files.delete(".keep")
     files
   end
+
+  def self.path_name
+    files = Dir.entries("public/monitor/")
+    files.delete(".")
+    files.delete("..")
+    files.delete(".keep")
+    files
+  end
+
+  def self.keyword(start_time, end_time)
+    files = self.pic_list
+    return files if start_time.blank? && end_time.blank?
+    pics = []
+    files.each do |file|
+      created_time = file.split("_")[2].to_datetime
+      if start_time <= created_time && created_time - 1.day<= end_time
+        pics << file
+      end
+    end
+    pics
+  end
 end
