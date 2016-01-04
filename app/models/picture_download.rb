@@ -45,14 +45,6 @@ class PictureDownload
     files
   end
 
-  def self.path_name
-    files = Dir.entries("public/monitor/")
-    files.delete(".")
-    files.delete("..")
-    files.delete(".keep")
-    files
-  end
-
   def self.keyword(start_time, end_time)
     files = self.pic_list
     return files if start_time.blank? && end_time.blank?

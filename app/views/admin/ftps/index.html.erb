@@ -1,0 +1,67 @@
+<%= form_tag admin_ftps_path, class: "form-horizontal", role: "form" do %>
+  <div class="form-group">
+    <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 用户名 </label>
+    <div class="col-sm-9">
+      <%= text_field_tag :user, nil, class: "col-xs-10 col-sm-5", required: true, placeholder: "请输入用户名"  %>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 密码 </label>
+    <div class="col-sm-9">
+      <%= password_field_tag :passwd, nil, class: "col-xs-10 col-sm-5", required: true, placeholder: "请输入用户密码"  %>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 地址 </label>
+    <div class="col-sm-9">
+      <%= text_field_tag :url, nil, class: "col-xs-10 col-sm-5", required: true , placeholder: "请输入地址" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 端口 </label>
+    <div class="col-sm-9">
+      <%= text_field_tag :port, nil, class: "col-xs-10 col-sm-5", required: true, placeholder: "请输入端口号"  %>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 上传路径 </label>
+    <div class="col-sm-9">
+      <%= text_field_tag :path, nil, class: "col-xs-10 col-sm-5", required: true, placeholder: "请输入上传路径"  %>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> </label>
+    <div class="col-sm-9">
+      <%= submit_tag "提交", class: "btn btn-xs btn-default"  %>
+    </div>
+  </div>
+<% end %>
+<hr>
+<br>
+<div class="row col-sm-12">
+  <% if @ftp.present? %>
+    已上传配置：<span class="text-danger">(提示：提交新的配置，原有配置将被覆盖！)</span>
+    <table class="table">
+      <tr>
+        <th class="col-sm-1">用户名：</th>
+        <td><%= @ftp["user"] %></td>
+      </tr>
+      <tr>
+        <th>密码：</th>
+        <td><%= @ftp["passwd"] %></td>
+      </tr>
+      <tr>
+        <th>地址：</th>
+        <td><%= @ftp["url"] %></td>
+      </tr>
+      <tr>
+        <th>端口：</th>
+        <td><%= @ftp["port"] %></td>
+      </tr>
+      <tr>
+        <th>上传路径：</th>
+        <td><%= @ftp["path"] %></td>
+      </tr>
+    </table>
+  <% end %>
+</div>

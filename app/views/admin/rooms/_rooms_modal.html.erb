@@ -20,6 +20,14 @@
             </div>
             <div class="form-group">
               <div class="input-group input-padding" style="width: 100%;">
+                <%= f.text_field :monitor_link, class: 'form-control', placeholder: '监控链接'%>
+              </div>
+              <% if room.errors[:monitor_link].any? %>
+                <dd class="error text-danger"><%= room.errors[:monitor_link][0] %></dd>
+              <% end %>
+            </div>
+            <div class="form-group">
+              <div class="input-group input-padding" style="width: 100%;">
                 <%= f.text_field :link, class: 'form-control', placeholder: '3D布局图链接'%>
               </div>
               <% if room.errors[:link].any? %>

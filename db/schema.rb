@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151229090932) do
+ActiveRecord::Schema.define(version: 20160104080401) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -123,10 +123,11 @@ ActiveRecord::Schema.define(version: 20151229090932) do
   add_index "points", ["device_id"], name: "index_points_on_device_id", using: :btree
 
   create_table "rooms", force: :cascade do |t|
-    t.string   "name",       limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.string   "link",       limit: 255
+    t.string   "name",         limit: 255
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.string   "link",         limit: 255
+    t.string   "monitor_link", limit: 255
   end
 
   create_table "sub_systems", force: :cascade do |t|

@@ -51,7 +51,7 @@ class Admin::RoomsController < Admin::BaseController
 	private 
 
 	def room_params
-		params.require(:room).permit(:name, :link)
+		params.require(:room).permit(:name, :link, :monitor_link)
 	end
 
   def set_room
