@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151229090932) do
+ActiveRecord::Schema.define(version: 20160104103250) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -107,6 +107,16 @@ ActiveRecord::Schema.define(version: 20151229090932) do
 
   add_index "point_alarms", ["point_id"], name: "index_point_alarms_on_point_id", using: :btree
 
+  create_table "point_histories", force: :cascade do |t|
+    t.string   "point_name",  limit: 255
+    t.float    "point_value", limit: 24
+    t.integer  "point_id",    limit: 4
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "point_histories", ["point_id"], name: "index_point_histories_on_point_id", using: :btree
+
   create_table "point_states", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -180,6 +190,7 @@ ActiveRecord::Schema.define(version: 20151229090932) do
   add_foreign_key "devices", "rooms"
   add_foreign_key "menus", "rooms"
   add_foreign_key "point_alarms", "points"
+  add_foreign_key "point_histories", "points"
   add_foreign_key "points", "devices"
   add_foreign_key "sub_systems", "systems"
   add_foreign_key "user_rooms", "rooms"

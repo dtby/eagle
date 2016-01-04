@@ -1,21 +1,21 @@
 # == Schema Information
 #
-# Table name: points
+# Table name: point_histories
 #
 #  id          :integer          not null, primary key
-#  name        :string(255)
+#  point_name  :string(255)
+#  point_value :float(24)
+#  point_id    :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
-#  point_index :string(255)
-#  device_id   :integer
 #
 # Indexes
 #
-#  index_points_on_device_id  (device_id)
+#  index_point_histories_on_point_id  (point_id)
 #
 
 require 'rails_helper'
 
-RSpec.describe Point, type: :model do
+RSpec.describe PointHistory, type: :model do
   pending "add some examples to (or delete) #{__FILE__}"
 end

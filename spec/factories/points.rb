@@ -13,10 +13,6 @@
 #
 #  index_points_on_device_id  (device_id)
 #
-# Foreign Keys
-#
-#  fk_rails_d6f3cdbe9a  (device_id => devices.id)
-#
 
 FactoryGirl.define do
   factory :point do
