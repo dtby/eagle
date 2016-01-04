@@ -15,5 +15,6 @@ class RoomsController < BaseController
   end
 
   def pic
+    @pics = PictureDownload.pic_list
   end
 end
