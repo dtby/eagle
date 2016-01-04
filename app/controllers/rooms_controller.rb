@@ -13,4 +13,7 @@ class RoomsController < BaseController
 
   def video
   end
+
+  def pic
+  end
 end

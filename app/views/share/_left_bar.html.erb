@@ -62,6 +62,12 @@
 				    <span class="nav-label">&nbsp;&nbsp;摄像头</span>
 				  <% end %>
 			  </li>
+			  <li class="<%= "active" if params[:action] == 'pic' %>">
+				  <%= link_to pic_room_path(@room) do %>
+				    <i class="fa fa-list-ul"></i>
+				    <span class="nav-label">告警图片</span>
+				  <% end %>
+			  </li>
 				<!-- 一级菜单 -->
 			<% end %>
 		</ul>

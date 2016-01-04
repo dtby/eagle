@@ -35,6 +35,7 @@ Rails.application.routes.draw do
       get :alert
       get :checked_alert
       get :video
+      get :pic
     end
   end
 
