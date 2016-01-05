@@ -41,6 +41,7 @@ group :development, :test do
   gem 'factory_girl_rails', '~> 4.0'
   gem 'awesome_print'
   gem 'pry'
+  gem 'rspec_api_documentation'
 end
 
 # for annotate
