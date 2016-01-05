@@ -27,6 +27,12 @@
 				<% end %>
 			</li>
 
+			<li class="<%= 'active' if params[:controller] == 'admin/ftps' %>">
+				<%= link_to admin_ftps_path do %>
+					<i class="fa fa-users"></i> <span class="nav-label">ftp配置</span>
+				<% end %>
+			</li>
+
 			<!-- 一级菜单 -->
 			<% @systems.each do |system| %>
 				<li class="<%= 'active' if params[:controller] == 'admin/patterns' && system == @pattern.try(:sub_system).try(:system) %>" >

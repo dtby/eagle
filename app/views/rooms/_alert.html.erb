@@ -11,14 +11,17 @@
         <tr>
           <th class="text-center">Point ID</th>
           <th class="text-center">告警状态</th>
+          <th class="text-center">告警时间</th>
           <th class="text-center">告警处理</th>
         </tr>
       </thead>
       <tbody>
         <% @alerts.each do |alert|%>
           <tr>
+            <% point_id = Point.find_by_point_index(alert[0]).id  %>
             <td class="text-center"><%= alert[0] %></td>
             <td class="text-center"><%= alert[1] %></td>
+            <td class="text-center"><%= PointAlarm.find_by_point_id(point_id).try(:created_at).strftime("%Y-%m-%d %H:%M:%S") %></td>
             <td class="text-center">
               <% unless PointAlarm.get_point_alarm(alert[0]).is_checked %>
                 <%= link_to "未处理", checked_point_alarm_path(point_id: PointAlarm.get_point_id(alert[0]), room_id: params[:id]), method: :patch, data: {confirm: '确认处理该警告！'} %>

@@ -45,6 +45,7 @@ Rails.application.routes.draw do
     resources :patterns # 型号设置
     resources :admins # 管理用户
     resources :rooms # 机房管理
+    resources :ftps, only: [:index, :create]
   end
 
   devise_for :admins, controllers: {

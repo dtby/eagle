@@ -1,3 +1,24 @@
+<%= form_tag pic_room_path(@room), method: :get, class: 'form-horizontal', role: "form" do %>
+  <div class="form-group col-sm-3">
+    <div id="datetimepicker1" class="input-append date">
+       <%= text_field_tag :start_time, params[:start_time], 'data-format': "dd/MM/yyyy hh:mm:ss", placeholder: "开始时间", required: true%>
+        <span class="add-on">
+          <i data-time-icon="glyphicon glyphicon-time" data-date-icon="glyphicon glyphicon-calendar">
+          </i>
+        </span>
+    </div>
+  </div>
+  <div class="form-group col-sm-3">
+    <div id="datetimepicker2" class="input-append date">
+      <%= text_field_tag :end_time, params[:end_time], 'data-format': "dd/MM/yyyy hh:mm:ss", placeholder: "截止时间", required: true %>
+        <span class="add-on">
+          <i data-time-icon="glyphicon glyphicon-time" data-date-icon="glyphicon glyphicon-calendar">
+          </i>
+        </span>
+    </div>
+  </div>
+  <%= submit_tag "搜索", class: "btn btn-xs btn-default" %>
+<% end %>
 <div class="row">
   <div class="col-xs-12">
     <div class="row-fluid">
@@ -13,3 +34,11 @@
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+  $(function() {
+    $('#datetimepicker1, #datetimepicker2').datetimepicker({
+       collapse: false
+    });
+  });
+</script>

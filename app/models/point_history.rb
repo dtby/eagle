@@ -73,7 +73,7 @@ class PointHistory < ActiveRecord::Base
         end
       end
     end
-    point_histories
+    point_histories.sort_by{ |a| a[:created_at] }.reverse!
   end
 
 end

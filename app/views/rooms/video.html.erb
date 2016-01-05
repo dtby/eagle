@@ -1,4 +1,4 @@
-<iframe src="http://192.168.0.244" frameborder="0"></iframe>
+<iframe src=<%= @room.monitor_link.present? ?  @room.monitor_link : "http://" %> frameborder="0"></iframe>
 
 <script type="text/javascript">
   $(function(){
