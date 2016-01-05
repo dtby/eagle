@@ -17,9 +17,11 @@
 #  updated_at             :datetime         not null
 #  name                   :string(255)      default(""), not null
 #  phone                  :string(255)      default(""), not null
+#  authentication_token   :string(255)
 #
 # Indexes
 #
+#  index_users_on_authentication_token  (authentication_token)
 #  index_users_on_email                 (email) UNIQUE
 #  index_users_on_phone                 (phone) UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
@@ -28,8 +30,10 @@
 class User < ActiveRecord::Base
 	# Include default devise modules. Others available are:
 	# :confirmable, :lockable, :timeoutable and :omniauthable
-	devise :database_authenticatable, :registerable,
-				 :recoverable, :rememberable, :trackable, :validatable
+	acts_as_token_authenticatable
+	devise :invitable, :database_authenticatable,
+         :recoverable, :rememberable, :trackable, :validatable,
+         :lockable
 
 	validates :phone, :email, :name, presence: true
 	validates :phone, format: { with: /\A(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}\z/, message: "请输入正确的手机号码" }

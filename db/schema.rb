@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160104103250) do
+ActiveRecord::Schema.define(version: 20160105095229) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -117,6 +117,14 @@ ActiveRecord::Schema.define(version: 20160104103250) do
 
   add_index "point_histories", ["point_id"], name: "index_point_histories_on_point_id", using: :btree
 
+  create_table "point_histories_201601", force: :cascade do |t|
+    t.string   "point_name",  limit: 255
+    t.integer  "point_id",    limit: 4
+    t.float    "point_value", limit: 24
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
   create_table "point_states", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -180,8 +188,10 @@ ActiveRecord::Schema.define(version: 20160104103250) do
     t.datetime "updated_at",                                      null: false
     t.string   "name",                   limit: 255, default: "", null: false
     t.string   "phone",                  limit: 255, default: "", null: false
+    t.string   "authentication_token",   limit: 255
   end
 
+  add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["phone"], name: "index_users_on_phone", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree

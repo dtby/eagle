@@ -50,6 +50,7 @@ gem 'bootstrap-sass', '~> 3.3.5'
 
 # for Authentication
 gem 'devise'
+gem 'simple_token_authentication', '~> 1.0' # see semver.org
 # gem 'devise-ios-rails'
 
 #Really fast deployer and server automation tool
