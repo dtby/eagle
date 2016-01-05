@@ -16,7 +16,6 @@
 FactoryGirl.define do
   factory :sub_system do
     name "MyString"
-system nil
   end
 
 end

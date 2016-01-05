@@ -58,6 +58,8 @@ Rails.application.routes.draw do
     passwords: 'users/passwords'
   }
 
+  resources :systems, only: [:index]
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
