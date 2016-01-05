@@ -36,12 +36,16 @@ group :development, :test do
   gem 'byebug'
   gem 'web-console', '~> 2.0'
   gem 'spring'
+
   gem 'rspec-rails', '~> 3.0'
   gem 'shoulda-matchers'
-  gem 'factory_girl_rails', '~> 4.0'
+  gem "factory_girl", "~> 4.0"
+  gem "factory_girl_rails", "~> 4.0"
+  gem 'rspec_api_documentation'
+  gem 'database_cleaner'
+  
   gem 'awesome_print'
   gem 'pry'
-  gem 'rspec_api_documentation'
 end
 
 # for annotate
@@ -52,7 +56,6 @@ gem 'bootstrap-sass', '~> 3.3.5'
 # for Authentication
 gem 'devise'
 gem 'simple_token_authentication', '~> 1.0' # see semver.org
-# gem 'devise-ios-rails'
 
 #Really fast deployer and server automation tool
 gem 'mina'
