@@ -27,6 +27,7 @@ class PointHistory < ActiveRecord::Base
     
     month = DateTime.now.strftime("%Y%m")
     Point.all.each do |point|
+      puts "point is #{point.name}"
       PointHistory.proxy(month: month).create(point_name: point.name, point_value: point.value, point: point)
     end
     nil
@@ -61,5 +62,18 @@ class PointHistory < ActiveRecord::Base
     ActiveRecord::Base.connection.tables.include? sign
   end
 
+  def self.find_by_point_id point_id
+    point_histories = []
+    ActiveRecord::Base.connection.tables.each do |table|
+      if /point_histories_\d{6}/.match table
+        PointHistory.table_name = table
+        puts "table is #{table}"
+        PointHistory.where(point_id: point_id).each do |point_history|
+          point_histories << point_history
+        end
+      end
+    end
+    point_histories
+  end
 
 end
