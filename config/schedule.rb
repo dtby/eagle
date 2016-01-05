@@ -11,6 +11,10 @@ every 1.minutes do
   runner "Point.monitor_db"
 end
 
+every 1.minutes do
+  runner "PointHistory.generate_point_history"
+end
+
 every 3.minutes do
   runner "Room.get_computer_room_list"
 end
