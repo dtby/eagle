@@ -7,9 +7,3 @@
 #  updated_at :datetime         not null
 #
 
-FactoryGirl.define do
-  factory :point_state do
-    
-  end
-
-end

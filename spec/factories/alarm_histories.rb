@@ -16,10 +16,9 @@
 
 FactoryGirl.define do
   factory :alarm_history do
-    state 1
-point nil
-checked_time "2015-12-29 16:49:45"
-check_state 1
+    point nil
+    checked_time "2015-12-29 16:49:45"
+    check_state 1
   end
 
 end

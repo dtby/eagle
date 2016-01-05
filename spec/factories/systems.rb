@@ -11,8 +11,6 @@
 FactoryGirl.define do
   factory :system do
     sys_name "MyString"
-sub_system ""
-room nil
   end
 
 end

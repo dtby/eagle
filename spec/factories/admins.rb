@@ -27,7 +27,10 @@
 
 FactoryGirl.define do
   factory :admin do
-    
+    password "123456"
+    email "eagle_admin@qq.com"
+    phone "13012345678"
+    name "eagle_admin"
   end
 
 end
