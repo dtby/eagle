@@ -12,6 +12,10 @@
 #
 #  index_sub_systems_on_system_id  (system_id)
 #
+# Foreign Keys
+#
+#  fk_rails_52e604f8a0  (system_id => systems.id)
+#
 
 FactoryGirl.define do
   factory :sub_system do

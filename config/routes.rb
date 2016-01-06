@@ -37,6 +37,8 @@ Rails.application.routes.draw do
       get :video
       get :pic
     end
+    #报表
+    resources :reports, only: [:index]
   end
 
   namespace :admin do

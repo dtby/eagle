@@ -67,3 +67,39 @@ li.main-images-list {
   height: 60px;
   z-index: 2333;
 }
+//报表
+#pointContent {display: none;}
+#reportsContent {
+  ul, li {
+    list-style: none;
+  }
+  .block {
+  	height: 300px;
+  	width: 300px;
+  	line-height: 300px;
+  	text-align: center;
+  	font-size: 50px;
+  	background: #eee;
+  	margin: 0 auto;
+  }
+  li.parent {
+    height: 34px;
+    line-height: 34px;
+    background: #3d5163;
+    padding: 0 0 0 10px;
+    margin-bottom: 5px;
+    a {
+    	color: #fff;
+    }
+  }
+  li.child {
+  	height: 30px;
+  	line-height: 30px;
+  	a {
+  		color: #666;
+  		&.active {
+  			color: red;
+  		}
+  	}
+  }
+}
