@@ -68,3 +68,6 @@ gem 'clockwork'
 gem 'whenever'
 
 gem 'macaddr', '>= 1.7.1'
+
+# devide page for list
+gem 'will_paginate', '~> 3.0.6'
