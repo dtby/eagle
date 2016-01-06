@@ -42,11 +42,6 @@ resource "用户鉴权" do
     let(:phone) { user_attrs[:phone] }
     let(:raw_post) { params.to_json }
 
-    response_field :id, "用户ID"
-    response_field :email, "邮箱"
-    response_field :created_at, "创建时间"
-    response_field :updated_at, "更新时间"
-    response_field :phone, "电话号码"
     response_field :name, "姓名"
     response_field :authentication_token, "鉴权Token"
 
