@@ -31,6 +31,7 @@ Rails.application.routes.draw do
 
   resources :rooms, only: [:show] do
     resources :devices, only: [:show] # 设备
+    resources :point_alarms, only: [:index]
     member do
       get :alert
       get :checked_alert

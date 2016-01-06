@@ -1,6 +1,14 @@
+require 'will_paginate/array'
 class PointAlarmsController < BaseController
+  before_action :authenticate_user!, only: [:checked, :unchecked]
+
   before_action :set_room
-  before_action :set_point_alarm
+  before_action :set_point_alarm, only: [:checked, :unchecked]
+  acts_as_token_authentication_handler_for User, only: [:index]
+
+  def index
+    @point_alarms = @room.devices.map { |device| device.points.map { |point| point.point_alarm } }.flatten.paginate(page: params[:page], per_page: 10)
+  end
 
   def checked
     if @point_alarm.update(is_checked: true)
