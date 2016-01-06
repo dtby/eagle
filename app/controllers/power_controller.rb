@@ -1,4 +1,7 @@
 class PowerController < BaseController
+
+	before_action :authenticate_user!
+	
 	def crac    
 	end
 

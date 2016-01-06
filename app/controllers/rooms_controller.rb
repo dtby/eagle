@@ -1,4 +1,6 @@
 class RoomsController < BaseController
+  before_action :authenticate_user!
+  
   def show
   end
 
