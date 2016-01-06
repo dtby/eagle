@@ -25,18 +25,15 @@ resource "告警相关" do
     header "X-User-Token", user_attrs[:authentication_token]
     header "X-User-Phone", user_attrs[:phone]
 
-    response_field :id, "用户ID"
-    response_field :email, "邮箱"
+    response_field :id, "告警ID"
+    response_field :state, "告警状态"
     response_field :created_at, "创建时间"
     response_field :updated_at, "更新时间"
-    response_field :phone, "电话号码"
-    response_field :name, "姓名"
-    response_field :authentication_token, "鉴权Token"
+    response_field :is_checked, "是否确认"
+    response_field :point_id, "点ID"
 
     example "获取告警列表成功" do
-      puts "header is #{headers}"
       do_request
-      puts "response_field is #{response_body}"
       expect(status).to eq(200)
     end
   end
