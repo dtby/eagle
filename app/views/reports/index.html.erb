@@ -1,0 +1,41 @@
+<div class="row" id="reportsContent">
+  <div class="col-sm-12">
+    <div class="col-sm-2">
+      <ul id="deviceContent">
+        <% @devices.each do |device| %>
+          <li class="parent"><%= link_to "+ "+device.name.to_s, "javascript:void(0);" %></li>
+          <ul id="pointContent">
+            <% device.points.each do |point| %>
+              <% ponit_history = PointHistory.find_by_point_id(point.id).map{|x| x.point_value} %>
+              <li class="child"><%= link_to point.name, "javascript:void(0);", title: ponit_history, alt: point.name %></li>
+            <% end %>
+          </ul>
+        <% end %>
+      </ul>
+    </div>
+    <div class="col-sm-10" id="pointVal" style="height:400px">
+      <div class="block">
+        <span>0.0</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function(){
+    $("#deviceContent li").click(function(){
+      $(this).next("ul").slideToggle();
+      $(this).siblings("li").next("ul").hide();
+    });
+    $("#pointContent li").each(function(){
+      var _a = $(this).find("a");
+      var _data = _a.attr("title");
+      var _this = $(this);
+      _a.click(function(){
+        $("#pointVal .block").text(_data);
+        $(this).addClass("active")
+        $(this).parent().siblings().find("a").removeClass("active");
+      })
+    });
+  })
+</script>

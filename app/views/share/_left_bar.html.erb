@@ -50,6 +50,12 @@
 						<!-- 二级菜单 -->
 					</li>
 				<% end %>
+				<li class="<%= "active" if params[:controller] == "reports" && params[:action] == 'index' %>">
+				  <%= link_to room_reports_path(@room) do %>
+				    <i class="fa fa-area-chart"></i>
+				    <span class="nav-label">报表</span>
+				  <% end %>
+			  </li>
 				<li class="<%= "active" if params[:action] == 'alert' %>">
 				  <%= link_to alert_room_path(@room) do %>
 				    <i class="fa fa-list-ul"></i>
@@ -58,13 +64,13 @@
 			  </li>
 			  <li class="<%= "active" if params[:action] == 'video' %>">
 				  <%= link_to video_room_path(@room) do %>
-				    <span class="glyphicon glyphicon-blackboard"></span>
+				    <span class="fa fa-video-camera"></span>
 				    <span class="nav-label">&nbsp;&nbsp;摄像头</span>
 				  <% end %>
 			  </li>
 			  <li class="<%= "active" if params[:action] == 'pic' %>">
 				  <%= link_to pic_room_path(@room) do %>
-				    <i class="fa fa-list-ul"></i>
+				    <i class="fa fa-file-image-o"></i>
 				    <span class="nav-label">告警图片</span>
 				  <% end %>
 			  </li>

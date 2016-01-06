@@ -14,6 +14,8 @@ class BaseController < ApplicationController
       @room = Room.where(id: params[:id]).first
     elsif params[:controller] == 'rooms' && params[:action] == 'pic'
       @room = Room.where(id: params[:id]).first
+    elsif params[:controller] == 'reports' && params[:action] == 'index'
+      @room = Room.where(id: params[:id]).first
     elsif params[:controller] == 'devices'
       @room = Room.where(id: params[:room_id]).first
     end

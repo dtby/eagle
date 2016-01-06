@@ -117,14 +117,6 @@ ActiveRecord::Schema.define(version: 20160105095229) do
 
   add_index "point_histories", ["point_id"], name: "index_point_histories_on_point_id", using: :btree
 
-  create_table "point_histories_201601", force: :cascade do |t|
-    t.string   "point_name",  limit: 255
-    t.integer  "point_id",    limit: 4
-    t.float    "point_value", limit: 24
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-  end
-
   create_table "point_states", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
