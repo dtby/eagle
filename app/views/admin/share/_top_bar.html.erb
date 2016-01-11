@@ -8,13 +8,15 @@
 		<!-- 左侧导航栏收起按钮  end-->
 		<!-- 右上角消息提示部分 -->
 		<ul class="nav navbar-top-links navbar-right">
+
+
 			<li>
 				<%= link_to "javascript: void(0)" do %>
 					<i class="fa fa-user"></i> <%= current_admin.name %>
 				<% end %>
 			</li>
 			<li>
-				<%= link_to destroy_session_path(:admin), method: :delete do %>
+				<%= link_to destroy_admin_session_path, method: :delete do %>
 					<i class="fa fa-sign-out"></i> 退出
 				<% end %>
 			</li>

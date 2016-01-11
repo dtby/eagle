@@ -6,17 +6,16 @@
           <li class="parent"><%= link_to "+ "+device.name.to_s, "javascript:void(0);" %></li>
           <ul id="pointContent">
             <% device.points.each do |point| %>
-              <% ponit_history = PointHistory.find_by_point_id(point.id).map{|x| x.point_value} %>
-              <li class="child"><%= link_to point.name, "javascript:void(0);", title: ponit_history, alt: point.name %></li>
+              <% ponit_history = PointHistory.find_by_point_id(point.id).collect{|x| x.point_value} %>
+              <% ponit_time = PointHistory.find_by_point_id(point.id).collect{|x| x.created_at.strftime("%Y-%m-%d")} %>
+              <li class="child"><%= link_to point.name, replace_chart_room_reports_path(@room, data: ponit_history, time: ponit_time), remote: true, title: point.name, alt: point.name %></li>
             <% end %>
           </ul>
         <% end %>
       </ul>
     </div>
-    <div class="col-sm-10" id="pointVal" style="height:400px">
-      <div class="block">
-        <span>0.0</span>
-      </div>
+    <div class="col-sm-10" id="chartsContent">
+      <div id="main" style="height:400px"></div>
     </div>
   </div>
 </div>
@@ -27,15 +26,47 @@
       $(this).next("ul").slideToggle();
       $(this).siblings("li").next("ul").hide();
     });
-    $("#pointContent li").each(function(){
-      var _a = $(this).find("a");
-      var _data = _a.attr("title");
-      var _this = $(this);
-      _a.click(function(){
-        $("#pointVal .block").text(_data);
-        $(this).addClass("active")
-        $(this).parent().siblings().find("a").removeClass("active");
-      })
-    });
   })
+</script>
+
+<script type="text/javascript">
+    // 使用
+    require(
+        [
+            'echarts',
+            'echarts/chart/bar' // 使用柱状图就加载bar模块，按需加载
+        ],
+        function (ec) {
+          // 基于准备好的dom，初始化echarts图表
+          var myChart = ec.init(document.getElementById('main')); 
+          var option = {
+            tooltip: {
+                show: true
+            },
+            legend: {
+                data:['报表']
+            },
+            xAxis : [
+                {
+                    type : 'category',
+                    data : ["2016-01-07", "2016-01-07", "2016-01-07", "2016-01-07", "2016-01-07", "2016-01-06"]
+                }
+            ],
+            yAxis : [
+                {
+                    type : 'value'
+                }
+            ],
+            series : [
+              {
+                "name":"报表",
+                "type":"bar",
+                "data": [0,0,0,0,0,0]
+              }
+            ]
+          };
+        // 为echarts对象加载数据 
+        myChart.setOption(option); 
+      }
+    );
 </script>

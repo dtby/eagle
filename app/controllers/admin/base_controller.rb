@@ -1,4 +1,4 @@
-class Admin::BaseController < ApplicationController
+class Admin::BaseController < ActionController::Base
 	before_action :authenticate_admin!, :set_left_bar
 	layout 'admin'
 	

@@ -67,6 +67,9 @@ gem 'settingslogic', '~> 2.0.9'
 gem 'clockwork'
 gem 'whenever'
 
+#向js传值
+gem 'gon'
+
 gem 'macaddr', '>= 1.7.1'
 
 # devide page for list
