@@ -1,5 +1,5 @@
 class CheckPhoneController < ApplicationController
-
+  protect_from_forgery :except => :auth
   def auth
     @user = User.find_by(phone: auth_params[:phone])
   end
