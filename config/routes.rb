@@ -39,7 +39,11 @@ Rails.application.routes.draw do
       get :pic
     end
     #报表
-    resources :reports, only: [:index]
+    resources :reports, only: [:index] do
+      collection do
+        get :replace_chart
+      end
+    end
   end
 
   namespace :admin do
