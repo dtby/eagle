@@ -29,7 +29,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :rooms, only: [:show] do
+  resources :rooms, only: [:index, :show] do
     resources :devices, only: [:show] # 设备
     resources :point_alarms, only: [:index]
     member do

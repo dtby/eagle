@@ -18,6 +18,9 @@ class BaseController < ApplicationController
       @room = Room.where(id: params[:id]).first
     elsif params[:controller] == 'devices'
       @room = Room.where(id: params[:room_id]).first
+    elsif params[:controller] == 'rooms' && params[:action] == 'index'
+      @rooms = Room.all
+      return
     end
 
     # room权限

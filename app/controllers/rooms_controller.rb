@@ -11,8 +11,15 @@
 #
 
 class RoomsController < BaseController
-  before_action :authenticate_user!
-  
+  before_action :authenticate_user!, only: [:show, :alert, :checked_alert, :video, :pic]
+  acts_as_token_authentication_handler_for User, only: [:index]
+  respond_to :json
+
+  def index
+    @rooms = Room.all
+    @rooms = @rooms.select { |room| UserRoom.find_by(room: room, user: current_user).present? }
+  end
+
   def show
   end
 
@@ -31,4 +38,5 @@ class RoomsController < BaseController
   def pic
     @pics = PictureDownload.keyword(params[:start_time], params[:end_time])
   end
+
 end
