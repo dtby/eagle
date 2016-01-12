@@ -10,10 +10,7 @@
 		<ul class="nav ace-nav navbar-top-links navbar-right">
 			<!-- 机房选择 -->
 			<li>
-				<%= link_to alert_room_path(@room) do %>
-					告警
-					<span class="badge badge-danger"><%= @alerts.length %></span>
-				<% end %>
+					告警 <span class="badge badge-danger"><%= @alerts.length %></span>
 			</li>
 			<li class="dropdown">
 				<a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
