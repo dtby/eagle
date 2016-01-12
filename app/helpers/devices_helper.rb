@@ -21,4 +21,12 @@
 #
 
 module DevicesHelper
+  def warning_status warning_data
+    case warning_data.to_i
+    when 0
+      content_tag(:i, nil, class: "warning green")
+    when 1
+      content_tag(:i, nil, class: "warning red")
+    end
+  end
 end

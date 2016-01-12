@@ -15,3 +15,22 @@
     background-size:36% 40%;
   }
 }
+
+//告警样式
+.warning-icon {
+  position: relative;
+}
+.warning-icon .warning {
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  top: 4px;
+  right: 10px;
+  &.red {
+    background: red;
+  }
+  &.green {
+    background: green;
+  }
+}
