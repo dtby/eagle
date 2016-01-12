@@ -38,7 +38,8 @@ class BaseController < ApplicationController
       @room = Room.where(id: params[:id]).first
     end
     if @room.present?
-      @alerts = PointAlarm.get_alarm_point_by_room(@room.id)
+      @alerts = [1,2,3,4,5,6,7,8,9,11,45,77].shuffle.first
+      #@alerts = PointAlarm.get_alarm_point_by_room(@room.id)
     else
       @alerts = {}
     end
