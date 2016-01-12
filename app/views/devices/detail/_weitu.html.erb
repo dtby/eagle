@@ -54,12 +54,12 @@
               <table class="table table2">
                 <tr>
                   <% @points["告警"].keys.each_with_index do |key, index| %>
-                    <% if index%4 == 0 %>
+                    <% if index % 4 == 0 %>
                       <td class="air_d_grey" align="left">
                     <% end %>
                       <div class="span1">
                         <span class="grey_d0 grey_d1"><%= key %></span>
-                        <span class="grey_d0 grey_d<%= index%2 == 0 ? "2" : "4"%>"><%= @points["告警"][key] %>%</span>
+                        <span class="grey_d0 grey_d<%= index % 2 == 0 ? "2" : "4"%>"><%= @points["告警"][key] %>%</span>
                       </div><br>
                     <% if index%4 == 3 %>
                       </td>
