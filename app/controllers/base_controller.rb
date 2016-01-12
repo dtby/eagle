@@ -1,4 +1,5 @@
 class BaseController < ApplicationController
+  acts_as_token_authentication_handler_for User, only: [:authenticate_and_set_room]
   before_action :authenticate_and_set_room, :list_alerts
 
   # 验证用户是否有访问当前机房的权限
@@ -19,7 +20,9 @@ class BaseController < ApplicationController
     elsif params[:controller] == 'devices'
       @room = Room.where(id: params[:room_id]).first
     elsif params[:controller] == 'rooms' && params[:action] == 'index'
-      @rooms = Room.all
+      puts "user is #{current_user.inspect}"
+      @rooms = UserRoom.where(user: current_user)
+      puts "rooms is #{@rooms.inspect}"
       return
     end
 

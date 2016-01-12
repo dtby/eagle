@@ -16,8 +16,6 @@ class RoomsController < BaseController
   respond_to :json
 
   def index
-    @rooms = Room.all
-    @rooms = @rooms.select { |room| UserRoom.find_by(room: room, user: current_user).present? }
   end
 
   def show
