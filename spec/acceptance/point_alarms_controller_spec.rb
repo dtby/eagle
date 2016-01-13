@@ -38,4 +38,33 @@ resource "告警相关" do
     end
   end
 
+  post "/point_alarms/:id/checked" do 
+    before do
+      create(:user)
+      @room = create(:room)
+      @point_alarms = []
+      (0..3).each do |i|
+        device = create(:device, room: @room, name: "device#{i}")
+        (0..i).each do |index|
+          point = create(:point, device: device)
+          @point_alarms << create(:point_alarm, point: point)
+        end
+        
+      end
+    end
+
+    let(:id) { @point_alarms.last.id }
+
+    user_attrs = FactoryGirl.attributes_for(:user)
+    header "X-User-Token", user_attrs[:authentication_token]
+    header "X-User-Phone", user_attrs[:phone]
+
+    response_field :result, "处理结果"
+
+    example "处理告警成功" do
+      do_request
+      expect(status).to eq(200)
+    end
+  end
+
 end

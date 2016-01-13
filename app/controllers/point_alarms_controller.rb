@@ -21,11 +21,12 @@
 
 require 'will_paginate/array'
 class PointAlarmsController < BaseController
-  before_action :authenticate_user!, only: [:checked, :unchecked]
+
+  before_action :authenticate_user!, only: [:checked, :unchecked], if: lambda { |controller| controller.request.format.html? }
 
   before_action :set_room
   before_action :set_point_alarm, only: [:checked, :unchecked]
-  acts_as_token_authentication_handler_for User, only: [:index]
+  acts_as_token_authentication_handler_for User, only: [:index, :checked, :unchecked]
 
   def index
     @point_alarms = @room.devices.map { |device| device.points.map { |point| point.point_alarm } }.flatten.paginate(page: params[:page], per_page: 10)
@@ -33,12 +34,18 @@ class PointAlarmsController < BaseController
 
   def checked
     if @point_alarm.update(is_checked: true)
-      flash[:notice] = "处理成功"
+      result = "处理成功"
+    else
+      result = "处理失败"
+    end
+
+    if request.format.html?
+      flash[:notice] = result
       return redirect_to alert_room_path(@room)
     else
-      flash[:notice] = "处理失败"
-      return redirect_to alert_room_path(@room)
+      return render json: { result: result }
     end
+
   end
 
   def unchecked
@@ -53,7 +60,7 @@ class PointAlarmsController < BaseController
 
   private
   def set_point_alarm
-    @point_alarm = PointAlarm.find_by(point_id: params[:point_id])
+    @point_alarm = PointAlarm.find_by(point_id: params[:point_id] || params[:id])
   end
 
   def set_room
