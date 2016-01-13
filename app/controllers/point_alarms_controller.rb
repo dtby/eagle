@@ -50,11 +50,16 @@ class PointAlarmsController < BaseController
 
   def unchecked
     if @point_alarm.update(is_checked: false)
-      flash[:notice] = "处理成功"
+      result = "处理成功"
+    else
+      result = "处理失败"
+    end
+
+    if request.format.html?
+      flash[:notice] = result
       return redirect_to alert_room_path(@room)
     else
-      flash[:notice] = "处理失败"
-      return redirect_to alert_room_path(@room)
+      return render json: { result: result }
     end
   end
 
