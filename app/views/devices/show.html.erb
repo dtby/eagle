@@ -12,6 +12,8 @@
   <%= render partial: 'devices/detail/fire_7053', locals: { device: @device, exclude_points: @exclude_points } %>
 <% elsif @device.pattern.partial_path == "elec_meter_umw450" %>
   <%= render partial: 'devices/detail/elec_meter_umw450', locals: { device: @device, exclude_points: @exclude_points } %>
+<% elsif @device.pattern.partial_path == "power" %>
+  <%= render partial: 'devices/detail/power', locals: { device: @device, exclude_points: @exclude_points } %>
 <% else %>
   <%= render partial: 'devices/detail/default', locals: { device: @device, exclude_points: @exclude_points } %>
 <% end %>

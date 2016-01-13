@@ -1,6 +1,6 @@
 class ReportsController < BaseController
   def index
-    @devices = @room.devices
+    @devices = @room.devices.keyword(params[:start_time], params[:end_time])
   end
 
   def replace_chart
