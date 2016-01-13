@@ -25,7 +25,6 @@ resource "机房" do
 
     example "获取机房列表成功" do
       do_request
-      puts "response is #{response_body}"
       expect(status).to eq(200)
     end
   end

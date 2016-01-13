@@ -16,6 +16,7 @@ class RoomsController < BaseController
   respond_to :json
 
   def index
+    @rooms = UserRoom.where(user: current_user).map { |e| e.room }
   end
 
   def show
