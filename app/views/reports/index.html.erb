@@ -30,9 +30,9 @@
           <li class="parent"><%= link_to "+ " + device.name.to_s, "javascript:void(0);" %></li>
           <ul id="pointContent">
             <% device.points.each do |point| %>
-              <% point_history = PointHistory.find_by_point_id(point.id).collect{|x| x.point_value.to_i}.uniq %>
-              <% point_time = PointHistory.find_by_point_id(point.id).collect{|x| x.created_at.strftime("%Y-%m-%d")}.uniq %>
-              <li class="child"><%= link_to point.name, replace_chart_room_reports_path(@room, data: point_history, time: point_time), remote: true, title: point.name, alt: point.name %></li>
+              <% point_history = PointHistory.keyword(params[:start_time], params[:end_time], point.id).collect{|x| x.point_value.to_i} %>
+              <% point_time = PointHistory.keyword(params[:start_time], params[:end_time], point.id).collect{|x| x.created_at.strftime("%Y-%m-%d")} %>
+              <li class="child"><%= link_to point.name, replace_chart_room_reports_path(@room, data: point_history, time: point_time, name: point.name), remote: true, title: point.name %></li>
             <% end %>
           </ul>
         <% end %>

@@ -1,2 +1,2 @@
 $("#chartsContent").empty();
-$("#chartsContent").html("<%= escape_javascript(render partial: 'charts', locals: {data: @data, time: @time}) %>");
+$("#chartsContent").html("<%= escape_javascript(render partial: 'charts', locals: {data: @data, time: @time, name: @name}) %>");
