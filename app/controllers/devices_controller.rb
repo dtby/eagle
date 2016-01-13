@@ -22,7 +22,14 @@
 
 class DevicesController < BaseController
   
-  before_action :authenticate_user!
+  before_action :authenticate_user!, if: lambda { |controller| controller.request.format.html? }
+  acts_as_token_authentication_handler_for User
+
+  def index
+    room = Room.where(id: params[:room_id]).first
+    @devices = room.devices
+  end
+
   def show
     @room = Room.where(id: params[:room_id]).first
     @device = Device.includes(:points).where(id: params[:id]).first

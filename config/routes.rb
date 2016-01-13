@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'point_controller/show'
+
   root to: "welcome#index"
 
   #动力
@@ -30,7 +32,11 @@ Rails.application.routes.draw do
   end
 
   resources :rooms, only: [:index, :show] do
-    resources :devices, only: [:show] # 设备
+    resources :devices, only: [:index, :show] do  # 设备
+      member do 
+        resources :points, only: [:index, :show]
+      end
+    end
     resources :point_alarms, only: [:index]
     member do
       get :alert
