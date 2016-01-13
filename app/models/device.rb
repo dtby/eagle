@@ -54,7 +54,7 @@ class Device < ActiveRecord::Base
 
   def self.keyword(start_time, end_time)
     return self.all if start_time.blank? && end_time.blank?
-    devs = self.where("created_at > ? AND created_at < ?", start_time, end_time)
+    devs = Device.where("created_at > ? AND created_at < ?", start_time.to_datetime, end_time.to_datetime)
     devs
   end
 end
