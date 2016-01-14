@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 20160114124317) do
     t.string   "current",      limit: 255
     t.boolean  "volt_warning"
     t.boolean  "cur_warning"
+    t.string   "point_index",  limit: 255
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
   end

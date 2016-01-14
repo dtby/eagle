@@ -5,6 +5,7 @@ class CreateAlarms < ActiveRecord::Migration
       t.string :current
       t.boolean :volt_warning
       t.boolean :cur_warning
+      t.string :point_index
 
       t.timestamps null: false
     end
