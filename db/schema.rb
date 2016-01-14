@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160105095229) do
+ActiveRecord::Schema.define(version: 20160114124317) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -43,6 +43,15 @@ ActiveRecord::Schema.define(version: 20160105095229) do
   end
 
   add_index "alarm_histories", ["point_id"], name: "index_alarm_histories_on_point_id", using: :btree
+
+  create_table "alarms", force: :cascade do |t|
+    t.string   "voltage",      limit: 255
+    t.string   "current",      limit: 255
+    t.boolean  "volt_warning"
+    t.boolean  "cur_warning"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
 
   create_table "analog_alarms", force: :cascade do |t|
     t.datetime "created_at", null: false

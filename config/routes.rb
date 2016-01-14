@@ -50,6 +50,21 @@ Rails.application.routes.draw do
         get :replace_chart
       end
     end
+
+    resources :sub_systems, only:[] do 
+      collection do
+        get :distrib
+        get :ups
+        get :column_head_cabinet
+        get :ats
+        get :battery
+        get :diesel_engine
+        get :temperature_humidity
+        get :water_leakage
+        get :air_d
+        get :cabinet_temp_humidity
+      end
+    end
   end
 
   namespace :admin do
@@ -78,6 +93,9 @@ Rails.application.routes.draw do
       post :auth
     end
   end
+
+
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
