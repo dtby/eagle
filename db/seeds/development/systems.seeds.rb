@@ -1,6 +1,6 @@
 System.destroy_all
 System.create!([
-  { id: 1, sys_name: '动力' }, 
+  { id: 1, sys_name: '动力' },
   { id: 2, sys_name: '环境' },
   { id: 3, sys_name: '联动' },
   { id: 4, sys_name: '安全' },
