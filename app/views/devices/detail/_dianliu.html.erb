@@ -1,0 +1,32 @@
+<div class="clearfix">
+  <div class="col-xs-12 p-xs">
+    <div class="mblock">
+      <h2 class="text-center text-muted"><%= device.name %></h2>
+      <div class="table-responsive my-table  my-left">
+        <div class="text-muted"><%= device.pattern.name %></div>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th class="text-center">空开状态</th>
+              <th class="text-center">电压值</th>
+              <th class="text-center">电流值</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <% @points.keys.each do |group| %>
+                <td class="text-center"><span class="xc-status green"></span></td>
+                <td class="text-center unit"><%= @points[group]["电压有效值"] %></td>
+                <% if @points[group]["电流有效值"].to_i > 12 %>
+                  <td class="text-center unit xc-danger"><%= @points[group]["电流有效值"] %></td>
+                <% else %>
+                  <td class="text-center unit"><%= @points[group]["电流有效值"] %></td>
+                <% end %>
+              <% end %>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
