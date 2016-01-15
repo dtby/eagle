@@ -21,7 +21,6 @@
 #
 
 class DevicesController < BaseController
-  
   before_action :authenticate_user!, if: lambda { |controller| controller.request.format.html? }
   acts_as_token_authentication_handler_for User
 
