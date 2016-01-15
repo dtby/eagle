@@ -40,7 +40,7 @@ class Point < ActiveRecord::Base
       point = Point.find_by(point_index: ap.PointID)
       next unless point.present?
       point_alarm = PointAlarm.find_or_create_by(point: point)
-      point_alarm.update(state: ap.COS) if ap.COS != point_alarm.state
+      point_alarm.update(state: ap.COS, comment: ap.Comment) if ap.COS != point_alarm.state
     end
   end
 end
