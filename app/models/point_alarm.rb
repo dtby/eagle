@@ -66,6 +66,11 @@ class PointAlarm < ActiveRecord::Base
     return PointAlarm.where({point_id: point_ids})
   end
 
+  def self.keyword start_time, end_time
+    return self.all if start_time.blank? && end_time.blank?
+    self.where("created_at > ? AND created_at < ?", start_time.to_datetime, end_time.to_datetime)
+  end
+
   private
 
     def update_alarm_history
