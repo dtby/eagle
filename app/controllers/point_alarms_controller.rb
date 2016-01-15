@@ -66,7 +66,7 @@ class PointAlarmsController < BaseController
 
   private
   def set_point_alarm
-    @point_alarm = PointAlarm.find_by(point_id: params[:point_id] || params[:id])
+    @point_alarm = PointAlarm.find_by(point_id: params[:point_id])
   end
 
   def set_room
