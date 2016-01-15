@@ -84,7 +84,7 @@ class Room < ActiveRecord::Base
       points = aps.where(BayName: name)
       device_name = name.split("-").last
       device = Device.find_by(name: device_name)
-      alarm = Alarm.find_or_create_by(device_name: device_name, device_id: device)
+      alarm = Alarm.find_or_create_by(device_name: device_name, device: device)
       points.each_with_index do |point, index|
         ps = PointState.where(pid: point.PointID).first
         puts "value is #{ps.value}, name is #{name}"
