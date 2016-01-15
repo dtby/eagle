@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     member do
       patch :checked, :unchecked
       post :checked, :unchecked
+      get :modal
     end
   end
 

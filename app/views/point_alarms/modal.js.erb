@@ -1,0 +1,2 @@
+$("#alertModal").html("<%= escape_javascript(render partial: 'rooms/modal', locals: {name: params[:name], point_id: params[:point_id]}) %>");
+$("#alertModal").modal("show")
