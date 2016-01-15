@@ -26,11 +26,13 @@ class RoomsController < BaseController
     @point_alarms = PointAlarm.unchecked
                         .get_alarm_point_by_room(@room.id)
                         .paginate(page: params[:page], per_page: 20)
+                        .order_desc
   end
 
   def checked_alert
     @point_alarms = PointAlarm.checked.get_alarm_point_by_room(@room.id)
                                       .paginate(page: params[:page], per_page: 20)
+                                      .order_desc
   end
 
   def video

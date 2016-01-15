@@ -40,6 +40,7 @@ class PointAlarm < ActiveRecord::Base
 
   scope :checked, -> {where(is_checked: true)}
   scope :unchecked, -> {where(is_checked: false)}
+  scope :order_desc, -> {order("created_at DESC")}
 
   # PointAlarm.get_alarm_point_by_room 1
   # def self.get_alarm_point_by_room room_id
