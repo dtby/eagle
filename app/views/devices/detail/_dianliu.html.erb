@@ -1,9 +1,8 @@
 <div class="clearfix">
   <div class="col-xs-12 p-xs">
     <div class="mblock">
-      <h2 class="text-center text-muted"><%= device.name %></h2>
+      <h2 class="text-center text-muted"><%= alarm.device_name %></h2>
       <div class="table-responsive my-table  my-left">
-        <div class="text-muted"><%= device.pattern.name %></div>
         <table class="table table-bordered">
           <thead>
             <tr>
@@ -14,15 +13,15 @@
           </thead>
           <tbody>
             <tr>
-              <% @points.keys.each do |group| %>
-                <td class="text-center"><span class="xc-status green"></span></td>
-                <td class="text-center unit"><%= @points[group]["电压有效值"] %></td>
-                <% if @points[group]["电流有效值"].to_i > 12 %>
-                  <td class="text-center unit xc-danger"><%= @points[group]["电流有效值"] %></td>
+              <td class="text-center">
+                <% if alarm.volt_warning || alarm.cur_warning %>
+                  <span class="xc-status gray"></span>
                 <% else %>
-                  <td class="text-center unit"><%= @points[group]["电流有效值"] %></td>
+                  <span class="xc-status green"></span>
                 <% end %>
-              <% end %>
+              </td>
+              <td class="text-center unit <%=alarm.volt_warning.present? ? 'xc-danger' : ''%>"><%= alarm.voltage %></td>
+              <td class="text-center unit <%=alarm.cur_warning.present? ? 'xc-danger' : ''%>"><%= alarm.current %></td>
             </tr>
           </tbody>
         </table>

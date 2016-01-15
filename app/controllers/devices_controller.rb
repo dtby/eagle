@@ -32,6 +32,7 @@ class DevicesController < BaseController
   def show
     @room = Room.where(id: params[:room_id]).first
     @device = Device.includes(:points).where(id: params[:id]).first
+    @alarm = Device.find(params[:id]).alarm
     @points = @device.points_group
     @exclude_points = @device.pattern.getting_exclude_points
   end
