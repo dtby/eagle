@@ -9,6 +9,7 @@
 #  updated_at :datetime         not null
 #  point_id   :integer
 #  is_checked :boolean          default(FALSE)
+#  comment    :string(255)
 #
 # Indexes
 #
