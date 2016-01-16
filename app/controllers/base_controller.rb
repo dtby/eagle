@@ -39,7 +39,7 @@ class BaseController < ApplicationController
       @room = Room.where(id: params[:id]).first
     end
     if @room.present?
-      @alerts = PointAlarm.get_alarm_point_by_room(@room.id).paginate(page: params[:page], per_page: 10)
+      @alerts = PointAlarm.get_alarm_point_by_room(@room.id)
     else
       @alerts = {}
     end
