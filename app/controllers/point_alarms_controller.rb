@@ -34,31 +34,36 @@ class PointAlarmsController < BaseController
   end
 
   def checked
-    @room = Room.find(params[:id])
     if @point_alarm.update(is_checked: true)
-      flash["notice"] = "处理成功"
+      result = "处理成功"
+    else
+      result = "处理失败"
+    end
+
+    if request.format.html?
+      @room = Room.find(params[:id])
+      flash[:notice] = result
       return redirect_to alert_room_path(@room)
     else
-      flash["notice"] = "处理失败"
-      return redirect_to alert_room_path(@room)
+      return render json: { result: result }
     end
 
   end
 
-  # def unchecked
-  #   if @point_alarm.update(is_checked: false)
-  #     result = "处理成功"
-  #   else
-  #     result = "处理失败"
-  #   end
+  def unchecked
+    if @point_alarm.update(is_checked: false)
+      result = "处理成功"
+    else
+      result = "处理失败"
+    end
 
-  #   if request.format.html?
-  #     flash[:notice] = result
-  #     return redirect_to alert_room_path(@room)
-  #   else
-  #     return render json: { result: result }
-  #   end
-  # end
+    if request.format.html?
+      flash[:notice] = result
+      return redirect_to alert_room_path(@room)
+    else
+      return render json: { result: result }
+    end
+  end
 
   # ajax模态框
   def modal
@@ -69,7 +74,7 @@ class PointAlarmsController < BaseController
 
   private
   def set_point_alarm
-    @point_alarm = PointAlarm.find_by(point_id: params[:point_id])
+    @point_alarm = PointAlarm.find_by(point_id: params[:point_id] || params[:id])
   end
 
   def set_room
