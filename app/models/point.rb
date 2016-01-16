@@ -26,10 +26,10 @@ class Point < ActiveRecord::Base
 
   # 取得节点的value
   def value
-    ps = PointState.where(pid: point_index.to_i).first
-    ps.try(:value)
+    $redis.hget "eagle_point_value", point_index.to_s
   end
 
+  # Point.monitor_db
   def self.monitor_db
     datas_to_hash DigitalPoint
     nil
