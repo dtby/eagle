@@ -25,8 +25,8 @@ FactoryGirl.define do
   factory :alarm do
     voltage "MyString"
 current "MyString"
-volt_state "MyString"
-cur_state "MyString"
+volt_warning true
+cur_warning true
   end
 
 end

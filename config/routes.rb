@@ -34,6 +34,9 @@ Rails.application.routes.draw do
 
   resources :rooms, only: [:index, :show] do
     resources :devices, only: [:index, :show] do  # 设备
+      collection do
+        post :search
+      end
       member do 
         resources :points, only: [:index, :show]
       end

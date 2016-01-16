@@ -36,4 +36,22 @@ class DevicesController < BaseController
     @points = @device.points_group
     @exclude_points = @device.pattern.getting_exclude_points
   end
+
+  def search
+    sub_system = SubSystem.find_by(name: params[:sub_sys_name])
+    if sub_system.present?
+      patterns = sub_system.try(:patterns)
+      @devices = []
+      @points = []
+      if patterns.present?
+        patterns.each do |pattern|
+          next unless pattern.devices.present?
+          pattern.devices.where(room_id: params[:room_id]).each_with_index do |device, index|
+            @devices << device
+          end
+        end
+      end
+    end
+  end
+
 end
