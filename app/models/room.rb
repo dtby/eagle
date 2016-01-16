@@ -34,6 +34,13 @@ class Room < ActiveRecord::Base
     generate_alarm_data
   end
 
+  # Room.generate_point_value
+  def self.generate_point_value
+    PointState.all.each do |point_state|
+      $redis.hset "eagle_point_value", point_state.try(:pid), point_state.try(:value)
+    end
+  end
+
   def self.generate_system  point_hash
     # 机房 => { 系统 => 子系统 => { 点 => 数据 }
     point_hash.each do |room, system_hash|
