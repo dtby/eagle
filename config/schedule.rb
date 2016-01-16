@@ -12,6 +12,14 @@ every 1.minutes do
 end
 
 every 1.minutes do
+  runner "Room.generate_point_value"
+end
+
+every 1.minutes do
+  runner "Room.generate_alarm_data"
+end
+
+every 1.minutes do
   runner "PointHistory.generate_point_history"
 end
 

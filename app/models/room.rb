@@ -30,8 +30,6 @@ class Room < ActiveRecord::Base
     datas_to_hash AnalogPoint, point_hash
     datas_to_hash DigitalPoint, point_hash
     generate_system point_hash
-    
-    generate_alarm_data
   end
 
   # Room.generate_point_value
@@ -79,6 +77,8 @@ class Room < ActiveRecord::Base
     end
     group_hash
   end
+
+  
 
   # Room.generate_alarm_data
   def self.generate_alarm_data
