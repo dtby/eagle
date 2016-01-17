@@ -22,6 +22,7 @@ class Room < ActiveRecord::Base
   has_many :users, through: :user_rooms
 
   has_many :devices, dependent: :destroy
+  has_many :point_alarms, dependent: :destroy
 
   # Room.get_computer_room_list
   def self.get_computer_room_list
