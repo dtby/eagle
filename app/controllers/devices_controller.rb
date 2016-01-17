@@ -42,13 +42,11 @@ class DevicesController < BaseController
     if sub_system.present?
       patterns = sub_system.try(:patterns)
       @devices = []
-      @points = []
       if patterns.present?
         patterns.each do |pattern|
-          next unless pattern.devices.present?
-          pattern.devices.where(room_id: params[:room_id]).each_with_index do |device, index|
-            @devices << device
-          end
+          devices = pattern.devices
+          next unless devices.present?
+          @devices.concat devices.includes(:points).where(room_id: params[:room_id])
         end
       end
     end
