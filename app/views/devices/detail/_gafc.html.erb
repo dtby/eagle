@@ -104,8 +104,8 @@
             <td class="air_d_grey">
               <% (1..(keys.size/5)).each do |j| %>
               <div class="info-row">
-                <span class="grey_d0 grey_d1"><%= keys[i*j - 1] %></span>
-                <span class="grey_d0 grey_d2 warning-icon"><%= warning_status @points["告警"][keys[i*j - 1]]%></span>
+                <span class="warning-name"><%= keys[i*j - 1] %></span>
+                <span class="warning-icon"><%= warning_status @points["告警"][keys[i*j - 1]]%></span>
               </div><br>
               <% end %>
             </td>
@@ -117,6 +117,24 @@
   </div>
 </div>
 
+<style type="text/css">
+  .warning-name {
+    width: 80%;
+    height: 34px;
+    line-height: 34px;
+    padding-left: 5px;
+    background: #eee;
+    display: block;
+    float: left;
+  }
+  .warning-icon {
+    width: 20%;
+    float: left;
+    height: 34px;
+    display: block;
+    background: #eee;
+  }
+</style>
 
 
 <script type="text/javascript">
