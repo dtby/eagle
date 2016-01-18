@@ -28,9 +28,9 @@ class PointAlarmsController < BaseController
 
   before_action :authenticate_user!, only: [:checked, :unchecked], if: lambda { |controller| controller.request.format.html? }
 
-  before_action :set_room, only: [:index, :modal]
-  before_action :set_point_alarm, only: [:checked, :unchecked, :modal]
-  acts_as_token_authentication_handler_for User, only: [:index, :checked, :unchecked, :modal]
+  before_action :set_room, only: [:index, :modal, :update_multiple]
+  before_action :set_point_alarm, only: [:checked, :unchecked, :modal, :update_multiple]
+  acts_as_token_authentication_handler_for User, only: [:index, :checked, :unchecked, :modal, :update_multiple]
 
   def index
     @point_alarms = @room.devices.map { |device| device.points.map { |point| point.point_alarm } }.flatten.paginate(page: params[:page], per_page: 10)
@@ -65,6 +65,16 @@ class PointAlarmsController < BaseController
       return redirect_to alert_room_path(@room)
     else
       return render json: { result: result }
+    end
+  end
+
+  def update_multiple
+    if PointAlarm.where({id: params[:point_alarms]}).update_all(is_checked: true)
+      flash[:notice] = "处理成功"
+      return redirect_to alert_room_path(@room)
+    else
+      flash[:notice] = "处理失败"
+      return redirect_to alert_room_path(@room)
     end
   end
 
