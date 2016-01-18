@@ -1,0 +1,21 @@
+<!-- 模态框（Modal） -->
+<div class="modal-dialog" style="margin: 100px auto;">
+   <div class="modal-content">
+      <div class="modal-header">
+         <button type="button" class="close" 
+            data-dismiss="modal" aria-hidden="true">
+               &times;
+         </button>
+         <h4 class="modal-title" id="myModalLabel">
+           确认重置告警状态吗？
+         </h4>
+      </div>
+      <div class="modal-body text-center">
+         <%= name %>
+      </div>
+      <div class="modal-footer">
+         <button type="button" class="btn btn-default" data-dismiss="modal">取消
+         </button>
+         <%= link_to "确认", checked_point_alarm_path(point_id: point_id), method: :patch, class: "btn btn-primary"  %>
+      </div>
+   </div><!-- /.modal-content -->

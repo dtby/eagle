@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'point_controller/show'
+
   root to: "welcome#index"
 
   #动力
@@ -19,6 +21,7 @@ Rails.application.routes.draw do
     member do
       patch :checked, :unchecked
       post :checked, :unchecked
+      get :modal
     end
   end
 
@@ -29,8 +32,15 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :rooms, only: [:show] do
-    resources :devices, only: [:show] # 设备
+  resources :rooms, only: [:index, :show] do
+    resources :devices, only: [:index, :show] do  # 设备
+      collection do
+        post :search
+      end
+      member do 
+        resources :points, only: [:index, :show]
+      end
+    end
     resources :point_alarms, only: [:index]
     member do
       get :alert
@@ -42,6 +52,21 @@ Rails.application.routes.draw do
     resources :reports, only: [:index] do
       collection do
         get :replace_chart
+      end
+    end
+
+    resources :sub_systems, only:[] do 
+      collection do
+        get :distrib
+        get :ups
+        get :column_head_cabinet
+        get :ats
+        get :battery
+        get :diesel_engine
+        get :temperature_humidity
+        get :water_leakage
+        get :air_d
+        get :cabinet_temp_humidity
       end
     end
   end
@@ -72,6 +97,9 @@ Rails.application.routes.draw do
       post :auth
     end
   end
+
+
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

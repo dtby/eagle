@@ -26,10 +26,10 @@ class Point < ActiveRecord::Base
 
   # 取得节点的value
   def value
-    ps = PointState.where(pid: point_index.to_i).first
-    ps.try(:value)
+    $redis.hget "eagle_point_value", point_index.to_s
   end
 
+  # Point.monitor_db
   def self.monitor_db
     datas_to_hash DigitalPoint
     nil
@@ -39,8 +39,8 @@ class Point < ActiveRecord::Base
     class_name.all.each do |ap|
       point = Point.find_by(point_index: ap.PointID)
       next unless point.present?
-      point_alarm = PointAlarm.find_or_create_by(point: point)
-      point_alarm.update(state: ap.COS) if ap.COS != point_alarm.state
+      point_alarm = PointAlarm.find_or_create_by(point: point, room: point.try(:device).try(:room))
+      point_alarm.update(state: ap.COS, comment: ap.Comment) if ap.COS != point_alarm.state
     end
   end
 end

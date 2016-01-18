@@ -1,10 +1,12 @@
 <div id="main" style="height:400px"></div>
 <div class="data" data-url=<%= data %>></div>
 <div class="time" data-url=<%= time %>></div>
+<div class="name" data-url=<%= name %>></div>
 
 <script type="text/javascript">
     var reportsData = $(".data").data("url");
     var reportsTime = $(".time").data("url");
+    var reportsName = $(".name").data("url");
     // 使用
     require(
         [
@@ -19,7 +21,7 @@
                 show: true
             },
             legend: {
-                data:['报表']
+                data:[reportsName]
             },
             xAxis : [
                 {
@@ -34,14 +36,14 @@
             ],
             series : [
               {
-                "name":"报表",
+                "name":reportsName,
                 "type":"bar",
                 "data": reportsData
               }
             ]
           };
-        // 为echarts对象加载数据 
-        myChart.setOption(option); 
+        // 为echarts对象加载数据
+        myChart.setOption(option);
       }
     );
 </script>

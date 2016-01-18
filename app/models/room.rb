@@ -22,6 +22,7 @@ class Room < ActiveRecord::Base
   has_many :users, through: :user_rooms
 
   has_many :devices, dependent: :destroy
+  has_many :point_alarms, dependent: :destroy
 
   # Room.get_computer_room_list
   def self.get_computer_room_list
@@ -30,6 +31,13 @@ class Room < ActiveRecord::Base
     datas_to_hash AnalogPoint, point_hash
     datas_to_hash DigitalPoint, point_hash
     generate_system point_hash
+  end
+
+  # Room.generate_point_value
+  def self.generate_point_value
+    PointState.all.each do |point_state|
+      $redis.hset "eagle_point_value", point_state.try(:pid), point_state.try(:value)
+    end
   end
 
   def self.generate_system  point_hash
@@ -46,7 +54,7 @@ class Room < ActiveRecord::Base
         
         sub_system = SubSystem.find_or_create_by(name: sub_name)
         patterns.each do | name, points|
-          pattern = Pattern.find_by(sub_system_id: sub_system.id, name: pattern_name.try(:strip))
+          pattern = Pattern.find_or_create_by(sub_system_id: sub_system.id, name: pattern_name.try(:strip))
           device = Device.find_or_create_by(name: name, pattern: pattern, room: room)
           points.each do |name, value|
             p = Point.find_or_create_by(name: name, device: device, point_index: value)
@@ -71,6 +79,31 @@ class Room < ActiveRecord::Base
     group_hash
   end
 
+  
+
+  # Room.generate_alarm_data
+  def self.generate_alarm_data
+    aps = AnalogPoint.where('PointName=? or PointName=?', '电流有效值', '电压有效值')
+    ap_names = aps.pluck(:BayName).uniq
+
+    
+    ap_names.each_with_index do |name, index|
+      puts "index is #{index}"
+      points = aps.where(BayName: name)
+      device_name = name.split("-").last
+      device = Device.find_by(name: device_name)
+      alarm = Alarm.find_or_create_by(device_name: device_name, device_id: device.try(:id))
+      points.each_with_index do |point, index|
+        ps = PointState.where(pid: point.PointID).first
+        puts "value is #{ps.value}, name is #{name}"
+        if point.PointName == "电流有效值"
+          alarm.update(current: ps.try(:value).try(:to_s), cur_warning: point.UpName.present?)
+        elsif point.PointName == "电压有效值"
+          alarm.update(voltage: ps.try(:value).try(:to_s), volt_warning: point.DnName.present?)
+        end
+      end
+    end
+  end
   #  机房菜单字符串数组
   # 返回值: ［"#{menu_id}_#{menu_type}"］
   def menu_to_s

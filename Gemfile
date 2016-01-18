@@ -46,6 +46,7 @@ group :development, :test do
   
   gem 'awesome_print'
   gem 'pry'
+  #gem 'rack-mini-profiler'
 end
 
 # for annotate
@@ -74,3 +75,8 @@ gem 'macaddr', '>= 1.7.1'
 
 # devide page for list
 gem 'will_paginate', '~> 3.0.6'
+gem "will_paginate-bootstrap"
+
+# for redis
+gem 'redis'
+gem 'redis-namespace'

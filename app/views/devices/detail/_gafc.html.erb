@@ -105,7 +105,7 @@
               <% (1..(keys.size/5)).each do |j| %>
               <div class="info-row">
                 <span class="grey_d0 grey_d1"><%= keys[i*j - 1] %></span>
-                <span class="grey_d0 grey_d2"><%= @points["告警"][keys[i*j - 1]]%></span>
+                <span class="grey_d0 grey_d2 warning-icon"><%= warning_status @points["告警"][keys[i*j - 1]]%></span>
               </div><br>
               <% end %>
             </td>

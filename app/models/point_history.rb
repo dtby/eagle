@@ -76,4 +76,16 @@ class PointHistory < ActiveRecord::Base
     point_histories.sort_by{ |a| a[:created_at] }.reverse!
   end
 
+  def self.keyword(start_time, end_time, point_id)
+    point_histories = self.find_by_point_id(point_id).reverse
+    return point_histories[0..9] if start_time.blank? && end_time.blank?
+    devices = []
+    self.find_by_point_id(point_id).each do |p|
+      created_time = p.created_at.to_datetime
+      if start_time.to_datetime <= created_time && created_time - 1.day<= end_time.to_datetime
+        devices << p
+      end
+    end
+    devices.reverse[0..9]
+  end
 end

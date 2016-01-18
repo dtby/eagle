@@ -6,8 +6,8 @@
         <div class="row">
           <div class="col-xs-6 text-center">
             <%=image_tag"power-cabinet.png",width:"80%", class: "data_img"%>
-          </div>                                                                
-          <div class="col-xs-6"> 
+          </div>
+          <div class="col-xs-6">
             <div class="table-responsive cabinet-table">
               <table class="table table-bordered">
                 <thead>
@@ -137,7 +137,7 @@
     //设置左右两模块等高
     var height = $("#top_left").height();
     $("#top_right").height(height);
-    $("#load1").height(height-60);      
+    $("#load1").height(height-60);
 
     // 路径配置
     require.config({
@@ -145,7 +145,7 @@
         echarts: '/assets/echarts'
       }
     });
-    
+
     // 使用
     require(
       [
@@ -154,8 +154,7 @@
         ],
         function (ec) {
         // 基于准备好的dom，初始化echarts图表
-        var myChart = ec.init(document.getElementById('load1')); 
-        
+        var myChart = ec.init(document.getElementById('load1'));
         var labelTop = {
           normal : {
             label : {
@@ -163,7 +162,7 @@
               position : 'center',
               formatter : '{b}',
               textStyle: {
-                baseline : 'top', 
+                baseline : 'top',
                 fontSize: 12
               }
             },
@@ -212,8 +211,8 @@
                 x: '30%', // for funnel
                 itemStyle : labelFromatter,
                 data : [
-                  {name:'other', value:<%= 100 - @points["电流"]["A相电流"].to_i %>, itemStyle : labelBottom},
-                  {name:'A相电流', value:<%= @points["电流"]["A相电流"].to_i %>,itemStyle : labelTop}
+                  {name:'other', value:<%= 100 - @points["电流"]["A相电流"].to_i if @points["电流"] %>, itemStyle : labelBottom},
+                  {name:'A相电流', value:<%= @points["电流"]["A相电流"].to_i if @points["电流"] %>,itemStyle : labelTop}
                 ]
               },
             <% end %>
@@ -225,8 +224,8 @@
                 x:'50%', // for funnel
                 itemStyle : labelFromatter,
                 data : [
-                  {name:'other', value:<%= 100 - @points["电流"]["B相电流"].to_i %>, itemStyle : labelBottom},
-                  {name:'B相电流', value:<%= @points["电流"]["B相电流"].to_i %>,itemStyle : labelTop}
+                  {name:'other', value:<%= 100 - @points["电流"]["B相电流"].to_i if @points["电流"] %>, itemStyle : labelBottom},
+                  {name:'B相电流', value:<%= @points["电流"]["B相电流"].to_i if @points["电流"] %>,itemStyle : labelTop}
                 ]
               },
             <% end %>
@@ -238,15 +237,15 @@
                 x:'70%', // for funnel
                 itemStyle : labelFromatter,
                 data : [
-                  {name:'other', value:<%= 100 - @points["电流"]["C相电流"].to_i %>, itemStyle : labelBottom},
-                  {name:'C相电流', value:<%= @points["电流"]["C相电流"].to_i %>,itemStyle : labelTop}
+                  {name:'other', value:<%= 100 - @points["电流"]["C相电流"].to_i if @points["电流"] %>, itemStyle : labelBottom},
+                  {name:'C相电流', value:<%= @points["电流"]["C相电流"].to_i if @points["电流"] %>,itemStyle : labelTop}
                 ]
               },
             <% end %>
         ]
       };
-        // 为echarts对象加载数据 
-        myChart.setOption(option); 
+        // 为echarts对象加载数据
+        myChart.setOption(option);
     }
   );
 </script>
@@ -258,7 +257,6 @@
         echarts: '/assets/echarts'
       }
     });
-    
     // 使用
     require(
       [
@@ -267,8 +265,7 @@
         ],
         function (ec) {
         // 基于准备好的dom，初始化echarts图表
-        var myChart = ec.init(document.getElementById('load2')); 
-        
+        var myChart = ec.init(document.getElementById('load2'));
         var labelTop = {
           normal : {
             label : {
@@ -325,8 +322,8 @@
                 x:'30%', // for funnel
                 itemStyle : labelFromatter,
                 data : [
-                  {name:'other', value:<%= 100 - @points["相功率"]["A相功率"].to_i %>, itemStyle : labelBottom},
-                  {name:'A相功率', value:<%= @points["相功率"]["A相功率"].to_i %>,itemStyle : labelTop}
+                  {name:'other', value:<%= 100 - @points["相功率"]["A相功率"].to_i if @points["相功率"] %>, itemStyle : labelBottom},
+                  {name:'A相功率', value:<%= @points["相功率"]["A相功率"].to_i if @points["相功率"] %>,itemStyle : labelTop}
                 ]
               },
             <% end %>
@@ -338,8 +335,8 @@
                 x:'50%', // for funnel
                 itemStyle : labelFromatter,
                 data : [
-                  {name:'other', value:<%= 100 - @points["相功率"]["B相功率"].to_i %>, itemStyle : labelBottom},
-                  {name:'B相功率', value:<%= @points["相功率"]["B相功率"].to_i %>,itemStyle : labelTop}
+                  {name:'other', value:<%= 100 - @points["相功率"]["B相功率"].to_i if @points["相功率"] %>, itemStyle : labelBottom},
+                  {name:'B相功率', value:<%= @points["相功率"]["B相功率"].to_i if @points["相功率"] %>,itemStyle : labelTop}
                 ]
               },
             <% end %>
@@ -351,8 +348,8 @@
                 x:'70%', // for funnel
                 itemStyle : labelFromatter,
                 data : [
-                  {name:'other', value:<%= 100 - @points["相功率"]["C相功率"].to_i %>, itemStyle : labelBottom},
-                  {name:'C相功率', value:<%= @points["相功率"]["C相功率"].to_i %>,itemStyle : labelTop}
+                  {name:'other', value:<%= 100 - @points["相功率"]["C相功率"].to_i if @points["相功率"] %>, itemStyle : labelBottom},
+                  {name:'C相功率', value:<%= @points["相功率"]["C相功率"].to_i if @points["相功率"] %>,itemStyle : labelTop}
                 ]
               },
             <% end %>
@@ -364,8 +361,8 @@
                 x:'30%', // for funnel
                 itemStyle : labelFromatter,
                 data : [
-                  {name:'other', value:<%= 100 - @points["功率因数"]["A相功率因数"].to_i %>, itemStyle : labelBottom},
-                  {name:'A相功率因数', value:<%= @points["功率因数"]["A相功率因数"].to_i %>,itemStyle : labelTop}
+                  {name:'other', value:<%= 100 - @points["功率因数"]["A相功率因数"].to_i if @points["功率因数"] %>, itemStyle : labelBottom},
+                  {name:'A相功率因数', value:<%= @points["功率因数"]["A相功率因数"].to_i if @points["功率因数"] %>,itemStyle : labelTop}
                 ]
               },
             <% end %>
@@ -377,8 +374,8 @@
                 x:'50%', // for funnel
                 itemStyle : labelFromatter,
                 data : [
-                  {name:'other', value:<%= 100 - @points["功率因数"]["B相功率因数"].to_i %>, itemStyle : labelBottom},
-                  {name:'B相功率因数', value:<%= @points["功率因数"]["B相功率因数"].to_i %>,itemStyle : labelTop}
+                  {name:'other', value:<%= 100 - @points["功率因数"]["B相功率因数"].to_i if @points["功率因数"] %>, itemStyle : labelBottom},
+                  {name:'B相功率因数', value:<%= @points["功率因数"]["B相功率因数"].to_i if @points["功率因数"] %>,itemStyle : labelTop}
                 ]
               },
             <% end %>
@@ -390,15 +387,15 @@
                 x:'70%', // for funnel
                 itemStyle : labelFromatter,
                 data : [
-                  {name:'other', value:<%= 100 - @points["功率因数"]["C相功率因数"].to_i %>, itemStyle : labelBottom},
-                  {name:'C相功率因数', value:<%= @points["功率因数"]["C相功率因数"].to_i %>,itemStyle : labelTop}
+                  {name:'other', value:<%= 100 - @points["功率因数"]["C相功率因数"].to_i if @points["功率因数"] %>, itemStyle : labelBottom},
+                  {name:'C相功率因数', value:<%= @points["功率因数"]["C相功率因数"].to_i if @points["功率因数"] %>,itemStyle : labelTop}
                 ]
               },
             <% end %>
       ]
     };
-    // 为echarts对象加载数据 
-    myChart.setOption(option); 
+    // 为echarts对象加载数据
+    myChart.setOption(option);
     }
     );
 </script>
@@ -410,7 +407,6 @@
         echarts: '/assets/echarts'
       }
     });
-    
     // 使用
     require(
       [
@@ -419,8 +415,7 @@
         ],
         function (ec) {
         // 基于准备好的dom，初始化echarts图表
-        var myChart = ec.init(document.getElementById('load3')); 
-        
+        var myChart = ec.init(document.getElementById('load3'));
         var labelTop = {
           normal : {
             label : {
@@ -477,8 +472,8 @@
                 x:'30%', // for funnel
                 itemStyle : labelFromatter,
                 data : [
-                  {name:'other', value:<%= 100 - @points["相电压"]["A相电压"].to_i %>, itemStyle : labelBottom},
-                  {name:'A相电压', value:<%= @points["相电压"]["A相电压"].to_i %>,itemStyle : labelTop}
+                  {name:'other', value:<%= 100 - @points["相电压"]["A相电压"].to_i if @points["相电压"]%>, itemStyle : labelBottom},
+                  {name:'A相电压', value:<%= @points["相电压"]["A相电压"].to_i if @points["相电压"] %>,itemStyle : labelTop}
                 ]
               },
             <% end %>
@@ -490,8 +485,8 @@
                 x:'50%', // for funnel
                 itemStyle : labelFromatter,
                 data : [
-                  {name:'other', value:<%= 100 - @points["相电压"]["B相电压"].to_i %>, itemStyle : labelBottom},
-                  {name:'B相电压', value:<%= @points["相电压"]["B相电压"].to_i %>,itemStyle : labelTop}
+                  {name:'other', value:<%= 100 - @points["相电压"]["B相电压"].to_i if @points["相电压"] %>, itemStyle : labelBottom},
+                  {name:'B相电压', value:<%= @points["相电压"]["B相电压"].to_i if @points["相电压"] %>,itemStyle : labelTop}
                 ]
               },
             <% end %>
@@ -503,8 +498,8 @@
                 x:'70%', // for funnel
                 itemStyle : labelFromatter,
                 data : [
-                  {name:'other', value:<%= 100 - @points["相电压"]["C相电压"].to_i %>, itemStyle : labelBottom},
-                  {name:'C相电压', value:<%= @points["相电压"]["C相电压"].to_i %>,itemStyle : labelTop}
+                  {name:'other', value:<%= 100 - @points["相电压"]["C相电压"].to_i  if @points["相电压"] %>, itemStyle : labelBottom},
+                  {name:'C相电压', value:<%= @points["相电压"]["C相电压"].to_i  if @points["相电压"] %>,itemStyle : labelTop}
                 ]
               },
             <% end %>
@@ -516,8 +511,8 @@
                 x:'30%', // for funnel
                 itemStyle : labelFromatter,
                 data : [
-                  {name:'other', value:<%= 100 - @points["线电压"]["AB线电压"].to_i %>, itemStyle : labelBottom},
-                  {name:'AB线电压', value:<%= @points["线电压"]["AB线电压"].to_i %>,itemStyle : labelTop}
+                  {name:'other', value:<%= 100 - @points["线电压"]["AB线电压"].to_i if @points["线电压"]%>, itemStyle : labelBottom},
+                  {name:'AB线电压', value:<%= @points["线电压"]["AB线电压"].to_i  if @points["线电压"]%>,itemStyle : labelTop}
                 ]
               },
             <% end %>
@@ -529,8 +524,8 @@
                 x:'50%', // for funnel
                 itemStyle : labelFromatter,
                 data : [
-                  {name:'other', value:<%= 100 - @points["线电压"]["BC线电压"].to_i %>, itemStyle : labelBottom},
-                  {name:'BC线电压', value:<%= @points["线电压"]["BC线电压"].to_i %>,itemStyle : labelTop}
+                  {name:'other', value:<%= 100 - @points["线电压"]["BC线电压"].to_i  if @points["线电压"] %>, itemStyle : labelBottom},
+                  {name:'BC线电压', value:<%= @points["线电压"]["BC线电压"].to_i if @points["线电压"] %>,itemStyle : labelTop}
                 ]
               },
             <% end %>
@@ -542,8 +537,8 @@
                 x:'70%', // for funnel
                 itemStyle : labelFromatter,
                 data : [
-                  {name:'other', value:<%= 100 - @points["线电压"]["AC线电压"].to_i %>, itemStyle : labelBottom},
-                  {name:'AC线电压', value:<%= @points["线电压"]["AC线电压"].to_i %>,itemStyle : labelTop}
+                  {name:'other', value:<%= 100 - @points["线电压"]["AC线电压"].to_i if @points["线电压"] %>, itemStyle : labelBottom},
+                  {name:'AC线电压', value:<%= @points["线电压"]["AC线电压"].to_i if @points["线电压"] %>,itemStyle : labelTop}
                 ]
               },
             <% end %>

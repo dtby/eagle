@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160105095229) do
+ActiveRecord::Schema.define(version: 20160117132010) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -43,6 +43,19 @@ ActiveRecord::Schema.define(version: 20160105095229) do
   end
 
   add_index "alarm_histories", ["point_id"], name: "index_alarm_histories_on_point_id", using: :btree
+
+  create_table "alarms", force: :cascade do |t|
+    t.string   "voltage",      limit: 255
+    t.string   "current",      limit: 255
+    t.boolean  "volt_warning"
+    t.boolean  "cur_warning"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.string   "device_name",  limit: 255
+    t.integer  "device_id",    limit: 4
+  end
+
+  add_index "alarms", ["device_id"], name: "index_alarms_on_device_id", using: :btree
 
   create_table "analog_alarms", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -99,13 +112,16 @@ ActiveRecord::Schema.define(version: 20160105095229) do
   create_table "point_alarms", force: :cascade do |t|
     t.integer  "pid",        limit: 4
     t.integer  "state",      limit: 4
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
     t.integer  "point_id",   limit: 4
-    t.boolean  "is_checked",           default: false
+    t.boolean  "is_checked",             default: false
+    t.string   "comment",    limit: 255
+    t.integer  "room_id",    limit: 4
   end
 
   add_index "point_alarms", ["point_id"], name: "index_point_alarms_on_point_id", using: :btree
+  add_index "point_alarms", ["room_id"], name: "index_point_alarms_on_room_id", using: :btree
 
   create_table "point_histories", force: :cascade do |t|
     t.string   "point_name",  limit: 255
@@ -189,10 +205,12 @@ ActiveRecord::Schema.define(version: 20160105095229) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   add_foreign_key "alarm_histories", "points"
+  add_foreign_key "alarms", "devices"
   add_foreign_key "devices", "patterns"
   add_foreign_key "devices", "rooms"
   add_foreign_key "menus", "rooms"
   add_foreign_key "point_alarms", "points"
+  add_foreign_key "point_alarms", "rooms"
   add_foreign_key "point_histories", "points"
   add_foreign_key "points", "devices"
   add_foreign_key "sub_systems", "systems"
