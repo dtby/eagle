@@ -26,6 +26,7 @@ class Device < ActiveRecord::Base
   belongs_to :pattern
   belongs_to :room
   has_many :points, dependent: :destroy
+  has_many :point_histories, dependent: :destroy
   has_one :alarm
 
   def points_group
