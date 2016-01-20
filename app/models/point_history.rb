@@ -29,7 +29,7 @@ class PointHistory < ActiveRecord::Base
     
     Point.all.each do |point|
       logger.info "point is #{point.name}"
-      PointHistory.proxy(month: month).create(point_name: point.name, point_value: point.value, point: point, device: point.device)
+      PointHistory.proxy(month: month).create(point_name: point.name, point_value: point.value, point: point, device_id: point.device.id)
     end
     nil
   end
