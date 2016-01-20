@@ -1,0 +1,4 @@
+en:
+  will_paginate:
+    previous_label: "上一页"
+    next_label: "下一页"
