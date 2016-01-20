@@ -23,10 +23,10 @@ class PointHistory < ActiveRecord::Base
   def self.generate_point_history
     config = YAML.load_file('config/history.yml')
     interval = config["interval"]
-
-    return if PointHistory.first.present? && interval*60 > Time.now - PointHistory.first.try(:created_at)
-    
     month = DateTime.now.strftime("%Y%m")
+
+    return if PointHistory.proxy(month: month).first.present? && interval*60 > Time.now - PointHistory.proxy(month: month).first.try(:created_at)
+    
     Point.all.each do |point|
       logger.info "point is #{point.name}"
       PointHistory.proxy(month: month).create(point_name: point.name, point_value: point.value, point: point, device: point.device)
