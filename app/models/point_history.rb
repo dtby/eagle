@@ -23,7 +23,7 @@ class PointHistory < ActiveRecord::Base
     config = YAML.load_file('config/history.yml')
     interval = config["interval"]
 
-    return if PointHistory.last.present? && interval*60 > Time.now - PointHistory.last.try(:created_at)
+    return if PointHistory.first.present? && interval*60 > Time.now - PointHistory.last.try(:created_at)
     
     month = DateTime.now.strftime("%Y%m")
     Point.all.each do |point|
