@@ -28,8 +28,8 @@ class PointHistory < ActiveRecord::Base
     
     month = DateTime.now.strftime("%Y%m")
     Point.all.each do |point|
-      puts "point is #{point.name}"
-      PointHistory.proxy(month: month).create(point_name: point.name, point_value: point.value, point: point, device: point.try(:device))
+      logger.info "point is #{point.name}"
+      PointHistory.proxy(month: month).create(point_name: point.name, point_value: point.value, point: point, device: point.device)
     end
     nil
   end
