@@ -55,6 +55,7 @@ class PointHistory < ActiveRecord::Base
         t.timestamps null: false
       end
       add_reference my_table_name.to_sym, :point, index: true
+      add_reference my_table_name.to_sym, :device, index: true
     end
   end
 

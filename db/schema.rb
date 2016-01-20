@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160117132010) do
+ActiveRecord::Schema.define(version: 20160120042748) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -129,8 +129,10 @@ ActiveRecord::Schema.define(version: 20160117132010) do
     t.integer  "point_id",    limit: 4
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
+    t.integer  "device_id",   limit: 4
   end
 
+  add_index "point_histories", ["device_id"], name: "index_point_histories_on_device_id", using: :btree
   add_index "point_histories", ["point_id"], name: "index_point_histories_on_point_id", using: :btree
 
   create_table "point_states", force: :cascade do |t|
@@ -211,6 +213,7 @@ ActiveRecord::Schema.define(version: 20160117132010) do
   add_foreign_key "menus", "rooms"
   add_foreign_key "point_alarms", "points"
   add_foreign_key "point_alarms", "rooms"
+  add_foreign_key "point_histories", "devices"
   add_foreign_key "point_histories", "points"
   add_foreign_key "points", "devices"
   add_foreign_key "sub_systems", "systems"
