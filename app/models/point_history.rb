@@ -16,6 +16,7 @@
 
 class PointHistory < ActiveRecord::Base
   belongs_to :point
+  belongs_to :device
   default_scope { order('id DESC') }
 
   # PointHistory.generate_point_history
