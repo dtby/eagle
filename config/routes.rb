@@ -23,6 +23,10 @@ Rails.application.routes.draw do
       post :checked, :unchecked
       get :modal
     end
+    collection do
+      patch :update_multiple
+      post :update_multiple
+    end
   end
 
   #能效
