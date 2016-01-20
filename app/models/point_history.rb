@@ -73,7 +73,7 @@ class PointHistory < ActiveRecord::Base
         end
       end
     end
-    point_histories.sort_by{ |a| a[:created_at] }.reverse!
+    point_histories
   end
 
   def self.keyword(start_time, end_time, point_id)
