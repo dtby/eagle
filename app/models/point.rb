@@ -29,6 +29,7 @@ class Point < ActiveRecord::Base
     $redis.hget "eagle_point_value", point_index.to_s
   end
 
+  #创建PointAlarm对象
   # Point.monitor_db
   def self.monitor_db
     datas_to_hash DigitalPoint
@@ -40,7 +41,7 @@ class Point < ActiveRecord::Base
       point = Point.find_by(point_index: ap.PointID)
       next unless point.present?
       point_alarm = PointAlarm.find_or_create_by(point: point, room: point.try(:device).try(:room))
-      point_alarm.update(state: ap.COS, comment: ap.Comment, checked: false) if ap.COS != point_alarm.state
+      point_alarm.update(state: ap.COS, comment: ap.Comment, is_checked: false) if ap.COS != point_alarm.state
     end
   end
 end
