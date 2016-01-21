@@ -78,6 +78,20 @@ class PointHistory < ActiveRecord::Base
     point_histories
   end
 
+  def self.find_by_device_id device_id
+    point_histories = []
+    ActiveRecord::Base.connection.tables.each do |table|
+      if /point_histories_\d{6}/.match table
+        PointHistory.table_name = table
+        puts "table is #{table}"
+        PointHistory.where(device_id: device_id).each do |point_history|
+          point_histories << point_history
+        end
+      end
+    end
+    point_histories
+  end
+  
   def self.keyword(start_time, end_time, point_id)
     point_histories = self.find_by_point_id(point_id).reverse
     return point_histories[0..9] if start_time.blank? && end_time.blank?
