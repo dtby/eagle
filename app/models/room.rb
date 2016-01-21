@@ -69,12 +69,24 @@ class Room < ActiveRecord::Base
       # BayName: 机房A-配电系统
       # 机房A -> 配电系统 -> 配电柜 -> 
       bay_info = ap.BayName.split("-")
+
+      device_name = bay_info.second
+      point_name = ap.PointName
+
+      if bay_info.second.include? "机柜"
+        index = bay_info.second.index "机柜"
+        line = bay_info.second[index+2..-1]
+        point_name += line
+        device_name.remove! line
+      end
+
       group_hash[bay_info.first] = {} unless group_hash[bay_info.first].present?
       group_hash[bay_info.first][ap.GroupName] = {} unless group_hash[bay_info.first][ap.GroupName].present?
       puts "bay_info is #{bay_info}"
+      
       point_hash = {}
-      group_hash[bay_info.first][ap.GroupName][bay_info.second] = {} unless group_hash[bay_info.first][ap.GroupName][bay_info.second].present?
-      group_hash[bay_info.first][ap.GroupName][bay_info.second][ap.PointName] = ap.PointID
+      group_hash[bay_info.first][ap.GroupName][device_name] = {} unless group_hash[bay_info.first][ap.GroupName][device_name].present?
+      group_hash[bay_info.first][ap.GroupName][device_name][point_name] = ap.PointID
     end
     group_hash
   end
@@ -91,14 +103,21 @@ class Room < ActiveRecord::Base
       puts "index is #{index}"
       points = aps.where(BayName: name)
       device_name = name.split("-").last
+
+      if device_name.include? "机柜"
+        index = device_name.index "机柜"
+        line = device_name[index+2..-1]
+        device_name.remove! line
+      end
+
       device = Device.find_by(name: device_name)
       alarm = Alarm.find_or_create_by(device_name: device_name, device_id: device.try(:id))
       points.each_with_index do |point, index|
         ps = PointState.where(pid: point.PointID).first
         puts "value is #{ps.value}, name is #{name}"
-        if point.PointName == "电流有效值"
+        if point.PointName.include? "电流有效值"
           alarm.update(current: ps.try(:value).try(:to_s), cur_warning: point.UpName.present?)
-        elsif point.PointName == "电压有效值"
+        elsif point.PointName.include? "电压有效值"
           alarm.update(voltage: ps.try(:value).try(:to_s), volt_warning: point.DnName.present?)
         end
       end
