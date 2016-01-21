@@ -28,8 +28,8 @@ class PointHistory < ActiveRecord::Base
     return if PointHistory.proxy(month: month).first.present? && interval*60 > Time.now - PointHistory.proxy(month: month).first.try(:created_at)
     
     Point.all.each do |point|
-      logger.info "point is #{point.name}"
-      PointHistory.proxy(month: month).create(point_name: point.name, point_value: point.value, point: point, device_id: point.device.id)
+      logger.info "point is #{point.name}, device is #{device.name}"
+      PointHistory.proxy(month: month).create(point_name: point.name, point_value: point.value, point: point, device: point.try(:device))
     end
     nil
   end
