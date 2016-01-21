@@ -104,9 +104,11 @@ class Room < ActiveRecord::Base
       points = aps.where(BayName: name)
       device_name = name.split("-").last
 
+      line = ""
       if device_name.include? "机柜"
         index = device_name.index "机柜"
         line = device_name[index+2..-1]
+        puts "line is #{line}"
         device_name.remove! line
       end
 
@@ -114,11 +116,18 @@ class Room < ActiveRecord::Base
       alarm = Alarm.find_or_create_by(device_name: device_name, device_id: device.try(:id))
       points.each_with_index do |point, index|
         ps = PointState.where(pid: point.PointID).first
-        puts "value is #{ps.value}, name is #{name}"
-        if point.PointName.include? "电流有效值"
+        # puts "value is #{ps.value}, name is #{name}"
+        point_name = point.PointName+line
+        puts "point_name is #{point_name}, PN is #{point.PointName}, line is #{line}"
+        case point_name
+        when "电流有效值A路"
           alarm.update(current: ps.try(:value).try(:to_s), cur_warning: point.UpName.present?)
-        elsif point.PointName.include? "电压有效值"
+        when "电流有效值B路"
+          alarm.update(current2: ps.try(:value).try(:to_s), cur_warning2: point.UpName.present?)
+        when "电压有效值A路"
           alarm.update(voltage: ps.try(:value).try(:to_s), volt_warning: point.DnName.present?)
+        when "电压有效值B路"
+          alarm.update(voltage2: ps.try(:value).try(:to_s), volt_warning2: point.DnName.present?)
         end
       end
     end
