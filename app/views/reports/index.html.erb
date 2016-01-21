@@ -28,7 +28,7 @@
       <ul id="deviceContent">
         <% @devices.each do |device| %>
           <li class="parent"><%= link_to "+ " + device.name.to_s, "javascript:void(0);" %></li>
-          <ul id="pointContent">
+          <ul id="pointContent" style="max-height: 120px;overflow: auto;">
             <% device.points.each do |point| %>
               <% point_history = PointHistory.keyword(params[:start_time], params[:end_time], point.id).collect{|x| x.point_value.to_i} %>
               <% point_time = PointHistory.keyword(params[:start_time], params[:end_time], point.id).collect{|x| x.created_at.strftime("%Y-%m-%d")} %>
