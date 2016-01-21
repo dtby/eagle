@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160120042748) do
+ActiveRecord::Schema.define(version: 20160121093541) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -45,14 +45,18 @@ ActiveRecord::Schema.define(version: 20160120042748) do
   add_index "alarm_histories", ["point_id"], name: "index_alarm_histories_on_point_id", using: :btree
 
   create_table "alarms", force: :cascade do |t|
-    t.string   "voltage",      limit: 255
-    t.string   "current",      limit: 255
+    t.string   "voltage",       limit: 255
+    t.string   "current",       limit: 255
     t.boolean  "volt_warning"
     t.boolean  "cur_warning"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.string   "device_name",  limit: 255
-    t.integer  "device_id",    limit: 4
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.string   "device_name",   limit: 255
+    t.integer  "device_id",     limit: 4
+    t.string   "voltage2",      limit: 255
+    t.string   "current2",      limit: 255
+    t.boolean  "volt_warning2"
+    t.boolean  "cur_warning2"
   end
 
   add_index "alarms", ["device_id"], name: "index_alarms_on_device_id", using: :btree
