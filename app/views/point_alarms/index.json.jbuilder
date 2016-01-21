@@ -8,4 +8,5 @@ json.point_alarms @point_alarms do |point_alarm|
   json.created_at point_alarm.created_at
   json.is_checked point_alarm.is_checked
   json.point_id point_alarm.point_id
+  json.comment point_alarm.comment
 end
