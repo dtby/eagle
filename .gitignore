@@ -63,3 +63,4 @@ bower.json
 
 *.TXT
 /config/file.yml
+/config/unicorn_init.sh
