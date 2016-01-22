@@ -13,7 +13,7 @@ SubSystem.destroy_all
 SubSystem.create!([
   { id: 1, system_id: 1, name: 'UPS系统' },
   { id: 2, system_id: 1, name: '电量仪系统' },
-  { id: 3, system_id: 1, name: '电表系统' },
+  { id: 3, system_id: 1, name: '配电系统' },
   { id: 4, system_id: 1, name: '电池检测' },
   { id: 5, system_id: 1, name: '发电机系统' },
 
