@@ -33,7 +33,7 @@ class PointAlarmsController < BaseController
   acts_as_token_authentication_handler_for User, only: [:index, :checked, :unchecked, :modal, :update_multiple]
 
   def index
-    @point_alarms = @room.devices.map { |device| device.points.map { |point| point.point_alarm } }.flatten.paginate(page: params[:page], per_page: 10)
+    @point_alarms = @room.point_alarms.paginate(page: params[:page], per_page: 10)
   end
 
   def checked
