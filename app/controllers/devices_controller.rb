@@ -22,7 +22,7 @@
 
 class DevicesController < BaseController
   before_action :authenticate_user!, if: lambda { |controller| controller.request.format.html? }
-  acts_as_token_authentication_handler_for User
+  acts_as_token_authentication_handler_for User, only: [:search]
 
   def index
     room = Room.where(id: params[:room_id]).first
