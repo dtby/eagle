@@ -34,7 +34,7 @@ class PointAlarmsController < BaseController
 
   def index
     @point_alarms = @room.point_alarms.paginate(page: params[:page], per_page: 10)
-    logger.info "#{@point_alarms.inspect}"
+    puts "#{@point_alarms.inspect}"
   end
 
   def checked
