@@ -40,9 +40,6 @@
 </div>
 
 <script type="text/javascript">
-  function refAlerts() {
-  	window.location.reload();
-  }
   var url = $(".js-ref-page").data('url');
   function refreshPartial() {
 	  $.ajax({
@@ -50,10 +47,4 @@
 	 })
 	}
 	setInterval(refreshPartial, 3000)
-	// $(function(){
- //    setInterval("refAlerts()", 20000);
- //    $(".js-ref-page").click(function(){
- //      refAlerts();
- //    });
-	// })
 </script>
