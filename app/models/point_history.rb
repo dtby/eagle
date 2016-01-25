@@ -56,7 +56,7 @@ class PointHistory < ActiveRecord::Base
     ActiveRecord::Migration.class_eval do
       create_table my_table_name.to_sym do |t|
         t.string :point_name
-        t.float :point_value
+        t.string :point_value
 
         t.timestamps null: false
       end

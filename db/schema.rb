@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160121093541) do
+ActiveRecord::Schema.define(version: 20160125091511) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -129,15 +129,27 @@ ActiveRecord::Schema.define(version: 20160121093541) do
 
   create_table "point_histories", force: :cascade do |t|
     t.string   "point_name",  limit: 255
-    t.float    "point_value", limit: 24
     t.integer  "point_id",    limit: 4
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
     t.integer  "device_id",   limit: 4
+    t.string   "point_value", limit: 255
   end
 
   add_index "point_histories", ["device_id"], name: "index_point_histories_on_device_id", using: :btree
   add_index "point_histories", ["point_id"], name: "index_point_histories_on_point_id", using: :btree
+
+  create_table "point_histories_201601", force: :cascade do |t|
+    t.string   "point_name",  limit: 255
+    t.float    "point_value", limit: 24
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.integer  "point_id",    limit: 4
+    t.integer  "device_id",   limit: 4
+  end
+
+  add_index "point_histories_201601", ["device_id"], name: "index_point_histories_201601_on_device_id", using: :btree
+  add_index "point_histories_201601", ["point_id"], name: "index_point_histories_201601_on_point_id", using: :btree
 
   create_table "point_states", force: :cascade do |t|
     t.datetime "created_at", null: false
