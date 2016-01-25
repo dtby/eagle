@@ -103,7 +103,11 @@ Rails.application.routes.draw do
     end
   end
 
-
+  resources :points, only: [] do 
+    collection do
+      post :get_value_by_names
+    end
+  end
 
 
   # The priority is based upon order of creation: first created -> highest priority.
