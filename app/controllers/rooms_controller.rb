@@ -11,7 +11,7 @@
 #
 
 class RoomsController < BaseController
-  before_action :authenticate_user!, only: [:show, :alert, :checked_alert, :video, :pic]
+  before_action :authenticate_user!, only: [:show, :alert, :checked_alert, :video, :pic, :refersh_alert]
   acts_as_token_authentication_handler_for User, only: [:index]
   respond_to :json
 
@@ -35,6 +35,12 @@ class RoomsController < BaseController
                                       .paginate(page: params[:page], per_page: 20)
                                       .order_desc
                                       .keyword(params[:start_time], params[:end_time])
+  end
+
+  def refersh_alert
+    respond_to do |format|
+      format.js { }
+    end
   end
 
   def video
