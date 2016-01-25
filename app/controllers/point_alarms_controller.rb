@@ -33,8 +33,13 @@ class PointAlarmsController < BaseController
   acts_as_token_authentication_handler_for User, only: [:index, :checked, :unchecked, :modal, :update_multiple]
 
   def index
-    @point_alarms = @room.point_alarms.paginate(page: params[:page], per_page: 10)
-    puts "#{@point_alarms.inspect}"
+    if params[:checked].present? && params[:checked] == "0"
+      @point_alarms = @room.point_alarms.paginate(page: params[:page], per_page: 10)
+    elsif params[:checked].present? && params[:checked] == "1"
+      @point_alarms = @room.point_alarms.where(is_checked: true).paginate(page: params[:page], per_page: 10)
+    else
+      @point_alarms = @room.point_alarms.where(is_checked: false).paginate(page: params[:page], per_page: 10)
+    end
   end
 
   def checked

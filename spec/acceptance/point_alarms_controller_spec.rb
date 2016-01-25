@@ -13,13 +13,15 @@ resource "告警相关" do
         device = create(:device, room: @room, name: "device#{i}")
         (0..i).each do |index|
           point = create(:point, device: device)
-          point_alarm = create(:point_alarm, point: point)
+          point_alarm = create(:point_alarm, point: point, is_checked: true, room: @room)
         end
         
       end
     end
 
     let(:id) { @room.id }
+    let(:checked) { "0" }
+    parameter :checked, "告警是否已经解除(0:全部，1:已经确认, 2:未结束。默认为2)"
 
     user_attrs = FactoryGirl.attributes_for(:user)
     header "X-User-Token", user_attrs[:authentication_token]
