@@ -25,10 +25,10 @@
 <div class="row" id="reportsContent">
   <div class="col-sm-12">
     <div class="col-sm-3">
-      <ul id="deviceContent">
+      <ul id="deviceContent" style="max-height: 540px;overflow: auto;">
         <% @devices.each do |device| %>
           <li class="parent"><%= link_to "+ " + device.name.to_s, "javascript:void(0);" %></li>
-          <ul id="pointContent" style="max-height: 120px;overflow: auto;">
+          <ul id="pointContent">
             <% device.points.each do |point| %>
               <% point_history = PointHistory.keyword(params[:start_time], params[:end_time], point.id).collect{|x| x.point_value.to_i} %>
               <% point_time = PointHistory.keyword(params[:start_time], params[:end_time], point.id).collect{|x| x.created_at.strftime("%Y-%m-%d")} %>
@@ -89,8 +89,8 @@
             }
           ]
         };
-      // 为echarts对象加载数据 
-      myChart.setOption(option); 
+      // 为echarts对象加载数据
+      myChart.setOption(option);
     }
   );
 </script>
