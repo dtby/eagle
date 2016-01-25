@@ -51,6 +51,7 @@ Rails.application.routes.draw do
       get :checked_alert
       get :video
       get :pic
+      get :refersh_alert
     end
     #报表
     resources :reports, only: [:index] do

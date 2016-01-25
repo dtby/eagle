@@ -1,7 +1,6 @@
 class BaseController < ApplicationController
-  before_action :authenticate_user!, :authenticate_and_set_room, :list_alerts, if: lambda { |controller| controller.request.format.html? }
-
-
+  before_action :authenticate_user!, :authenticate_and_set_room, if: lambda { |controller| controller.request.format.html?}
+  before_action :list_alerts
   # 验证用户是否有访问当前机房的权限
   def authenticate_and_set_room
     # room赋值
