@@ -73,7 +73,7 @@ class Room < ActiveRecord::Base
       device_name = bay_info.second
       point_name = ap.PointName
 
-      if bay_info.second.present? && bay_info.second.include? "机柜"
+      if bay_info.second.present? && (bay_info.second.include? "机柜")
         index = bay_info.second.index "机柜"
         line = bay_info.second[index+2..-1]
         point_name += line
