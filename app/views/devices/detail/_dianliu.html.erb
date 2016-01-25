@@ -20,8 +20,8 @@
                   <span class="xc-status green"></span>
                 <% end %>
               </td>
-              <td class="text-center unit <%=alarm.volt_warning.present? ? 'xc-danger' : ''%>"><%= alarm.voltage %></td>
-              <td class="text-center unit <%=alarm.cur_warning.present? ? 'xc-danger' : ''%>"><%= alarm.current %></td>
+              <td class="text-center unit <%=alarm.volt_warning.present? ? 'xc-danger' : ''%>"><%= alarm.voltage.to_f %></td>
+              <td class="text-center unit <%=alarm.cur_warning.present? ? 'xc-danger' : ''%>"><%= alarm.current.to_f %></td>
             </tr>
           </tbody>
         </table>
