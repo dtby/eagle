@@ -25,7 +25,9 @@ class PointHistory < ActiveRecord::Base
     interval = config["interval"]
     month = DateTime.now.strftime("%Y%m")
 
-    return if PointHistory.proxy(month: month).first.present? && interval*60 > Time.now - PointHistory.proxy(month: month).first.try(:created_at)
+    if PointHistory.proxy(month: month).all.size != 0
+      return if PointHistory.proxy(month: month).first.present? && interval*60 > Time.now - PointHistory.proxy(month: month).first.try(:created_at)
+    end
     
     Point.all.each do |point|
       
