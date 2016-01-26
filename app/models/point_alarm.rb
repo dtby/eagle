@@ -29,6 +29,8 @@ class PointAlarm < ActiveRecord::Base
   after_update :update_alarm_history, if: "self.is_checked_changed?"
   after_create :generate_alarm_history
 
+  default_scope { where.not(state: nil) }
+
   #参数point_index
   #返回单个point的id
   def self.get_point_id point_index
