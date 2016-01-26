@@ -18,4 +18,13 @@ module ApplicationHelper
 		}
 		icons[menu] || 'fa-home'
 	end
+
+	def alarm_status status
+    case status
+    when 1
+    	"设备正常"
+    when 0
+    	"告警"
+    end
+	end
 end

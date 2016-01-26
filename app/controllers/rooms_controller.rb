@@ -27,6 +27,7 @@ class RoomsController < BaseController
                         .get_alarm_point_by_room(@room.id)
                         .paginate(page: params[:page], per_page: 20)
                         .order_desc
+                        .is_warning_alarm
                         .keyword(params[:start_time], params[:end_time])
   end
 

@@ -56,7 +56,7 @@
                 <td class="text-center"><%= check_box_tag "point_alarms[]", point_alarm.id, false, class: 'point-alarms' %></td>
               <% end %>
               <td class="text-center"><%= point_alarm.try(:point).try(:name) %></td>
-              <td class="text-center"><%= point_alarm.state %></td>
+              <td class="text-center"><%= alarm_status point_alarm.state %></td>
               <td class="text-center"><%= point_alarm.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
               <td class="text-center">
                 <% unless point_alarm.is_checked %>
