@@ -20,6 +20,7 @@
 
 class PointsController < ApplicationController
   acts_as_token_authentication_handler_for User, only: [:get_value_by_name]
+  before_action :set_device, only: [:get_value_by_names]
 
   def get_value_by_names
     
@@ -28,7 +29,7 @@ class PointsController < ApplicationController
 
     @values = {}
     names.each do |name|
-      point = Point.find_by(name: name)
+      point = @device.points.find_by(name: name)
       next unless point.present?
       @values[point.name] = point.value
     end
@@ -39,4 +40,9 @@ class PointsController < ApplicationController
     def get_value_by_names_params
       params.require(:point).permit(:names)
     end
+
+    def set_device
+      @device = Device.find_by(id: params[:id])
+    end
+
 end
