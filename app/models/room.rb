@@ -125,7 +125,7 @@ class Room < ActiveRecord::Base
         # C11视在功率A路
         point_name = device_info + point.PointName+line
         puts "point_name is #{point_name}, PN is #{point.PointName}, line is #{line}"
-        case point_name
+        case point_name[-7..-1]
         when "电流有效值A路"
           alarm.update(current: ps.try(:value).try(:to_s), cur_warning: point.UpName.present?)
         when "电流有效值B路"
