@@ -34,7 +34,7 @@ class BaseController < ApplicationController
   def list_alerts
     if params[:room_id].present?
       @room = Room.where(id: params[:room_id]).first
-    elsif params[:room_id].present?
+    elsif params[:id].present?
       @room = Room.where(id: params[:id]).first
     end
     if @room.present?
