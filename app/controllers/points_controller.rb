@@ -20,18 +20,15 @@
 
 class PointsController < ApplicationController
   acts_as_token_authentication_handler_for User, only: [:get_value_by_name]
-  before_action :set_device, only: [:get_value_by_names]
+  before_action :set_room, only: [:get_value_by_names]
 
   def get_value_by_names
-    
     names = get_value_by_names_params[:names]
     names = names.split("|")
 
-    @values = {}
-    names.each do |name|
-      point = @device.points.find_by(name: name)
-      next unless point.present?
-      @values[point.name] = point.value
+    @datas = {}
+    @room.devices.each do |device|
+      @datas[device.try(:name)] = device.points.where(name: names)
     end
   end
 
@@ -41,8 +38,8 @@ class PointsController < ApplicationController
       params.require(:point).permit(:names)
     end
 
-    def set_device
-      @device = Device.find_by(id: params[:id])
+    def set_room
+      @room = Room.find_by(id: params[:room_id])
     end
 
 end

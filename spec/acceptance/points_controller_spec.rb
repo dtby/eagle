@@ -4,13 +4,13 @@ resource "点列表" do
   header "Accept", "application/json"
   header "Content-Type", "application/json"
 
-  post "/devices/:id/points/get_value_by_names" do
+  post "/rooms/:id/points/get_value_by_names" do
     before do
       @room = create(:room)
       (0..3).each do |di|
-        @device = create(:device, name: "device_#{di}", room: @room)
+        device = create(:device, name: "device_#{di}", room: @room)
         (0..3).each do |pi|
-          create(:point, device: @device, name: "point_#{pi}", point_index: "#{di}#{pi}")
+          create(:point, device: device, name: "point_#{pi}", point_index: "#{di}#{pi}")
           $redis.hset "eagle_point_value", "#{di}#{pi}", pi.to_s
         end
       end
@@ -18,7 +18,7 @@ resource "点列表" do
 
     parameter :names, "点名字", required: true, scope: :point
 
-    let(:id) { @device.id }
+    let(:id) { @room.id }
     let(:names) { "point_1|point_2" }
     let(:raw_post) { params.to_json }
 

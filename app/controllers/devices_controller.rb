@@ -30,7 +30,6 @@ class DevicesController < BaseController
   end
 
   def show
-    puts "params is #{params}"
     @room = Room.where(id: params[:room_id]).first
     @device = Device.includes(:points).where(id: params[:id]).first
     @alarm = Device.find(params[:id]).alarm

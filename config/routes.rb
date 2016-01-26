@@ -36,17 +36,13 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :devices, only: [] do  # 设备
-    member do 
-      resources :points, only: [] do 
-        collection do
-          post :get_value_by_names
-        end
+  resources :rooms, only: [:index, :show] do
+    resources :points, only: [] do 
+      collection do
+        post :get_value_by_names
       end
     end
-  end
 
-  resources :rooms, only: [:index, :show] do
     resources :devices, only: [:index, :show] do  # 设备
       collection do
         post :search
