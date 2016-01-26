@@ -50,7 +50,7 @@ class Room < ActiveRecord::Base
         sub_name.delete! "普通" if sub_name.present? && (sub_name.include? "普通")
         pattern_name = "普通温湿度" if pattern_name == "th802"
 
-        # next if pattern_name.blank?
+        next if pattern_name.blank?
         
         sub_system = SubSystem.find_or_create_by(name: sub_name)
         patterns.each do | name, points|
