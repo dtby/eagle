@@ -26,8 +26,9 @@ resource "点列表" do
     header "X-User-Token", user_attrs[:authentication_token]
     header "X-User-Phone", user_attrs[:phone]
 
-    response_field :name, "用户ID"
-    response_field :value, "邮箱"
+    response_field :device_name, "设备名字"
+    response_field :name, "点名字"
+    response_field :value, "点的值"
 
     example "获取点列表成功" do
       do_request
