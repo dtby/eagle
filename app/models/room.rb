@@ -111,11 +111,10 @@ class Room < ActiveRecord::Base
       device_info = ""
 
       if /\d+机柜/ =~ device_name
-        device_name = device_name[0] + "机柜"
-
         index = device_name.index "机柜"
         line = device_name[index+2..-1]
         device_info = device_name[0..index-1]
+        device_name = device_name[0] + "机柜"
       end
 
       device = Device.find_or_create_by(name: device_name)
