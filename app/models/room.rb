@@ -81,7 +81,6 @@ class Room < ActiveRecord::Base
         point_name += line
 
         device_name = bay_info.second[0] + "机柜"  # C机柜
-        puts "device_name is #{device_name}, point_name is #{point_name}"
       end
 
       group_hash[bay_info.first] = {} unless group_hash[bay_info.first].present?
@@ -114,7 +113,7 @@ class Room < ActiveRecord::Base
         device_name = device_name[0] + "机柜"
       end
 
-      device = Device.find_by(name: device_name)
+      device = Device.find_or_create_by(name: device_name)
       alarm = Alarm.find_or_create_by(device_name: device_name, device_id: device.try(:id))
       points.each_with_index do |point, index|
         ps = PointState.where(pid: point.PointID).first
