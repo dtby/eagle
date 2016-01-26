@@ -73,11 +73,15 @@ class Room < ActiveRecord::Base
       device_name = bay_info.second
       point_name = ap.PointName
 
-      if bay_info.second.present? && (bay_info.second.include? "机柜")
+      if bay_info.second.present? && (/\d+机柜/ =~ bay_info.second)
         index = bay_info.second.index "机柜"
         line = bay_info.second[index+2..-1]
+
+        point_name.prepend bay_info.second[0..index-1]
         point_name += line
-        device_name.remove! line
+
+        device_name = bay_info.second[0] + "机柜"  # C机柜
+        puts "device_name is #{device_name}, point_name is #{point_name}"
       end
 
       group_hash[bay_info.first] = {} unless group_hash[bay_info.first].present?
@@ -105,11 +109,9 @@ class Room < ActiveRecord::Base
       device_name = name.split("-").last
 
       line = ""
-      if device_name.include? "机柜"
-        index = device_name.index "机柜"
-        line = device_name[index+2..-1]
-        puts "line is #{line}"
-        device_name.remove! line
+
+      if /\d+机柜/ =~ device_name
+        device_name = device_name[0] + "机柜"
       end
 
       device = Device.find_by(name: device_name)
