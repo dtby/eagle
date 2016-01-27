@@ -41,7 +41,6 @@ resource "告警相关" do
 
     example "获取告警列表成功" do
       do_request
-      puts "response is #{response_body}"
       expect(status).to eq(200)
     end
   end
