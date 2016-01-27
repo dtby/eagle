@@ -11,15 +11,18 @@
 #  is_checked :boolean          default(FALSE)
 #  comment    :string(255)
 #  room_id    :integer
+#  device_id  :integer
 #
 # Indexes
 #
-#  index_point_alarms_on_point_id  (point_id)
-#  index_point_alarms_on_room_id   (room_id)
+#  index_point_alarms_on_device_id  (device_id)
+#  index_point_alarms_on_point_id   (point_id)
+#  index_point_alarms_on_room_id    (room_id)
 #
 # Foreign Keys
 #
 #  fk_rails_72669ae946  (room_id => rooms.id)
+#  fk_rails_776a91d70e  (device_id => devices.id)
 #  fk_rails_de15df710f  (point_id => points.id)
 #
 
@@ -33,12 +36,23 @@ class PointAlarmsController < BaseController
   acts_as_token_authentication_handler_for User, only: [:index, :checked, :unchecked, :modal, :update_multiple]
 
   def index
-    if params[:checked].present? && params[:checked] == "0"
-      @point_alarms = @room.point_alarms.paginate(page: params[:page], per_page: 10)
-    elsif params[:checked].present? && params[:checked] == "1"
-      @point_alarms = @room.point_alarms.where(is_checked: true).paginate(page: params[:page], per_page: 10)
+
+    if params[:sub_system].present?
+      sub_system = SubSystem.find_by(name: params[:sub_system])
+      devices = sub_system.patterns.map(&:devices).flatten
     else
-      @point_alarms = @room.point_alarms.where(is_checked: false).paginate(page: params[:page], per_page: 10)
+      devices = @room.devices
+    end
+
+    return unless devices.present?
+    point_alarms = devices.map(&:point_alarms).flatten
+
+    if params[:checked].present? && params[:checked] == "0"
+      @point_alarms = point_alarms.paginate(page: params[:page], per_page: 10)
+    elsif params[:checked].present? && params[:checked] == "1"
+      @point_alarms = point_alarms.where(is_checked: true).paginate(page: params[:page], per_page: 10)
+    else
+      @point_alarms = point_alarms.where(is_checked: false).paginate(page: params[:page], per_page: 10)
     end
   end
 

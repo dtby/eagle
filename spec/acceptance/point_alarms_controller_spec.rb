@@ -8,12 +8,13 @@ resource "告警相关" do
     before do
       create(:user)
       @room = create(:room)
-
+      @sub_system = create(:sub_system)
+      pattern = create(:pattern, sub_system: @sub_system)
       (0..3).each do |i|
-        device = create(:device, room: @room, name: "device#{i}")
+        device = create(:device, room: @room, name: "device#{i}", pattern: pattern)
         (0..i).each do |index|
           point = create(:point, device: device)
-          point_alarm = create(:point_alarm, point: point, is_checked: true, room: @room)
+          point_alarm = create(:point_alarm, point: point, is_checked: true, room: @room, device: point.device)
         end
         
       end
@@ -21,7 +22,10 @@ resource "告警相关" do
 
     let(:id) { @room.id }
     let(:checked) { "0" }
+    let(:sub_system) { @sub_system.name }
+
     parameter :checked, "告警是否已经解除(0:全部，1:已经确认, 2:未结束。默认为2)"
+    parameter :sub_system, "子系统名", required: true 
 
     user_attrs = FactoryGirl.attributes_for(:user)
     header "X-User-Token", user_attrs[:authentication_token]
