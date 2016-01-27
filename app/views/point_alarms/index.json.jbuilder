@@ -4,6 +4,7 @@ json.current_page @point_alarms.current_page
 if @point_alarms.present?
   json.point_alarms @point_alarms do |point_alarm|
     json.id point_alarm.try(:id)
+    json.device_name point_alarm.try(:point).try(:device).try(:name)
     json.pid point_alarm.try(:pid)
     json.state point_alarm.try(:state)
     json.created_at point_alarm.try(:created_at).try(:strftime, "%Y-%m-%d %H:%M:%S")

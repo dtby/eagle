@@ -28,6 +28,7 @@ resource "告警相关" do
     header "X-User-Phone", user_attrs[:phone]
 
     response_field :id, "告警ID"
+    response_field :device_name, "设备名"
     response_field :state, "告警状态"
     response_field :created_at, "创建时间"
     response_field :updated_at, "更新时间"
@@ -36,6 +37,7 @@ resource "告警相关" do
 
     example "获取告警列表成功" do
       do_request
+      puts "response is #{response_body}"
       expect(status).to eq(200)
     end
   end
