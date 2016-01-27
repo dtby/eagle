@@ -41,7 +41,7 @@ class Point < ActiveRecord::Base
       point = Point.find_by(point_index: ap.PointID)
       cos = DigitalAlarm.find_by(PointID: ap.PointID)
       next unless point.present?
-      point_alarm = PointAlarm.find_or_create_by(point: point, room: point.try(:device).try(:room))
+      point_alarm = PointAlarm.find_or_create_by(point: point, room: point.try(:device).try(:room), device: point.try(:device))
       point_alarm.update(state: cos.try(:Status), comment: ap.Comment, is_checked: false) if cos.try(:Status) != point_alarm.state
     end
   end

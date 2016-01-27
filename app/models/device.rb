@@ -28,6 +28,7 @@ class Device < ActiveRecord::Base
   has_many :points, dependent: :destroy
   has_many :point_histories, dependent: :destroy
   has_many :alarms, dependent: :destroy
+  has_many :point_alarms, dependent: :destroy
 
   def points_group
     view_points = {}
