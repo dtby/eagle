@@ -22,9 +22,9 @@ module ApplicationHelper
 	def alarm_status status
     case status
     when 1
-    	"设备正常"
-    when 0
     	"告警"
+    when 0
+    	"设备正常"
     end
 	end
 end
