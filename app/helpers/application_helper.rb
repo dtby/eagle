@@ -19,6 +19,7 @@ module ApplicationHelper
 		icons[menu] || 'fa-home'
 	end
 
+  #告警类型
 	def alarm_status status
     case status
     when 1
@@ -27,4 +28,10 @@ module ApplicationHelper
     	"设备正常"
     end
 	end
+
+  #格式化小数
+  def number_format number
+    '%.1f' % number.to_f
+  end
+
 end
