@@ -30,9 +30,12 @@
           <li class="parent"><%= link_to "+ " + device.name.to_s, "javascript:void(0);" %></li>
           <ul id="pointContent">
             <% device.points.each do |point| %>
+              <% default_history = PointHistory.where("created_at > ? AND created_at < ?", Time.now-7.days, Time.now).collect{|x| x.point_value.to_i} %>
+              <% default_time = PointHistory.where("created_at > ? AND created_at < ?", Time.now-7.days, Time.now).collect{|x| x.created_at.strftime("%Y-%m-%d %H:%M:%S")}.sort %>
+
               <% point_history = PointHistory.keyword(params[:start_time], params[:end_time], point.id).collect{|x| x.point_value.to_i} %>
               <% point_time = PointHistory.keyword(params[:start_time], params[:end_time], point.id).collect{|x| x.created_at.strftime("%Y-%m-%d")} %>
-              <li class="child"><%= link_to point.name, replace_chart_room_reports_path(@room, data: point_history, time: point_time, name: point.name), remote: true, title: point.name %></li>
+              <li class="child"><%= link_to point.name, replace_chart_room_reports_path(@room, data: point_history, time: point_time, name: point.name), remote: true, title: point.name, 'data-default-history': default_history.to_json, 'data-default-time': default_time.to_json %></li>
             <% end %>
           </ul>
         <% end %>
@@ -45,6 +48,51 @@
 </div>
 
 <script type="text/javascript">
+  var defaultTime = $(".child a").data("default-time");
+  var defaultHistory = $(".child a").data("default-history");
+  require(
+      [
+          'echarts',
+          'echarts/chart/line' // 使用柱状图就加载bar模块，按需加载
+      ],
+      function (ec) {
+        // 基于准备好的dom，初始化echarts图表
+        var myChart = ec.init(document.getElementById('main')); 
+        option = {
+        tooltip : {
+            trigger: 'axis'
+        },
+        legend: {
+            data:['报表']
+        },
+        calculable : true,
+        xAxis : [
+            {
+                type : 'category',
+                boundaryGap : false,
+                data : defaultTime
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : [
+            {
+                name:'值',
+                type:'line',
+                data: defaultHistory
+            }
+        ]
+    };
+      // 为echarts对象加载数据
+      myChart.setOption(option);
+    }
+  );
+</script>
+
+<script type="text/javascript">
   $(function(){
     $("#deviceContent li").click(function(){
       $(this).next("ul").slideToggle();
@@ -52,7 +100,7 @@
     });
   })
 </script>
-
+<!--
 <script type="text/javascript">
     // 使用
     require(
@@ -94,6 +142,7 @@
     }
   );
 </script>
+-->
 <script type="text/javascript">
   $(function() {
     $('#datetimepicker1, #datetimepicker2').datetimepicker({
