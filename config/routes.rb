@@ -51,7 +51,11 @@ Rails.application.routes.draw do
         resources :points, only: [:index, :show]
       end
     end
-    resources :point_alarms, only: [:index]
+    resources :point_alarms, only: [:index] do
+      collection do
+        post :count
+      end
+    end
     member do
       get :alert
       get :checked_alert
