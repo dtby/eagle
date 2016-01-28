@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160127094222) do
+ActiveRecord::Schema.define(version: 20160128064917) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -114,20 +114,22 @@ ActiveRecord::Schema.define(version: 20160127094222) do
   add_index "patterns", ["sub_system_id"], name: "index_patterns_on_sub_system_id", using: :btree
 
   create_table "point_alarms", force: :cascade do |t|
-    t.integer  "pid",        limit: 4
-    t.integer  "state",      limit: 4
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
-    t.integer  "point_id",   limit: 4
-    t.boolean  "is_checked",             default: false
-    t.string   "comment",    limit: 255
-    t.integer  "room_id",    limit: 4
-    t.integer  "device_id",  limit: 4
+    t.integer  "pid",           limit: 4
+    t.integer  "state",         limit: 4
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
+    t.integer  "point_id",      limit: 4
+    t.boolean  "is_checked",                default: false
+    t.string   "comment",       limit: 255
+    t.integer  "room_id",       limit: 4
+    t.integer  "device_id",     limit: 4
+    t.integer  "sub_system_id", limit: 4
   end
 
   add_index "point_alarms", ["device_id"], name: "index_point_alarms_on_device_id", using: :btree
   add_index "point_alarms", ["point_id"], name: "index_point_alarms_on_point_id", using: :btree
   add_index "point_alarms", ["room_id"], name: "index_point_alarms_on_room_id", using: :btree
+  add_index "point_alarms", ["sub_system_id"], name: "index_point_alarms_on_sub_system_id", using: :btree
 
   create_table "point_histories", force: :cascade do |t|
     t.string   "point_name",  limit: 255
@@ -225,6 +227,7 @@ ActiveRecord::Schema.define(version: 20160127094222) do
   add_foreign_key "point_alarms", "devices"
   add_foreign_key "point_alarms", "points"
   add_foreign_key "point_alarms", "rooms"
+  add_foreign_key "point_alarms", "sub_systems"
   add_foreign_key "point_histories", "devices"
   add_foreign_key "point_histories", "points"
   add_foreign_key "points", "devices"

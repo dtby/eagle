@@ -2,27 +2,30 @@
 #
 # Table name: point_alarms
 #
-#  id         :integer          not null, primary key
-#  pid        :integer
-#  state      :integer
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  point_id   :integer
-#  is_checked :boolean          default(FALSE)
-#  comment    :string(255)
-#  room_id    :integer
-#  device_id  :integer
+#  id            :integer          not null, primary key
+#  pid           :integer
+#  state         :integer
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  point_id      :integer
+#  is_checked    :boolean          default(FALSE)
+#  comment       :string(255)
+#  room_id       :integer
+#  device_id     :integer
+#  sub_system_id :integer
 #
 # Indexes
 #
-#  index_point_alarms_on_device_id  (device_id)
-#  index_point_alarms_on_point_id   (point_id)
-#  index_point_alarms_on_room_id    (room_id)
+#  index_point_alarms_on_device_id      (device_id)
+#  index_point_alarms_on_point_id       (point_id)
+#  index_point_alarms_on_room_id        (room_id)
+#  index_point_alarms_on_sub_system_id  (sub_system_id)
 #
 # Foreign Keys
 #
 #  fk_rails_72669ae946  (room_id => rooms.id)
 #  fk_rails_776a91d70e  (device_id => devices.id)
+#  fk_rails_d8bc97a1a7  (sub_system_id => sub_systems.id)
 #  fk_rails_de15df710f  (point_id => points.id)
 #
 
@@ -30,7 +33,8 @@ class PointAlarm < ActiveRecord::Base
   belongs_to :point
   belongs_to :room
   belongs_to :device
-  
+  belongs_to :sub_system
+
   after_update :update_alarm_history, if: "self.is_checked_changed?"
   after_create :generate_alarm_history
 
