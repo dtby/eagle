@@ -8,8 +8,5 @@
 #
 
 FactoryGirl.define do
-  factory :virtual_point do
-    
-  end
 
 end
