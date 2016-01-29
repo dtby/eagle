@@ -100,8 +100,8 @@ class PointHistory < ActiveRecord::Base
   end
   
   def self.keyword(start_time, end_time, point_id)
-    point_histories = self.find_by_point_id(point_id).reverse
-    return point_histories[0..9] if start_time.blank? && end_time.blank?
+    point_histories = self.find_by_point_id(point_id)
+    return point_histories[0..19] if start_time.blank? && end_time.blank?
     devices = []
     self.find_by_point_id(point_id).each do |p|
       created_time = p.created_at.to_datetime
@@ -109,6 +109,6 @@ class PointHistory < ActiveRecord::Base
         devices << p
       end
     end
-    devices.reverse[0..9]
+    devices[0..19]
   end
 end

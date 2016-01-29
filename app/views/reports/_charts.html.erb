@@ -4,75 +4,49 @@
 <div class="name" data-url=<%= name %>></div>
 
 <script type="text/javascript">
-    option = {
-    tooltip : {
-        trigger: 'axis'
-    },
-    legend: {
-        data:['最高','最低']
-    },
-    toolbox: {
-        show : true,
-        feature : {
-            mark : {show: true},
-            dataZoom : {show: true},
-            dataView : {show: true},
-            magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
-            restore : {show: true},
-            saveAsImage : {show: true}
-        }
-    },
-    calculable : true,
-    dataZoom : {
-        show : true,
-        realtime : true,
-        start : 20,
-        end : 80
-    },
-    xAxis : [
-        {
-            type : 'category',
-            boundaryGap : false,
-            data : function (){
-                var list = [];
-                for (var i = 1; i <= 30; i++) {
-                    list.push('2013-03-' + i);
-                }
-                return list;
-            }()
-        }
-    ],
-    yAxis : [
-        {
-            type : 'value'
-        }
-    ],
-    series : [
-        {
-            name:'最高',
-            type:'line',
-            data:function (){
-                var list = [];
-                for (var i = 1; i <= 30; i++) {
-                    list.push(Math.round(Math.random()* 30));
-                }
-                return list;
-            }()
+    var reportsData = $(".data").data("url");
+    var reportsTime = $(".time").data("url");
+    var reportsName = $(".name").data("url");
+    require(
+      [
+          'echarts',
+          'echarts/chart/line' // 使用柱状图就加载bar模块，按需加载
+      ],
+      function (ec) {
+        // 基于准备好的dom，初始化echarts图表
+        var myChart = ec.init(document.getElementById('main')); 
+        option = {
+        tooltip : {
+            trigger: 'axis'
         },
-        {
-            name:'最低',
-            type:'line',
-            data:function (){
-                var list = [];
-                for (var i = 1; i <= 30; i++) {
-                    list.push(Math.round(Math.random()* 10));
-                }
-                return list;
-            }()
-        }
-    ]
-};
-                    
+        legend: {
+            data:['报表']
+        },
+        calculable : true,
+        xAxis : [
+            {
+                type : 'category',
+                boundaryGap : false,
+                data : reportsTime
+            }
+        ],
+        yAxis : [
+            {
+                type : 'value'
+            }
+        ],
+        series : [
+            {
+                name: reportsName,
+                type:'line',
+                data: reportsData
+            }
+        ]
+    };
+      // 为echarts对象加载数据
+      myChart.setOption(option);
+    }
+  );
 </script>
 <!--
 <script type="text/javascript">
