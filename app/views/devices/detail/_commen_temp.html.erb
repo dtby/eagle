@@ -10,14 +10,14 @@
   <div class="col-md-12 content">
     <%=image_tag "temperature.png", width: "100%", id: "temperatureImg"%>
     
-    <% (1..@points["其他"].size).each do |i| %>
+    <% (1..@points["其他"].size / 2 ).each do |i| %>
       <% unless exclude_points["其他"] && exclude_points["其他"].include?("温度#{i}") && exclude_points["其他"].include?("湿度#{i}") %>
         <div class="data text-center show<%= i %>">
           <% unless exclude_points["其他"] && exclude_points["其他"].include?("温度#{i}") %>
-            <div class="top"><%= @points["其他"]["温度#{i}"] %>&#8451;</div>
+            <div class="top"><%= number_format @points["其他"]["温度#{i}"] %>&#8451;</div>
           <% end %>
           <% unless exclude_points["其他"] && exclude_points["其他"].include?("湿度#{i}") %>
-            <div class="bottom"><%=  @points["其他"]["湿度#{i}"] %>%</div>
+            <div class="bottom"><%= number_format @points["其他"]["湿度#{i}"] %>%</div>
           <% end %>
         </div>
       <% end %>
