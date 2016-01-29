@@ -38,16 +38,22 @@ class PointAlarmsController < BaseController
   acts_as_token_authentication_handler_for User, only: [:index, :checked, :unchecked, :modal, :update_multiple]
 
   def index
-
-    if params[:sub_system].present?
+    if (params[:sub_system].present?) && (!params[:id].present?)
       sub_system = SubSystem.find_by(name: params[:sub_system])
       devices = sub_system.patterns.map(&:devices).flatten
+      return unless devices.present?
+      point_alarms = devices.map(&:point_alarms).flatten
+    elsif (!params[:sub_system].present?) && (params[:id].present?)
+      device = Device.find_by(id: params[:id])
+      point_alarms = device.try(:point_alarms)
     else
-      devices = @room.devices
+      room = Room.find_by(id: params[:room_id])
+      devices = room.devices
+      return unless devices.present?
+      point_alarms = devices.map(&:point_alarms).flatten
     end
-
-    return unless devices.present?
-    point_alarms = devices.map(&:point_alarms).flatten
+    
+    return unless point_alarms.present?
 
     if params[:checked].present? && params[:checked] == "0"
       @point_alarms = point_alarms.paginate(page: params[:page], per_page: 10)
