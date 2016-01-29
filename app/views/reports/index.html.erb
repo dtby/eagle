@@ -34,7 +34,22 @@
               <%= DateTime.now.strftime("%Q") %>
               <% phs = PointHistory.keyword(params[:start_time], params[:end_time], point.id)%>
               <%= DateTime.now.strftime("%Q") %>
-              
+              <% if phs.length <= 20 %>
+                <% pds = PointHistory.where({id: phs.collect{|x| x.id.to_i}}).collect{|x| x.point_value.to_i} %>
+                <% pts = PointHistory.where({id: phs.collect{|x| x.id.to_i}}).collect{|x| x.created_at.strftime("%Y-%m-%d")} %>
+              <% elsif 10 < phs.length <= 100 %>
+                <% pds = PointHistory.where({id: phs.collect{|x| x.id.to_i%4 == 0}}).collect{|x| x.point_value.to_i} %>
+                <% pts = PointHistory.where({id: phs.collect{|x| x.id.to_i%4 == 0}}).collect{|x| x.created_at.strftime("%Y-%m-%d")} %>
+              <% elsif 100 < phs.length <= 1000 %>
+                <% pds = PointHistory.where({id: phs.collect{|x| x.id.to_i%50 == 0}}).collect{|x| x.point_value.to_i} %>
+                <% pts = PointHistory.where({id: phs.collect{|x| x.id.to_i%50 == 0}}).collect{|x| x.created_at.strftime("%Y-%m-%d")} %>
+              <% elsif 1000 < phs.length <= 10000 %>
+                <% pds = PointHistory.where({id: phs.collect{|x| x.id.to_i%500 == 0}}).collect{|x| x.point_value.to_i} %>
+                <% pts = PointHistory.where({id: phs.collect{|x| x.id.to_i%500 == 0}}).collect{|x| x.created_at.strftime("%Y-%m-%d")} %>
+              <% elsif 10000 < phs.length <= 100000 %>
+                <% pds = PointHistory.where({id: phs.collect{|x| x.id.to_i%5000 == 0}}).collect{|x| x.point_value.to_i} %>
+                <% pds = PointHistory.where({id: phs.collect{|x| x.id.to_i%5000 == 0}}).collect{|x| x.created_at.strftime("%Y-%m-%d")} %>
+              <% end %>
               
               <!-- 默认报表数据 -->
               <% dhs = PointHistory.order("created_at asc").limit(20) %>
