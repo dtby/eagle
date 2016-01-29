@@ -15,6 +15,8 @@
 #
 
 class PointHistory < ActiveRecord::Base
+  @@lock = Mutex.new
+  
   belongs_to :point
   belongs_to :device
   default_scope { order('id DESC') }
@@ -43,15 +45,17 @@ class PointHistory < ActiveRecord::Base
 
   # 按月份分表:  201511
   def self.proxy(params={})
-    month = params[:month] || params['month']
-    if month.present?
-      sign = "point_histories_#{month}"
-    else
-      sign = "point_histories"
+    @@lock.synchronize do  
+      month = params[:month] || params['month']
+      if month.present?
+        sign = "point_histories_#{month}"
+      else
+        sign = "point_histories"
+      end
+      create_table sign unless table_exists? sign
+      self.table_name = sign 
+      return self
     end
-    create_table sign unless table_exists? sign
-    self.table_name = sign 
-    return self
   end
 
   def self.create_table(my_table_name)
