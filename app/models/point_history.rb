@@ -82,7 +82,6 @@ class PointHistory < ActiveRecord::Base
     ActiveRecord::Base.connection.tables.each do |table|
       if /point_histories_\d{6}/.match table
         PointHistory.table_name = table
-        puts "table is #{table}"
         PointHistory.where(point_id: point_id).each do |point_history|
           point_histories << point_history
         end
@@ -96,7 +95,6 @@ class PointHistory < ActiveRecord::Base
     ActiveRecord::Base.connection.tables.each do |table|
       if /point_histories_\d{6}/.match table
         PointHistory.table_name = table
-        puts "table is #{table}"
         PointHistory.where(device_id: device_id).each do |point_history|
           point_histories << point_history
         end
