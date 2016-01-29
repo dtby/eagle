@@ -31,9 +31,7 @@
           <ul id="pointContent">
             <% device.points.each do |point| %>
               <!-- 搜索报表数据 -->
-              <%= DateTime.now.strftime("%Q") %>
               <% phs = PointHistory.keyword(params[:start_time], params[:end_time], point.id)%>
-              <%= DateTime.now.strftime("%Q") %>
               <% if phs.length <= 20 %>
                 <% pds = PointHistory.where({id: phs.collect{|x| x.id.to_i}}).collect{|x| x.point_value.to_i} %>
                 <% pts = PointHistory.where({id: phs.collect{|x| x.id.to_i}}).collect{|x| x.created_at.strftime("%Y-%m-%d")} %>
