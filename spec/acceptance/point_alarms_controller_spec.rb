@@ -39,7 +39,7 @@ resource "告警相关" do
     response_field :is_checked, "是否确认"
     response_field :point_id, "点ID"
 
-    example "获取告警列表成功(基于机房)" do
+    example "获取告警列表成功（基于机房）" do
       do_request
       expect(status).to eq(200)
     end
