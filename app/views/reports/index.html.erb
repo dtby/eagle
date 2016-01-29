@@ -31,7 +31,7 @@
           <ul id="pointContent">
             <% device.points.each do |point| %>
               <!-- 搜索报表数据 -->
-              <% phs = PointHistory.order("created_at asc").keyword(params[:start_time], params[:end_time], point.id)%>
+              <% phs = PointHistory.keyword(params[:start_time], params[:end_time], point.id)%>
               <% if phs.length <= 20 %>
                 <% pds = PointHistory.where({id: phs.collect{|x| x.id.to_i}}).collect{|x| x.point_value.to_i} %>
                 <% pts = PointHistory.where({id: phs.collect{|x| x.id.to_i}}).collect{|x| x.created_at.strftime("%Y-%m-%d")} %>
