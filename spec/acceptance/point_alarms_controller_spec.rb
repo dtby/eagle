@@ -168,7 +168,7 @@ resource "告警相关" do
     let(:room_id) { @room.id }
     let(:sub_system_id) { SubSystem.last.id }
     let(:raw_post) { params.to_json }
-    
+
     parameter :room_id, "机房ID", required: true
     parameter :sub_system_id, "子系统ID", required: true
 
@@ -180,7 +180,6 @@ resource "告警相关" do
 
     example "获取子系统下设备的告警数" do
       do_request
-      puts "response is #{response_body}"
       expect(status).to eq(200)
     end
   end
