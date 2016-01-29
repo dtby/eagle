@@ -61,7 +61,7 @@ class PointAlarmsController < BaseController
   def count
     # 子系统拥有的告警数、设备拥有的告警数
     @results = {}
-    if params[:room_id].present?
+    if params[:room_id].present? && !(params[:sub_system_id].present?)
 
       point_alarms = PointAlarm.where(room_id: params[:room_id])
       sub_system_ids = point_alarms.pluck(:sub_system_id)
@@ -71,7 +71,7 @@ class PointAlarmsController < BaseController
       ids = sub_system_ids.uniq.collect { |ssi| sub_system_ids.count(ssi) }
 
       @results = Hash[sub_system_names.zip(ids)]
-    elsif params[:sub_system].present?
+    elsif params[:sub_system_id].present?
 
       point_alarms = PointAlarm.where(sub_system_id: params[:sub_system_id])
       device_ids = point_alarms.pluck(:device_id)
