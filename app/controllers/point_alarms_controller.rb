@@ -47,10 +47,7 @@ class PointAlarmsController < BaseController
       device = Device.find_by(id: params[:id])
       point_alarms = device.try(:point_alarms).to_a
     else
-      room = Room.find_by(id: params[:room_id])
-      devices = room.devices
-      return unless devices.present?
-      point_alarms = devices.map(&:point_alarms).flatten
+      point_alarms = PointAlarm.where(room_id: params[:room_id]).to_a
     end
     
     return unless point_alarms.present?
