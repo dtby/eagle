@@ -69,7 +69,7 @@ class Point < ActiveRecord::Base
       logger.info "eagle_digital_alarm time is #{end_time-start_time}"
 
       start_time = DateTime.now.strftime("%Q").to_i
-      point_alarm = PointAlarm.find_or_create_by(point: point, room: room, device: device, sub_system: sub_system)
+      point_alarm = PointAlarm.find_or_create_by(point_id: point.id, room_id: room.id, device_id: device.id, sub_system_id: sub_system.id)
       end_time = DateTime.now.strftime("%Q").to_i
       logger.info "find_or_create_by time is #{end_time-start_time}"
 
