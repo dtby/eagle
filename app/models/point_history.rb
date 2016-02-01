@@ -23,6 +23,7 @@ class PointHistory < ActiveRecord::Base
 
   # PointHistory.generate_point_history
   def self.generate_point_history
+    start_time = DateTime.now.strftime("%Q").to_i
     config = YAML.load_file('config/history.yml')
     interval = config["interval"]
     month = DateTime.now.strftime("%Y%m")
@@ -40,6 +41,8 @@ class PointHistory < ActiveRecord::Base
         next
       end      
     end
+    end_time = DateTime.now.strftime("%Q").to_i
+    puts "PointHistory.generate_point_history time is #{end_time-start_time}"
     nil
   end
 

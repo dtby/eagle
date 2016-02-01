@@ -26,18 +26,24 @@ class Room < ActiveRecord::Base
 
   # Room.get_computer_room_list
   def self.get_computer_room_list
+    start_time = DateTime.now.strftime("%Q").to_i
     # 名字-> [{系统 -> 设备}, ... {系统 -> 设备}]
     point_hash = {}
     datas_to_hash AnalogPoint, point_hash
     datas_to_hash DigitalPoint, point_hash
     generate_system point_hash
+    end_time = DateTime.now.strftime("%Q").to_i
+    puts "Room.get_computer_room_list time is #{end_time-start_time}"
   end
 
   # Room.generate_point_value
   def self.generate_point_value
+    start_time = DateTime.now.strftime("%Q").to_i
     PointState.all.each do |point_state|
       $redis.hset "eagle_point_value", point_state.try(:pid), point_state.try(:value)
     end
+    end_time = DateTime.now.strftime("%Q").to_i
+    puts "Room.generate_point_value time is #{end_time-start_time}"
   end
 
   def self.generate_system  point_hash
@@ -98,6 +104,7 @@ class Room < ActiveRecord::Base
 
   # Room.generate_alarm_data
   def self.generate_alarm_data
+    start_time = DateTime.now.strftime("%Q").to_i
     aps = AnalogPoint.where('PointName=? or PointName=?', '电流有效值', '电压有效值')
     ap_names = aps.pluck(:BayName).uniq
 
@@ -137,6 +144,8 @@ class Room < ActiveRecord::Base
         end
       end
     end
+    end_time = DateTime.now.strftime("%Q").to_i
+    puts "Room.generate_alarm_data time is #{end_time-start_time}"
   end
   #  机房菜单字符串数组
   # 返回值: ［"#{menu_id}_#{menu_type}"］
