@@ -46,6 +46,6 @@ class Point < ActiveRecord::Base
       point_alarm.update(state: cos.try(:Status), comment: ap.Comment, is_checked: false) if cos.try(:Status) != point_alarm.state
     end
     end_time = DateTime.now.strftime("%Q").to_i
-    puts "Point.monitor_db time is #{end_time-start_time}"
+    logger.info "Point.monitor_db time is #{end_time-start_time}"
   end
 end

@@ -42,7 +42,7 @@ class PointHistory < ActiveRecord::Base
       end      
     end
     end_time = DateTime.now.strftime("%Q").to_i
-    puts "PointHistory.generate_point_history time is #{end_time-start_time}"
+    logger.info "PointHistory.generate_point_history time is #{end_time-start_time}"
     nil
   end
 

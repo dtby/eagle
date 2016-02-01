@@ -33,7 +33,7 @@ class Room < ActiveRecord::Base
     datas_to_hash DigitalPoint, point_hash
     generate_system point_hash
     end_time = DateTime.now.strftime("%Q").to_i
-    puts "Room.get_computer_room_list time is #{end_time-start_time}"
+    logger.info "Room.get_computer_room_list time is #{end_time-start_time}"
   end
 
   # Room.generate_point_value
@@ -43,7 +43,7 @@ class Room < ActiveRecord::Base
       $redis.hset "eagle_point_value", point_state.try(:pid), point_state.try(:value)
     end
     end_time = DateTime.now.strftime("%Q").to_i
-    puts "Room.generate_point_value time is #{end_time-start_time}"
+    logger.info "Room.generate_point_value time is #{end_time-start_time}"
   end
 
   def self.generate_system  point_hash
@@ -145,7 +145,7 @@ class Room < ActiveRecord::Base
       end
     end
     end_time = DateTime.now.strftime("%Q").to_i
-    puts "Room.generate_alarm_data time is #{end_time-start_time}"
+    logger.info "Room.generate_alarm_data time is #{end_time-start_time}"
   end
   #  机房菜单字符串数组
   # 返回值: ［"#{menu_id}_#{menu_type}"］
