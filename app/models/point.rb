@@ -51,7 +51,7 @@ class Point < ActiveRecord::Base
   end
 
   def self.datas_to_hash class_name
-    start_time = DateTime.now.strftime("%Q").to_i
+    start_time_all = DateTime.now.strftime("%Q").to_i
     class_name.all.each do |ap|
 
       start_time = DateTime.now.strftime("%Q").to_i
@@ -69,17 +69,19 @@ class Point < ActiveRecord::Base
       logger.info "eagle_digital_alarm time is #{end_time-start_time}"
 
       start_time = DateTime.now.strftime("%Q").to_i
-      point_alarm = PointAlarm.find_or_create_by(point_id: point.id, room_id: room.id, device_id: device.id, sub_system_id: sub_system.id)
+      point_alarm = PointAlarm.find_or_create_by(point_id: point.id)
       end_time = DateTime.now.strftime("%Q").to_i
       logger.info "find_or_create_by time is #{end_time-start_time}"
 
       start_time = DateTime.now.strftime("%Q").to_i
-      point_alarm.update(state: state, comment: ap.Comment, is_checked: false) if state != point_alarm.state
+      if state != point_alarm.state
+        point_alarm.update(state: state, comment: ap.Comment, is_checked: false, room_id: room.id, device_id: device.id, sub_system_id: sub_system.id)
+      end
       end_time = DateTime.now.strftime("%Q").to_i
       logger.info "update time is #{end_time-start_time}"
 
     end
-    end_time = DateTime.now.strftime("%Q").to_i
+    end_time_all = DateTime.now.strftime("%Q").to_i
     logger.info "Point.monitor_db time is #{end_time-start_time}"
   end
 end
