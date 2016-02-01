@@ -36,10 +36,9 @@ class Point < ActiveRecord::Base
     generate_digital_alarm
     end_time = DateTime.now.strftime("%Q").to_i
     logger.info "generate_digital_alarm time is #{end_time-start_time}"
-    start_time = DateTime.now.strftime("%Q").to_i
+   
     datas_to_hash DigitalPoint
-    end_time = DateTime.now.strftime("%Q").to_i
-    logger.info "datas_to_hash time is #{end_time-start_time}"
+
     nil
   end
 
@@ -54,11 +53,26 @@ class Point < ActiveRecord::Base
   def self.datas_to_hash class_name
     start_time = DateTime.now.strftime("%Q").to_i
     class_name.all.each do |ap|
+
+      start_time = DateTime.now.strftime("%Q").to_i
+
       point = Point.find_by(point_index: ap.PointID)
       state = $redis.hget "eagle_digital_alarm", ap.PointID.to_s
+
       next unless point.present?
+      end_time = DateTime.now.strftime("%Q").to_i
+      logger.info "eagle_digital_alarm time is #{end_time-start_time}"
+
+      start_time = DateTime.now.strftime("%Q").to_i
       point_alarm = PointAlarm.find_or_create_by(point: point, room: point.try(:device).try(:room), device: point.try(:device), sub_system: point.try(:device).try(:pattern).try(:sub_system))
+      end_time = DateTime.now.strftime("%Q").to_i
+      logger.info "find_or_create_by time is #{end_time-start_time}"
+
+      start_time = DateTime.now.strftime("%Q").to_i
       point_alarm.update(state: state, comment: ap.Comment, is_checked: false) if state != point_alarm.state
+      end_time = DateTime.now.strftime("%Q").to_i
+      logger.info "update time is #{end_time-start_time}"
+
     end
     end_time = DateTime.now.strftime("%Q").to_i
     logger.info "Point.monitor_db time is #{end_time-start_time}"
