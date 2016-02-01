@@ -32,8 +32,14 @@ class Point < ActiveRecord::Base
   #创建PointAlarm对象
   # Point.monitor_db
   def self.monitor_db
+    start_time = DateTime.now.strftime("%Q").to_i
     generate_digital_alarm
+    end_time = DateTime.now.strftime("%Q").to_i
+    logger.info "generate_digital_alarm time is #{end_time-start_time}"
+    start_time = DateTime.now.strftime("%Q").to_i
     datas_to_hash DigitalPoint
+    end_time = DateTime.now.strftime("%Q").to_i
+    logger.info "datas_to_hash time is #{end_time-start_time}"
     nil
   end
 
