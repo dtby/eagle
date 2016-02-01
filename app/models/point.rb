@@ -59,12 +59,17 @@ class Point < ActiveRecord::Base
       point = Point.find_by(point_index: ap.PointID)
       state = $redis.hget "eagle_digital_alarm", ap.PointID.to_s
 
-      next unless point.present?
+      device = point.try(:device)
+      room = point.try(:device).try(:room)
+      sub_system = device.try(:pattern).try(:sub_system)
+
+      next unless point.present? && device.present? && room.present? && sub_system.present?
+
       end_time = DateTime.now.strftime("%Q").to_i
       logger.info "eagle_digital_alarm time is #{end_time-start_time}"
 
       start_time = DateTime.now.strftime("%Q").to_i
-      point_alarm = PointAlarm.find_or_create_by(point: point, room: point.try(:device).try(:room), device: point.try(:device), sub_system: point.try(:device).try(:pattern).try(:sub_system))
+      point_alarm = PointAlarm.find_or_create_by(point: point, room: room, device: device, sub_system: sub_system)
       end_time = DateTime.now.strftime("%Q").to_i
       logger.info "find_or_create_by time is #{end_time-start_time}"
 
