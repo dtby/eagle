@@ -32,6 +32,7 @@ class Point < ActiveRecord::Base
   #创建PointAlarm对象
   # Point.monitor_db
   def self.monitor_db
+    generate_digital_alarm
     datas_to_hash DigitalPoint
     nil
   end
