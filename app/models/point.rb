@@ -32,12 +32,12 @@ class Point < ActiveRecord::Base
   #创建PointAlarm对象
   # Point.monitor_db
   def self.monitor_db
-    start_time = DateTime.now.strftime("%Q").to_i
-    generate_digital_alarm
-    end_time = DateTime.now.strftime("%Q").to_i
-    logger.info "generate_digital_alarm time is #{end_time-start_time}"
+    # start_time = DateTime.now.strftime("%Q").to_i
+    # generate_digital_alarm
+    # end_time = DateTime.now.strftime("%Q").to_i
+    # logger.info "generate_digital_alarm time is #{end_time-start_time}"
    
-    datas_to_hash DigitalPoint
+    datas_to_hash
 
     nil
   end
@@ -50,38 +50,39 @@ class Point < ActiveRecord::Base
     nil
   end
 
-  def self.datas_to_hash class_name
+  def self.datas_to_hash
     start_time_all = DateTime.now.strftime("%Q").to_i
-    class_name.all.each do |ap|
 
-      start_time = DateTime.now.strftime("%Q").to_i
+    updated_at = PointAlarm.order("updated_at DESC").first.updated_at + 8.hour
+    das = DigitalAlarm.where("ADate = ? AND ATime > ?", updated_at.strftime("%Y-%m-%d"), updated_at.strftime("%H:%M:%S"))
 
+    das.each do |da|
       point = Point.find_by(point_index: ap.PointID)
-      state = $redis.hget "eagle_digital_alarm", ap.PointID.to_s
+      next unless point.present?
 
-      device = point.try(:device)
-      room = point.try(:device).try(:room)
-      sub_system = device.try(:pattern).try(:sub_system)
+      cos = DigitalAlarm.find_by(PointID: ap.PointID)
+      state = cos.try(:Status)
 
-      next unless point.present? && device.present? && room.present? && sub_system.present?
-
-      end_time = DateTime.now.strftime("%Q").to_i
-      logger.info "eagle_digital_alarm time is #{end_time-start_time}"
-
-      start_time = DateTime.now.strftime("%Q").to_i
       point_alarm = PointAlarm.find_or_create_by(point_id: point.id)
-      end_time = DateTime.now.strftime("%Q").to_i
-      logger.info "find_or_create_by time is #{end_time-start_time}"
-
-      start_time = DateTime.now.strftime("%Q").to_i
       if state != point_alarm.state
         point_alarm.update(state: state, comment: ap.Comment, is_checked: false, room_id: room.id, device_id: device.id, sub_system_id: sub_system.id)
       end
-      end_time = DateTime.now.strftime("%Q").to_i
-      logger.info "update time is #{end_time-start_time}"
 
     end
     end_time_all = DateTime.now.strftime("%Q").to_i
-    logger.info "Point.monitor_db time is #{end_time-start_time}"
+    logger.info "Point.monitor_db time is #{end_time_all-start_time_all}"
+
+    # class_name.all.each do |ap|
+    #   point = Point.find_by(point_index: ap.PointID)
+    #   state = $redis.hget "eagle_digital_alarm", ap.PointID.to_s
+    #   device = point.try(:device)
+    #   room = point.try(:device).try(:room)
+    #   sub_system = device.try(:pattern).try(:sub_system)
+    #   next unless point.present? && device.present? && room.present? && sub_system.present?
+    #   point_alarm = PointAlarm.find_or_create_by(point_id: point.id)
+    #   if state != point_alarm.state
+    #     point_alarm.update(state: state, comment: ap.Comment, is_checked: false, room_id: room.id, device_id: device.id, sub_system_id: sub_system.id)
+    #   end
+    # end
   end
 end
