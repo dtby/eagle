@@ -56,11 +56,11 @@ class Point < ActiveRecord::Base
 
     # 查询是否有新的告警出现
     updated_at = PointAlarm.order("updated_at DESC").first.updated_at + 8.hour
-    das = DigitalAlarm.where("ADate = ? AND ATime > ?", updated_at.strftime("%Y-%m-%d"), updated_at.strftime("%H:%M:%S"))
+    das = DigitalAlarm.where("ADate >= ? AND ATime > ?", updated_at.strftime("%Y-%m-%d"), updated_at.strftime("%H:%M:%S"))
     das.each do |da|
       point = Point.find_by(point_index: ap.PointID)
       next unless point.present?
-
+      puts "da is #{da.inspect}"
       cos = DigitalAlarm.order("ADate DESC, ATime DESC").find_by(PointID: ap.PointID)
       state = cos.try(:Status)
 
