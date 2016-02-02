@@ -55,19 +55,28 @@ class Point < ActiveRecord::Base
     start_time_all = DateTime.now.strftime("%Q").to_i
 
     # 查询是否有新的告警出现
-    updated_at = PointAlarm.order("updated_at DESC").first.updated_at + 8.hour
-    das = DigitalAlarm.where("ADate >= ? AND ATime > ?", updated_at.strftime("%Y-%m-%d"), updated_at.strftime("%H:%M:%S"))
+    if PointAlarm.all.size > 0
+      updated_at = PointAlarm.order("updated_at DESC").first.updated_at + 8.hour
+      das = DigitalAlarm.where("ADate >= ? AND ATime > ?", updated_at.strftime("%Y-%m-%d"), updated_at.strftime("%H:%M:%S"))
+    else
+      das = DigitalAlarm.all
+    end
     das.each do |da|
-      point = Point.find_by(point_index: ap.PointID)
+      point = Point.find_by(point_index: da.PointID)
       next unless point.present?
       puts "da is #{da.inspect}"
-      cos = DigitalAlarm.order("ADate DESC, ATime DESC").find_by(PointID: ap.PointID)
+      cos = DigitalAlarm.order("ADate DESC, ATime DESC").find_by(PointID: da.PointID)
+      dp = DigitalPoint.find_by(PointID: da.PointID)
       state = cos.try(:Status)
 
       point_alarm = PointAlarm.find_or_create_by(point_id: point.id)
       update_time = DateTime.new(da.ADate.year, da.ADate.month, da.ADate.day, da.ATime.hour,da.ATime.min, da.ATime.sec)
       if state != point_alarm.state
-        point_alarm.update(state: state, comment: ap.Comment, is_checked: false, room_id: room.id, device_id: device.id, sub_system_id: sub_system.id, updated_at: update_time)
+        point_alarm.update(state: state, comment: dp.Comment, 
+          is_checked: false, updated_at: update_time, 
+          room_id: point.try(:device).try(:room).try(:id), 
+          device_id: point.try(:device).try(:id), 
+          sub_system_id: point.try(:device).try(:sub_system).try(:id))
       end
     end
 
