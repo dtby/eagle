@@ -82,8 +82,9 @@ class Point < ActiveRecord::Base
 
     # 查询告警是否已经解除
     PointAlarm.is_warning_alarm.each do |pa|
+      update_time = pa.updated_at
       cos = DigitalAlarm.order("ADate DESC, ATime DESC").find_by(PointID: pa.try(:point).try(:point_index))
-      pa.update(state: cos.try(:Status)) if pa.state != cos.try(:Status)
+      pa.update(state: cos.try(:Status), updated_at: update_time) if pa.state != cos.try(:Status)
     end
 
     end_time_all = DateTime.now.strftime("%Q").to_i
