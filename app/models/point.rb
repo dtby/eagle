@@ -50,39 +50,35 @@ class Point < ActiveRecord::Base
     nil
   end
 
+  # Point.datas_to_hash
   def self.datas_to_hash
     start_time_all = DateTime.now.strftime("%Q").to_i
 
+    # 查询是否有新的告警出现
     updated_at = PointAlarm.order("updated_at DESC").first.updated_at + 8.hour
     das = DigitalAlarm.where("ADate = ? AND ATime > ?", updated_at.strftime("%Y-%m-%d"), updated_at.strftime("%H:%M:%S"))
-
     das.each do |da|
       point = Point.find_by(point_index: ap.PointID)
       next unless point.present?
 
-      cos = DigitalAlarm.find_by(PointID: ap.PointID)
+      cos = DigitalAlarm.order("ADate DESC, ATime DESC").find_by(PointID: ap.PointID)
       state = cos.try(:Status)
 
       point_alarm = PointAlarm.find_or_create_by(point_id: point.id)
+      update_time = DateTime.new(da.ADate.year, da.ADate.month, da.ADate.day, da.ATime.hour,da.ATime.min, da.ATime.sec)
       if state != point_alarm.state
-        point_alarm.update(state: state, comment: ap.Comment, is_checked: false, room_id: room.id, device_id: device.id, sub_system_id: sub_system.id)
+        point_alarm.update(state: state, comment: ap.Comment, is_checked: false, room_id: room.id, device_id: device.id, sub_system_id: sub_system.id, updated_at: update_time)
       end
-
     end
+
+    # 查询告警是否已经解除
+    PointAlarm.is_warning_alarm.each do |pa|
+      cos = DigitalAlarm.order("ADate DESC, ATime DESC").find_by(PointID: pa.try(:point).try(:point_index))
+      pa.update(state: cos.try(:Status)) if pa.state != cos.try(:Status)
+    end
+
     end_time_all = DateTime.now.strftime("%Q").to_i
     logger.info "Point.monitor_db time is #{end_time_all-start_time_all}"
 
-    # class_name.all.each do |ap|
-    #   point = Point.find_by(point_index: ap.PointID)
-    #   state = $redis.hget "eagle_digital_alarm", ap.PointID.to_s
-    #   device = point.try(:device)
-    #   room = point.try(:device).try(:room)
-    #   sub_system = device.try(:pattern).try(:sub_system)
-    #   next unless point.present? && device.present? && room.present? && sub_system.present?
-    #   point_alarm = PointAlarm.find_or_create_by(point_id: point.id)
-    #   if state != point_alarm.state
-    #     point_alarm.update(state: state, comment: ap.Comment, is_checked: false, room_id: room.id, device_id: device.id, sub_system_id: sub_system.id)
-    #   end
-    # end
   end
 end
