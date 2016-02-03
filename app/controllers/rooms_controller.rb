@@ -29,6 +29,7 @@ class RoomsController < BaseController
                         .order_desc
                         .is_warning_alarm
                         .keyword(params[:start_time], params[:end_time])
+    puts "@point_alarms is #{@point_alarms.inspect}"
   end
 
   def checked_alert
