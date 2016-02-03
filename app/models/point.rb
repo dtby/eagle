@@ -53,7 +53,7 @@ class Point < ActiveRecord::Base
   def self.generate_point_alarm reset = false
 
     if PointAlarm.all.size > 0 && (!reset)
-      updated_at = PointAlarm.order("updated_at DESC").first.try(:updated_at) + 8.hour
+      updated_at = PointAlarm.order("updated_at DESC").first.try(:updated_at)
       das = DigitalAlarm.where("ADate >= ? AND ATime > ?", updated_at.strftime("%Y-%m-%d"), updated_at.strftime("%H:%M:%S"))   
       aas = AnalogAlarm.where("ADate >= ? AND ATime > ?", updated_at.strftime("%Y-%m-%d"), updated_at.strftime("%H:%M:%S"))   
     else
