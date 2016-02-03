@@ -40,9 +40,9 @@ class RoomsController < BaseController
   end
 
   def refersh_alert
-    respond_to do |format|
-      format.js { }
-    end
+    # respond_to do |format|
+    #   format.js { }
+    # end
   end
 
   def video
