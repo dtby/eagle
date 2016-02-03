@@ -13,6 +13,7 @@
 #  room_id       :integer
 #  device_id     :integer
 #  sub_system_id :integer
+#  alarm_type    :integer
 #
 # Indexes
 #

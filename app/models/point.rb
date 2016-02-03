@@ -50,17 +50,17 @@ class Point < ActiveRecord::Base
     nil
   end
 
-  # Point.datas_to_hash
-  def self.datas_to_hash
-    start_time_all = DateTime.now.strftime("%Q").to_i
+  def self.generate_point_alarm reset = false
 
-    # 查询是否有新的告警出现
-    if PointAlarm.all.size > 0
-      updated_at = PointAlarm.order("updated_at DESC").first.updated_at + 8.hour
-      das = DigitalAlarm.where("ADate >= ? AND ATime > ?", updated_at.strftime("%Y-%m-%d"), updated_at.strftime("%H:%M:%S"))
+    if PointAlarm.all.size > 0 && (!reset)
+      updated_at = PointAlarm.order("updated_at DESC").first.try(:updated_at) + 8.hour
+      das = DigitalAlarm.where("ADate >= ? AND ATime > ?", updated_at.strftime("%Y-%m-%d"), updated_at.strftime("%H:%M:%S"))   
+      aas = AnalogAlarm.where("ADate >= ? AND ATime > ?", updated_at.strftime("%Y-%m-%d"), updated_at.strftime("%H:%M:%S"))   
     else
       das = DigitalAlarm.all
+      aas = AnalogAlarm.all
     end
+
     das.each do |da|
       point = Point.find_by(point_index: da.PointID)
       next unless point.present?
@@ -73,17 +73,47 @@ class Point < ActiveRecord::Base
       update_time = DateTime.new(da.ADate.year, da.ADate.month, da.ADate.day, da.ATime.hour,da.ATime.min, da.ATime.sec)
       if state != point_alarm.state
         point_alarm.update(state: state, comment: dp.Comment, 
-          is_checked: false, updated_at: update_time, 
+          is_checked: false, updated_at: update_time, alarm_type: 1, 
           room_id: point.try(:device).try(:room).try(:id), 
           device_id: point.try(:device).try(:id), 
           sub_system_id: point.try(:device).try(:sub_system).try(:id))
       end
     end
 
+    aas.each do |aa|
+      point = Point.find_by(point_index: aa.PointID)
+      next unless point.present?
+      puts "aa is #{aa.inspect}"
+      cos = AnalogAlarm.order("ADate DESC, ATime DESC").find_by(PointID: aa.PointID)
+      dp = AnalogPoint.find_by(PointID: aa.PointID)
+      state = cos.try(:Status)
+
+      point_alarm = PointAlarm.find_or_create_by(point_id: point.id)
+      update_time = DateTime.new(aa.ADate.year, aa.ADate.month, aa.ADate.day, aa.ATime.hour,aa.ATime.min, aa.ATime.sec)
+      if state != point_alarm.state
+        point_alarm.update(state: state, comment: dp.Comment, 
+          is_checked: false, updated_at: update_time, alarm_type: 0,
+          room_id: point.try(:device).try(:room).try(:id), 
+          device_id: point.try(:device).try(:id), 
+          sub_system_id: point.try(:device).try(:sub_system).try(:id))
+      end
+    end
+  end
+  # Point.datas_to_hash
+  def self.datas_to_hash
+    start_time_all = DateTime.now.strftime("%Q").to_i
+
+    # 查询是否有新的告警出现
+    generate_point_alarm
+
     # 查询告警是否已经解除
     PointAlarm.is_warning_alarm.each do |pa|
       update_time = pa.updated_at
-      cos = DigitalAlarm.order("ADate DESC, ATime DESC").find_by(PointID: pa.try(:point).try(:point_index))
+      if pa.alarm_type == 1
+        cos = DigitalAlarm.order("ADate DESC, ATime DESC").find_by(PointID: pa.try(:point).try(:point_index))
+      else
+        cos = AnalogAlarm.order("ADate DESC, ATime DESC").find_by(PointID: pa.try(:point).try(:point_index))
+      end
       pa.update(state: cos.try(:Status), updated_at: update_time) if pa.state != cos.try(:Status)
     end
 

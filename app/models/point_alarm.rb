@@ -13,6 +13,7 @@
 #  room_id       :integer
 #  device_id     :integer
 #  sub_system_id :integer
+#  alarm_type    :integer
 #
 # Indexes
 #
@@ -39,6 +40,8 @@ class PointAlarm < ActiveRecord::Base
   after_create :generate_alarm_history
 
   default_scope { where(state: 1) }
+
+  enum alarm_type: [:alarm, :digital]
 
   #参数point_index
   #返回单个point的id
