@@ -64,14 +64,15 @@ class Point < ActiveRecord::Base
     das.each do |da|
       point = Point.find_by(point_index: da.PointID)
       next unless point.present?
-      puts "da is #{da.inspect}"
+      puts "size is #{PointAlarm.is_warning_alarm.size}"
       cos = DigitalAlarm.order("ADate DESC, ATime DESC").find_by(PointID: da.PointID)
       dp = DigitalPoint.find_by(PointID: da.PointID)
       state = cos.try(:Status)
 
       point_alarm = PointAlarm.find_or_create_by(point_id: point.id)
-      update_time = DateTime.new(da.ADate.year, da.ADate.month, da.ADate.day, da.ATime.hour,da.ATime.min, da.ATime.sec)
+      
       if state != point_alarm.state
+        update_time = DateTime.new(da.ADate.year, da.ADate.month, da.ADate.day, da.ATime.hour,da.ATime.min, da.ATime.sec)
         point_alarm.update(state: state, comment: dp.Comment, 
           is_checked: false, updated_at: update_time, alarm_type: 1, 
           room_id: point.try(:device).try(:room).try(:id), 
@@ -83,14 +84,15 @@ class Point < ActiveRecord::Base
     aas.each do |aa|
       point = Point.find_by(point_index: aa.PointID)
       next unless point.present?
-      puts "aa is #{aa.inspect}"
+      puts "size is #{PointAlarm.is_warning_alarm.size}"
       cos = AnalogAlarm.order("ADate DESC, ATime DESC").find_by(PointID: aa.PointID)
       dp = AnalogPoint.find_by(PointID: aa.PointID)
       state = cos.try(:Status)
 
       point_alarm = PointAlarm.find_or_create_by(point_id: point.id)
-      update_time = DateTime.new(aa.ADate.year, aa.ADate.month, aa.ADate.day, aa.ATime.hour,aa.ATime.min, aa.ATime.sec)
+      
       if state != point_alarm.state
+        update_time = DateTime.new(aa.ADate.year, aa.ADate.month, aa.ADate.day, aa.ATime.hour,aa.ATime.min, aa.ATime.sec)
         point_alarm.update(state: state, comment: dp.Comment, 
           is_checked: false, updated_at: update_time, alarm_type: 0,
           room_id: point.try(:device).try(:room).try(:id), 
@@ -98,6 +100,7 @@ class Point < ActiveRecord::Base
           sub_system_id: point.try(:device).try(:sub_system).try(:id))
       end
     end
+    nil
   end
   # Point.datas_to_hash
   def self.datas_to_hash
