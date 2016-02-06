@@ -123,4 +123,26 @@ class PointHistory < ActiveRecord::Base
     # end
     # devices[0..19]
   end
+
+  def self.result_by_sorts start_time, end_time, point_id
+    result_array = []
+    phs = PointHistory.keyword(start_time, end_time, point_id)
+    if phs.length <= 20
+      pds = PointHistory.where({id: phs.collect{|x| x.id.to_i}}).collect{|x| x.point_value.to_i}
+      pts = PointHistory.where({id: phs.collect{|x| x.id.to_i}}).collect{|x| x.updated_at.strftime("%Y-%m-%d")}
+    elsif 20 < phs.length <= 100
+      pds = PointHistory.where({id: phs.collect{|x| x.id.to_i%4 == 0}}).collect{|x| x.point_value.to_i}
+      pts = PointHistory.where({id: phs.collect{|x| x.id.to_i%4 == 0}}).collect{|x| x.updated_at.strftime("%Y-%m-%d")}
+    elsif 100 < phs.length <= 1000
+      pds = PointHistory.where({id: phs.collect{|x| x.id.to_i%50 == 0}}).collect{|x| x.point_value.to_i}
+      pts = PointHistory.where({id: phs.collect{|x| x.id.to_i%50 == 0}}).collect{|x| x.updated_at.strftime("%Y-%m-%d")}
+     elsif 1000 < phs.length <= 10000
+      pds = PointHistory.where({id: phs.collect{|x| x.id.to_i%500 == 0}}).collect{|x| x.point_value.to_i}
+      pts = PointHistory.where({id: phs.collect{|x| x.id.to_i%500 == 0}}).collect{|x| x.updated_at.strftime("%Y-%m-%d")}
+    elsif 10000 < phs.length <= 100000
+      pds = PointHistory.where({id: phs.collect{|x| x.id.to_i%5000 == 0}}).collect{|x| x.point_value.to_i}
+      pds = PointHistory.where({id: phs.collect{|x| x.id.to_i%5000 == 0}}).collect{|x| x.updated_at.strftime("%Y-%m-%d")}
+    end
+    result_array = [pds, pts]
+  end
 end
