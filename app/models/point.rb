@@ -50,6 +50,7 @@ class Point < ActiveRecord::Base
     nil
   end
 
+  # Point.generate_point_alarm true
   def self.generate_point_alarm reset = false
 
     if PointAlarm.all.size > 0 && (!reset)
@@ -64,14 +65,16 @@ class Point < ActiveRecord::Base
     das.each do |da|
       point = Point.find_by(point_index: da.PointID)
       next unless point.present?
-      puts "size is #{PointAlarm.is_warning_alarm.size}"
+      
       cos = DigitalAlarm.order("ADate DESC, ATime DESC").find_by(PointID: da.PointID)
       dp = DigitalPoint.find_by(PointID: da.PointID)
-      state = cos.try(:Status)
-
+      state = 0
+      state = 1 if cos.try(:Status)
+      
       point_alarm = PointAlarm.find_or_create_by(point_id: point.id)
       
       if state != point_alarm.state
+        puts "DigitalAlarm size is #{PointAlarm.is_warning_alarm.size}, #{da.PointID}, #{point_alarm.state}  => #{state}"
         update_time = DateTime.new(da.ADate.year, da.ADate.month, da.ADate.day, da.ATime.hour,da.ATime.min, da.ATime.sec)
         point_alarm.update(state: state, comment: dp.Comment, 
           is_checked: false, updated_at: update_time, alarm_type: 1, 
@@ -84,14 +87,15 @@ class Point < ActiveRecord::Base
     aas.each do |aa|
       point = Point.find_by(point_index: aa.PointID)
       next unless point.present?
-      puts "size is #{PointAlarm.is_warning_alarm.size}"
       cos = AnalogAlarm.order("ADate DESC, ATime DESC").find_by(PointID: aa.PointID)
       dp = AnalogPoint.find_by(PointID: aa.PointID)
-      state = cos.try(:Status)
+      state = 0
+      state = 1 if cos.try(:Status)
 
       point_alarm = PointAlarm.find_or_create_by(point_id: point.id)
       
       if state != point_alarm.state
+        puts "AnalogAlarm size is #{PointAlarm.is_warning_alarm.size}, #{aa.PointID}, AnalogAlarm #{point_alarm.state}  => #{state}"
         update_time = DateTime.new(aa.ADate.year, aa.ADate.month, aa.ADate.day, aa.ATime.hour,aa.ATime.min, aa.ATime.sec)
         point_alarm.update(state: state, comment: dp.Comment, 
           is_checked: false, updated_at: update_time, alarm_type: 0,
