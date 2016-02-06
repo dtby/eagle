@@ -124,6 +124,16 @@ class PointHistory < ActiveRecord::Base
     # devices[0..19]
   end
 
+  #默认数据
+  def self.default_result
+    default_array = []
+    dhs = PointHistory.limit(20)
+    dds = PointHistory.where({id: dhs.collect{|x| x.id.to_i}}).collect{|x| x.point_value.to_i}
+    dts = PointHistory.where({id: dhs.collect{|x| x.id.to_i}}).collect{|x| x.created_at.strftime("%Y-%m-%d %H:%M:%S")}
+    default_array = [dds, dts]
+  end
+
+  #检索数据
   def self.result_by_sorts start_time, end_time, point_id
     result_array = []
     phs = PointHistory.keyword(start_time, end_time, point_id)
