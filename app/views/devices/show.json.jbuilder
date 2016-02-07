@@ -1,7 +1,7 @@
 json.extract! @device, :id, :name
 
 if @points.present?
-  json.points @points.each do |point|
+  @points.each do |point|
     if point.name.include? "-"
       name = point.name.split("-").last
     else
