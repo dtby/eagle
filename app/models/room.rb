@@ -131,7 +131,7 @@ class Room < ActiveRecord::Base
         # puts "value is #{ps.value}, name is #{name}"
         # C11视在功率A路
         point_name = device_info + point.PointName+line
-        puts "point_name is #{point_name}, PN is #{point.PointName}, line is #{line}"
+        puts "point_name is #{point_name}, PN is #{point.PointName}, line is #{line}, point_name is #{point_name[-7..-1]}" if point.PointID.to_s == "1328013"
         case point_name[-7..-1]
         when "电流有效值A路"
           alarm.update(current: ps.try(:value).try(:to_s), cur_warning: point.UpName.present?)
@@ -146,6 +146,7 @@ class Room < ActiveRecord::Base
     end
     end_time = DateTime.now.strftime("%Q").to_i
     logger.info "Room.generate_alarm_data time is #{end_time-start_time}"
+    nil
   end
   #  机房菜单字符串数组
   # 返回值: ［"#{menu_id}_#{menu_type}"］
