@@ -66,7 +66,7 @@ class DevicesController < BaseController
         end
       end
     end
-
+    logger.info "@point_values is #{@point_values.inspect}"
     # points = device.points
     # next unless points.present?
 
