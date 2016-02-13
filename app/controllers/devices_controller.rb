@@ -59,8 +59,9 @@ class DevicesController < BaseController
           @devices.concat devices.includes(:points).where(room_id: params[:room_id])
           devices.each do |device|
             @point_values[device.try(:id)] = {}
-            device.points.where(name: point_names).each_with_index do |point, index|
-              @point_values[device.try(:id)][point_names[index]] = point.try(:value)
+            points = device.points.where(name: point_names)
+            (0..3).each do |index|
+              @point_values[device.try(:id)][point_names[index]] = points[index].try(:value)#||0
             end
           end
         end
