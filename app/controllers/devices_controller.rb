@@ -43,15 +43,26 @@ class DevicesController < BaseController
   end
 
   def search
+    
     sub_system = SubSystem.find_by(name: params[:sub_sys_name])
     if sub_system.present?
+      @point_values = {}
+      point_names = get_point_names params[:sub_sys_name]
+
       patterns = sub_system.try(:patterns)
       @devices = []
+      
       if patterns.present?
         patterns.each do |pattern|
           devices = pattern.devices
           next unless devices.present?
           @devices.concat devices.includes(:points).where(room_id: params[:room_id])
+          devices.each do |device|
+            @point_values[device.try(:id)] = {}
+            device.points.where(name: point_names).each do |point|
+              @point_values[device.try(:id)][point.try(:name)] = point.try(:value)
+            end
+          end
         end
       end
     end
@@ -69,5 +80,26 @@ class DevicesController < BaseController
     #   json.point_value point.value
     # end
   end
+
+  private
+
+    def get_point_names sub_sys_name
+      # 动力系统 ->  配电系统 -> 配电柜  "A相电压" "B相电压" "C相电压" "电流"
+      # 动力系统 ->  UPS系统 -> UPS1  "A相电压" "B相电压" "C相电压" "电流"
+      # 动力系统 ->  列头柜 -> 列头柜1  "工作正常"
+      # 动力系统 ->  电池检测 -> 电池组1  "总电压" "总电流" "温度1" "温度2"
+      point_names = []
+      case sub_sys_name
+      when "配电系统"
+        point_names = ["A相电压", "B相电压", "C相电压", "电流"]
+      when "UPS系统"
+        point_names = ["A相电压", "B相电压", "C相电压", "电流"]
+      when "列头柜"
+        point_names = ["工作正常"]
+      when "电池检测"
+        point_names = ["总电压", "总电流", "温度1", "温度2"]
+      end
+      point_names
+    end
 
 end
