@@ -16,6 +16,7 @@
 
 class PointHistory < ActiveRecord::Base
   @@lock = Mutex.new
+  @@lock_tables = Mutex.new
 
   belongs_to :point
   belongs_to :device
@@ -82,11 +83,13 @@ class PointHistory < ActiveRecord::Base
 
   def self.find_by_point_id point_id
     point_histories = []
-    ActiveRecord::Base.connection.tables.each do |table|
-      if /point_histories_\d{6}/.match table
-        PointHistory.table_name = table
-        PointHistory.where(point_id: point_id).each do |point_history|
-          point_histories << point_history
+    @@lock.synchronize do
+      ActiveRecord::Base.connection.tables.each do |table|
+        if /point_histories_\d{6}/.match table
+          PointHistory.table_name = table
+          PointHistory.where(point_id: point_id).each do |point_history|
+            point_histories << point_history
+          end
         end
       end
     end
