@@ -34,7 +34,7 @@ class PointHistory < ActiveRecord::Base
     end
     
     Point.all.each do |point|
-      next if point.try(:name).try(:include?, "告警")
+      next if point.try(:name).try(:include?, "告警-")
       
       begin
         PointHistory.proxy(month: month).create(point_name: point.name, point_value: point.value, point: point, device_id: point.try(:device).try(:id))
