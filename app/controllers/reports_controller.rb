@@ -9,9 +9,14 @@ class ReportsController < BaseController
   end
 
   def replace_chart
-    @data = params[:data].to_json
-    @time = params[:time].to_json
+    result = PointHistory.result_by_sorts(params[:start_time], params[:end_time], params[:point_id])
+    @data = result[0].to_json
+    p "xxxxxxxxx"
+    p @data
+    @time = result[1].to_json
+    p @time
     @name = params[:name].to_json
+    p @name
     respond_to do |format|
       format.js {}
     end

@@ -109,7 +109,7 @@ class PointHistory < ActiveRecord::Base
     end
     point_histories
   end
-  
+
   def self.keyword(start_time, end_time, point_id)
 
     point_histories = find_by_point_id(point_id)
@@ -118,7 +118,7 @@ class PointHistory < ActiveRecord::Base
 
     devices = point_histories.select { |phs| (start_time..end_time).cover? phs.created_at }
     devices[0..19]
-    
+
     # find_by_point_id(point_id).each do |p|
     #   created_time = p.created_at.to_datetime
     #   if start_time.to_datetime <= created_time && created_time - 1.day <= end_time.to_datetime
