@@ -5,8 +5,7 @@ json.devices @devices do |device|
   if @point_values.present?
     points = @point_values[device.try(:id)]
     next unless points.present?
-    json.points points do |name, value|
-      logger.info "name is #{name}, value is #{value}"
+    points.each do |name, value|
       json.set! name, value
     end
   end
