@@ -64,7 +64,7 @@ class DevicesController < BaseController
           point_ids = $redis.hget "eagle_key_points_value", device.id
           
           next unless point_ids.present?
-          point_ids.each_with_index do |point_id, index| 
+          point_ids.split("-").each_with_index do |point_id, index| 
             point = Point.find_by(point_id:point_id.to_i)
             @point_values[device.try(:id)][names[index]] = point.try(:value) || 0
           end
