@@ -64,10 +64,52 @@ class Room < ActiveRecord::Base
           device = Device.find_or_create_by(name: name, pattern: pattern, room: room)
           points.each do |name, value|
             p = Point.find_or_create_by(name: name, device: device, point_index: value)
+            check_point sub_name, name, p.id, device.id
           end
         end
       end
     end
+  end
+
+
+  def self.check_point sub_sys_name, point_name, point_id, device_id
+    # 动力系统 ->  配电系统 -> 配电柜  "A相电压" "B相电压" "C相电压" "电流"
+    # 动力系统 ->  UPS系统 -> UPS1  "A相电压" "B相电压" "C相电压" "电流"
+    # 动力系统 ->  列头柜 -> 列头柜1  "工作正常"
+    # 动力系统 ->  电池检测 -> 电池组1  "总电压" "总电流" "温度1" "温度2"
+    case sub_sys_name
+    when "UPS系统", "配电系统"
+      if point_name == "频率"
+        point_name = "输出电压D"
+        result = 0
+      else
+        result = point_name =~ /输出电压([A-Z])/
+      end
+    when "列头柜"
+      result = (point_name == "工作正常")
+    when "电池检测"
+      result = (["总电压", "总电流", "温度1", "温度2"].include? point_name)
+    end
+
+    return unless result
+    puts "point_names is #{point_name}, result is #{result}"
+
+    point_ids = ($redis.hget "eagle_key_points_value", device_id) || [0,0,0,0].join("-")
+    unless point_ids.present?
+      $redis.hset "eagle_key_points_value", device_id, [0,0,0,0].join("-")
+    end
+
+    point_ids = point_ids.split("-")
+    index = get_index point_name, result
+    puts "index is #{index}"
+    return if point_ids[index] == point_id
+    point_ids[index] = point_id
+    $redis.hset "eagle_key_points_value", device_id, point_ids.join("-")
+    nil
+  end
+
+  def self.get_index point_name, index
+    point_name[index+4].ord - "A".ord
   end
 
   def self.datas_to_hash class_name, group_hash
