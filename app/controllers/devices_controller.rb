@@ -71,7 +71,7 @@ class DevicesController < BaseController
         end
       end
     end
-    logger.info "@point_values is #{@point_values.inspect}"
+    logger.info "@point_values is #{@point_values.inspect}, point_ids is #{point_ids}"
     puts "@point_values is #{@point_values.inspect}"
     # points = device.points
     # next unless points.present?
