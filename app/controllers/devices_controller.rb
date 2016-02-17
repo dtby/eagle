@@ -46,7 +46,7 @@ class DevicesController < BaseController
     
     sub_system = SubSystem.find_by(name: params[:sub_sys_name])
     return unless sub_system.present?
-    names = ["A相电压" "B相电压" "C相电压" "电流"]
+    names = ["A相电压" "B相电压" "C相电压" "频率"]
     sub_sys_name = params[:sub_sys_name]
     @point_values = {}
     
@@ -66,7 +66,7 @@ class DevicesController < BaseController
           next unless point_ids.present?
           point_ids.each_with_index do |point_id, index| 
             point = Point.find_by(point_id:point_id)
-            @point_values[device.try(:id)][names[index]] = point.try(:value)
+            @point_values[device.try(:id)][names[index]] = point.try(:value) || 0
           end
         end
       end
