@@ -61,7 +61,7 @@ class DevicesController < BaseController
         @devices.concat devices.includes(:points).where(room_id: params[:room_id])
         devices.each do |device|
           @point_values[device.try(:id)] = {}
-          if sub_sys_name == "环境系统"
+          if sub_sys_name == "温湿度系统"
             points = device.try(:points)
             points.each do |point|
               @point_values[device.try(:id)][point.name] = point.value
