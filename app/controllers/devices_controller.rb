@@ -46,7 +46,7 @@ class DevicesController < BaseController
     
     sub_system = SubSystem.find_by(name: params[:sub_sys_name])
     return unless sub_system.present?
-    names = ["A相电压", "B相电压", "C相电压", "频率"]
+    
     sub_sys_name = params[:sub_sys_name]
     @point_values = {}
     
@@ -61,13 +61,13 @@ class DevicesController < BaseController
         @devices.concat devices.includes(:points).where(room_id: params[:room_id])
         devices.each do |device|
           @point_values[device.try(:id)] = {}
-          point_ids = $redis.hget "eagle_key_points_value", device.id
-          
-          point_ids = point_ids.try(:split, "-")
-
-          0.upto(3) do |index|
-            @point_values[device.try(:id)][names[index]] = 
-              Point.find_by(id: point_ids.try(:[], index).try(:to_i)).try(:value) || "0"
+          if sub_sys_name == "环境系统"
+            points = device.try(:points)
+            points.each do |point|
+              @point_values[device.try(:id)][point.name] = point.value
+            end
+          else
+            
           end
         end
       end
@@ -86,6 +86,19 @@ class DevicesController < BaseController
     #   end
     #   json.point_value point.value
     # end
+  end
+
+  def set_point_values device
+    names = ["A相电压", "B相电压", "C相电压", "频率"]
+    @point_values[device.try(:id)] = {}
+    point_ids = $redis.hget "eagle_key_points_value", device.id
+    
+    point_ids = point_ids.try(:split, "-")
+
+    0.upto(3) do |index|
+      @point_values[device.try(:id)][names[index]] = 
+        Point.find_by(id: point_ids.try(:[], index).try(:to_i)).try(:value) || "0"
+    end
   end
 
   private
