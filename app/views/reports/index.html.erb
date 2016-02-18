@@ -1,4 +1,10 @@
 <div class="row col-sm-12">
+  <div class="row">
+    <div class="col-sm-11">
+      <%= link_to("导出到Excel", room_reports_path(@room, format: 'xls'),
+                      class: "btn btn-default pull-right") %>
+    </div>
+  </div>
   <%= form_tag room_reports_path(@room), method: :get, class: 'form-horizontal', role: "form" do %>
     <div class="form-group col-sm-3">
       <div id="datetimepicker1" class="input-append date">
@@ -31,8 +37,8 @@
           <ul id="pointContent">
             <% device.points.each do |point| %>
               <!-- 搜索报表数据 -->
-              <% default_result = PointHistory.default_result %>
-              <li class="child"><%= link_to point.name, replace_chart_room_reports_path(@room, point_id: point.id, name:point.name), remote: true, title: point.name, 'data-default-history': default_result[0].to_json, 'data-default-time': default_result[1].to_json %></li>
+              <% default_result = PointHistory.default_result_hash %>
+              <li class="child"><%= link_to point.name, replace_chart_room_reports_path(@room, point_id: point.id, name:point.name), remote: true, title: point.name, 'data-default-history': default_result.keys.to_json, 'data-default-time': default_result.values.to_json %></li>
             <% end %>
           </ul>
         <% end %>

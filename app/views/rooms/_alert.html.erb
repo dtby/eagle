@@ -7,7 +7,7 @@
   <!-- 时间查询 -->
   <div class="row">
     <div class="col-sm-12 col-xs-12">
-      <%= form_tag alert_room_path(@room), method: :get, class: 'form-horizontal', role: "form" do %>
+      <%= form_tag path, method: :get, class: 'form-horizontal', role: "form" do %>
         <div class="form-group col-sm-3">
           <div id="datetimepicker1" class="input-append date">
              <%= text_field_tag :start_time, params[:start_time], 'data-format': "dd/MM/yyyy hh:mm:ss", placeholder: "开始时间", required: true%>

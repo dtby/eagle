@@ -80,3 +80,6 @@ gem "will_paginate-bootstrap"
 # for redis
 gem 'redis'
 gem 'redis-namespace'
+
+# 导出为xls或csv
+gem "spreadsheet_on_rails"
