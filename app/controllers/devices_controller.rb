@@ -67,7 +67,7 @@ class DevicesController < BaseController
               @point_values[device.try(:id)][point.name] = point.value
             end
           else
-            
+            set_point_values device
           end
         end
       end
