@@ -62,11 +62,12 @@ class DevicesController < BaseController
         devices.each do |device|
           @point_values[device.try(:id)] = {}
           point_ids = $redis.hget "eagle_key_points_value", device.id
-          logger.info "point_ids is #{point_ids}"
-          next unless point_ids.present?
-          point_ids.split("-").each_with_index do |point_id, index| 
-            point = Point.find_by(id:point_id.to_i)
-            @point_values[device.try(:id)][names[index]] = point.try(:value) || "0"
+          
+          point_ids = point_ids.try(:split, "-")
+
+          0.upto(3) do |index|
+            @point_values[device.try(:id)][names[index]] = 
+              Point.find_by(id: point_ids.try(:[], index).try(:to_i)).try(:value) || "0"
           end
         end
       end
