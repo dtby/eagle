@@ -137,6 +137,15 @@ class PointHistory < ActiveRecord::Base
     default_array = [dds, dts]
   end
 
+  #默认数据
+  def self.default_result_hash
+    hash = {}
+    PointHistory.limit(20).each do |p|
+      hash[p.point_value] = p.created_at.strftime("%Y-%m-%d %H:%M:%S")
+    end
+    hash
+  end
+
   #检索数据
   def self.result_by_sorts start_time, end_time, point_id
     result_array = []

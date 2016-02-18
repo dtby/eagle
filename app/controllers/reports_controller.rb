@@ -4,21 +4,48 @@ class ReportsController < BaseController
     @devices = @room.devices
     end_time = DateTime.now.strftime("%Q").to_i
     logger.info "ReportsController time is #{end_time-start_time}"
-    #logger.info "@device is #{@device.inspect}"
+    logger.info "@device is #{@device.inspect}"
     #@point_histories = PointHistory.get_point_histories(params[:start_time])
+    
+    respond_to do |format|
+      format.html
+      format.xls{
+        send_data( xls_content_for(PointHistory.limit(20)),
+          :type => "text/excel;charset=utf-8; header=present",
+          :filename => "报表(#{Time.now.strftime("%F %H%M%S")}).xls" )
+      }
+    end
   end
 
   def replace_chart
     result = PointHistory.result_by_sorts(params[:start_time], params[:end_time], params[:point_id])
     @data = result[0].to_json
-    p "xxxxxxxxx"
-    p @data
     @time = result[1].to_json
-    p @time
     @name = params[:name].to_json
-    p @name
     respond_to do |format|
       format.js {}
     end
+  end
+
+  private
+  # 导出为xls
+  def xls_content_for(objs)
+    xls_report = StringIO.new
+    book = Spreadsheet::Workbook.new
+    sheet1 = book.create_worksheet :name => "报表"
+
+    gray = Spreadsheet::Format.new :color => :gray, :weight => :bold, :size => 10
+    sheet1.row(0).default_format = gray
+
+    sheet1.row(0).concat %w{序号 日期 时间 值}
+    count_row = 1
+      objs.each do |obj|
+      sheet1[count_row, 0] = count_row
+      sheet1[count_row, 1] = obj.created_at.strftime("%Y-%m-%d")
+      sheet1[count_row, 2] = obj.created_at.strftime("%H:%M:%S")
+    end
+
+    book.write xls_report
+    xls_report.string
   end
 end

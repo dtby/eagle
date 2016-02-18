@@ -1,3 +1,3 @@
 <div class="row">
-  <%= render "alert"  %>
+  <%= render partial: "alert", locals: { path: checked_alert_room_path(@room) }%>
 </div>
