@@ -32,7 +32,7 @@ class ReportsController < BaseController
       format.xls{
         send_data( xls_content_for(point_histories),
           :type => "text/excel;charset=utf-8; header=present",
-          :filename => "报表(#{Time.now.strftime("%F %H%M%S")}).xls" )
+          :filename => "#{params[:name]}报表(#{Time.now.strftime("%F %H%M%S")}).xls" )
       }
     end
   end
