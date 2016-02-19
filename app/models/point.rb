@@ -80,7 +80,7 @@ class Point < ActiveRecord::Base
           is_checked: (state == 0), updated_at: update_time, alarm_type: 1, 
           room_id: point.try(:device).try(:room).try(:id), 
           device_id: point.try(:device).try(:id), 
-          sub_system_id: point.try(:device).try(:sub_system).try(:id))
+          sub_system_id: point.try(:device).try(:pattern).try(:sub_system).try(:id))
       end
     end
 
@@ -101,7 +101,7 @@ class Point < ActiveRecord::Base
           is_checked: (state == 0), updated_at: update_time, alarm_type: 0,
           room_id: point.try(:device).try(:room).try(:id), 
           device_id: point.try(:device).try(:id), 
-          sub_system_id: point.try(:device).try(:sub_system).try(:id))
+          sub_system_id: point.try(:device).try(:pattern).try(:sub_system).try(:id))
       end
     end
     nil
