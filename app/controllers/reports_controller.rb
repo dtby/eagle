@@ -6,11 +6,11 @@ class ReportsController < BaseController
     logger.info "ReportsController time is #{end_time-start_time}"
     logger.info "@device is #{@device.inspect}"
     #@point_histories = PointHistory.get_point_histories(params[:start_time])
-    
+
     respond_to do |format|
       format.html
       format.xls{
-        send_data( xls_content_for(PointHistory.limit(20)),
+        send_data( xls_content_for(PointHistory.default_result_hash),
           :type => "text/excel;charset=utf-8; header=present",
           :filename => "报表(#{Time.now.strftime("%F %H%M%S")}).xls" )
       }
@@ -22,8 +22,20 @@ class ReportsController < BaseController
     @data = result[0].to_json
     @time = result[1].to_json
     @name = params[:name].to_json
+
+    point_histories = PointHistory.where({id: result[2]})
+
+    p "zzzzzzzzz"
+    p point_histories
+
     respond_to do |format|
       format.js {}
+      format.html
+      format.xls{
+        send_data( xls_content_for(point_histories),
+          :type => "text/excel;charset=utf-8; header=present",
+          :filename => "报表(#{Time.now.strftime("%F %H%M%S")}).xls" )
+      }
     end
   end
 
@@ -37,12 +49,12 @@ class ReportsController < BaseController
     gray = Spreadsheet::Format.new :color => :gray, :weight => :bold, :size => 10
     sheet1.row(0).default_format = gray
 
-    sheet1.row(0).concat %w{序号 日期 时间 值}
+    sheet1.row(0).concat %w{时间 值}
     count_row = 1
-      objs.each do |obj|
-      sheet1[count_row, 0] = count_row
-      sheet1[count_row, 1] = obj.created_at.strftime("%Y-%m-%d")
-      sheet1[count_row, 2] = obj.created_at.strftime("%H:%M:%S")
+    objs.each do |obj|
+      sheet1[count_row, 0] = obj.created_at.strftime("%Y-%m-%d %H:%M:%S")
+      sheet1[count_row, 1] = obj.point_value
+      count_row += 1
     end
 
     book.write xls_report

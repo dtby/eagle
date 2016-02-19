@@ -129,6 +129,7 @@ class PointHistory < ActiveRecord::Base
   end
 
   #默认数据
+  #返回[[值1, 值2, 值3],[时间1, 时间2, 时间3]]
   def self.default_result
     default_array = []
     dhs = PointHistory.limit(20)
@@ -138,34 +139,53 @@ class PointHistory < ActiveRecord::Base
   end
 
   #默认数据
+  #返回{key1 => value1, key2 => value2}
   def self.default_result_hash
-    hash = {}
-    PointHistory.limit(20).each do |p|
-      hash[p.point_value] = p.created_at.strftime("%Y-%m-%d %H:%M:%S")
-    end
-    hash
+    result = PointHistory.limit(20)
+    result
   end
 
   #检索数据
+  def self.result_by_hash start_time, end_time, point_id
+    phs = PointHistory.keyword(start_time, end_time, point_id)
+    if phs.length <= 20
+      point_histories = PointHistory.where({id: phs.collect{|x| x.id.to_i}})
+    elsif 20 < phs.length <= 100
+      point_histories = PointHistory.where({id: phs.collect{|x| x.id.to_i%4 == 0}})
+    elsif 100 < phs.length <= 1000
+      point_histories = PointHistory.where({id: phs.collect{|x| x.id.to_i%50 == 0}})
+    elsif 1000 < phs.length <= 10000
+      point_histories = PointHistory.where({id: phs.collect{|x| x.id.to_i%500 == 0}})
+    elsif 10000 < phs.length <= 100000
+      point_histories = PointHistory.where({id: phs.collect{|x| x.id.to_i%5000 == 0}})
+    end
+    point_histories
+  end
+
   def self.result_by_sorts start_time, end_time, point_id
     result_array = []
     phs = PointHistory.keyword(start_time, end_time, point_id)
     if phs.length <= 20
       pds = PointHistory.where({id: phs.collect{|x| x.id.to_i}}).collect{|x| x.point_value.to_i}
-      pts = PointHistory.where({id: phs.collect{|x| x.id.to_i}}).collect{|x| x.updated_at.strftime("%Y-%m-%d")}
+      pts = PointHistory.where({id: phs.collect{|x| x.id.to_i}}).collect{|x| x.created_at.strftime("%Y-%m-%d")}
+      ids = PointHistory.where({id: phs.collect{|x| x.id.to_i}}).collect{|x| x.id}
     elsif 20 < phs.length <= 100
       pds = PointHistory.where({id: phs.collect{|x| x.id.to_i%4 == 0}}).collect{|x| x.point_value.to_i}
-      pts = PointHistory.where({id: phs.collect{|x| x.id.to_i%4 == 0}}).collect{|x| x.updated_at.strftime("%Y-%m-%d")}
+      pts = PointHistory.where({id: phs.collect{|x| x.id.to_i%4 == 0}}).collect{|x| x.created_at.strftime("%Y-%m-%d")}
+      ids = PointHistory.where({id: phs.collect{|x| x.id.to_i}}).collect{|x| x.id}
     elsif 100 < phs.length <= 1000
       pds = PointHistory.where({id: phs.collect{|x| x.id.to_i%50 == 0}}).collect{|x| x.point_value.to_i}
-      pts = PointHistory.where({id: phs.collect{|x| x.id.to_i%50 == 0}}).collect{|x| x.updated_at.strftime("%Y-%m-%d")}
+      pts = PointHistory.where({id: phs.collect{|x| x.id.to_i%50 == 0}}).collect{|x| x.created_at.strftime("%Y-%m-%d")}
+      ids = PointHistory.where({id: phs.collect{|x| x.id.to_i}}).collect{|x| x.id}
      elsif 1000 < phs.length <= 10000
       pds = PointHistory.where({id: phs.collect{|x| x.id.to_i%500 == 0}}).collect{|x| x.point_value.to_i}
-      pts = PointHistory.where({id: phs.collect{|x| x.id.to_i%500 == 0}}).collect{|x| x.updated_at.strftime("%Y-%m-%d")}
+      pts = PointHistory.where({id: phs.collect{|x| x.id.to_i%500 == 0}}).collect{|x| x.created_at.strftime("%Y-%m-%d")}
+      ids = PointHistory.where({id: phs.collect{|x| x.id.to_i}}).collect{|x| x.id}
     elsif 10000 < phs.length <= 100000
       pds = PointHistory.where({id: phs.collect{|x| x.id.to_i%5000 == 0}}).collect{|x| x.point_value.to_i}
-      pds = PointHistory.where({id: phs.collect{|x| x.id.to_i%5000 == 0}}).collect{|x| x.updated_at.strftime("%Y-%m-%d")}
+      pds = PointHistory.where({id: phs.collect{|x| x.id.to_i%5000 == 0}}).collect{|x| x.created_at.strftime("%Y-%m-%d")}
+      ids = PointHistory.where({id: phs.collect{|x| x.id.to_i}}).collect{|x| x.id}
     end
-    result_array = [pds, pts]
+    result_array = [pds, pts, ids]
   end
 end
