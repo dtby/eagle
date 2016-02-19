@@ -1,4 +1,4 @@
 $("#chartsContent").empty();
 $("#chartsContent").html("<%= escape_javascript(render partial: 'charts', locals: {data: @data, time: @time, name: @name}) %>");
 $("#importBtn").empty();
-$("#importBtn").html("<%= escape_javascript(render partial: 'import', locals: {path: replace_chart_room_reports_path(@room, format: 'xls', remote:true)}) %>")
+$("#importBtn").html("<%= escape_javascript(render partial: 'import', locals: {path: replace_chart_room_reports_path(@room, format: 'xls', point_id: @point_id)}) %>")

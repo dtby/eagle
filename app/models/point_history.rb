@@ -139,13 +139,13 @@ class PointHistory < ActiveRecord::Base
   end
 
   #默认数据
-  #返回{key1 => value1, key2 => value2}
+  #默认返回PointHistory的20个对象
   def self.default_result_hash
     result = PointHistory.limit(20)
     result
   end
 
-  #检索数据
+  #检索数据,返回PointHistory对象集合
   def self.result_by_hash start_time, end_time, point_id
     phs = PointHistory.keyword(start_time, end_time, point_id)
     if phs.length <= 20
@@ -162,6 +162,7 @@ class PointHistory < ActiveRecord::Base
     point_histories
   end
 
+  #ids目的是为导出时查询PointHistory集合提供id数组
   def self.result_by_sorts start_time, end_time, point_id
     result_array = []
     phs = PointHistory.keyword(start_time, end_time, point_id)
