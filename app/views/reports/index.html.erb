@@ -91,15 +91,6 @@
     }
   );
 </script>
-
-<script type="text/javascript">
-  $(function(){
-    $("#deviceContent li").click(function(){
-      $(this).next("ul").slideToggle();
-      $(this).siblings("li").next("ul").hide();
-    });
-  })
-</script>
 <!--
 <script type="text/javascript">
     // 使用
@@ -145,6 +136,10 @@
 -->
 <script type="text/javascript">
   $(function() {
+    $("#deviceContent li.parent").click(function(){
+      $(this).next("ul").slideToggle();
+      $(this).siblings("li.parent").next("ul").hide();
+    });
     $('#datetimepicker1, #datetimepicker2').datetimepicker({
        collapse: false
     });
