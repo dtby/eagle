@@ -52,7 +52,7 @@ class Room < ActiveRecord::Base
       room = Room.find_or_create_by(name: room)
       system_hash.each do |sub_name, patterns|
         sub_name, pattern_name = sub_name.split("-")
-        puts "sub_name is #{sub_name}, pattern_name is #{pattern_name}"
+        # puts "sub_name is #{sub_name}, pattern_name is #{pattern_name}"
         sub_name.delete! "普通" if sub_name.present? && (sub_name.include? "普通")
         pattern_name = "普通温湿度" if pattern_name == "th802"
 
@@ -61,7 +61,7 @@ class Room < ActiveRecord::Base
         sub_system = SubSystem.find_or_create_by(name: sub_name)
         patterns.each do | name, points|
           pattern = Pattern.find_or_create_by(sub_system_id: sub_system.id, name: pattern_name.try(:strip))
-          name = "温湿度" if name.include? "温湿度"
+          name = "温湿度" if name.try(:include?, "温湿度")
           device = Device.find_or_create_by(name: name, pattern: pattern, room: room)
           points.each do |name, value|
             p = Point.find_or_create_by(name: name, device: device, point_index: value)
@@ -93,7 +93,7 @@ class Room < ActiveRecord::Base
     end
 
     return unless result
-    puts "point_names is #{point_name}, result is #{result}"
+    # puts "point_names is #{point_name}, result is #{result}"
 
     point_ids = ($redis.hget "eagle_key_points_value", device_id) || [0,0,0,0].join("-")
     unless point_ids.present?
@@ -130,11 +130,12 @@ class Room < ActiveRecord::Base
         point_name += line
 
         device_name = bay_info.second[0] + "机柜"  # C机柜
+        puts "device_name is #{device_name}, point_name is #{point_name}" if device_name == "C机柜"
       end
 
       group_hash[bay_info.first] = {} unless group_hash[bay_info.first].present?
       group_hash[bay_info.first][ap.GroupName] = {} unless group_hash[bay_info.first][ap.GroupName].present?
-      puts "bay_info is #{bay_info}"
+      # puts "bay_info is #{bay_info}"
       
       point_hash = {}
       group_hash[bay_info.first][ap.GroupName][device_name] = {} unless group_hash[bay_info.first][ap.GroupName][device_name].present?
