@@ -2,7 +2,7 @@ json.extract! @device, :id, :name
 
 if @points.present?
   @points.each do |point|
-    if point.name.include? "-"
+    if !(device.include? "机柜") && point.name.include? "-"
       name = point.name.split("-").last
     else
       name = point.name
