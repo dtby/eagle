@@ -38,7 +38,7 @@ class DevicesController < BaseController
       @exclude_points = @device.pattern.getting_exclude_points
     else
       @device = Device.find_by(id: params[:id])
-      @points = @device.try(:points)
+      @points = @device.try(:points).try(:order, 'name')
     end
   end
 
