@@ -24,7 +24,8 @@ class Room < ActiveRecord::Base
   has_many :devices, dependent: :destroy
   has_many :point_alarms, dependent: :destroy
 
-  # Room.get_computer_room_list
+  # 
+
   def self.get_computer_room_list
     start_time = DateTime.now.strftime("%Q").to_i
     # 名字-> [{系统 -> 设备}, ... {系统 -> 设备}]
@@ -86,23 +87,39 @@ class Room < ActiveRecord::Base
       else
         result = point_name =~ /输出电压([A-Z])/
       end
+
+      return if result.nil?
+      point_ids = ($redis.hget "eagle_key_points_value", device_id) || [0,0,0,0].join("-")
+      unless point_ids.present?
+        $redis.hset "eagle_key_points_value", device_id, [0,0,0,0].join("-")
+      end
+      index = get_index point_name, result
+
     when "列头柜"
-      result = (point_name == "工作正常")
+      # result = (point_name == "工作正常")
+      # return if result.nil?
     when "电池检测"
-      result = (["总电压", "总电流", "温度1", "温度2"].include? point_name)
+      # result = (["总电压", "总电流", "温度1", "温度2"].include? point_name)
+      # return if result.nil?
+    when "空调系统"
+      point_ids = ($redis.hget "eagle_key_points_value", device_id)
+      unless point_ids.present?
+        point_ids = [0,0].join("-")
+        $redis.hset "eagle_key_points_value", device_id, point_ids
+      end
+
+      if point_name.include? "温度测量值"
+        index = 0
+      elsif point_name.include? "湿度测量值"
+        index = 1
+      else
+        return
+      end
+    else
+      return
     end
-
-    return unless result
-    # puts "point_names is #{point_name}, result is #{result}"
-
-    point_ids = ($redis.hget "eagle_key_points_value", device_id) || [0,0,0,0].join("-")
-    unless point_ids.present?
-      $redis.hset "eagle_key_points_value", device_id, [0,0,0,0].join("-")
-    end
-
+ 
     point_ids = point_ids.split("-")
-    index = get_index point_name, result
-    puts "index is #{index}"
     return if point_ids[index] == point_id
     point_ids[index] = point_id
     $redis.hset "eagle_key_points_value", device_id, point_ids.join("-")
@@ -130,7 +147,6 @@ class Room < ActiveRecord::Base
         point_name += line
 
         device_name = bay_info.second[0] + "机柜"  # C机柜
-        puts "device_name is #{device_name}, point_name is #{point_name}" if device_name == "C机柜"
       end
 
       group_hash[bay_info.first] = {} unless group_hash[bay_info.first].present?

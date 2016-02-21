@@ -61,13 +61,16 @@ class DevicesController < BaseController
         @devices.concat devices.includes(:points).where(room_id: params[:room_id])
         devices.each do |device|
           @point_values[device.try(:id)] = {}
-          if sub_sys_name == "温湿度系统"
+          case sub_sys_name
+          when "温湿度系统"
             points = device.try(:points)
             points.each do |point|
               @point_values[device.try(:id)][point.name] = point.value
             end
+          when "空调系统"
+            con_point_values device
           else
-            set_point_values device
+            ele_point_values device
           end
         end
       end
@@ -88,18 +91,32 @@ class DevicesController < BaseController
     # end
   end
 
-  def set_point_values device
-    names = ["A相电压", "B相电压", "C相电压", "频率"]
-    @point_values[device.try(:id)] = {}
+  # for 电
+  def ele_point_values device
     point_ids = $redis.hget "eagle_key_points_value", device.id
-    
     point_ids = point_ids.try(:split, "-")
+    @point_values[device.try(:id)] = {}
+    names = ["A相电压", "B相电压", "C相电压", "频率"]
 
     0.upto(3) do |index|
       @point_values[device.try(:id)][names[index]] = 
         Point.find_by(id: point_ids.try(:[], index).try(:to_i)).try(:value) || "0"
     end
   end
+
+  # for 空调系统
+  def con_point_values device
+    point_ids = $redis.hget "eagle_key_points_value", device.id
+    point_ids = point_ids.try(:split, "-")
+    @point_values[device.try(:id)] = {}
+    names = ["温度", "湿度"]
+
+    0.upto(1) do |index|
+      @point_values[device.try(:id)][names[index]] = 
+        Point.find_by(id: point_ids.try(:[], index).try(:to_i)).try(:value) || "0"
+    end
+  end
+
 
   private
 
