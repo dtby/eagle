@@ -30,13 +30,8 @@
     <div class="col-sm-3">
       <ul id="deviceContent" style="max-height: 540px;overflow: auto;">
         <% @devices.each do |device| %>
-          <li class="parent"><%= link_to "+ " + device.name.to_s, "javascript:void(0);" %></li>
+          <li class="parent"><%= link_to "+ " + device.name.to_s, get_points_room_reports_path(@room, device_id: device.id), remote: true %></li>
           <ul id="pointContent">
-            <% device.points.each do |point| %>
-              <!-- 搜索报表数据 -->
-              <% default_result = PointHistory.default_result %>
-              <li class="child"><%= link_to point.name, replace_chart_room_reports_path(@room, point_id: point.id, name:point.name), remote: true, title: point.name, 'data-default-history': default_result[0].to_json, 'data-default-time': default_result[1].to_json %></li>
-            <% end %>
           </ul>
         <% end %>
       </ul>
@@ -142,15 +137,15 @@
 <script type="text/javascript">
   $(function() {
     $("li.child a").each(function(){
-      var _this = $(this)
+      var _this = $(this);
       _this.click(function(){
         $(this).addClass("redxx");
         $(this).parent().siblings().find("a").removeClass("redxx");
       })
     })
-    $("#deviceContent li.parent").click(function(){
-      $(this).next("ul").slideToggle();
-      $(this).siblings("li.parent").next("ul").hide();
+    $("#deviceContent li.parent a").click(function(){
+      $(this).parent().next("ul").slideToggle();
+      $(this).parent().siblings("li.parent").next("ul").hide();
     });
     $('#datetimepicker1, #datetimepicker2').datetimepicker({
        collapse: false

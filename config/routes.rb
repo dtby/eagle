@@ -67,6 +67,7 @@ Rails.application.routes.draw do
     resources :reports, only: [:index] do
       collection do
         get :replace_chart
+        get :get_points
       end
     end
 

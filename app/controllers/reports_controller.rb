@@ -37,6 +37,13 @@ class ReportsController < BaseController
     end
   end
 
+  def get_points
+    @device = Device.find(params[:device_id])
+    respond_to do |format|
+      format.js {}
+    end
+  end
+
   private
   # 导出为xls
   def xls_content_for(objs)
