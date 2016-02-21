@@ -70,7 +70,11 @@ class PointAlarmsController < BaseController
       sub_system_ids = point_alarms.pluck(:sub_system_id)
 
       return unless sub_system_ids.present?
-      sub_system_names = SubSystem.where(id: sub_system_ids.uniq).map(&:name)
+      ids = sub_system_ids.uniq
+      sub_system_names = []
+      ids.each do |id|
+        sub_system_names << SubSystem.find(id).try(:name)
+      end
       ids = sub_system_ids.uniq.collect { |ssi| sub_system_ids.count(ssi) }
 
       @results = Hash[sub_system_names.zip(ids)]
@@ -80,7 +84,11 @@ class PointAlarmsController < BaseController
       device_ids = point_alarms.pluck(:device_id)
       
       return unless device_ids.present?
-      device_names = Device.where(id: device_ids.uniq).map(&:name)
+      ids = device_ids.uniq
+      device_names = []
+      ids.each do |id|
+        device_names << Device.find(id).try(:name)
+      end
       ids = device_ids.uniq.collect { |di| device_ids.count(di) }
       
       @results = Hash[device_names.zip(ids)]
