@@ -37,6 +37,7 @@ class PointAlarm < ActiveRecord::Base
   belongs_to :sub_system
 
   after_update :update_alarm_history, if: "self.is_checked_changed?"
+  after_update :update_is_checked, if: "self.state_changed?"
   after_create :generate_alarm_history
 
   default_scope { where.not(state: nil) }
@@ -97,6 +98,11 @@ class PointAlarm < ActiveRecord::Base
       alarm_history.check_state = self.state
       alarm_history.checked_time = DateTime.now if self.is_checked
       alarm_history.save
+    end
+
+    def update_is_checked
+      return if self.state == 1
+      self.update(is_checked: true)
     end
 
     def generate_alarm_history
