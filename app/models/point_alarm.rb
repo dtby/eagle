@@ -56,7 +56,7 @@ class PointAlarm < ActiveRecord::Base
     PointAlarm.find_by(point_id: point.id)
   end
 
-  scope :checked, -> {where(is_checked: true)}
+  scope :checked, -> {where("point_alarms.is_checked = true OR point_alarms.state= 0")}
   scope :unchecked, -> {where(is_checked: false)}
   scope :is_warning_alarm, -> {where(state: 1)}
   scope :order_desc, -> {order("created_at DESC")}
