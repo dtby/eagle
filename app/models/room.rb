@@ -24,8 +24,7 @@ class Room < ActiveRecord::Base
   has_many :devices, dependent: :destroy
   has_many :point_alarms, dependent: :destroy
 
-  # 
-
+  # Room.get_computer_room_list
   def self.get_computer_room_list
     start_time = DateTime.now.strftime("%Q").to_i
     # 名字-> [{系统 -> 设备}, ... {系统 -> 设备}]
@@ -93,7 +92,7 @@ class Room < ActiveRecord::Base
       unless point_ids.present?
         $redis.hset "eagle_key_points_value", device_id, [0,0,0,0].join("-")
       end
-      index = get_index point_name, result
+      index = get_index point_name, result, 4
 
     when "列头柜"
       # result = (point_name == "工作正常")
@@ -115,6 +114,21 @@ class Room < ActiveRecord::Base
       else
         return
       end
+    when "电量仪系统"
+      if point_name == "系统-频率"
+        point_name = "D相电压"
+        result = 0
+      else
+        result = point_name =~ /([A-Z])相电压/
+      end
+
+      return if result.nil?
+      
+      point_ids = ($redis.hget "eagle_key_points_value", device_id) || [0,0,0,0].join("-")
+      unless point_ids.present?
+        $redis.hset "eagle_key_points_value", device_id, [0,0,0,0].join("-")
+      end
+      index = get_index point_name, result
     else
       return
     end
@@ -126,8 +140,8 @@ class Room < ActiveRecord::Base
     nil
   end
 
-  def self.get_index point_name, index
-    point_name[index+4].ord - "A".ord
+  def self.get_index point_name, index, offset = 0
+    point_name[index+offset].ord - "A".ord
   end
 
   def self.datas_to_hash class_name, group_hash
