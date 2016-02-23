@@ -149,7 +149,7 @@ class PointHistory < ActiveRecord::Base
 
   #检索数据,返回PointHistory对象集合
   def self.result_by_hash start_time, end_time, point_id
-    month = end_time.to_datetime.strftime("%Y%m") if end_time.present?
+    month = end_time.present? ? end_time.to_datetime.strftime("%Y%m") : DateTime.now.strftime("%Y%m")
     phs = PointHistory.proxy(month: month).keyword(start_time, end_time, point_id)
     if phs.length <= 20
       point_histories = PointHistory.where({id: phs.collect{|x| x.id.to_i}})
@@ -168,7 +168,7 @@ class PointHistory < ActiveRecord::Base
   #ids目的是为导出时查询PointHistory集合提供id数组
   def self.result_by_sorts start_time, end_time, point_id
     result_array = []
-    month = end_time.to_datetime.strftime("%Y%m") if end_time.present?
+    month = end_time.present? ? end_time.to_datetime.strftime("%Y%m") : DateTime.now.strftime("%Y%m")
     phs = PointHistory.proxy(month: month).keyword(start_time, end_time, point_id)
     if phs.length <= 20
       pds = PointHistory.where({id: phs.collect{|x| x.id.to_i}}).collect{|x| x.point_value.to_i}
