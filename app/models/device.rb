@@ -59,7 +59,8 @@ class Device < ActiveRecord::Base
     b_alarm = false
     points = self.try(:points)
     points.each do |point|
-      b_alarm = point.point_alarm.present?
+      pa = point.point_alarm
+      b_alarm = (pa.present?) && (pa.state == 1) && (!pa.is_checked)
       break if b_alarm
     end
     b_alarm
