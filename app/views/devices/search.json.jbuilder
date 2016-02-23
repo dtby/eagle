@@ -2,6 +2,8 @@ json.devices @devices do |device|
   json.id device.try(:id)
   json.name device.try(:name)
 
+  json.alarm @device_alarm[device.try(:id)] unless @device_alarm[device.try(:id)].nil?
+
   if @point_values.present?
     points = @point_values[device.try(:id)]
     next unless points.present?
@@ -9,8 +11,5 @@ json.devices @devices do |device|
       json.set! name, value
     end
   end
-
-  if @device_alarm.present?
-    json.alarm @device_alarm[device.try(:id)]
-  end
+  
 end

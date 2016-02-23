@@ -44,7 +44,7 @@ class DevicesController < BaseController
 
   def search
     @point_values = {}
-    @device_alarm = []
+    @device_alarm = {}
     if params[:sub_sys_name] == "烟感"
       @devices = Device.where(room_id: params[:room_id], name: "烟感")
       return
@@ -72,8 +72,8 @@ class DevicesController < BaseController
           when "空调系统"
             name = device.try(:name)
             if name.present? && ((name.include? "冷水机组") || (name.include? "室外机"))
-              @device_alarm = []
               @device_alarm[device.try(:id)] = device.is_alarm?
+              puts "#{device.id}, #{device.is_alarm?}"
             else
               ele_point_values device
             end
@@ -86,8 +86,7 @@ class DevicesController < BaseController
         end
       end
     end
-    logger.info "@point_values is #{@point_values.inspect}"
-    puts "@point_values is #{@point_values.inspect}"
+    puts "@device_alarm is #{@device_alarm}"
   end
 
 
