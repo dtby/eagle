@@ -46,13 +46,6 @@ class DevicesController < BaseController
     @point_values = {}
     if params[:sub_sys_name] == "烟感"
       @devices = Device.where(room_id: params[:room_id], name: "烟感")
-      @devices.each do |device|
-        @point_values[device.try(:id)] = {}
-        points = device.try(:points)
-        points.each do |point|
-          @point_values[device.try(:id)][point.name] = (point.value || "0")
-        end
-      end
       return
     end
 
