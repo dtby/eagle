@@ -24,7 +24,7 @@ class ReportsController < BaseController
     @name = params[:name].to_json
     @point_id = params[:point_id]
 
-    point_histories = PointHistory.where({id: result[2]})
+    point_histories = PointHistory.where({id: result[2], point_id: params[:point_id]})
 
     respond_to do |format|
       format.js {}
