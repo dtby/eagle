@@ -44,6 +44,7 @@ class DevicesController < BaseController
 
   def search
     @point_values = {}
+    @device_alarm = []
     if params[:sub_sys_name] == "烟感"
       @devices = Device.where(room_id: params[:room_id], name: "烟感")
       return
@@ -70,8 +71,16 @@ class DevicesController < BaseController
             end
           when "空调系统"
             con_point_values device
+          when "配电系统"
+            @device_alarm[device.try(:id)] = device.is_alarm?
           else
-            ele_point_values device
+            name = device.try(:name)
+            if name.present? && ((name.include? n2) || (name.include? n1))
+              @device_alarm = []
+              @device_alarm[device.try(:id)] = device.is_alarm?
+            else
+              ele_point_values device
+            end
           end
         end
       end
@@ -79,6 +88,8 @@ class DevicesController < BaseController
     logger.info "@point_values is #{@point_values.inspect}"
     puts "@point_values is #{@point_values.inspect}"
   end
+
+
 
   # for 电
   def ele_point_values device
@@ -97,6 +108,7 @@ class DevicesController < BaseController
   def con_point_values device
     point_ids = $redis.hget "eagle_key_points_value", device.id
     point_ids = point_ids.try(:split, "-")
+
     @point_values[device.try(:id)] = {}
     names = ["温度", "湿度"]
 

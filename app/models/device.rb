@@ -54,4 +54,14 @@ class Device < ActiveRecord::Base
 
     view_points
   end
+
+  def is_alarm?
+    b_alarm = false
+    points = self.try(:points)
+    points.each do |point|
+      b_alarm = point.point_alarm.present?
+      break if b_alarm
+    end
+    b_alarm
+  end
 end
