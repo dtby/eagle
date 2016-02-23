@@ -43,7 +43,18 @@ class DevicesController < BaseController
   end
 
   def search
-    
+    if params[:sub_sys_name] == "烟感"
+      @devices = Device.where(room_id: params[:room_id], name: "烟感")
+      devices.each do |device|
+        @point_values[device.try(:id)] = {}
+        points = device.try(:points)
+        points.each do |point|
+          @point_values[device.try(:id)][point.name] = (point.value || "0")
+        end
+      end
+      return
+    end
+
     sub_system = SubSystem.find_by(name: params[:sub_sys_name])
     return unless sub_system.present?
     
@@ -77,18 +88,6 @@ class DevicesController < BaseController
     end
     logger.info "@point_values is #{@point_values.inspect}"
     puts "@point_values is #{@point_values.inspect}"
-    # points = device.points
-    # next unless points.present?
-
-    # json.points points.each do |point|
-    #   json.point_id point.id
-    #   if point.name.include? "-"
-    #     json.point_name point.name.split("-").last
-    #   else
-    #     json.point_name point.name
-    #   end
-    #   json.point_value point.value
-    # end
   end
 
   # for 电
