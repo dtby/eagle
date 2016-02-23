@@ -34,9 +34,9 @@ class Device < ActiveRecord::Base
     view_points = {}
 
     # 所有point的value
-    ps = PointState.where(pid: points.pluck(:point_index)).pluck(:pid, :value)
-    ps_values = {}
-    ps.collect{ |s| ps_values[s[0]] = s[1]}
+    # ps = PointState.where(pid: points.pluck(:point_index)).pluck(:pid, :value)
+    # ps_values = {}
+    # ps.collect{ |s| ps_values[s[0]] = s[1]}
 
     # 循环分组封装呆显示数据
     all_points = points.select("name, point_index").order("name asc")
@@ -45,10 +45,10 @@ class Device < ActiveRecord::Base
         group = point.name.split('-', 2).try(:first).try(:strip)
         if group.present?
           pn = point.name.split('-', 2).try(:last).try(:strip)
-          view_points[group].blank? ? view_points[group] = {pn => ps_values[point.point_index.try(:to_i)] } : view_points[group].merge!({pn => ps_values[point.point_index.try(:to_i)] })
+          view_points[group].blank? ? view_points[group] = { pn => point.value } : view_points[group].merge!({pn => point.value })
         end
       else
-        view_points["其他"].blank? ? view_points["其他"] = {point.name => ps_values[point.point_index.try(:to_i)] } : view_points["其他"].merge!({point.name => ps_values[point.point_index.try(:to_i)] })
+        view_points["其他"].blank? ? view_points["其他"] = {point.name => point.value } : view_points["其他"].merge!({point.name => point.value })
       end
     end 
 
@@ -61,7 +61,7 @@ class Device < ActiveRecord::Base
     points.each do |point|
       pa = point.point_alarm
       b_alarm = (pa.present?) && (pa.state == 1) && (!pa.is_checked)
-      break if b_alarm
+m
     end
     b_alarm
   end
