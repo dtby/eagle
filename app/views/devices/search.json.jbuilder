@@ -9,4 +9,8 @@ json.devices @devices do |device|
       json.set! name, value
     end
   end
+
+  if @device_alarm.present?
+    json.alarm @device_alarm[device.try(:id)]
+  end
 end
