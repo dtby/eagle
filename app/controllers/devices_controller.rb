@@ -43,6 +43,7 @@ class DevicesController < BaseController
   end
 
   def search
+    @point_values = {}
     if params[:sub_sys_name] == "烟感"
       @devices = Device.where(room_id: params[:room_id], name: "烟感")
       @devices.each do |device|
@@ -57,11 +58,7 @@ class DevicesController < BaseController
 
     sub_system = SubSystem.find_by(name: params[:sub_sys_name])
     return unless sub_system.present?
-    
-    sub_sys_name = params[:sub_sys_name]
-    @point_values = {}
-    
-
+    sub_sys_name = params[:sub_sys_name]    
     patterns = sub_system.try(:patterns)
     @devices = []
     
