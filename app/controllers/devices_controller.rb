@@ -70,17 +70,18 @@ class DevicesController < BaseController
               @point_values[device.try(:id)][point.name] = (point.value || "0")
             end
           when "空调系统"
-            con_point_values device
-          when "配电系统"
-            @device_alarm[device.try(:id)] = device.is_alarm?
-          else
             name = device.try(:name)
-            if name.present? && ((name.include? n2) || (name.include? n1))
+            if name.present? && ((name.include? "冷水机组") || (name.include? "室外机"))
               @device_alarm = []
               @device_alarm[device.try(:id)] = device.is_alarm?
             else
               ele_point_values device
             end
+            con_point_values device
+          when "配电系统"
+            @device_alarm[device.try(:id)] = device.is_alarm?
+          else
+            ele_point_values device
           end
         end
       end
