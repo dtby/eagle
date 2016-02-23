@@ -30,7 +30,7 @@
     <div class="col-sm-3">
       <ul id="deviceContent" style="max-height: 540px;overflow: auto;">
         <% @devices.each do |device| %>
-          <li class="parent"><%= link_to "+ " + device.name.to_s, get_points_room_reports_path(@room, device_id: device.id), remote: true %></li>
+          <li class="parent"><%= link_to "+ " + device.name.to_s, get_points_room_reports_path(@room, device_id: device.id, start_time: params[:start_time], end_time: params[:end_time]), remote: true %></li>
           <ul id="pointContent">
           </ul>
         <% end %>
