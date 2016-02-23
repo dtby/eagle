@@ -132,7 +132,8 @@ class PointHistory < ActiveRecord::Base
   #返回[[值1, 值2, 值3],[时间1, 时间2, 时间3]]
   def self.default_result
     default_array = []
-    dhs = PointHistory.limit(20)
+    month = DateTime.now.strftime("%Y%m")
+    dhs = PointHistory.proxy(month: month).limit(20)
     dds = PointHistory.where({id: dhs.collect{|x| x.id.to_i}}).collect{|x| x.point_value.to_i}
     dts = PointHistory.where({id: dhs.collect{|x| x.id.to_i}}).collect{|x| x.created_at.strftime("%Y-%m-%d %H:%M:%S")}
     default_array = [dds, dts]
@@ -141,13 +142,15 @@ class PointHistory < ActiveRecord::Base
   #默认数据
   #默认返回PointHistory的20个对象
   def self.default_result_hash
-    result = PointHistory.limit(20)
+    month = DateTime.now.strftime("%Y%m")
+    result = PointHistory.proxy(month: month).limit(20)
     result
   end
 
   #检索数据,返回PointHistory对象集合
   def self.result_by_hash start_time, end_time, point_id
-    phs = PointHistory.keyword(start_time, end_time, point_id)
+    month = DateTime.now.strftime("%Y%m")
+    phs = PointHistory.proxy(month: month).keyword(start_time, end_time, point_id)
     if phs.length <= 20
       point_histories = PointHistory.where({id: phs.collect{|x| x.id.to_i}})
     elsif 20 < phs.length <= 100
@@ -165,7 +168,8 @@ class PointHistory < ActiveRecord::Base
   #ids目的是为导出时查询PointHistory集合提供id数组
   def self.result_by_sorts start_time, end_time, point_id
     result_array = []
-    phs = PointHistory.keyword(start_time, end_time, point_id)
+    month = DateTime.now.strftime("%Y%m")
+    phs = PointHistory.proxy(month: month).keyword(start_time, end_time, point_id)
     if phs.length <= 20
       pds = PointHistory.where({id: phs.collect{|x| x.id.to_i}}).collect{|x| x.point_value.to_i}
       pts = PointHistory.where({id: phs.collect{|x| x.id.to_i}}).collect{|x| x.created_at.strftime("%Y-%m-%d-%H:%M:%S")}
