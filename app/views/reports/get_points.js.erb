@@ -1,1 +1,1 @@
-$("ul#pointContent").html("<%= escape_javascript(render partial: 'points', locals: {device: @device}) %>");
+$("ul#pointContent").html("<%= escape_javascript(render partial: 'points', locals: {device: @device, start_time: params[:start_time], end_time: params[:end_time]}) %>");

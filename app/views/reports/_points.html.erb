@@ -1,7 +1,7 @@
 <% device.points.each do |point| %>
   <!-- 搜索报表数据 -->
   <% default_result = PointHistory.default_result %>
-  <li class="child"><%= link_to point.name, replace_chart_room_reports_path(@room, point_id: point.id, name: point.name, start_time: params[:start_time], end_time: params[:end_time]), remote: true, title: point.name, 'data-default-history': default_result[0].to_json, 'data-default-time': default_result[1].to_json %></li>
+  <li class="child"><%= link_to point.name, replace_chart_room_reports_path(@room, point_id: point.id, name: point.name, start_time: start_time, end_time: end_time), remote: true, title: point.name, 'data-default-history': default_result[0].to_json, 'data-default-time': default_result[1].to_json %></li>
 <% end %>
 
 <script type="text/javascript">
