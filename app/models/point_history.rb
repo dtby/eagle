@@ -15,7 +15,6 @@
 #
 
 class PointHistory < ActiveRecord::Base
-  include ReportsHelper
   @@lock = Mutex.new
   @@lock_tables = Mutex.new
 
