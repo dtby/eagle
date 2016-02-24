@@ -94,7 +94,7 @@ class PointHistory < ActiveRecord::Base
         end
       end
     end
-    point_histories
+    point_histories.sort.reverse
   end
 
   def self.find_by_device_id device_id
