@@ -54,11 +54,13 @@ class ReportsController < BaseController
     gray = Spreadsheet::Format.new :color => :gray, :weight => :bold, :size => 10
     sheet1.row(0).default_format = gray
 
-    sheet1.row(0).concat %w{时间 值}
+    sheet1.row(0).concat %w{设备名 点名 时间 值}
     count_row = 1
     objs.each do |obj|
-      sheet1[count_row, 0] = obj.created_at.strftime("%Y-%m-%d %H:%M:%S")
-      sheet1[count_row, 1] = obj.point_value
+      sheet1[count_row, 0] = obj.try(:device).try(:name)
+      sheet1[count_row, 1] = obj.point_name
+      sheet1[count_row, 2] = obj.created_at.strftime("%Y-%m-%d %H:%M:%S")
+      sheet1[count_row, 3] = obj.point_value
       count_row += 1
     end
 
