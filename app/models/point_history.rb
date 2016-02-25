@@ -94,7 +94,7 @@ class PointHistory < ActiveRecord::Base
         end
       end
     end
-    point_histories
+    point_histories.sort.reverse
   end
 
   def self.find_by_device_id device_id
@@ -149,8 +149,16 @@ class PointHistory < ActiveRecord::Base
 
   #检索数据,返回PointHistory对象集合
   def self.result_by_hash start_time, end_time, point_id
-    month = end_time.to_datetime.strftime("%Y%m") if end_time.present?
-    phs = PointHistory.proxy(month: month).keyword(start_time, end_time, point_id)
+    phs = []
+    if start_time.present? && end_time.present? && (end_time.to_date - start_time.to_date) > 1.month
+      months = (end_time.to_date..start_time.to_date).map{|d| [d.year.to_s + PointHistory.format_month(d.month)] }.uniq
+      months.each do |month|
+        phs << PointHistory.proxy(month: month).keyword(start_time, end_time, point_id)
+      end
+    else
+      phs = PointHistory.proxy(month: DateTime.now.strftime("%Y%m")).keyword(start_time, end_time, point_id)
+    end
+
     if phs.length <= 20
       point_histories = PointHistory.where({id: phs.collect{|x| x.id.to_i}})
     elsif 20 < phs.length <= 100
@@ -168,8 +176,18 @@ class PointHistory < ActiveRecord::Base
   #ids目的是为导出时查询PointHistory集合提供id数组
   def self.result_by_sorts start_time, end_time, point_id
     result_array = []
-    month = end_time.to_datetime.strftime("%Y%m") if end_time.present?
-    phs = PointHistory.proxy(month: month).keyword(start_time, end_time, point_id)
+    phs = []
+
+    if start_time.present? && end_time.present? && (end_time.to_date - start_time.to_date) > 1.month
+      months = (end_time.to_date..start_time.to_date).map{|d| [d.year.to_s + PointHistory.format_month(d.month)] }.uniq
+      p months
+      months.each do |month|
+        phs << PointHistory.proxy(month: month).keyword(start_time, end_time, point_id)
+      end
+    else
+      phs = PointHistory.proxy(month: DateTime.now.strftime("%Y%m")).keyword(start_time, end_time, point_id)
+    end
+
     if phs.length <= 20
       pds = PointHistory.where({id: phs.collect{|x| x.id.to_i}}).collect{|x| x.point_value.to_i}
       pts = PointHistory.where({id: phs.collect{|x| x.id.to_i}}).collect{|x| x.created_at.strftime("%Y-%m-%d-%H:%M:%S")}
@@ -192,5 +210,9 @@ class PointHistory < ActiveRecord::Base
       ids = PointHistory.where({id: phs.collect{|x| x.id.to_i}}).collect{|x| x.id.to_i}
     end
     result_array = [pds, pts, ids]
+  end
+
+  def self.format_month month
+    month.to_s.length == 2 ? month.to_s : "0"+month.to_s
   end
 end
