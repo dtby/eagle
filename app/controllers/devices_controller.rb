@@ -39,7 +39,7 @@ class DevicesController < BaseController
     else
       @device = Device.find_by(id: params[:id])
       @points = @device.try(:points).try(:order, 'name')
-      @points.sort_by! {|p| p.name[/\d+/].to_i }
+      @points.sort! {|p| p.name[/\d+/].to_i }
     end
   end
 
