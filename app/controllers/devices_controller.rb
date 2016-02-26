@@ -89,7 +89,9 @@ class DevicesController < BaseController
     end
     puts "@device_alarm is #{@device_alarm}"
     if @devices.present?
-      if @devices.first.name =~ /\d+/
+      result = true
+      @devices.each { |device| result &&= (device.name =~ /\d+/) }
+      if result
         @devices.sort_by! {|d| d.name[/\d+/].to_i }
       else
         @devices.sort_by! {|d| d.name }
