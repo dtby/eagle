@@ -39,16 +39,17 @@ class Device < ActiveRecord::Base
     # ps.collect{ |s| ps_values[s[0]] = s[1]}
 
     # 循环分组封装呆显示数据
-    all_points = points.select("name, point_index").order("name asc")
-    all_points.each do |point|
+    # point_alarms = point_alarms.select("name, point_index").order("name asc")
+    point_alarms.each do |point_alarm|
+      point = point_alarm.point
       if point.name.include?('-')
         group = point.name.split('-', 2).try(:first).try(:strip)
         if group.present?
           pn = point.name.split('-', 2).try(:last).try(:strip)
-          view_points[group].blank? ? view_points[group] = { pn => point.value } : view_points[group].merge!({pn => point.value })
+          view_points[group].blank? ? view_points[group] = { pn => point_alarm.state } : view_points[group].merge!({pn => point_alarm.state })
         end
       else
-        view_points["其他"].blank? ? view_points["其他"] = {point.name => point.value } : view_points["其他"].merge!({point.name => point.value })
+        view_points["其他"].blank? ? view_points["其他"] = {point.name => point_alarm.state } : view_points["其他"].merge!({point.name => point_alarm.state })
       end
     end 
 

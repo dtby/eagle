@@ -77,7 +77,7 @@ class Point < ActiveRecord::Base
         puts "DigitalAlarm size is #{PointAlarm.is_warning_alarm.size}, #{da.PointID}, #{point_alarm.state}  => #{state}"
         update_time = DateTime.new(da.ADate.year, da.ADate.month, da.ADate.day, da.ATime.hour,da.ATime.min, da.ATime.sec)
         point_alarm.update(state: state, comment: dp.Comment, 
-          is_checked: (state == 0), updated_at: update_time, alarm_type: 1, 
+          is_checked: (state.to_i == 0), updated_at: update_time, alarm_type: 1, 
           room_id: point.try(:device).try(:room).try(:id), 
           device_id: point.try(:device).try(:id), 
           sub_system_id: point.try(:device).try(:pattern).try(:sub_system).try(:id))
