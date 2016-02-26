@@ -7,7 +7,7 @@ if @points.present?
     else
       name = point.name
     end
-    json.set! name, point.value
+    json.set! name, (point.value||"0")
   end
 else
   json.errors "该设备下无点位信息"
