@@ -17,9 +17,11 @@
 #  updated_at             :datetime         not null
 #  name                   :string(255)      default(""), not null
 #  phone                  :string(255)      default(""), not null
+#  authentication_token   :string(255)
 #
 # Indexes
 #
+#  index_admins_on_authentication_token  (authentication_token)
 #  index_admins_on_email                 (email) UNIQUE
 #  index_admins_on_phone                 (phone) UNIQUE
 #  index_admins_on_reset_password_token  (reset_password_token) UNIQUE
