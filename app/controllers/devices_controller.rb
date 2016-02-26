@@ -87,6 +87,11 @@ class DevicesController < BaseController
       end
     end
     puts "@device_alarm is #{@device_alarm}"
+    if @device.first.name =~ /\d+/
+      @devices.sort_by! {|d| d.name[/\d+/].to_i }
+    else
+      @devices.sort_by! {|d| d.name }
+    end
   end
 
 
