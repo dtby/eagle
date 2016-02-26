@@ -33,6 +33,7 @@ FactoryGirl.define do
     email "eagle_admin@qq.com"
     phone "13012345678"
     name "eagle_admin"
+    authentication_token "authentication_token_admin"
   end
 
 end

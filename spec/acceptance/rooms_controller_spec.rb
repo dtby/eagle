@@ -29,4 +29,26 @@ resource "机房" do
     end
   end
 
+  get "/rooms" do
+    before do
+      @rooms = []
+      @rooms << create(:room, name: "room1")
+      @rooms << create(:room, name: "room2")
+      create(:room, name: "room3")
+      admin = create(:admin)
+    end
+
+    user_attrs = FactoryGirl.attributes_for(:admin)
+    header "X-Admin-Token", user_attrs[:authentication_token]
+    header "X-Admin-Phone", user_attrs[:phone]
+
+    response_field :id, "机房ID"
+    response_field :name, "机房名"
+
+    example "获取机房列表成功（管理员）" do
+      do_request
+      expect(status).to eq(200)
+    end
+  end
+  
 end

@@ -12,11 +12,16 @@
 
 class RoomsController < BaseController
   before_action :authenticate_user!, only: [:show, :alert, :checked_alert, :video, :pic, :refersh_alert]
-  acts_as_token_authentication_handler_for User, only: [:index]
+  acts_as_token_authentication_handler_for User, only: [:index], fallback_to_devise: false
+  acts_as_token_authentication_handler_for Admin, only: [:index], fallback_to_devise: false
   respond_to :json
 
   def index
-    @rooms = UserRoom.where(user: current_user).map { |e| e.room }
+    if current_user.present?
+      @rooms = UserRoom.where(user: current_user).map { |e| e.room }
+    elsif current_admin.present?
+      @rooms = Room.all
+    end
   end
 
   def show

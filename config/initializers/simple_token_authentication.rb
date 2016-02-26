@@ -23,9 +23,10 @@ SimpleTokenAuthentication.configure do |config|
   #     `X-Admin-Auth-Token, X-SuperAdmin-Email`
   #
   config.header_names = {
-    user: { authentication_token: 'X-User-Token', phone: 'X-User-Phone' }
+    user: { authentication_token: 'X-User-Token', phone: 'X-User-Phone' }, 
+    admin: { authentication_token: 'X-Admin-Token', phone: 'X-Admin-Phone' } 
   }
   
-  config.identifiers = { user: 'phone' }
+  config.identifiers = { user: 'phone', admin: 'phone' }
 
 end
