@@ -111,6 +111,7 @@ Rails.application.routes.draw do
   resources :check_phone, only: [] do 
     collection do
       post :auth
+      post :auth_admin
     end
   end
 

@@ -4,6 +4,10 @@ class CheckPhoneController < ApplicationController
     @user = User.find_by(phone: auth_params[:phone])
   end
 
+  def auth_admin
+    @admin = Admin.find_by(phone: auth_params[:phone])
+  end
+
   private
 
     def auth_params
