@@ -14,3 +14,14 @@ if @points.present?
 else
   json.errors "该设备下无点位信息"
 end
+
+
+if @alarms.present?
+  json.alarms do
+    @alarms.each do |k, v|
+      json.set! k, v
+    end
+  end
+else
+  json.errors "该设备下无告警信息"
+end
