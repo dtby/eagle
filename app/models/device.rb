@@ -40,6 +40,7 @@ class Device < ActiveRecord::Base
 
     # 循环分组封装呆显示数据
     all_points = points.select("name, point_index").order("name asc")
+    all_points.sort_by! {|p| p.name[/\d+/].to_i }
     all_points.each do |point|
       state = point.try(:point_alarm).try(:state) || 0
       result = (state == 1)
