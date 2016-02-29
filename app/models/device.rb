@@ -56,6 +56,16 @@ class Device < ActiveRecord::Base
     view_points
   end
 
+  def alarm_group
+    group = {}
+    result = {}
+    points_group.values.map { |value| group.merge! value }
+    group.each do |type, value|
+      result[type] = (value.to_i != 0)
+    end
+    result
+  end
+
   def is_alarm?
     b_alarm = false
     points = self.try(:points)

@@ -40,9 +40,7 @@ class DevicesController < BaseController
       @device = Device.find_by(id: params[:id])
       @points = @device.try(:points).try(:order, 'name').try(:to_a)
       @points = @points.sort_by {|p| p.name[/\d+/].to_i }
-      @alarms = {}
-      points_group = @device.points_group
-      points_group.values.map { |value| @alarms.merge! value } if points_group.present?
+      @alarms = @device.alarm_group
     end
   end
 
