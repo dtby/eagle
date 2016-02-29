@@ -40,18 +40,16 @@ class Device < ActiveRecord::Base
 
     # 循环分组封装呆显示数据
     all_points = points.select("name, point_index").order("name asc")
-    all_points = all_points.to_a.sort_by {|p| p.name[/\d+/].to_i }
     all_points.each do |point|
       state = point.try(:point_alarm).try(:state) || 0
-      result = (state == 1)
       if point.name.include?('-')
         group = point.name.split('-', 2).try(:first).try(:strip)
         if group.present?
           pn = point.name.split('-', 2).try(:last).try(:strip)
-          view_points[group].blank? ? view_points[group] = { pn => result } : view_points[group].merge!({pn => result })
+          view_points[group].blank? ? view_points[group] = { pn => state } : view_points[group].merge!({pn => state })
         end
       else
-        view_points["其他"].blank? ? view_points["其他"] = {point.name => result } : view_points["其他"].merge!({point.name => result })
+        view_points["其他"].blank? ? view_points["其他"] = {point.name => state } : view_points["其他"].merge!({point.name => state })
       end
     end 
 
