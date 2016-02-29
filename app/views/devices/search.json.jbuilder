@@ -7,9 +7,8 @@ json.devices @devices do |device|
   if @point_values.present?
     points = @point_values[device.try(:id)]
     next unless points.present?
-    json.array!(@points) do |name, value|
-      json.name name
-      json.value value
+    json.points @points.each do |name, value|
+      json.set! name, value
     end
   end
   
