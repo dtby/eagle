@@ -1,0 +1,74 @@
+<div class="clearfix weitu">
+  <div class="col-xs-12 p-xs text-center animated fadeInRightBig">
+    <div class="panel panel-default">
+      <div class="panel-heading">空调实时数据</div>
+      <div class="panel-body">
+        <div class="col-xs-12">
+          <div class="col-md-3 air_img">
+            <%=image_tag  "10-1.png" ,width:"100%" %>
+            <p></p>
+          </div>
+          <div class="col-md-5">
+            <div class="panel panel-default">
+              <div class="panel-heading">运行参数</div>
+              <div class="panel-body water_tab">
+                <% unless exclude_points["GIF"] && exclude_points["GIF"].include?("温度测量值") %>
+                  <div class="col-xs-6 water_g water_g1"><%= @points["GIF"]["温度测量值"] %>&#8451;</div>
+                <% end %>
+                <% unless exclude_points["GIF"] && exclude_points["GIF"].include?("湿度测量值") %>
+                  <div class="col-xs-6 water_g water_g2"><%= @points["GIF"]["湿度测量值"] %>%</div>
+                <% end %>
+                <div class="col-xs-12">
+                  <% unless exclude_points["GIF"] && exclude_points["GIF"].include?("温度设点") %>
+                    <span class="grey_d grey_d1">温度设点</span><span class="grey_d grey_d2"><%= @points["GIF"]["温度设点"] %>%</span>
+                  <% end %>
+                  <% unless exclude_points["GIF"] && exclude_points["GIF"].include?("湿度设点") %>
+                    <span class="grey_d grey_d3">湿度设点</span><span class="grey_d grey_d2"><%= @points["GIF"]["湿度设点"] %>%</span>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="panel panel-default">
+              <div class="panel-heading">元件状态</div>
+              <div class="panel-body water_tab1">
+                <table class="table table1">
+                  <% @points["部件状态"].each do |key, value| %>
+                    <% unless exclude_points["部件状态"] && exclude_points["部件状态"].include?(key) %>
+                      <tr class="<%= value == "0" ? "open1" : "close1" %>">
+                        <td width="60%"><%= key %></td>
+                        <td><%= value == "0" ? "开启" : "关闭" %></td>
+                      </tr>
+                    <% end %>
+                  <% end %>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-12">
+          <div class="panel panel-default panel3 warn-info">
+            <div class="panel-heading">报警信息</div>
+            <div class="panel-body">
+              <div class="">
+                <% @points["告警"].keys.each_with_index do |key, index| %>
+                  <% if index % 4 == 0 %>
+                    <div class="air_d_grey col-sm-3" align="left">
+                  <% end %>
+                    <div class="info-row" style="overflow:hidden;">
+                      <span class="warning-name"><%= key %></span>
+                      <span class="warning-icon"><%= warning_status @points["告警"][key] %></span>
+                    </div><br>
+                  <% if index%4 == 3 %>
+                    </div>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
