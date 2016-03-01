@@ -25,7 +25,7 @@ class Point < ActiveRecord::Base
   has_many :alarm_histories, dependent: :destroy
   has_many :point_histories, dependent: :destroy
 
-  default_scope { where(state: true) }
+  # default_scope { where(state: true) }
 
   # 取得节点的value
   def value

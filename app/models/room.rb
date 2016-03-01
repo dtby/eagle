@@ -70,7 +70,7 @@ class Room < ActiveRecord::Base
         end
       end
     end
-    Point.where(updated_at: DateTime.new(2010,1,1)..5.minute.ago).update_all(state: false)
+    Point.where(updated_at: DateTime.new(2010,1,1)..15.minute.ago).update_all(state: false)
     nil
   end
 
