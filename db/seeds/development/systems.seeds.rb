@@ -63,8 +63,8 @@ Pattern.create!([
   { id: 10, sub_system_id: 6, name: '普通温湿度', partial_path: 'commen_temp' }, # "温湿度系统"=>"普通温湿度" and "th802",
   { id: 11, sub_system_id: 3, name: '泰昂IPM', partial_path: 'dianliu' },  #"电表系统"
 
-  { id: 13, sub_system_id: 2, name: 'ACFM', partial_path: 'acfm' },  #apc空调
-  { id: 14, sub_system_id: 1, name: 'GAFC', partial_path: 'apc_ups' }  #apc ups
+  { id: 13, sub_system_id: 8, name: 'ACFM', partial_path: 'acfm' },  #apc空调
+  { id: 14, sub_system_id: 1, name: 'SY', partial_path: 'apc_ups' }  #apc ups
 ])
 
 # Pattern.create!([
