@@ -52,6 +52,7 @@ class PointAlarmsController < BaseController
     end
     
     return unless point_alarms.present?
+    point_alarms.select! { |pas| pas.state == 1}
     if params[:checked].present? && params[:checked] == "0"
       @point_alarms = point_alarms.paginate(page: params[:page], per_page: 10)
     elsif params[:checked].present? && params[:checked] == "1"
