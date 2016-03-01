@@ -11,7 +11,7 @@ if @points.present?
     json.value (point.value||"0")
   end
 else
-  json.errors "该设备下无点位信息"
+  json.points_errors "该设备下无点位信息"
 end
 
 
@@ -21,5 +21,5 @@ if @alarms.present?
     json.value v
   end
 else
-  json.errors "该设备下无告警信息"
+  json.alarms_errors "该设备下无告警信息"
 end
