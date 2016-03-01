@@ -80,7 +80,7 @@ class Room < ActiveRecord::Base
     # 动力系统 ->  UPS系统 -> UPS1  "A相电压" "B相电压" "C相电压" "电流"
     # 动力系统 ->  列头柜 -> 列头柜1  "工作正常"
     # 动力系统 ->  电池检测 -> 电池组1  "总电压" "总电流" "温度1" "温度2"
-    case sa        result = 0
+    case result = 0
       else
         result = point_name =~ /输出电压([A-Z])/
       end
