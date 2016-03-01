@@ -70,6 +70,8 @@ class Room < ActiveRecord::Base
         end
       end
     end
+    Point.where(updated_at: DateTime.new(2010,1,1)..5.minute.ago).update_all(state: false)
+    nil
   end
 
 
@@ -78,11 +80,7 @@ class Room < ActiveRecord::Base
     # 动力系统 ->  UPS系统 -> UPS1  "A相电压" "B相电压" "C相电压" "电流"
     # 动力系统 ->  列头柜 -> 列头柜1  "工作正常"
     # 动力系统 ->  电池检测 -> 电池组1  "总电压" "总电流" "温度1" "温度2"
-    case sub_sys_name
-    when "UPS系统", "配电系统"
-      if point_name == "频率"
-        point_name = "输出电压D"
-        result = 0
+    case sa        result = 0
       else
         result = point_name =~ /输出电压([A-Z])/
       end
