@@ -8,6 +8,7 @@
 #  updated_at  :datetime         not null
 #  point_index :string(255)
 #  device_id   :integer
+#  state       :boolean          default(TRUE)
 #
 # Indexes
 #

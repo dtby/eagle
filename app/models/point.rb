@@ -8,6 +8,7 @@
 #  updated_at  :datetime         not null
 #  point_index :string(255)
 #  device_id   :integer
+#  state       :boolean          default(TRUE)
 #
 # Indexes
 #
@@ -23,6 +24,8 @@ class Point < ActiveRecord::Base
   has_one :point_alarm, dependent: :destroy
   has_many :alarm_histories, dependent: :destroy
   has_many :point_histories, dependent: :destroy
+
+  default_scope { where(state: true) }
 
   # 取得节点的value
   def value
