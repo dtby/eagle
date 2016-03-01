@@ -25,7 +25,7 @@ class Point < ActiveRecord::Base
   has_many :alarm_histories, dependent: :destroy
   has_many :point_histories, dependent: :destroy
 
-  default_scope { where(state: true) }
+  # default_scope { where(state: true) }
 
   # 取得节点的value
   def value
@@ -107,6 +107,7 @@ class Point < ActiveRecord::Base
           sub_system_id: point.try(:device).try(:pattern).try(:sub_system).try(:id))
       end
     end
+    puts "DigitalAlarm size is #{PointAlarm.is_warning_alarm.size}"
     nil
   end
   # Point.datas_to_hash
@@ -117,16 +118,16 @@ class Point < ActiveRecord::Base
     generate_point_alarm
 
     # 查询告警是否已经解除
-    PointAlarm.is_warning_alarm.each do |pa|
-      update_time = pa.updated_at
-      if pa.alarm_type == 1
-        cos = DigitalAlarm.order("ADate DESC, ATime DESC").find_by(PointID: pa.try(:point).try(:point_index))
-      else
-        cos = AnalogAlarm.order("ADate DESC, ATime DESC").find_by(PointID: pa.try(:point).try(:point_index))
-      end
-      pa.update(state: cos.try(:Status), updated_at: update_time) if pa.state != cos.try(:Status)
-    end
-
+    # PointAlarm.is_warning_alarm.each do |pa|
+    #   update_time = pa.updated_at
+    #   if pa.alarm_type == 1
+    #     cos = DigitalAlarm.order("ADate DESC, ATime DESC").find_by(PointID: pa.try(:point).try(:point_index))
+    #   else
+    #     cos = AnalogAlarm.order("ADate DESC, ATime DESC").find_by(PointID: pa.try(:point).try(:point_index))
+    #   end
+    #   pa.update(state: cos.try(:Status), updated_at: update_time) if pa.state != cos.try(:Status)
+    # end
+    puts "DigitalAlarm size is #{PointAlarm.is_warning_alarm.size}"
     end_time_all = DateTime.now.strftime("%Q").to_i
     logger.info "Point.monitor_db time is #{end_time_all-start_time_all}"
 
