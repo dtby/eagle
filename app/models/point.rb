@@ -71,8 +71,7 @@ class Point < ActiveRecord::Base
       
       cos = DigitalAlarm.order("ADate DESC, ATime DESC").find_by(PointID: da.PointID)
       dp = DigitalPoint.find_by(PointID: da.PointID)
-      state = 0
-      state = 1 if cos.try(:Status)
+      state = cos.try(:Status).try(:to_i)
       
       point_alarm = PointAlarm.find_or_create_by(point_id: point.id)
       
@@ -92,8 +91,7 @@ class Point < ActiveRecord::Base
       next unless point.present?
       cos = AnalogAlarm.order("ADate DESC, ATime DESC").find_by(PointID: aa.PointID)
       dp = AnalogPoint.find_by(PointID: aa.PointID)
-      state = 0
-      state = 1 if cos.try(:Status)
+      state = cos.try(:Status).try(:to_i)
 
       point_alarm = PointAlarm.find_or_create_by(point_id: point.id)
       
@@ -118,16 +116,17 @@ class Point < ActiveRecord::Base
     generate_point_alarm
 
     # 查询告警是否已经解除
-    # PointAlarm.is_warning_alarm.each do |pa|
-    #   update_time = pa.updated_at
-    #   if pa.alarm_type == 1
-    #     cos = DigitalAlarm.order("ADate DESC, ATime DESC").find_by(PointID: pa.try(:point).try(:point_index))
-    #   else
-    #     cos = AnalogAlarm.order("ADate DESC, ATime DESC").find_by(PointID: pa.try(:point).try(:point_index))
-    #   end
-    #   pa.update(state: cos.try(:Status), updated_at: update_time) if pa.state != cos.try(:Status)
-    # end
-    puts "DigitalAlarm size is #{PointAlarm.is_warning_alarm.size}"
+    PointAlarm.is_warning_alarm.each do |pa|
+      update_time = pa.updated_at
+      if pa.alarm_type == "digital"
+        cos = DigitalAlarm.order("ADate DESC, ATime DESC, AMSecond DESC").find_by(PointID: pa.try(:point).try(:point_index))
+        puts "DigitalAlarm size is #{PointAlarm.is_warning_alarm.size}"
+      else
+        cos = AnalogAlarm.order("ADate DESC, ATime DESC, AMSecond DESC").find_by(PointID: pa.try(:point).try(:point_index))
+      end
+      state = cos.try(:Status).try(:to_i)
+      pa.update(state: state, updated_at: update_time)  if pa.state != state
+    end
     end_time_all = DateTime.now.strftime("%Q").to_i
     logger.info "Point.monitor_db time is #{end_time_all-start_time_all}"
 
