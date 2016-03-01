@@ -65,6 +65,7 @@ class Room < ActiveRecord::Base
           device = Device.find_or_create_by(name: name, pattern: pattern, room: room)
           points.each do |name, value|
             p = Point.find_or_create_by(name: name, device: device, point_index: value)
+            p.update(state: true, updated_at: DateTime.now)
             check_point sub_name, name, p.id, device.id
           end
         end
