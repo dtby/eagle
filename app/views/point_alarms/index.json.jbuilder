@@ -13,5 +13,9 @@ if @point_alarms.present?
     json.is_checked point_alarm.try(:is_checked)
     json.point_id point_alarm.try(:point_id)
     json.comment point_alarm.try(:comment)
+
+    type = (point_alarm.try(:type) == "alarm" ?  (value.to_i > 0) : nil)
+    json.type type unless type.nil?
+
   end
 end
