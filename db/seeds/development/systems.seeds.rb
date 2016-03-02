@@ -23,7 +23,8 @@ SubSystem.create!([
   { id: 9, system_id: 2, name: '漏水系统' },
 
   { id: 10, system_id: 4, name: '消防系统' },
-  { id: 11, system_id: 4, name: '氢气检测' }
+  { id: 11, system_id: 4, name: '氢气检测' },
+  { id: 12, system_id: 2, name: '风冷系统' }
 ])
 # SubSystem.create!([
 #   { id: 1, system_id: 1, name: '配电系统' },
@@ -55,7 +56,7 @@ Pattern.create!([
 
   { id: 4, sub_system_id: 8, name: '威图列间空调', partial_path: 'weitu' },  #列间空调系统
   { id: 5, sub_system_id: 8, name: '7053', partial_path: 'air_c_7053' },  # "空调系统"=>"7053",
-  { id: 6, sub_system_id: 8, name: '威图', partial_path: 'cool_sys_weitu' },  #"风冷系统"=>"威图",
+  { id: 6, sub_system_id: 12, name: '威图', partial_path: 'cool_sys_weitu' },  #"风冷系统"=>"威图",
   { id: 7, sub_system_id: 9, name: '7053', partial_path: 'leaking_7053' },  # "漏水系统"=>"7053", nil=>nil}
 
   { id: 9, sub_system_id: 10, name: '7053', partial_path: 'fire_7053' },  # "消防系统"=>"7053", nil=>nil}
