@@ -14,6 +14,7 @@
 #  device_id     :integer
 #  sub_system_id :integer
 #  alarm_type    :integer
+#  alarm_value   :string(255)
 #
 # Indexes
 #
