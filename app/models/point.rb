@@ -66,7 +66,7 @@ class Point < ActiveRecord::Base
     end
 
     das.each do |da|
-      point = Point.find_by(point_index: da.PointID)
+      point = Point.find_by(point_index: da.PointID.to_s)
       next unless point.present?
       
       cos = DigitalAlarm.order("ADate DESC, ATime DESC").find_by(PointID: da.PointID)
@@ -87,7 +87,7 @@ class Point < ActiveRecord::Base
     end
 
     aas.each do |aa|
-      point = Point.find_by(point_index: aa.PointID)
+      point = Point.find_by(point_index: aa.PointID.to_s)
       next unless point.present?
       cos = AnalogAlarm.order("ADate DESC, ATime DESC").find_by(PointID: aa.PointID)
       dp = AnalogPoint.find_by(PointID: aa.PointID)
