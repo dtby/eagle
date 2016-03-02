@@ -120,6 +120,7 @@ class Point < ActiveRecord::Base
     # 查询告警是否已经解除
     PointAlarm.is_warning_alarm.each do |pa|
       update_time = pa.updated_at
+      alarm_value = ""
       if pa.alarm_type == "digital"
         cos = DigitalAlarm.order("ADate DESC, ATime DESC, AMSecond DESC").find_by(PointID: pa.try(:point).try(:point_index).try(:to_i))
         puts "DigitalAlarm size is #{PointAlarm.is_warning_alarm.size}, #{pa.try(:point).try(:point_index).try(:to_i)}"
@@ -129,8 +130,9 @@ class Point < ActiveRecord::Base
         puts "AnalogAlarm size is #{PointAlarm.is_warning_alarm.size}, #{pa.try(:point).try(:point_index).try(:to_i)}"
         state = cos.try(:AlarmType).try(:to_i) || 2
         state -= 2
+        alarm_value = cos.try(:AlarmValue) || ""
       end
-      pa.update(state: state, updated_at: update_time)  if pa.state != state
+      pa.update(state: state, updated_at: update_time, alarm_value: alarm_value)  if pa.state != state
     end
     end_time_all = DateTime.now.strftime("%Q").to_i
     logger.info "Point.monitor_db time is #{end_time_all-start_time_all}"
