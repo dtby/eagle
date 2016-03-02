@@ -123,11 +123,13 @@ class Point < ActiveRecord::Base
       if pa.alarm_type == "digital"
         cos = DigitalAlarm.order("ADate DESC, ATime DESC, AMSecond DESC").find_by(PointID: pa.try(:point).try(:point_index).try(:to_i))
         puts "DigitalAlarm size is #{PointAlarm.is_warning_alarm.size}, #{pa.try(:point).try(:point_index).try(:to_i)}"
+        state = cos.try(:Status).try(:to_i)
       else
         cos = AnalogAlarm.order("ADate DESC, ATime DESC, AMSecond DESC").find_by(PointID: pa.try(:point).try(:point_index).try(:to_i))
         puts "AnalogAlarm size is #{PointAlarm.is_warning_alarm.size}, #{pa.try(:point).try(:point_index).try(:to_i)}"
+        state = cos.try(:AlarmType).try(:to_i) || 2
+        state -= 2
       end
-      state = cos.try(:Status).try(:to_i)
       pa.update(state: state, updated_at: update_time)  if pa.state != state
     end
     end_time_all = DateTime.now.strftime("%Q").to_i
