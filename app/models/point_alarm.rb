@@ -41,7 +41,7 @@ class PointAlarm < ActiveRecord::Base
   # after_update :update_is_checked, if: :no_alarm?
   after_create :generate_alarm_history
 
-  default_scope { where.not(state: nil).order("updated_at asc") }
+  default_scope { where.not(state: nil).order("updated_at DESC") }
 
   enum alarm_type: [:alarm, :digital]
 
