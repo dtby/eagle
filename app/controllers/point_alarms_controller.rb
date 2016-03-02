@@ -82,7 +82,7 @@ class PointAlarmsController < BaseController
       @results = Hash[sub_system_names.zip(ids)]
     elsif params[:sub_system_id].present?
 
-      point_alarms = PointAlarm.where(sub_system_id: params[:sub_system_id], is_checked: false).where.not(state: 0)
+      point_alarms = PointAlarm.where(room_id: params[:room_id], sub_system_id: params[:sub_system_id], is_checked: false).where.not(state: 0)
       device_ids = point_alarms.pluck(:device_id)
       
       return unless device_ids.present?
