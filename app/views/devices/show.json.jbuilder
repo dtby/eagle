@@ -19,6 +19,8 @@ if @alarms.present?
   json.alarms @alarms.each do |k, v|
     json.name k
     json.value v
+    type = @alarm_types[k]
+    json.type type unless type.nil?
   end
 else
   json.alarms_errors "该设备下无告警信息"

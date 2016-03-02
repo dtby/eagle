@@ -72,7 +72,7 @@ class Point < ActiveRecord::Base
       cos = DigitalAlarm.order("ADate DESC, ATime DESC").find_by(PointID: da.PointID)
       dp = DigitalPoint.find_by(PointID: da.PointID)
       state = cos.try(:Status).try(:to_i)
-      
+
       point_alarm = PointAlarm.find_or_create_by(point_id: point.id)
       
       if state != point_alarm.state
@@ -91,7 +91,9 @@ class Point < ActiveRecord::Base
       next unless point.present?
       cos = AnalogAlarm.order("ADate DESC, ATime DESC").find_by(PointID: aa.PointID)
       dp = AnalogPoint.find_by(PointID: aa.PointID)
-      state = cos.try(:Status).try(:to_i)
+      
+      state = cos.try(:AlarmType).try(:to_i) || 2
+      state -= 2
 
       point_alarm = PointAlarm.find_or_create_by(point_id: point.id)
       
@@ -124,7 +126,6 @@ class Point < ActiveRecord::Base
         cos = AnalogAlarm.order("ADate DESC, ATime DESC, AMSecond DESC").find_by(PointID: pa.try(:point).try(:point_index).try(:to_i))
       end
       state = cos.try(:Status).try(:to_i)
-      puts "state is #{state}" if [1605761, 2130049].include? pa.try(:point).try(:point_index).try(:to_i)
       pa.update(state: state, updated_at: update_time)  if pa.state != state
     end
     end_time_all = DateTime.now.strftime("%Q").to_i

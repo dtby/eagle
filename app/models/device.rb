@@ -30,18 +30,15 @@ class Device < ActiveRecord::Base
   has_many :alarms, dependent: :destroy
   has_many :point_alarms, dependent: :destroy
 
-  def points_group
+  def points_group show_alarm_type = false
     view_points = {}
 
-    # 所有point的value
-    # ps = PointState.where(pid: points.pluck(:point_index)).pluck(:pid, :value)
-    # ps_values = {}
-    # ps.collect{ |s| ps_values[s[0]] = s[1]}
-
     # 循环分组封装呆显示数据
-    all_points = points.select("name, point_index").order("name asc")
+    all_points = points.order("name asc")
     all_points.each do |point|
       state = point.try(:point_alarm).try(:state) || 0
+      puts "type is #{point.try(:point_alarm).try(:alarm_type)}, #{point.try(:point_alarm).try(:state)}"
+      state = state.to_s + "_" + (point.try(:point_alarm).try(:alarm_type) || "digital") if show_alarm_type
       if point.name.include?('-')
         group = point.name.split('-', 2).try(:first).try(:strip)
         if group.present?
@@ -59,11 +56,15 @@ class Device < ActiveRecord::Base
   def alarm_group
     group = {}
     result = {}
-    points_group.values.map { |value| group.merge! value }
+    type_result = {}
+    point_alarms = points_group true
+    point_alarms.values.map { |value| group.merge! value }
     group.each do |type, value|
+      value, alarm_type = value.split("_")
       result[type] = (value.to_i != 0)
+      type_result[type] = (alarm_type == "alarm" ?  (value.to_i > 0) : nil)
     end
-    result
+    return result, type_result
   end
 
   def is_alarm?

@@ -35,17 +35,12 @@ class DevicesController < BaseController
       @device = Device.includes(:points).where(id: params[:id]).first
       @alarms = Device.find(params[:id]).alarms.sort_by{|x| x.device_name.gsub(/[^0-9]/, '').to_i}
       @points = @device.points_group
-      p "xxxxxxxxxx"
-      p @points
-      #p @points["告警"].keys
       @exclude_points = @device.pattern.getting_exclude_points
-      p "yyyyyyy"
-      p @exclude_points
     else
       @device = Device.find_by(id: params[:id])
       @points = @device.try(:points).try(:order, 'name').try(:to_a)
       @points = @points.sort_by {|p| p.name[/\d+/].to_i }
-      @alarms = @device.alarm_group
+      @alarms, @alarm_types = @device.alarm_group
     end
   end
 
