@@ -6,7 +6,7 @@
       </div>
     </div>
   </div>
-  <div class="col-md-8 p-xs">
+  <div class="col-md-12 p-xs">
     <div class="mblock left">
       <div class="row">
         <div class="col-xs-3 p-r"></div>
@@ -21,16 +21,14 @@
                 </tr>
               </thead>
               <tbody>
-               <!--
-                <% #@points["市电输入"].each do |point| %>
-                  <% #unless exclude_points["市电输入"] && exclude_points["市电输入"].include?(point[0]) %>
+                <% @points["市电输入"].each do |point| %>
+                  <% unless exclude_points["市电输入"] && exclude_points["市电输入"].include?(point[0]) %>
                     <tr>
-                      <td width="72%" align="center"><b><%#= point[0] %></b></td>
-                      <td align="center"><%#= point[1] %></td>
+                      <td width="72%" align="center"><b><%= point[0] %></b></td>
+                      <td align="center"><%= point[1] %></td>
                     </tr>
-                  <%# end %>
-                <% #end %>
-               -->
+                  <% end %>
+                <% end %>
               </tbody>
             </table>
           </div>
@@ -43,16 +41,14 @@
                 </tr>
               </thead>
               <tbody>
-                <!--
-                <% #@points["UPS输出"].each do |point| %>
-                  <% #unless exclude_points["UPS输出"] && exclude_points["UPS输出"].include?(point[0]) %>
+                <% @points["UPS输出"].each do |point| %>
+                  <% unless exclude_points["UPS输出"] && exclude_points["UPS输出"].include?(point[0]) %>
                     <tr>
-                      <td width="60%" align="center"><b><%#= point[0] %></b></td>
-                      <td align="center"><%#= point[1] %></td>
+                      <td width="60%" align="center"><b><%= point[0] %></b></td>
+                      <td align="center"><%= point[1] %></td>
                     </tr>
-                  <% #end %>
-                <% #end %>
-               -->
+                  <% end %>
+                <% end %>
               </tbody>
             </table>
           </div>
@@ -65,59 +61,18 @@
                 </tr>
               </thead>
               <tbody>
-                <!--
-                <% #@points["电池模块"].each do |point| %>
-                  <% #unless exclude_points["电池模块"] && exclude_points["电池模块"].include?(point[0]) %>
+                <% @points["电池模块"].each do |point| %>
+                  <% unless exclude_points["电池模块"] && exclude_points["电池模块"].include?(point[0]) %>
                     <tr>
-                      <td width="60%" align="center"><b><%#= point[0] %></b></td>
-                      <td align="center"><%#= point[1] %></td>
+                      <td width="60%" align="center"><b><%= point[0] %></b></td>
+                      <td align="center"><%= point[1] %></td>
                     </tr>
-                  <% #end %>
-                <% #end %>
-                 -->
+                  <% end %>
+                <% end %>
               </tbody>
             </table>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-4 p-xs">
-    <div class="row">
-      <div class="col-xs-12">
-        <div class="mblock part-bar">
-          <span class="text-muted">输出负载率</span>
-          <div id="ups_bar"style="width: 100%;"></div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-xs-12">
-        <div class="mblock part-pie">
-          <div id="ups_pie"style="width: 100%;"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-12">
-    <div class="panel panel-default warn-info">
-      <div class="panel-heading text-center"><h4>报警信息</h4></div>
-      <div class="panel-body">
-        <table class="table">
-          <tr>
-            <% keys = @points["告警"].try(:keys) || [] %>
-            <% (1..5).each do |i|%>
-            <td class="air_d_grey">
-              <% (1..(keys.size/5)).each do |j| %>
-              <div class="info-row">
-                <span class="warning-name"><%= keys[i*j - 1] %></span>
-                <span class="warning-icon"><%= warning_status @points["告警"][keys[i*j - 1]]%></span>
-              </div><br>
-              <% end %>
-            </td>
-            <% end %>
-          </tr>
-        </table>
       </div>
     </div>
   </div>
