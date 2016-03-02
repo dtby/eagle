@@ -18,5 +18,6 @@ if @point_alarms.present?
       type = (point_alarm.try(:alarm_type) == "alarm" ?  (point_alarm.try(:state) > 0) : nil)
       json.type type unless type.nil?
     end
+    json.alarm_value point_alarm.try(:alarm_value)
   end
 end
