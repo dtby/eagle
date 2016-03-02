@@ -58,8 +58,8 @@ class Point < ActiveRecord::Base
 
     if PointAlarm.all.size > 0 && (!reset)
       updated_at = PointAlarm.order("updated_at DESC").first.try(:updated_at)
-      das = DigitalAlarm.where("ADate >= ? AND ATime > ?", updated_at.strftime("%Y-%m-%d"), updated_at.strftime("%H:%M:%S"))   
-      aas = AnalogAlarm.where("ADate >= ? AND ATime > ?", updated_at.strftime("%Y-%m-%d"), updated_at.strftime("%H:%M:%S"))   
+      das = DigitalAlarm.where("ADate >= ?", updated_at.strftime("%Y-%m-%d"))   
+      aas = AnalogAlarm.where("ADate >= ?", updated_at.strftime("%Y-%m-%d"))   
     else
       das = DigitalAlarm.all
       aas = AnalogAlarm.all
@@ -119,12 +119,12 @@ class Point < ActiveRecord::Base
     PointAlarm.is_warning_alarm.each do |pa|
       update_time = pa.updated_at
       if pa.alarm_type == "digital"
-        cos = DigitalAlarm.order("ADate DESC, ATime DESC, AMSecond DESC").find_by(PointID: pa.try(:point).try(:point_index))
-        puts "DigitalAlarm size is #{PointAlarm.is_warning_alarm.size}"
+        cos = DigitalAlarm.order("ADate DESC, ATime DESC, AMSecond DESC").find_by(PointID: pa.try(:point).try(:point_index).try(:to_i))
       else
-        cos = AnalogAlarm.order("ADate DESC, ATime DESC, AMSecond DESC").find_by(PointID: pa.try(:point).try(:point_index))
+        cos = AnalogAlarm.order("ADate DESC, ATime DESC, AMSecond DESC").find_by(PointID: pa.try(:point).try(:point_index).try(:to_i))
       end
       state = cos.try(:Status).try(:to_i)
+      puts "state is #{state}" if [1605761, 2130049].include? pa.try(:point).try(:point_index).try(:to_i)
       pa.update(state: state, updated_at: update_time)  if pa.state != state
     end
     end_time_all = DateTime.now.strftime("%Q").to_i
