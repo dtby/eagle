@@ -21,14 +21,16 @@
                 </tr>
               </thead>
               <tbody>
-                <% @points["市电输入"].each do |point| %>
-                  <% unless exclude_points["市电输入"] && exclude_points["市电输入"].include?(point[0]) %>
+               <!--
+                <% #@points["市电输入"].each do |point| %>
+                  <% #unless exclude_points["市电输入"] && exclude_points["市电输入"].include?(point[0]) %>
                     <tr>
-                      <td width="72%" align="center"><b><%= point[0] %></b></td>
-                      <td align="center"><%= point[1] %></td>
+                      <td width="72%" align="center"><b><%#= point[0] %></b></td>
+                      <td align="center"><%#= point[1] %></td>
                     </tr>
-                  <% end %>
-                <% end %>
+                  <%# end %>
+                <% #end %>
+               -->
               </tbody>
             </table>
           </div>
@@ -41,14 +43,16 @@
                 </tr>
               </thead>
               <tbody>
-                <% @points["UPS输出"].each do |point| %>
-                  <% unless exclude_points["UPS输出"] && exclude_points["UPS输出"].include?(point[0]) %>
+                <!--
+                <% #@points["UPS输出"].each do |point| %>
+                  <% #unless exclude_points["UPS输出"] && exclude_points["UPS输出"].include?(point[0]) %>
                     <tr>
-                      <td width="60%" align="center"><b><%= point[0] %></b></td>
-                      <td align="center"><%= point[1] %></td>
+                      <td width="60%" align="center"><b><%#= point[0] %></b></td>
+                      <td align="center"><%#= point[1] %></td>
                     </tr>
-                  <% end %>
-                <% end %>
+                  <% #end %>
+                <% #end %>
+               -->
               </tbody>
             </table>
           </div>
@@ -61,14 +65,16 @@
                 </tr>
               </thead>
               <tbody>
-                <% @points["电池模块"].each do |point| %>
-                <% unless exclude_points["电池模块"] && exclude_points["电池模块"].include?(point[0]) %>
-                <tr>
-                  <td width="60%" align="center"><b><%= point[0] %></b></td>
-                  <td align="center"><%= point[1] %></td>
-                </tr>
-                <% end %>
-                <% end %>
+                <!--
+                <% #@points["电池模块"].each do |point| %>
+                  <% #unless exclude_points["电池模块"] && exclude_points["电池模块"].include?(point[0]) %>
+                    <tr>
+                      <td width="60%" align="center"><b><%#= point[0] %></b></td>
+                      <td align="center"><%#= point[1] %></td>
+                    </tr>
+                  <% #end %>
+                <% #end %>
+                 -->
               </tbody>
             </table>
           </div>
@@ -116,225 +122,3 @@
     </div>
   </div>
 </div>
-
-<script type="text/javascript">
-  //设置3个模块的高度
-  var left = document.body.clientHeight - 100;
-  var r_t = left * 0.4 - 25;
-  var r_b = left * 0.6 -25;
-  $(".left").height(left);
-  $(".part-bar").height(r_t);
-  $("#ups_bar").height(r_t-20);
-  $(".part-pie").height(r_b);
-  $("#ups_pie").height(r_b);
-
-  $("#ups_img").height(left-10);
-
-  // 路径配置
-  require.config({
-    paths: {
-      echarts: '/assets/echarts'
-    }
-  });
-
-  // 条形图
-  require(
-    [
-    'echarts',
-      'echarts/chart/bar', // 使用柱状图就加载bar模块，按需加载
-      ],
-      function (bar) {
-      // 基于准备好的dom，初始化echarts图表
-      var upsBar = bar.init(document.getElementById('ups_bar'), 'macarons'); 
-
-      var option = {
-        grid : {
-          y : 5,
-          x2 : 5,
-          y2 : 5,
-          x : 5
-        },
-        tooltip : {
-          trigger: 'axis'
-        },
-        xAxis : [
-        {
-          type : 'category',
-          data : ['','','','','','','','','','','','','','','','','','','','','','','','']
-        }
-        ],
-        yAxis : [
-        {
-          type : 'value'
-        }
-        ],
-        series : [
-        {
-          name:'负载率',
-          type:'bar',
-          itemStyle:{
-            normal:{
-              color:'#00cae1'
-            } 
-          },
-          data:[7.0, 16.9, 40.0, 12.2, 32.6, 20.0, 30.4, 18.6, 22.2, 3.3,2.0, 4.9, 7.0, 23.2, 23.2, 25.6, 76.7, 135.6, 25.6, 76.7, 32.6, 20.0, 6.4, 3.3],
-        }
-        ],
-      };
-      // 为echarts对象加载数据 
-      upsBar.setOption(option); 
-    }
-    );
-
-    // 环形图
-    require(
-      [
-      'echarts',
-      'echarts/chart/pie'
-      ],
-      function (pie) {
-        // 基于准备好的dom，初始化echarts图表
-        var upsPie = pie.init(document.getElementById('ups_pie')); 
-        var labelTop = {
-          normal : {
-            label : {
-              show : true,
-              position : 'center',
-              formatter : '{b}',
-              textStyle: {
-                baseline : 'top',
-                color: '#7e7e7e',
-                fontSize: 10
-              }
-            },
-            labelLine : {
-              show : false
-            }
-          }
-        };
-        var labelFromatter = {
-          normal : {
-            label : {
-              formatter : function (params){
-                return 100 - params.value + '%'
-              },
-              textStyle: {
-                baseline : 'bottom',
-                fontSize: 20
-              }
-            }
-          },
-        }
-        var labelBottom = {
-          normal : {
-            color: '#eee',
-            label : {
-              show : true,
-              position : 'center'
-            },
-            labelLine : {
-              show : false
-            }
-          },
-          emphasis: {
-            color: 'rgba(0,0,0,0)'
-          }
-        };
-        var radius = ['30%', '33%'];
-        var option = {
-          legend: {
-            x : 'center',
-            y : 'center',
-            data:[]
-          },
-          series : [
-            <% unless exclude_points["表格"] && exclude_points["表格"].include?("输入总视在功率") %>
-              {
-                type : 'pie',
-                center : ['25%', '16.6%'],
-                radius : radius,
-                    x:'60%', // for funnel
-                    itemStyle : labelFromatter,
-                    data : [
-                    {name:'other', value: <%= 100 - @points["表格"]["输入总视在功率"].to_i * 100 %>, itemStyle : labelBottom},
-                    {name:'输入总视在功率', value: <%= @points["表格"]["输入总视在功率"].to_i * 100 %>,itemStyle : labelTop}
-                    ]
-              },
-            <% end %>
-
-            <% unless exclude_points["表格"] && exclude_points["表格"].include?("输出总视在功率") %>
-              {
-                type : 'pie',
-                center : ['75%', '16.6%'],
-                radius : radius,
-                x:'80%', // for funnel
-                itemStyle : labelFromatter,
-                data : [
-                  {name:'other', value: <%= 100 - @points["表格"]["输出总视在功率"].to_i * 100 %>, itemStyle : labelBottom},
-                  {name:'输入总视在功率', value: <%= @points["表格"]["输出总视在功率"].to_i * 100 %>,itemStyle : labelTop}
-                ]
-              },
-            <% end %>
-
-            <% unless exclude_points["表格"] && exclude_points["表格"].include?("输入总有功") %>
-              {
-                type : 'pie',
-                center : ['25%', '50%'],
-                radius : radius,
-                x:'60%', // for funnel
-                itemStyle : labelFromatter,
-                data : [
-                  {name:'other', value: <%= 100 - @points["表格"]["输入总有功"].to_i * 100 %>, itemStyle : labelBottom},
-                  {name:'输入总视在功率', value: <%= @points["表格"]["输入总有功"].to_i * 100 %>,itemStyle : labelTop}
-                ]
-              },
-            <% end %>
-
-            <% unless exclude_points["表格"] && exclude_points["表格"].include?("输出总有功") %>
-              {
-                type : 'pie',
-                center : ['75%', '50%'],
-                radius : radius,
-                x:'80%', // for funnel
-                itemStyle : labelFromatter,
-                data : [
-                  {name:'other', value: <%= 100 - @points["表格"]["输出总有功"].to_i * 100 %>, itemStyle : labelBottom},
-                  {name:'输入总视在功率', value: <%= @points["表格"]["输出总有功"].to_i * 100 %>,itemStyle : labelTop}
-                ]
-              },
-            <% end %>
-
-            <% unless exclude_points["表格"] && exclude_points["表格"].include?("输入平均功率因数") %>
-              {
-                type : 'pie',
-                center : ['25%', '83.3%'],
-                radius : radius,
-                x:'60%', // for funnel
-                itemStyle : labelFromatter,
-                data : [
-                  {name:'other', value: <%= 100 - @points["表格"]["输入平均功率因数"].to_i * 100 %>, itemStyle : labelBottom},
-                  {name:'输入总视在功率', value: <%= @points["表格"]["输入平均功率因数"].to_i * 100 %>,itemStyle : labelTop}
-                ]
-              },
-            <% end %>
-
-            <% unless exclude_points["表格"] && exclude_points["表格"].include?("输出平均功率因数") %>
-              {
-                type : 'pie',
-                center : ['75%', '83.3%'],
-                radius : radius,
-                x:'80%', // for funnel
-                itemStyle : labelFromatter,
-                data : [
-                  {name:'other', value: <%= 100 - @points["表格"]["输出平均功率因数"].to_i * 100 %>, itemStyle : labelBottom},
-                  {name:'输入总视在功率', value: <%= @points["表格"]["输出平均功率因数"].to_i * 100 %>,itemStyle : labelTop}
-                ]
-              }
-            <% end %>
-            ]
-          };
-          upsPie.setOption(option); 
-        }
-        );
-</script>
-

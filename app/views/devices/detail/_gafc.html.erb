@@ -97,21 +97,18 @@
     <div class="panel panel-default warn-info">
       <div class="panel-heading text-center"><h4>报警信息</h4></div>
       <div class="panel-body">
-        <table class="table">
-          <tr>
-            <% keys = @points["告警"].try(:keys) || [] %>
-            <% (1..5).each do |i|%>
-            <td class="air_d_grey">
-              <% (1..(keys.size/5)).each do |j| %>
-              <div class="info-row">
-                <span class="warning-name"><%= keys[i*j - 1] %></span>
-                <span class="warning-icon"><%= warning_status @points["告警"][keys[i*j - 1]]%></span>
-              </div><br>
-              <% end %>
-            </td>
-            <% end %>
-          </tr>
-        </table>
+        <% @points["告警"].keys.each_with_index do |key, index| %>
+          <% if index % 4 == 0 %>
+            <div class="air_d_grey col-sm-3" align="left">
+          <% end %>
+            <div class="info-row" style="overflow:hidden; margin:0; padding-bottom:0;">
+              <span class="warning-name"><%= key %></span>
+              <span class="warning-icon"><%= warning_status @points["告警"][key] %></span>
+            </div>
+          <% if index%4 == 3 %>
+            </div>
+          <% end %>
+        <% end %>
       </div>
     </div>
   </div>
