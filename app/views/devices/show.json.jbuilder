@@ -1,4 +1,4 @@
-json.extract! @device, :id, :name
+json.extract! @device, :id, :name, :pic_path
 
 if @points.present?
   json.points @points.each do |point|
