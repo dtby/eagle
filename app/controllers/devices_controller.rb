@@ -35,7 +35,7 @@ class DevicesController < BaseController
       @room = Room.where(id: params[:room_id]).first
       @device = Device.includes(:points).where(id: params[:id]).first
       @alarms = Device.find(params[:id]).alarms.sort_by{|x| x.device_name.gsub(/[^0-9]/, '').to_i}
-      @points = @device.points_group
+      @points = @device.points_value
       @exclude_points = @device.pattern.getting_exclude_points
     else
       @device = Device.find_by(id: params[:id])
