@@ -43,7 +43,9 @@
                  <input type="checkbox" id="js-checked-all">
               </th>
             <% end %>
-            <th class="text-center">告警名称</th>
+            <th class="text-center">告警设备</th>
+            <th class="text-center">点信息</th>
+            <th class="text-center">描述</th>
             <th class="text-center">告警状态</th>
             <th class="text-center">告警时间</th>
             <th class="text-center">告警处理</th>
@@ -56,6 +58,8 @@
                 <td class="text-center"><%= check_box_tag "point_alarms[]", point_alarm.id, false, class: 'point-alarms' %></td>
               <% end %>
               <td class="text-center"><%= point_alarm.try(:point).try(:name) %></td>
+              <td><%= point_alarm.point_id %></td>
+              <td><%= point_alarm.comment %></td>
               <td class="text-center"><%= alarm_status point_alarm.state %></td>
               <td class="text-center"><%= point_alarm.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
               <td class="text-center">
