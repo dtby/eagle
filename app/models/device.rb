@@ -31,6 +31,29 @@ class Device < ActiveRecord::Base
   has_many :alarms, dependent: :destroy
   has_many :point_alarms, dependent: :destroy
 
+  # 获取设备对应的点的值
+  def points_value 
+    view_points = {}
+
+    # 循环分组封装呆显示数据
+    all_points = points.order("name asc")
+    all_points.each do |point|
+      state = point.try(:value) || 0
+      if point.name.include?('-')
+        group = point.name.split('-', 2).try(:first).try(:strip)
+        if group.present?
+          pn = point.name.split('-', 2).try(:last).try(:strip)
+          view_points[group].blank? ? view_points[group] = { pn => state } : view_points[group].merge!({pn => state })
+        end
+      else
+        view_points["其他"].blank? ? view_points["其他"] = {point.name => state } : view_points["其他"].merge!({point.name => state })
+      end
+    end 
+
+    view_points
+  end
+
+  # 获取设备告警
   def points_group show_alarm_type = false
     view_points = {}
 
