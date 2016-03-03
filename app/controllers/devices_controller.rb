@@ -8,6 +8,7 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  room_id    :integer
+#  pic_path   :string(255)
 #
 # Indexes
 #
