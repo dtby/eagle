@@ -45,8 +45,8 @@ class PointAlarmsController < BaseController
       sub_system = SubSystem.find_by(name: params[:sub_system])
       devices = sub_system.patterns.map(&:devices).flatten
       return unless devices.present?
-      devices = devices.select { |device| device.room_id == params[:room_id] }
       point_alarms = devices.map(&:point_alarms).flatten
+      point_alarms = point_alarms.select { |point_alarm| params[:room_id].to_i == point_alarm.room_id } 
     elsif (!params[:sub_system].present?) && (params[:id].present?)
       device = Device.find_by(id: params[:id])
       point_alarms = device.try(:point_alarms).to_a
