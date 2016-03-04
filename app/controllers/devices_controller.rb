@@ -74,7 +74,7 @@ class DevicesController < BaseController
             end
           when "空调系统"
             name = device.try(:name)
-            if name.present? && ((name.include? "冷水机组") || (name.include? "室外机"))
+            if name.present? # && ((name.include? "冷水机组") || (name.include? "室外机"))
               @device_alarm[device.try(:id)] = device.is_alarm?
               puts "#{device.id}, #{device.is_alarm?}"
             else
@@ -120,10 +120,10 @@ class DevicesController < BaseController
   def con_point_values device
     point_ids = $redis.hget "eagle_key_points_value", device.id
     point_ids = point_ids.try(:split, "-")
-
+    
     @point_values[device.try(:id)] = {}
     names = ["温度", "湿度"]
-
+    
     0.upto(1) do |index|
       @point_values[device.try(:id)][names[index]] = 
         Point.find_by(id: point_ids.try(:[], index).try(:to_i)).try(:value) || "0"
