@@ -70,10 +70,15 @@ class DevicesController < BaseController
         devices.each do |device|
           @point_values[device.try(:id)] = {}
           case sub_sys_name
-          when "温湿度系统", "消防系统"
+          when "温湿度系统"
             points = device.try(:points)
             points.each do |point|
               @point_values[device.try(:id)][point.name] = (point.value || "0")
+            end
+          when "消防系统"
+            points = device.try(:points)
+            points.each do |point|
+              @point_values[device.try(:id)][point.name] = point.try(:point_alarm).try(:state).to_s || "0"
             end
           when "空调系统"
             name = device.try(:name)
