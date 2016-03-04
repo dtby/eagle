@@ -50,6 +50,9 @@ class DevicesController < BaseController
     @device_alarm = {}
     if params[:sub_sys_name] == "烟感"
       @devices = Device.where(room_id: params[:room_id], name: "烟感")
+      @devices.each do |device|
+        @device_alarm[device.try(:id)] = device.is_alarm?
+      end
       return
     end
 
