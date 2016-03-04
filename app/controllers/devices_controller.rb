@@ -74,7 +74,7 @@ class DevicesController < BaseController
             end
           when "空调系统"
             name = device.try(:name)
-            if name.present? # && ((name.include? "冷水机组") || (name.include? "室外机"))
+            if name.present? && ((name.include? "冷水机组") || (name.include? "室外机"))
               @device_alarm[device.try(:id)] = device.is_alarm?
               puts "#{device.id}, #{device.is_alarm?}"
             else
