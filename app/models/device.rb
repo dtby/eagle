@@ -86,7 +86,7 @@ class Device < ActiveRecord::Base
     group.each do |type, value|
       value, alarm_type = value.split("_")
       result[type] = (value.to_i != 0)
-      type_result[type] = (alarm_type == "alarm" ?  (value.to_i > 0) : nil)
+      type_result[type] = (alarm_type == "alarm" ?  (value.to_i) : nil)
     end
     return result, type_result
   end
