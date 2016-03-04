@@ -92,8 +92,8 @@ class Point < ActiveRecord::Base
       cos = AnalogAlarm.order("ADate DESC, ATime DESC, AMSecond DESC").find_by(PointID: aa.PointID)
       dp = AnalogPoint.find_by(PointID: aa.PointID)
       
-      state = cos.try(:Status).try(:to_i)
-      if state == 1
+      state = cos.try(:Status)
+      if ((state == 1 && state.class == Integer) || (state && state.class == TrueClass))
         state = 0
       else
         case cos.try(:AlarmType).try(:to_i) || 2
@@ -143,8 +143,9 @@ class Point < ActiveRecord::Base
       else
         cos = AnalogAlarm.order("ADate DESC, ATime DESC, AMSecond DESC").find_by(PointID: pa.try(:point).try(:point_index).try(:to_i))
         puts "AnalogAlarm size is #{PointAlarm.is_warning_alarm.size}, #{pa.try(:point).try(:point_index).try(:to_i)}"
-        state = cos.try(:Status).try(:to_i)
-        if state == 1
+        state = cos.try(:Status)
+        puts state if cos.PointID == 541697
+        if ((state == 1 && state.class == Integer) || (state && state.class == TrueClass))
           state = 0
         else
           case cos.try(:AlarmType).try(:to_i) || 2
