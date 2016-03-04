@@ -69,7 +69,7 @@ class Point < ActiveRecord::Base
       point = Point.find_by(point_index: da.PointID.to_s)
       next unless point.present?
       
-      cos = DigitalAlarm.order("ADate DESC, ATime DESC").find_by(PointID: da.PointID)
+      cos = DigitalAlarm.order("ADate DESC, ATime DESC, AMSecond DESC").find_by(PointID: da.PointID)
       dp = DigitalPoint.find_by(PointID: da.PointID)
       state = cos.try(:Status).try(:to_i)
 
@@ -82,19 +82,32 @@ class Point < ActiveRecord::Base
           is_checked: (state.to_i == 0), updated_at: update_time, alarm_type: 1, 
           room_id: point.try(:device).try(:room).try(:id), 
           device_id: point.try(:device).try(:id), 
-          sub_system_id: point.try(:device).try(:pattern).try(:sub_system).try(:id), 
-          alarm_value: da.AlarmValue)
+          sub_system_id: point.try(:device).try(:pattern).try(:sub_system).try(:id))
       end
     end
 
     aas.each do |aa|
       point = Point.find_by(point_index: aa.PointID.to_s)
       next unless point.present?
-      cos = AnalogAlarm.order("ADate DESC, ATime DESC").find_by(PointID: aa.PointID)
+      cos = AnalogAlarm.order("ADate DESC, ATime DESC, AMSecond DESC").find_by(PointID: aa.PointID)
       dp = AnalogPoint.find_by(PointID: aa.PointID)
       
-      state = cos.try(:AlarmType).try(:to_i) || 2
-      state -= 2
+      state = cos.try(:Status).try(:to_i)
+      if state == 1
+        state = 0
+      else
+        case cos.try(:AlarmType).try(:to_i) || 2
+        when 1
+          state = -2
+        when 2
+          state = -1
+        when 3
+          state = 1
+        when 4
+          state = 2
+        end
+      end
+
 
       point_alarm = PointAlarm.find_or_create_by(point_id: point.id)
       
@@ -106,7 +119,7 @@ class Point < ActiveRecord::Base
           room_id: point.try(:device).try(:room).try(:id), 
           device_id: point.try(:device).try(:id), 
           sub_system_id: point.try(:device).try(:pattern).try(:sub_system).try(:id), 
-          alarm_value: da.AlarmValue)
+          alarm_value: cos.AlarmValue)
       end
     end
     puts "DigitalAlarm size is #{PointAlarm.is_warning_alarm.size}"
@@ -130,8 +143,21 @@ class Point < ActiveRecord::Base
       else
         cos = AnalogAlarm.order("ADate DESC, ATime DESC, AMSecond DESC").find_by(PointID: pa.try(:point).try(:point_index).try(:to_i))
         puts "AnalogAlarm size is #{PointAlarm.is_warning_alarm.size}, #{pa.try(:point).try(:point_index).try(:to_i)}"
-        state = cos.try(:AlarmType).try(:to_i) || 2
-        state -= 2
+        state = cos.try(:Status).try(:to_i)
+        if state == 1
+          state = 0
+        else
+          case cos.try(:AlarmType).try(:to_i) || 2
+          when 1
+            state = -2
+          when 2
+            state = -1
+          when 3
+            state = 1
+          when 4
+            state = 2
+          end
+        end
         alarm_value = cos.try(:AlarmValue) || ""
       end
       pa.update(state: state, updated_at: update_time, alarm_value: alarm_value)  if pa.state != state
