@@ -8,6 +8,7 @@
 #  room_id    :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  deleted_at :datetime
 #
 # Indexes
 #
@@ -22,6 +23,10 @@ class Attachment < ActiveRecord::Base
   belongs_to :room
 
   default_scope {order('id desc')}
+
+  scope :enabled, -> {
+    where("deleted_at is null")
+  }
 
   validates :room_id, presence: true
   validates :image, presence: true, on: :new

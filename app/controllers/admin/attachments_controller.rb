@@ -1,9 +1,9 @@
 class Admin::AttachmentsController < Admin::BaseController
-  before_action :set_attachment, only: [:edit, :show, :update, :destroy]
+  before_action :set_attachment, only: [:edit, :show, :update, :delete]
   respond_to :html, :js
 
   def index
-    @attachments = Attachment.all.paginate(page: params[:page], per_page: 15)
+    @attachments = Attachment.enabled.paginate(page: params[:page], per_page: 15)
     respond_with @attachments
   end
 
@@ -30,13 +30,16 @@ class Admin::AttachmentsController < Admin::BaseController
   def update
     if @attachment.update(attachment_params)
       flash[:notice] = "更新成功"
+      return redirect_to admin_attachments_path
     else
       flash[:notice] = "更新失败"
+      render :edit
     end
   end
 
-  def destroy
-    @attachment.destroy
+  def delete
+    @attachment.update(deleted_at: Time.now)
+    flash[:notice] = '删除成功'
     redirect_to admin_attachments_path
   end
 

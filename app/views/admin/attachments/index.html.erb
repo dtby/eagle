@@ -16,6 +16,7 @@
                 <th class="text-center">机房</th>
                 <th class="text-center">图片</th>
                 <th class="text-center">标签</th>
+                <th class="text-center">状态</th>
               </tr>
             </thead>
             <tbody data-no-turbolink>
@@ -28,7 +29,7 @@
                   <%= link_to edit_admin_attachment_path(attachment), class: 'btn btn-xs btn-default', remote: true, format: :js do %>
                     <span class="glyphicon glyphicon-edit"></span>
                   <% end %>
-                  <%= link_to admin_attachment_path(attachment), method: :delete, class: 'btn btn-xs btn-danger' do %>
+                  <%= link_to delete_admin_attachment_path(attachment), data: {confirm: "确认删除吗？"}, method: :patch, class: 'btn btn-xs btn-danger' do %>
                     <span class="glyphicon glyphicon-trash"></span>
                   <% end %>
                 </td>
