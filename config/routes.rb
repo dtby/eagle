@@ -95,6 +95,7 @@ Rails.application.routes.draw do
     resources :admins # 管理用户
     resources :rooms # 机房管理
     resources :ftps, only: [:index, :create]
+    resources :attachments
   end
 
   devise_for :admins, controllers: {

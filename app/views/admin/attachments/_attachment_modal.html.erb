@@ -1,0 +1,72 @@
+<div id="attachmentModal" class="modal fade rooms-modal" aria-hidden="true" style="margin-top: 80px;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title"><span class="text-primary"><%= attachment.id %></span><small>数据设置</small></h3>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-12">
+            <%= form_for [:admin, attachment], remote: true, format: :js do |f| %>
+              <div class="form-group">
+                <div class="input-group input-padding" style="width: 100%;">
+                  <%= f.label :room_id, "选择机房：" %>
+                  <%= f.select :room_id, Room.all.collect {|p| [ p.name, p.id ] }, {prompt: "请选择机房"}, class: 'form-control', required: true%>
+                </div>
+                <% if attachment.errors[:name].any? %>
+                  <dd class="error text-danger"><%= attachment.errors[:name][0] %></dd>
+                <% end %>
+              </div>
+
+              <div class="form-group">
+                <div class="input-group input-padding" style="width: 100%;">
+                  <%= f.label :image, "上传图片：" %>
+                  <%= f.file_field :image, class: 'form-control', required: true%>
+                </div>
+                <% if attachment.errors[:monitor_link].any? %>
+                  <dd class="error text-danger"><%= attachment.errors[:monitor_link][0] %></dd>
+                <% end %>
+              </div>
+
+              <div class="form-group">
+                <div class="input-group input-padding" style="width: 100%;">
+                  <%= f.label :tag, "设备标签：" %>
+                  <%= f.text_field :tag, class: 'form-control', placeholder: '请输入设备标签', required: true%>
+                </div>
+                <% if attachment.errors[:link].any? %>
+                  <dd class="error text-danger"><%= attachment.errors[:link][0] %></dd>
+                <% end %>
+              </div>
+              <div class="text-center"><button class="btn sub-btn btn-primary" type="submit"><strong>提交</strong></button></div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var CKboxDisable;
+  CKboxDisable = Array.prototype.slice.call(document.querySelectorAll(".js-switch-modal"));
+  CKboxDisable.forEach(function(html) {
+    return new Switchery(html, {
+      color: "#1AB394",
+      size: 'small'
+    });
+  });
+
+  //配置多选表单
+  var config = {
+    '.chosen-select'           : {},
+    '.chosen-select-deselect'  : {allow_single_deselect:true},
+    '.chosen-select-no-single' : {disable_search_threshold:10},
+    '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+    '.chosen-select-width'     : {width:"90%"}
+  }
+  for (var selector in config) {
+    $(selector).chosen(config[selector]);
+  }
+</script>
+

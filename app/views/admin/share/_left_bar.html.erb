@@ -16,6 +16,13 @@
 					<i class="fa fa-home"></i> <span class="nav-label">机房</span>
 				<% end %>
 			</li>
+
+			<li class="<%= 'active' if params[:controller] == 'admin/attachments' %>">
+				<%= link_to admin_attachments_path do %>
+					<i class="fa fa-home"></i> <span class="nav-label">设备图片</span>
+				<% end %>
+			</li>
+
 			<li class="<%= 'active' if params[:controller] == 'admin/admins' %>">
 				<%= link_to admin_admins_path do %>
 					<i class="fa fa-user"></i> <span class="nav-label">管理员</span>
