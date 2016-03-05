@@ -84,7 +84,6 @@ class Room < ActiveRecord::Base
     # 动力系统 ->  电池检测 -> 电池组1  "总电压" "总电流" "温度1" "温度2"
     case sub_sys_name
     when "UPS系统", "配电系统"
-      puts "#{sub_sys_name}, #{point_name}"
       # 文档： "UPS系统", "配电系统"，“输出电压ABC表示”
       if point_name == "频率"
         point_name = "输出电压D"
@@ -125,7 +124,8 @@ class Room < ActiveRecord::Base
         point_name = "D相电压"
         result = 0
       else
-        result = point_name =~ /\A([A-Z])相电压/
+        result = (point_name =~ /-([A-Z])相电压/)
+        result += 1 if result
       end
 
       return if result.nil?
