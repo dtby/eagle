@@ -16,11 +16,10 @@ class Admin::AttachmentsController < Admin::BaseController
     @attachment = Attachment.new(attachment_params)
     if @attachment.save
       flash[:notice] = "创建成功"
-      return redirect_to admin_attachments_path
     else
       flash[:error] = "创建失败"
-      render :new
     end
+    return redirect_to admin_attachments_path
   end
 
   def edit
@@ -30,11 +29,10 @@ class Admin::AttachmentsController < Admin::BaseController
   def update
     if @attachment.update(attachment_params)
       flash[:notice] = "更新成功"
-      return redirect_to admin_attachments_path
     else
       flash[:notice] = "更新失败"
-      render :edit
     end
+    return render js: "window.location.href = '#{admin_attachments_path}';"
   end
 
   def delete

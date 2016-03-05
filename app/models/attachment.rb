@@ -29,7 +29,7 @@ class Attachment < ActiveRecord::Base
   }
 
   validates :room_id, presence: true
-  validates :image, presence: true, on: :new
+  validates :image, presence: true
   validates :tag, presence: true
 
   mount_uploader :image, ImageUploader
