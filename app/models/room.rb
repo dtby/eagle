@@ -19,6 +19,7 @@ class Room < ActiveRecord::Base
   has_many :systems, source: 'menuable', source_type: 'System', through: :menus
   has_many :sub_systems, source: 'menuable', source_type: 'SubSystem', through: :menus
   has_many :user_rooms, dependent: :destroy
+  has_many :attachments, dependent: :destroy
   has_many :users, through: :user_rooms
 
   has_many :devices, dependent: :destroy

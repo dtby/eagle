@@ -9,7 +9,7 @@
               <i class="fa fa-plus fa-lg"></i>
             <% end %>
         </div>
-        <div class="ibox-content"> 
+        <div class="ibox-content">
           <table class="footable table table-stripped text-center toggle-arrow-tiny" data-page-size="2">
             <thead>
               <tr>
@@ -24,7 +24,7 @@
               <tr>
                 <td><%= index + 1 %></td>
                 <td><%= attachment.try(:room).try(:name) %></td>
-                <td><%= image_tag attachment.image %></td>
+                <td><%= attachment.image %></td>
                 <td><%= attachment.tag %></td>
                 <td>
                   <%= link_to edit_admin_attachment_path(attachment), class: 'btn btn-xs btn-default', remote: true, format: :js do %>

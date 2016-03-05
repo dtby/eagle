@@ -20,4 +20,10 @@
 
 class Attachment < ActiveRecord::Base
   belongs_to :room
+
+  validates :room_id, presence: true
+  validates :image, presence: true
+  validates :tag, presence: true
+
+  mount_uploader :image, ImageUploader
 end

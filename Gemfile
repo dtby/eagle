@@ -83,3 +83,7 @@ gem 'redis-namespace'
 
 # 导出为xls或csv
 gem "spreadsheet_on_rails"
+
+#图片上传
+gem 'carrierwave'
+gem "mini_magick"

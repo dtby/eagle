@@ -37,11 +37,15 @@ class DevicesController < BaseController
       @alarms = Device.find(params[:id]).alarms.sort_by{|x| x.device_name.gsub(/[^0-9]/, '').to_i}
       @points = @device.points_value
       @exclude_points = @device.pattern.getting_exclude_points
+      ##通过设备名称获取背景图片
+      @attachment = @room.attachments.where("tag like ?", @device.name).first
     else
       @device = Device.find_by(id: params[:id])
       @points = @device.try(:points).try(:order, 'name').try(:to_a)
       @points = @points.sort_by {|p| p.name[/\d+/].to_i }
       @alarms, @alarm_types = @device.alarm_group
+      #通过设备名称获取背景图片
+      @attachment = @room.attachments.where("tag like ?", @device.name).first
     end
   end
 
