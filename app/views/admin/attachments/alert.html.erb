@@ -1,0 +1,9 @@
+<table>
+  <% @alerts.each do |alert|%>
+  <tr>
+    <th>Point ID</th>
+    <td><%= alert['0'] %></td>
+    <th>告警状态</th>
+    <td><%= alert['1'] %></td>
+  </tr>
+</table>

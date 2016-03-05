@@ -8,15 +8,31 @@
   </div>
 
   <div class="col-md-12 content">
-    <%=image_tag "temperature.png", width: "100%", id: 'temperatureImg'%>
-
-    <% (1..@points["其他"].size).each do |i| %>
-      <% unless exclude_points["其他"] && exclude_points["其他"].include?("烟感#{i}")  %>
-        <div class="data text-center show<%= i %>">
-          <i class="fa fa-circle <%= circle_color(@points["其他"]["烟感#{i}"]) %>"></i>
-        </div>
-      <% end %>
+    <% if @attachment.present? && @attachment.image.present? %>
+       <%=image_tag @attachment.image, width: "100%", id: 'temperatureImg'%>
+    <% else %>
+      <h3 class="text-center text-danger" style="height: 100px; line-height: 100px;">暂无设备配置图片，请联系管理员上传!</h3>
     <% end %>
+
+    <div class="panel panel-default panel3 warn-info">
+      <div class="panel-heading">漏水</div>
+      <div class="panel-body">
+        <div class="">
+          <% @points["其他"].keys.each_with_index do |key, index| %>
+            <% if index % 4 == 0 %>
+              <div class="air_d_grey col-sm-3" align="left">
+            <% end %>
+              <div class="info-row" style="overflow:hidden;">
+                <span class="warning-name"><%= key %></span>
+                <span class="warning-icon"><%= warning_status @points["其他"][key] %></span>
+              </div><br>
+            <% if index%4 == 3 %>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
