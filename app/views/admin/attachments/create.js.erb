@@ -3,5 +3,5 @@
 	$("#attachmentModalContent").html("<%= escape_javascript( render 'attachment_modal', attachment: @attachment)%>");
 	$('#attachmentModal').modal('show');
 <% else %>
-	window.location.href = "<%= admin_attachments_path %>"
+  window.location.href = "<%= admin_attachments_path %>"
 <% end  %>

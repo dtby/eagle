@@ -2,6 +2,11 @@ class Admin::AttachmentsController < Admin::BaseController
   before_action :set_attachment, only: [:edit, :show, :update, :destroy]
   respond_to :html, :js
 
+  def index
+    @attachments = Attachment.all.paginate(page: params[:page], per_page: 15)
+    respond_with @attachments
+  end
+
   def new
     @attachment = Attachment.new
     respond_with @attachment
@@ -11,15 +16,11 @@ class Admin::AttachmentsController < Admin::BaseController
     @attachment = Attachment.new(attachment_params)
     if @attachment.save
       flash[:notice] = "创建成功"
-      respond_with @attachments
+      return redirect_to admin_attachments_path
     else
       flash[:error] = "创建失败"
       render :new
     end
-  end
-
-  def index
-    @attachments = Attachment.all
   end
 
   def edit

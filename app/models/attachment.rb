@@ -21,6 +21,8 @@
 class Attachment < ActiveRecord::Base
   belongs_to :room
 
+  default_scope {order('id desc')}
+
   validates :room_id, presence: true
   validates :image, presence: true, on: :new
   validates :tag, presence: true

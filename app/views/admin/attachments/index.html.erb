@@ -13,16 +13,14 @@
           <table class="footable table table-stripped text-center toggle-arrow-tiny" data-page-size="2">
             <thead>
               <tr>
-                <th class="text-center" data-toggle="true">No.</th>
                 <th class="text-center">机房</th>
                 <th class="text-center">图片</th>
                 <th class="text-center">标签</th>
               </tr>
             </thead>
             <tbody data-no-turbolink>
-            <% @attachments.each_with_index do |attachment, index| %>
+            <% @attachments.each do |attachment| %>
               <tr>
-                <td><%= index + 1 %></td>
                 <td><%= attachment.try(:room).try(:name) %></td>
                 <td><%= image_tag attachment.image_url(:thumb) %></td>
                 <td><%= attachment.tag %></td>
@@ -37,15 +35,10 @@
               </tr>
             <% end %>
             </tbody>
-            <tfoot>
-              <tr>
-                <td class="text-center" colspan="5">
-                  <ul class="pagination"></ul>
-                </td>
-              </tr>
-            </tfoot>
           </table>
         </div>
+        <div class="text-center">
+          <%= will_paginate @attachments, renderer: BootstrapPagination::Rails  %></div>
       </div>
     </div>
   </div>
