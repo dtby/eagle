@@ -45,6 +45,17 @@ class DevicesController < BaseController
     end
   end
 
+  def refresh_data
+    @room = Room.where(id: params[:room_id]).first
+    @device = Device.includes(:points).where(id: params[:id]).first
+    @alarms = Device.find(params[:id]).alarms.sort_by{|x| x.device_name.gsub(/[^0-9]/, '').to_i}
+    @points = @device.points_value
+    @exclude_points = @device.pattern.getting_exclude_points
+    respond_to do |format|
+      format.js {}
+    end
+  end
+
   def search
     @point_values = {}
     @device_alarm = {}

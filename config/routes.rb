@@ -47,7 +47,8 @@ Rails.application.routes.draw do
       collection do
         post :search
       end
-      member do 
+      member do
+        get :refresh_data
         resources :points, only: [:index, :show]
       end
     end
