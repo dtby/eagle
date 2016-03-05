@@ -124,7 +124,7 @@ class Room < ActiveRecord::Base
         point_name = "D相电压"
         result = 0
       else
-        result = point_name =~ /([A-Z])相电压/
+        result = point_name =~ /\A([A-Z])相电压/
       end
 
       return if result.nil?
