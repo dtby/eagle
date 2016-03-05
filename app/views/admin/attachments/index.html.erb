@@ -24,7 +24,7 @@
               <tr>
                 <td><%= index + 1 %></td>
                 <td><%= attachment.try(:room).try(:name) %></td>
-                <td><%= attachment.image %></td>
+                <td><%= image_tag attachment.image_url(:thumb) %></td>
                 <td><%= attachment.tag %></td>
                 <td>
                   <%= link_to edit_admin_attachment_path(attachment), class: 'btn btn-xs btn-default', remote: true, format: :js do %>

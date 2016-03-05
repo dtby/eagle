@@ -22,7 +22,7 @@
               <div class="form-group">
                 <div class="input-group input-padding" style="width: 100%;">
                   <%= f.label :image, "上传图片：" %>
-                  <%= f.file_field :image, class: 'form-control', required: true%>
+                  <%= f.file_field :image, class: 'form-control'%>
                 </div>
                 <% if attachment.errors[:monitor_link].any? %>
                   <dd class="error text-danger"><%= attachment.errors[:monitor_link][0] %></dd>
@@ -46,27 +46,4 @@
     </div>
   </div>
 </div>
-
-<script>
-  var CKboxDisable;
-  CKboxDisable = Array.prototype.slice.call(document.querySelectorAll(".js-switch-modal"));
-  CKboxDisable.forEach(function(html) {
-    return new Switchery(html, {
-      color: "#1AB394",
-      size: 'small'
-    });
-  });
-
-  //配置多选表单
-  var config = {
-    '.chosen-select'           : {},
-    '.chosen-select-deselect'  : {allow_single_deselect:true},
-    '.chosen-select-no-single' : {disable_search_threshold:10},
-    '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
-    '.chosen-select-width'     : {width:"90%"}
-  }
-  for (var selector in config) {
-    $(selector).chosen(config[selector]);
-  }
-</script>
 
