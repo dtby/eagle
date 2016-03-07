@@ -47,6 +47,20 @@ class Room < ActiveRecord::Base
     logger.info "Room.generate_point_value time is #{end_time-start_time}"
   end
 
+  # Room.generate_value_meaning
+  def self.generate_value_meaning
+    DigitalPoint.all.each do |dp|
+      next if (dp.OffName.blank? || dp.OnName.blank?)
+      $redis.hset "eagle_value_meaning", dp.try(:PointID), [dp.OffName, dp.OnName].join("-") 
+    end
+
+    AnalogPoint.all.each do |ap|
+      next if ap.UpName.blank? || ap.UUpName.blank? || ap.DnName.blank? || ap.DDnName.blank?
+      $redis.hset "eagle_value_meaning", ap.try(:PointID), [ap.DDnName, ap.DnName, ap.UpName, ap.UUpName].join("-") 
+    end
+    nil
+  end
+
   def self.generate_system  point_hash
     # 机房 => { 系统 => 子系统 => { 点 => 数据 }
     point_hash.each do |room, system_hash|
