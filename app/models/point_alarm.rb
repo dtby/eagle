@@ -64,6 +64,16 @@ class PointAlarm < ActiveRecord::Base
   scope :order_desc, -> {order("updated_at DESC")}
   scope :get_alarm_point_by_room, -> (room_id) { where(room_id: room_id)}
 
+  def meaning
+    value_meaning = $redis.hget "eagle_value_meaning", self.try(:point).try(:point_index)
+    return "" if value_meaning.nil?
+    index = self.state
+    if self.alarm_type == "alarm"
+      index = self.state<0 ? (self.state+2) : (self.state+1)
+    end
+    value_meaning.split("-")[index]
+  end
+
   def self.keyword start_time, end_time
     return self.all if start_time.blank? && end_time.blank?
     self.where("created_at > ? AND created_at < ?", start_time.to_datetime, end_time.to_datetime)
