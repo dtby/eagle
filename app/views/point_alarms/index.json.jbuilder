@@ -30,6 +30,7 @@ if @point_alarms.present?
       end
     end
     json.type type
+    json.meaning point_alarm.try(:meaning)
     json.alarm_value point_alarm.try(:alarm_value)
   end
 end
