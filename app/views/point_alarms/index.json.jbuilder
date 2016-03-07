@@ -14,20 +14,22 @@ if @point_alarms.present?
     json.point_id point_alarm.try(:point_id)
     json.comment point_alarm.try(:comment)
 
-    if point_alarm.try(:state).present?
+    type = nil
+    if (point_alarm.try(:state).present? && point_alarm.alarm_type == "alarm")
       case point_alarm.try(:state) || 0
       when -2
-        json.type "越下下限"
+        type = "越下下限"
       when -1
-        json.type "越下限"
+        type = "越下限"
       when  1
-        json.type "越上限"
+        type = "越上限"
       when  2
-        json.type "越上上限"
+        type = "越上上限"
       else
-        json.type nil
+        type = nil
       end
     end
+    json.type type
     json.alarm_value point_alarm.try(:alarm_value)
   end
 end
