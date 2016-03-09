@@ -8,7 +8,7 @@
   </div>
 
   <div class="col-md-12 content">
-    <%=image_tag "temperature.png", width: "100%", id: "temperatureImg"%>
+    <%=image_tag @attachment.image_url(:w_640), id: 'temperatureImg'%>
     
     <% (1..@points["其他"].size / 2 ).each do |i| %>
       <% unless exclude_points["其他"] && exclude_points["其他"].include?("温度#{i}") && exclude_points["其他"].include?("湿度#{i}") %>

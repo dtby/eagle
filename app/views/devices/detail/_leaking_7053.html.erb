@@ -9,11 +9,10 @@
 
   <div class="col-md-12 content">
     <% if @attachment.present? && @attachment.image.present? %>
-       <%=image_tag @attachment.image, width: "100%", id: 'temperatureImg'%>
+       <%=image_tag @attachment.image_url(:w_640), id: 'temperatureImg'%>
     <% else %>
       <h3 class="text-center text-danger" style="height: 100px; line-height: 100px;">暂无设备配置图片，请联系管理员上传!</h3>
     <% end %>
-   
 
     <div class="panel panel-default panel3 warn-info">
       <div class="panel-heading">漏水</div>

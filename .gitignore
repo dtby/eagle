@@ -32,6 +32,8 @@ capybara-*.html
 /shared
 /scm
 
+app/assets/.DS_Store
+
 /lience
 lience
 /solr/
