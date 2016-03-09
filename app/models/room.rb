@@ -168,10 +168,10 @@ class Room < ActiveRecord::Base
     class_name.all.each do |ap|
       # BayName: 机房A-配电系统
       # 机房A -> 配电系统 -> 配电柜 -> 
-      bay_info = ap.BayName.split("-")
+      bay_info = ap.BayName.upcase.split("-")
 
       device_name = bay_info.second
-      point_name = ap.PointName
+      point_name = ap.PointName.upcase
 
       if bay_info.second.present? && (/\d+机柜/ =~ bay_info.second)
         index = bay_info.second.index "机柜"
@@ -184,12 +184,12 @@ class Room < ActiveRecord::Base
       end
 
       group_hash[bay_info.first] = {} unless group_hash[bay_info.first].present?
-      group_hash[bay_info.first][ap.GroupName] = {} unless group_hash[bay_info.first][ap.GroupName].present?
+      group_hash[bay_info.first][ap.GroupName.try(:upcase)] = {} unless group_hash[bay_info.first][ap.GroupName.try(:upcase)].present?
       # puts "bay_info is #{bay_info}"
       
       point_hash = {}
-      group_hash[bay_info.first][ap.GroupName][device_name] = {} unless group_hash[bay_info.first][ap.GroupName][device_name].present?
-      group_hash[bay_info.first][ap.GroupName][device_name][point_name] = ap.PointID
+      group_hash[bay_info.first][ap.GroupName.try(:upcase)][device_name] = {} unless group_hash[bay_info.first][ap.GroupName.try(:upcase)][device_name].present?
+      group_hash[bay_info.first][ap.GroupName.try(:upcase)][device_name][point_name] = ap.PointID
     end
     group_hash
   end
