@@ -77,7 +77,7 @@ class Point < ActiveRecord::Base
       
       if state != point_alarm.state
         puts "DigitalAlarm size is #{PointAlarm.is_warning_alarm.size}, #{da.PointID}, #{point_alarm.state}  => #{state}"
-        update_time = DateTime.new(da.ADate.year, da.ADate.month, da.ADate.day, da.ATime.hour,da.ATime.min, da.ATime.sec)
+        update_time = DateTime.new(cos.ADate.year, cos.ADate.month, cos.ADate.day, cos.ATime.hour,cos.ATime.min, cos.ATime.sec)
         point_alarm.update(state: state, comment: dp.try(:Comment), 
           is_checked: (state.to_i == 0), updated_at: update_time, alarm_type: 1, 
           room_id: point.try(:device).try(:room).try(:id), 
@@ -112,8 +112,7 @@ class Point < ActiveRecord::Base
       point_alarm = PointAlarm.find_or_create_by(point_id: point.id)
       
       if state != point_alarm.state
-        puts "AnalogAlarm size is #{PointAlarm.is_warning_alarm.size}, #{aa.PointID}, AnalogAlarm #{point_alarm.state}  => #{state}"
-        update_time = DateTime.new(aa.ADate.year, aa.ADate.month, aa.ADate.day, aa.ATime.hour,aa.ATime.min, aa.ATime.sec)
+        update_time = DateTime.new(cos.ADate.year, cos.ADate.month, cos.ADate.day, cos.ATime.hour,cos.ATime.min, cos.ATime.sec)
         point_alarm.update(state: state, comment: dp.try(:Comment), 
           is_checked: (state == 0), updated_at: update_time, alarm_type: 0,
           room_id: point.try(:device).try(:room).try(:id), 
