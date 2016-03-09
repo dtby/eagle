@@ -184,12 +184,12 @@ class Room < ActiveRecord::Base
       end
 
       group_hash[bay_info.first] = {} unless group_hash[bay_info.first].present?
-      group_hash[bay_info.first][ap.GroupName.try(:upcase)] = {} unless group_hash[bay_info.first][ap.GroupName.try(:upcase)].present?
+      group_hash[bay_info.first][ap.GroupName] = {} unless group_hash[bay_info.first][ap.GroupName].present?
       # puts "bay_info is #{bay_info}"
       
       point_hash = {}
-      group_hash[bay_info.first][ap.GroupName.try(:upcase)][device_name] = {} unless group_hash[bay_info.first][ap.GroupName.try(:upcase)][device_name].present?
-      group_hash[bay_info.first][ap.GroupName.try(:upcase)][device_name][point_name] = ap.PointID
+      group_hash[bay_info.first][ap.GroupName][device_name] = {} unless group_hash[bay_info.first][ap.GroupName][device_name].present?
+      group_hash[bay_info.first][ap.GroupName][device_name][point_name] = ap.PointID
     end
     group_hash
   end
