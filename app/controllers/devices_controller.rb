@@ -81,7 +81,7 @@ class DevicesController < BaseController
     
     if patterns.present?
       patterns.each do |pattern|
-        devices = pattern.devices
+        devices = pattern.devices.where(room_id: params[:room_id])
         next unless devices.present?
         @devices.concat devices.includes(:points).where(room_id: params[:room_id])
         devices.each do |device|
