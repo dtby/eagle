@@ -42,7 +42,7 @@ class Device < ActiveRecord::Base
       if point.name.include?('-')
         group = point.name.split('-', 2).try(:first).try(:strip)
         if group.present?
-          pn = point.name.split('-', 2).try(:last).try(:strip)
+          pn = point.name.upcase.split('-', 2).try(:last).try(:strip)
           view_points[group].blank? ? view_points[group] = { pn => state } : view_points[group].merge!({pn => state })
         end
       else

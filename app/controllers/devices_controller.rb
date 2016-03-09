@@ -39,6 +39,8 @@ class DevicesController < BaseController
       p "xxxxxxx"
       p @points
       @exclude_points = @device.pattern.getting_exclude_points
+      p "yyyyyyyyyyyyyyy"
+      p @exclude_points
       ##通过设备名称获取背景图片
       @attachment = @room.attachments.where("tag like ?", "%#{@device.name}%").first
     else
