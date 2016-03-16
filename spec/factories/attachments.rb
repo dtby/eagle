@@ -21,9 +21,10 @@
 
 FactoryGirl.define do
   factory :attachment do
-    image "MyString"
-tag "MyString"
-room nil
+    association :room, name: "room for attachment"
+
+    image { Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec', 'support', 'assets', 'test.jpg')) }
+    tag "MyString"
   end
 
 end
