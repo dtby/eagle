@@ -1,9 +1,8 @@
 json.total_pages @point_alarms.try(:total_pages) || 1
 json.current_page @point_alarms.try(:current_page) || 1
 
-json.alarm_size @point_alarms.total_entries
 if @point_alarms.present?
-  
+  json.alarm_size @point_alarms.total_entries  
   json.point_alarms @point_alarms do |point_alarm|
     json.id point_alarm.try(:id)
     json.device_name point_alarm.try(:point).try(:device).try(:name)
