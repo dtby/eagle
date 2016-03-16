@@ -30,9 +30,22 @@ class Point < ActiveRecord::Base
 
   enum point_type: [:analog, :digital]
 
+  scope :analog, -> {where(point_type: 0)}
+  scope :digital, -> {where(point_type: 1)}
+
   # 取得节点的value
   def value
     $redis.hget "eagle_point_value", point_index.to_s
+  end
+
+  def meaning
+    value_meaning = $redis.hget "eagle_value_meaning", self.try(:point_index)
+    return "" if value_meaning.nil?
+    index = self.value
+    if self.point_type == "alarm"
+      index = self.state<0 ? (self.state+2) : (self.state+1)
+    end
+    value_meaning.split("-")[index.try(:to_i)]
   end
 
   #创建PointAlarm对象
