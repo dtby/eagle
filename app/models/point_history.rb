@@ -51,7 +51,6 @@ class PointHistory < ActiveRecord::Base
   # 按月份分表:  201511
   def self.proxy(params={})
     @@lock.synchronize do
-      puts "in params is #{params}"
       month = params[:month] || params['month']
       if month.present?
         sign = "point_histories_#{month}"
@@ -61,7 +60,6 @@ class PointHistory < ActiveRecord::Base
       create_table sign unless table_exists? sign
       self.table_name = sign
     end
-    puts "out params is #{params}"
     return self
   end
 

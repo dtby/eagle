@@ -41,7 +41,6 @@ class PointAlarmsController < BaseController
 
   def index
     if (params[:sub_system].present?) && (!params[:id].present?)
-      puts "params is #{params}"
       sub_system = SubSystem.find_by(name: params[:sub_system])
       devices = sub_system.patterns.map(&:devices).flatten
       return unless devices.present?

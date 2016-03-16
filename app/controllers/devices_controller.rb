@@ -116,7 +116,6 @@ class DevicesController < BaseController
         end
       end
     end
-    puts "@device_alarm is #{@device_alarm}"
     if @devices.present?
       result = true
       @devices.each { |device| result &&= (device.name =~ /\d+/) }

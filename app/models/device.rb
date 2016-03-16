@@ -61,7 +61,6 @@ class Device < ActiveRecord::Base
     all_points = points.order("name asc")
     all_points.each do |point|
       state = point.try(:point_alarm).try(:state) || 0
-      puts "type is #{point.try(:point_alarm).try(:alarm_type)}, #{point.try(:point_alarm).try(:state)}"
       state = state.to_s + "_" + (point.try(:point_alarm).try(:alarm_type) || "digital") if show_alarm_type
       if point.name.include?('-')
         group = point.name.split('-', 2).try(:first).try(:strip)
