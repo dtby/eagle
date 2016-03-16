@@ -23,9 +23,11 @@ resource "告警相关" do
     let(:id) { @room.id }
     let(:checked) { "0" }
     let(:sub_system) { @sub_system.name }
+    let(:page) { 1 }
 
     parameter :checked, "告警是否已经解除(0:全部，1:已经确认, 2:未结束。默认为2)"
-    parameter :sub_system, "子系统名", required: true 
+    parameter :sub_system, "子系统名", required: true
+    parameter :page, "页数", required: false
 
     user_attrs = FactoryGirl.attributes_for(:user)
     header "X-User-Token", user_attrs[:authentication_token]
