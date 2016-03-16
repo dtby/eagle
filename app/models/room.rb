@@ -31,8 +31,12 @@ class Room < ActiveRecord::Base
     # 名字-> [{系统 -> 设备}, ... {系统 -> 设备}]
     point_hash = {}
     datas_to_hash AnalogPoint, point_hash
+    generate_system point_hash, "analog"
+
+    point_hash = {}
     datas_to_hash DigitalPoint, point_hash
-    generate_system point_hash
+    generate_system point_hash, "digital"
+
     end_time = DateTime.now.strftime("%Q").to_i
     logger.info "Room.get_computer_room_list time is #{end_time-start_time}"
   end
@@ -62,7 +66,7 @@ class Room < ActiveRecord::Base
     nil
   end
 
-  def self.generate_system  point_hash
+  def self.generate_system  point_hash, type
     # 机房 => { 系统 => 子系统 => { 点 => 数据 }
     point_hash.each do |room, system_hash|
       room = Room.find_or_create_by(name: room)
@@ -81,6 +85,7 @@ class Room < ActiveRecord::Base
           device = Device.find_or_create_by(name: name, pattern: pattern, room: room)
           points.each do |name, value|
             p = Point.find_or_create_by(name: name, device: device, point_index: value)
+            p.update(point_type: type) unless p.point_type
             p.update(state: true, updated_at: DateTime.now)
             check_point sub_name, name, p.id, device.id
           end
