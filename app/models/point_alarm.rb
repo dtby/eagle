@@ -37,6 +37,8 @@ class PointAlarm < ActiveRecord::Base
   belongs_to :device
   belongs_to :sub_system
 
+  self.per_page = 10
+
   after_update :update_alarm_history, if: "self.is_checked_changed?"
   # after_update :update_is_checked, if: :no_alarm?
   after_create :generate_alarm_history
