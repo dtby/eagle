@@ -9,6 +9,7 @@
 #  point_index :string(255)
 #  device_id   :integer
 #  state       :boolean          default(TRUE)
+#  point_type  :integer
 #
 # Indexes
 #
@@ -26,6 +27,8 @@ class Point < ActiveRecord::Base
   has_many :point_histories, dependent: :destroy
 
   default_scope { where(state: true) }
+
+  enum point_type: [:analog, :digital]
 
   # 取得节点的value
   def value

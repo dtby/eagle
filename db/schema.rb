@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160305083647) do
+ActiveRecord::Schema.define(version: 20160316042311) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -183,6 +183,7 @@ ActiveRecord::Schema.define(version: 20160305083647) do
     t.string   "point_index", limit: 255
     t.integer  "device_id",   limit: 4
     t.boolean  "state",                   default: true
+    t.integer  "point_type",  limit: 4
   end
 
   add_index "points", ["device_id"], name: "index_points_on_device_id", using: :btree

@@ -9,6 +9,7 @@
 #  point_index :string(255)
 #  device_id   :integer
 #  state       :boolean          default(TRUE)
+#  point_type  :integer
 #
 # Indexes
 #
