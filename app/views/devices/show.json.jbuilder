@@ -29,7 +29,7 @@ if @alarms.present?
     when  2
       json.type "越上上限"
     else
-      json.type nil
+      json.type "开关量告警"
     end
   end
 else
