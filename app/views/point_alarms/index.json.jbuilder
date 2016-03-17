@@ -26,7 +26,7 @@ if @point_alarms.present?
       when  2
         type = "越上上限"
       else
-        type = nil
+        type = "开关量告警"
       end
     end
     json.type type
