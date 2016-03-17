@@ -49,7 +49,10 @@
             <th class="text-center">描述</th>
             <th class="text-center">告警状态</th>
             <th class="text-center">告警时间</th>
-            <th class="text-center">告警处理</th>
+            <th class="text-center">告警确认</th>
+            <% if params[:action] == "checked_alert" %>
+              <th class="text-center">确认时间</th>
+            <% end %>
           </tr>
         </thead>
         <tbody>
@@ -65,12 +68,15 @@
               <td class="text-center"><%= alarm_status point_alarm.state %></td>
               <td class="text-center"><%= point_alarm.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
               <td class="text-center">
-                <% unless point_alarm.is_checked %>
-                  <%= link_to "未处理", modal_point_alarm_path(point_id: point_alarm.point_id, room_id: params[:id], name: point_alarm.try(:point).try(:name)), remote: true%>
+                <% unless point_alarm.checked_at %>
+                  <%= link_to "未确认", modal_point_alarm_path(point_id: point_alarm.point_id, room_id: params[:id], name: point_alarm.try(:point).try(:name)), remote: true%>
                 <% else %>
-                  已处理
+                  已确认
                 <% end %>
               </td>
+              <% if params[:action] == "checked_alert" %>
+                <th class="text-center"><%= point_alarm.checked_at.strftime("%Y-%m-%d %H:%M:%S") %></th>
+              <% end %>
             </tr>
           <% end %>
         </tbody>

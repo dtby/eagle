@@ -8,13 +8,13 @@
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  point_id      :integer
-#  is_checked    :boolean          default(FALSE)
 #  comment       :string(255)
 #  room_id       :integer
 #  device_id     :integer
 #  sub_system_id :integer
 #  alarm_type    :integer
 #  alarm_value   :string(255)
+#  checked_at    :datetime
 #
 # Indexes
 #
@@ -100,7 +100,7 @@ class PointAlarmsController < BaseController
   end
 
   def checked
-    if @point_alarm.update(is_checked: true)
+    if @point_alarm.update(checked_at: DateTime.now)
       result = "处理成功"
     else
       result = "处理失败"

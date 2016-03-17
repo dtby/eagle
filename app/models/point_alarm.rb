@@ -8,13 +8,13 @@
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  point_id      :integer
-#  is_checked    :boolean          default(FALSE)
 #  comment       :string(255)
 #  room_id       :integer
 #  device_id     :integer
 #  sub_system_id :integer
 #  alarm_type    :integer
 #  alarm_value   :string(255)
+#  checked_at    :datetime
 #
 # Indexes
 #
@@ -37,7 +37,7 @@ class PointAlarm < ActiveRecord::Base
   belongs_to :device
   belongs_to :sub_system
 
-  after_update :update_alarm_history, if: "self.is_checked_changed?"
+  after_update :update_alarm_history
   # after_update :update_is_checked, if: :no_alarm?
   after_create :generate_alarm_history
 
@@ -58,8 +58,8 @@ class PointAlarm < ActiveRecord::Base
     PointAlarm.find_by(point_id: point.id)
   end
 
-  scope :checked, -> {where("point_alarms.is_checked = true OR point_alarms.state= 0")}
-  scope :unchecked, -> {where(is_checked: false)}
+  scope :checked, -> {where("point_alarms.checked_at is not null")}
+  scope :unchecked, -> {where("point_alarms.checked_at is null")}
   scope :is_warning_alarm, -> {where.not(state: 0)}
   scope :order_desc, -> {order("updated_at DESC")}
   scope :get_alarm_point_by_room, -> (room_id) { where(room_id: room_id)}
@@ -84,12 +84,12 @@ class PointAlarm < ActiveRecord::Base
     def update_alarm_history
       alarm_history = self.try(:point).try(:alarm_histories).try(:last)
       alarm_history.check_state = self.state
-      alarm_history.checked_time = DateTime.now if self.is_checked
+      alarm_history.checked_time = DateTime.now if self.checked_at.present?
       alarm_history.save
     end
 
     def update_is_checked
-      self.update(is_checked: true)
+      self.update(checked_at: DateTime.now)
     end
 
     def no_alarm?
