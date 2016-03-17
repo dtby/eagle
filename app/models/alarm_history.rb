@@ -20,5 +20,4 @@
 
 class AlarmHistory < ActiveRecord::Base
   belongs_to :point
-  
 end
