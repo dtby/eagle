@@ -14,7 +14,7 @@ if @point_alarms.present?
     json.point_id point_alarm.try(:point_id)
     json.comment point_alarm.try(:comment)
 
-    type = nil
+    type = "开关量告警"
     if (point_alarm.try(:state).present? && point_alarm.alarm_type == "alarm")
       case point_alarm.try(:state) || 0
       when -2
