@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'user/show'
+
   get 'point_controller/show'
 
   root to: "welcome#index"
@@ -108,6 +110,10 @@ Rails.application.routes.draw do
     passwords: 'admins/passwords'
   }
 
+  # namespace :users do
+    resources :users, only: [:show]
+  # end
+  
   devise_for :users, controllers: {
     sessions: 'users/sessions',
     passwords: 'users/passwords'
