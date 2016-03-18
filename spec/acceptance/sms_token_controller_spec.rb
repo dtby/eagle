@@ -15,6 +15,10 @@ resource "验证码" do
 
     response_field :result, "发送结果"
 
+    parameter :debug, "为生成文档加的参数", required: false
+    let(:debug) { true }
+    let(:raw_post) { params.to_json }
+
     example "发送验证码成功" do
       do_request
       expect(status).to eq(200)
