@@ -67,6 +67,12 @@
     $("#top_right").height(height);
     $("#load1").height(height-60);
 
+    //保留一位小数
+    var format_number = function(i){
+      num = new Number(i)
+      return num.toFixed(1)
+    }
+
     // 路径配置
     require.config({
       paths: {
@@ -220,7 +226,7 @@
           normal : {
             label : {
               formatter : function (params){
-                return 100 - params.value + 'Kw'
+                return format_number(100 - params.value) + 'Kw'
               },
               textStyle: {
                 baseline : 'bottom',
@@ -479,8 +485,8 @@
                 x:'50%', // for funnel
                 itemStyle : labelFromatter,
                 data : [
-                  {name:'other', value:<%= 100 - @points["线电压"]["BC线电压"].to_i %>, itemStyle : labelBottom},
-                  {name:'BC线电压', value:<%= @points["线电压"]["BC线电压"].to_i %>,itemStyle : labelTop}
+                  {name:'other', value:<%= 100 - @points["线电压"]["BC线电压"].to_f %>, itemStyle : labelBottom},
+                  {name:'BC线电压', value:<%= @points["线电压"]["BC线电压"].to_f %>,itemStyle : labelTop}
                 ]
               },
             <% end %>
@@ -494,8 +500,8 @@
                 x:'70%', // for funnel
                 itemStyle : labelFromatter,
                 data : [
-                  {name:'other', value:<%= 100 - @points["线电压"]["AC线电压"].to_i %>, itemStyle : labelBottom},
-                  {name:'AC线电压', value:<%= @points["线电压"]["AC线电压"].to_i %>,itemStyle : labelTop}
+                  {name:'other', value:<%= format("%0.1f",(100 - @points["线电压"]["AC线电压"].to_f)) %>, itemStyle : labelBottom},
+                  {name:'AC线电压', value:<%= format("%0.1f", @points["线电压"]["AC线电压"].to_f) %>,itemStyle : labelTop}
                 ]
               },
             <% end %>

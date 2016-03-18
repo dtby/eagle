@@ -1,7 +1,7 @@
 <div class="text-center animated fadeInRightBig clearfix">
   <div class="col-xs-8 col-xs-offset-2">
-    <% if @room.link.present? %>
-      <%= image_tag @room.link, class: "img-responsive", width: "100%" %>
+    <% if @attachment.present? %>
+      <%= image_tag @attachment.image, class: "img-responsive", width: "100%" %>
     <% else %>
       <div class="text-danger">还未上传展示图</div>
     <% end %>

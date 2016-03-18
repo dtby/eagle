@@ -25,6 +25,7 @@ class RoomsController < BaseController
   end
 
   def show
+    @attachment = @room.attachments.find_by(tag: "主图")
   end
 
   def alert
