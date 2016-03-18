@@ -36,7 +36,6 @@ class User < ActiveRecord::Base
 
 	acts_as_token_authenticatable
 
-	attr_accessor :sms_token
 	validates :phone, :email, :name, presence: true
 	validates :phone, format: { with: /\A(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}\z/, message: "请输入正确的手机号码" }
 
@@ -57,15 +56,24 @@ class User < ActiveRecord::Base
 	def reset_user_password params
 	  password = params[:password]
 	  sms_token = params[:sms_token]
-    self.password = password
-    self.sms_token = sms_token
-    self.save
+
+	  # 只有在修改密码的时候，才校验验证码
+	  validate_sms_token sms_token
+
+	  unless self.errors.present?
+	    self.password = password
+	    self.save
+	  end
+	  self
 	end
 		
-	def validate_sms_token
+	def validate_sms_token sms_token
 		# { "token": "3086", "time": "2015-11-04 13:59:51 +0800" }
 		json_data = $redis.hget "eagle_sms_token_cache", phone
-		self.errors.add(:sms_token, "未获取，请先获取") if json_data.nil?
+		if json_data.nil?
+			self.errors.add(:sms_token, "未获取，请先获取")
+			return
+		end
 
 		token_data = MultiJson.load(json_data)
 
