@@ -70,6 +70,7 @@ GEM
       execjs
     coffee-script-source (1.10.0)
     concurrent-ruby (1.0.0)
+    connection_pool (2.2.0)
     database_cleaner (1.5.1)
     debug_inspector (0.0.2)
     devise (3.5.3)
@@ -210,6 +211,10 @@ GEM
     settingslogic (2.0.9)
     shoulda-matchers (3.0.1)
       activesupport (>= 4.0.0)
+    sidekiq (4.1.0)
+      concurrent-ruby (~> 1.0)
+      connection_pool (~> 2.2, >= 2.2.0)
+      redis (~> 3.2, >= 3.2.1)
     simple_token_authentication (1.11.0)
       actionmailer (>= 3.2.6, < 5)
       actionpack (>= 3.2.6, < 5)
@@ -290,6 +295,7 @@ DEPENDENCIES
   seedbank
   settingslogic (~> 2.0.9)
   shoulda-matchers
+  sidekiq
   simple_token_authentication (~> 1.0)
   spreadsheet_on_rails
   spring

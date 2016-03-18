@@ -87,3 +87,6 @@ gem "spreadsheet_on_rails"
 #图片上传
 gem 'carrierwave'
 gem "mini_magick"
+
+# for Delayed Job
+gem 'sidekiq'
