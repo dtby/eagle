@@ -109,7 +109,7 @@
           normal : {
             label : {
               formatter : function (params){
-                return 100 - params.value + 'A'
+                return format_number(100 - params.value) + 'A'
               },
               textStyle: {
                 baseline : 'bottom',
@@ -388,7 +388,7 @@
           normal : {
             label : {
               formatter : function (params){
-                return 100 - params.value + 'V'
+                return format_number(100 - params.value) + 'V'
               },
               textStyle: {
                 baseline : 'bottom',
