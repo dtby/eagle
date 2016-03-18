@@ -3,6 +3,10 @@
 # https://gist.github.com/Kenrick-Zhou/7909822
 
 zh-CN:
+  activerecord:
+    attributes:
+      user:
+        sms_token: "短信验证码"
   devise:
     confirmations:
       confirmed: "您的帐号已经确认，您现在已登录。"

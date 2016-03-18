@@ -90,3 +90,6 @@ gem "mini_magick"
 
 # for Delayed Job
 gem 'sidekiq'
+
+# for sms 
+gem 'china_sms'

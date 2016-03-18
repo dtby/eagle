@@ -1,5 +1,10 @@
 class Users::PasswordsController < Devise::PasswordsController
   layout 'login'
+
+  def reset
+    @user = User.find_by(phone: reset_params[:phone])
+    respond_with @user
+  end
   # GET /resource/password/new
   # def new
   #   super
@@ -30,4 +35,8 @@ class Users::PasswordsController < Devise::PasswordsController
   # def after_sending_reset_password_instructions_path_for(resource_name)
   #   super(resource_name)
   # end
+  private
+    def reset_params
+      params.require(:password).permit(:sms_token, :password, :phone)
+    end
 end
