@@ -84,8 +84,10 @@ class Room < ActiveRecord::Base
           name = "温湿度" if name.try(:include?, "温湿度")
           device = Device.find_or_create_by(name: name, pattern: pattern, room: room)
           points.each do |name, value|
-            p = Point.unscoped.find_or_create_by(name: name, device: device, point_index: value)
+            point_index, max, min = value.split("!")
+            p = Point.unscoped.find_or_create_by(name: name, device: device, point_index: point_index)
             p.update(point_type: type) unless p.point_type
+            p.update(max_value: max, min_value: min) if (max && min)
             p.update(state: true, updated_at: DateTime.now)
             check_point sub_name, name, p.id, device.id
           end
@@ -195,7 +197,7 @@ class Room < ActiveRecord::Base
       
       point_hash = {}
       group_hash[bay_info.first][ap.GroupName][device_name] = {} unless group_hash[bay_info.first][ap.GroupName][device_name].present?
-      group_hash[bay_info.first][ap.GroupName][device_name][point_name] = ap.PointID
+      group_hash[bay_info.first][ap.GroupName][device_name][point_name] = "#{ap.PointID}!#{ap.try(:UpValue)}!#{ap.try(:UpValue)}"
     end
     group_hash
   end

@@ -10,6 +10,8 @@
 #  device_id   :integer
 #  state       :boolean          default(TRUE)
 #  point_type  :integer
+#  max_value   :string(255)
+#  min_value   :string(255)
 #
 # Indexes
 #
