@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160318031007) do
+ActiveRecord::Schema.define(version: 20160318042959) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -40,8 +40,9 @@ ActiveRecord::Schema.define(version: 20160318031007) do
     t.integer  "point_id",     limit: 4
     t.datetime "checked_time"
     t.integer  "check_state",  limit: 4
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.string   "checked_user", limit: 255
   end
 
   add_index "alarm_histories", ["point_id"], name: "index_alarm_histories_on_point_id", using: :btree
@@ -140,6 +141,8 @@ ActiveRecord::Schema.define(version: 20160318031007) do
     t.integer  "alarm_type",    limit: 4
     t.string   "alarm_value",   limit: 255
     t.datetime "checked_at"
+    t.string   "checked_user",  limit: 255
+    t.boolean  "is_checked"
   end
 
   add_index "point_alarms", ["device_id"], name: "index_point_alarms_on_device_id", using: :btree

@@ -15,6 +15,8 @@
 #  alarm_type    :integer
 #  alarm_value   :string(255)
 #  checked_at    :datetime
+#  checked_user  :string(255)
+#  is_checked    :boolean
 #
 # Indexes
 #
