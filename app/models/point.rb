@@ -115,7 +115,7 @@ class Point < ActiveRecord::Base
         update_time = DateTime.new(cos.ADate.year, cos.ADate.month, cos.ADate.day, cos.ATime.hour,cos.ATime.min, cos.ATime.sec)
         point_alarm.update(state: state, comment: dp.try(:Comment), 
           is_checked: (state.to_i == 0), updated_at: update_time, alarm_type: 1, 
-          room_id: point.try(:device).try(:room).try(:id), 
+          room_id: point.try(:device).try(:room).try(:id), checked_user: cos.User,
           device_id: point.try(:device).try(:id), 
           sub_system_id: point.try(:device).try(:pattern).try(:sub_system).try(:id))
       end
@@ -150,7 +150,7 @@ class Point < ActiveRecord::Base
         update_time = DateTime.new(cos.ADate.year, cos.ADate.month, cos.ADate.day, cos.ATime.hour,cos.ATime.min, cos.ATime.sec)
         point_alarm.update(state: state, comment: dp.try(:Comment), 
           is_checked: (state == 0), updated_at: update_time, alarm_type: 0,
-          room_id: point.try(:device).try(:room).try(:id), 
+          room_id: point.try(:device).try(:room).try(:id), checked_user: cos.User,
           device_id: point.try(:device).try(:id), 
           sub_system_id: point.try(:device).try(:pattern).try(:sub_system).try(:id), 
           alarm_value: cos.AlarmValue)
@@ -178,7 +178,6 @@ class Point < ActiveRecord::Base
         cos = AnalogAlarm.order("ADate DESC, ATime DESC, AMSecond DESC").find_by(PointID: pa.try(:point).try(:point_index).try(:to_i))
         puts "AnalogAlarm size is #{PointAlarm.is_warning_alarm.size}, #{pa.try(:point).try(:point_index).try(:to_i)}"
         state = cos.try(:Status)
-        puts state if cos.PointID == 541697
         if ((state == 1 && state.class == Integer) || (state && state.class == TrueClass))
           state = 0
         else
@@ -195,7 +194,7 @@ class Point < ActiveRecord::Base
         end
         alarm_value = cos.try(:AlarmValue) || ""
       end
-      pa.update(state: state, updated_at: update_time, alarm_value: alarm_value)  if pa.state != state
+      pa.update(state: state, updated_at: update_time, alarm_value: alarm_value, checked_user: cos.User)  if pa.state != state
     end
     end_time_all = DateTime.now.strftime("%Q").to_i
     logger.info "Point.monitor_db time is #{end_time_all-start_time_all}"
