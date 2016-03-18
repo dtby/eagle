@@ -13,7 +13,7 @@
 #
 # Indexes
 #
-#  index_points_on_device_id  (device_id)
+#  index_points_on_device_id(device_id)
 #
 # Foreign Keys
 #
@@ -35,13 +35,12 @@ class PointsController < ApplicationController
   end
 
   private
-    
-    def get_value_by_names_params
-      params.require(:point).permit(:names)
-    end
+  def get_value_by_names_params
+    params.require(:point).permit(:names)
+  end
 
-    def set_room
-      @room = Room.find_by(id: params[:room_id])
-    end
+  def set_room
+    @room = Room.find_by(id: params[:room_id])
+  end
 
 end
