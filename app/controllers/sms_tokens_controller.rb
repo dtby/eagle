@@ -1,0 +1,3 @@
+class SmsTokensController < ApplicationController
+  
+end
