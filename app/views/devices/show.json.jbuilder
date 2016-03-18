@@ -9,6 +9,7 @@ if @points.present?
     end
     json.name name
     json.value (point.value||"0")
+    json.color point.color
   end
 else
   json.points_errors "该设备下无点位信息"

@@ -50,6 +50,23 @@ class Point < ActiveRecord::Base
     value_meaning.split("-")[index.try(:to_i)]
   end
 
+  def color
+    value = self.try(:value).try(:to_f)
+    max_value = self.try(:max_value).try(:to_f)
+    min_value = self.try(:min_value).try(:to_f)
+
+    color = "black"
+    if (value.present? && max_value.present? && min_value.present?)
+      if value > max_value
+        color = "red"
+      elsif value < min_value
+        color = "blue"
+      elsif value.between?(min_value, max_value)
+        color = "black"
+      end
+    end
+    color
+  end
   #创建PointAlarm对象
   # Point.monitor_db
   def self.monitor_db

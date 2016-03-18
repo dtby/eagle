@@ -197,7 +197,7 @@ class Room < ActiveRecord::Base
       
       point_hash = {}
       group_hash[bay_info.first][ap.GroupName][device_name] = {} unless group_hash[bay_info.first][ap.GroupName][device_name].present?
-      group_hash[bay_info.first][ap.GroupName][device_name][point_name] = "#{ap.PointID}!#{ap.try(:UpValue)}!#{ap.try(:UpValue)}"
+      group_hash[bay_info.first][ap.GroupName][device_name][point_name] = "#{ap.PointID}!#{ap.try(:UpValue)}!#{ap.try(:DnValue)}"
     end
     group_hash
   end
