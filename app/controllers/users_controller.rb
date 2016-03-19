@@ -28,7 +28,17 @@
 #
 
 class UsersController < ApplicationController
-  acts_as_token_authentication_handler_for User, only: [:show]
+  acts_as_token_authentication_handler_for User, only: [:show, :update_password]
   def show
+  end
+
+  def update_password
+    user = current_user.reset_user_password user_params
+    render json: user.to_json
+  end
+
+  private
+  def user_params
+    params.require(:user).permit(:password, :sms_token)
   end
 end

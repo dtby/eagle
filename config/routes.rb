@@ -114,6 +114,12 @@ Rails.application.routes.draw do
     resources :users, only: :show
   end
 
+  resources :users, only: [] do
+    collection do
+      post :update_password
+    end    
+  end
+
   devise_for :users, controllers: {
     sessions: 'users/sessions',
     passwords: 'users/passwords'

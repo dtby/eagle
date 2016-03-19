@@ -1,10 +1,6 @@
 class Users::PasswordsController < Devise::PasswordsController
   layout 'login'
 
-  def reset
-    @user = User.find_by(phone: reset_params[:phone])
-    respond_with @user
-  end
   # GET /resource/password/new
   # def new
   #   super
