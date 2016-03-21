@@ -81,6 +81,11 @@ class PointAlarm < ActiveRecord::Base
     self.where("created_at > ? AND created_at < ?", start_time.to_datetime, end_time.to_datetime)
   end
 
+  def check_alarm_by_user user_name
+    AlarmProcessJob.perform_later(self.try(:point).try(:point_index), user_name)
+    self.update(checked_user: user_name)
+  end
+
   private
 
     def update_alarm_history
@@ -93,6 +98,7 @@ class PointAlarm < ActiveRecord::Base
     def update_is_checked
       self.update(checked_at: DateTime.now)
     end
+
 
     def no_alarm?
       self.state == 0
