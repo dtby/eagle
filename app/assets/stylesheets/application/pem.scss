@@ -59,6 +59,11 @@
   background: #33343d!important;
 }
 
+#temperatureImg {
+  display: block;
+  margin: 0 auto;
+}
+
 //电流数据效果
 .xc-status {height: 20px; width: 20px; border-radius: 50%; display: block; margin: 0 auto;}
 .xc-status.green {background: green;}
