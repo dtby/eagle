@@ -1,0 +1,1 @@
+x=`ps aux | grep sidekiq | grep -v grep | awk '{print $2}'`; [ "$x" == "" ] && cd /path/to/deploy && bundle exec sidekiq -d -L /path/to/deploy/log/sidekiq.log -C /path/to/deploy/config/sidekiq.yml -e production
