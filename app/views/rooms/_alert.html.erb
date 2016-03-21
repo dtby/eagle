@@ -61,7 +61,7 @@
               <% if params[:action] == "alert" %>
                 <td class="text-center"><%= check_box_tag "point_alarms[]", point_alarm.id, false, class: 'point-alarms' %></td>
               <% end %>
-              <td class="text-center"><%= point_alarm.try(:point).try(:name) %></td>
+              <td class="text-center"><%= point_alarm.try(:device).try(:name) %></td>
               <td><%= point_alarm.point_id %></td>
               <td class="text-center"><%= point_alarm.meaning %></td>
               <td><%= point_alarm.comment %></td>
