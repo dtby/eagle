@@ -34,4 +34,13 @@ module ApplicationHelper
     '%.1f' % number.to_f
   end
 
+  #格式化报表名称
+  def format_report_name name
+    if name.to_s.include?("-")
+      name.split("-")[1]
+    else
+      name
+    end
+  end
+
 end

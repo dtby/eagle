@@ -31,8 +31,7 @@
       <ul id="deviceContent" style="max-height: 540px;overflow: auto;">
         <% @devices.each do |device| %>
           <li class="parent"><%= link_to "+ " + device.name.to_s, get_points_room_reports_path(@room, device_id: device.id, start_time: params[:start_time], end_time: params[:end_time]), remote: true %></li>
-          <ul id="pointContent">
-          </ul>
+          <div class="pointContent"></div>
         <% end %>
       </ul>
     </div>
@@ -46,89 +45,47 @@
   var defaultTime = $(".child a").data("default-time");
   var defaultHistory = $(".child a").data("default-history");
   require(
-      [
-          'echarts',
-          'echarts/chart/line' // 使用柱状图就加载bar模块，按需加载
+    [
+      'echarts',
+      'echarts/chart/line' // 使用柱状图就加载bar模块，按需加载
+    ],
+    function (ec) {
+      // 基于准备好的dom，初始化echarts图表
+      var myChart = ec.init(document.getElementById('main')); 
+      option = {
+      tooltip : {
+        trigger: 'axis'
+      },
+      legend: {
+        data:['报表']
+      },
+      calculable : true,
+      xAxis : [
+        {
+          type : 'category',
+          boundaryGap : false,
+          data : defaultTime
+        }
       ],
-      function (ec) {
-        // 基于准备好的dom，初始化echarts图表
-        var myChart = ec.init(document.getElementById('main')); 
-        option = {
-        tooltip : {
-            trigger: 'axis'
-        },
-        legend: {
-            data:['报表']
-        },
-        calculable : true,
-        xAxis : [
-            {
-                type : 'category',
-                boundaryGap : false,
-                data : defaultTime
-            }
-        ],
-        yAxis : [
-            {
-                type : 'value'
-            }
-        ],
-        series : [
-            {
-                name:'值',
-                type:'line',
-                data: defaultHistory
-            }
-        ]
+      yAxis : [
+        {
+          type : 'value'
+        }
+      ],
+      series : [
+        {
+          name:'值',
+          type:'line',
+          data: defaultHistory
+        }
+      ]
     };
-      // 为echarts对象加载数据
-      myChart.setOption(option);
+    // 为echarts对象加载数据
+    myChart.setOption(option);
     }
   );
 </script>
-<!--
-<script type="text/javascript">
-    // 使用
-    require(
-      [
-          'echarts',
-          'echarts/chart/bar' // 使用柱状图就加载bar模块，按需加载
-      ],
-      function (ec) {
-        // 基于准备好的dom，初始化echarts图表
-        var myChart = ec.init(document.getElementById('main')); 
-        var option = {
-          tooltip: {
-              show: true
-          },
-          legend: {
-              data:['报表']
-          },
-          xAxis : [
-              {
-                  type : 'category',
-                  data : ["2016-01-01"]
-              }
-          ],
-          yAxis : [
-              {
-                  type : 'value'
-              }
-          ],
-          series : [
-            {
-              "name":"报表",
-              "type":"bar",
-              "data": [0]
-            }
-          ]
-        };
-      // 为echarts对象加载数据
-      myChart.setOption(option);
-    }
-  );
-</script>
--->
+
 <style>
   .redxx {
     color: red!important;
@@ -136,9 +93,11 @@
 </style>
 <script type="text/javascript">
   $(function() {
-    $("#deviceContent li.parent a").click(function(){
-      $(this).parent().next("ul").slideToggle();
-      $(this).parent().siblings("li.parent").next("ul").hide();
+    var _a = $("#deviceContent li.parent a");
+    _a.unbind();  //初始解除链接的绑定事件。
+    _a.click(function(){
+      $(this).parent().next(".pointContent").slideToggle();
+      $(this).parent().siblings("li.parent").next(".pointContent").hide();
     });
     $('#datetimepicker1, #datetimepicker2').datetimepicker({
        collapse: false
