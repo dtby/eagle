@@ -79,6 +79,7 @@ resource "设备列表" do
           create(:point, device: device, name: "point_#{i}")
         end
       end
+      create(:attachment, tag: "device_0", room: @room)
     end
 
     let(:room_id) { @room.id }
@@ -90,6 +91,7 @@ resource "设备列表" do
     
     response_field :id, "设备ID"
     response_field :name, "设备名"
+    response_field :pic, "图片路径"
 
     example "获取设备相关点位信息成功" do
       do_request

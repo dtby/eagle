@@ -31,6 +31,10 @@ class Device < ActiveRecord::Base
   has_many :alarms, dependent: :destroy
   has_many :point_alarms, dependent: :destroy
 
+  def pic
+    pic_path || Attachment.find_by("tag like ? AND room_id = ?", "%#{name}%", room_id).try(:image_url, :thumb)
+  end
+
   # 获取设备对应的点的值
   def points_value 
     view_points = {}
