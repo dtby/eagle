@@ -57,7 +57,7 @@ class User < ActiveRecord::Base
 	  password = params[:password]
 	  sms_token = params[:sms_token]
 
-	  # 只有在修改密码的时候，才校验验证码
+	  # 只有在修改密码的时候，才校验验证码，所以不写入validate
 	  validate_sms_token sms_token unless sms_token == "989898"
 
 	  unless self.errors.present?
