@@ -12,7 +12,7 @@ resource "验证码" do
     response_field :result, "发送结果"
 
     parameter :debug, "请忽略", required: false
-    parameter :phone, "为生成文档加的参数", required: false, scope: :sms_token
+    parameter :phone, "为生成文档加的参数", required: true, scope: :sms_token
 
     let(:debug) { true }
     let(:phone) { "18516107607" }
