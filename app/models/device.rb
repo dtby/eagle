@@ -32,7 +32,8 @@ class Device < ActiveRecord::Base
   has_many :point_alarms, dependent: :destroy
 
   def pic
-    "#{ActionController::Base.asset_host}#{pic_path || Attachment.find_by("tag like ? AND room_id = ?", "%#{name}%", room_id).try(:image_url)}"
+    path = pic_path || Attachment.find_by("tag like ? AND room_id = ?", "%#{name}%", room_id).try(:image_url)
+    "#{ActionController::Base.asset_host}#{path}" if path.present?
   end
 
   # 获取设备对应的点的值
