@@ -25,6 +25,9 @@ class Room < ActiveRecord::Base
   has_many :devices, dependent: :destroy
   has_many :point_alarms, dependent: :destroy
 
+  def pic
+    "#{ActionController::Base.asset_host}#{Attachment.find_by("tag like ? AND room_id = ?", "%主图%", room_id).try(:image_url)}"
+  end
   # Room.get_computer_room_list
   def self.get_computer_room_list
     start_time = DateTime.now.strftime("%Q").to_i
