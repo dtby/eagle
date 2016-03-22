@@ -19,13 +19,10 @@ resource "系统列表" do
     header "X-User-Token", user_attrs[:authentication_token]
     header "X-User-Phone", user_attrs[:phone]
 
-    response_field :id, "用户ID"
-    response_field :email, "邮箱"
-    response_field :created_at, "创建时间"
-    response_field :updated_at, "更新时间"
-    response_field :phone, "电话号码"
-    response_field :name, "姓名"
-    response_field :authentication_token, "鉴权Token"
+    response_field :id, "系统ID"
+    response_field :name, "系统名"
+    response_field :sub_system_name, "子系统名"
+
 
     example "获取系统列表成功" do
       do_request
