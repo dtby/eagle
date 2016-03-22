@@ -79,7 +79,7 @@ class User < ActiveRecord::Base
 
 	  if token_data["time"] < Time.zone.now - 30.minute
 	    self.errors.add(:sms_token, "已失效，请重新获取")
-	  elsif token_data["sms_token"] != sms_token
+	  elsif token_data["token"] != sms_token
 	    self.errors.add(:sms_token, "不正确，请重试")
 	  end
 	  # $redis.hdel "eagle_sms_token_cache", phone
