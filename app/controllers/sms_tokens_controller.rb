@@ -9,10 +9,14 @@
 
 class SmsTokensController < ApplicationController
   
-  acts_as_token_authentication_handler_for User, only: [:create]
 
   def create
-    @result = SmsToken.new.send_to current_user.try(:phone), params[:debug]
+    @result = SmsToken.new.send_to create_params[:phone], params[:debug]
   end
 
+  private
+
+    def create_params
+      params.require(:sms_token).permit(:phone)      
+    end
 end

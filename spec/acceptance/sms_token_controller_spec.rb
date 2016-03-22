@@ -9,14 +9,13 @@ resource "验证码" do
       @user = create(:user)
     end
 
-    user_attrs = FactoryGirl.attributes_for(:user)
-    header "X-User-Token", user_attrs[:authentication_token]
-    header "X-User-Phone", user_attrs[:phone]
-
     response_field :result, "发送结果"
 
-    parameter :debug, "为生成文档加的参数", required: false
+    parameter :debug, "请忽略", required: false
+    parameter :phone, "为生成文档加的参数", required: false, scope: :sms_token
+
     let(:debug) { true }
+    let(:phone) { "18516107607" }
     let(:raw_post) { params.to_json }
 
     example "发送验证码成功" do
