@@ -83,6 +83,8 @@ class Room < ActiveRecord::Base
         next if pattern_name.blank?
         
         sub_system = SubSystem.find_or_create_by(name: sub_name)
+        menu = Menu.find_or_create_by(room: room, menuable_id: sub_system.try(:id), menuable_type: "SubSystem")
+        menu.update(updated_at: DateTime.now)
         patterns.each do | name, points|
           pattern = Pattern.find_or_create_by(sub_system_id: sub_system.id, name: pattern_name.try(:strip))
           name = "温湿度" if name.try(:include?, "温湿度")
@@ -99,6 +101,7 @@ class Room < ActiveRecord::Base
       end
     end
     Point.where(updated_at: DateTime.new(2010,1,1)..15.minute.ago).update_all(state: false)
+    Menu.where(menuable_type: "SubSystem", updated_at: DateTime.new(2010,1,1)..15.minute.ago).destroy_all
     nil
   end
 

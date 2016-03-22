@@ -14,7 +14,8 @@ class SystemsController < ApplicationController
 
   def index
     if params[:room_id].present?
-      @systems = Room.find_by(id: params[:room_id]).try(:systems)
+      @sub_systems = Room.find_by(id: params[:room_id]).try(:sub_systems).to_a
+      @systems = @sub_systems.collect { |ss| ss.system }.uniq
     else
       @systems = System.all
     end
