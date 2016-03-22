@@ -33,9 +33,9 @@ class UsersController < ApplicationController
   end
 
   def update_password
-    user = User.find_by(phone: user_params[:phone])
-    return unless user.present?
-    user.reset_user_password user_params
+    @user = User.find_by(phone: user_params[:phone])
+    return unless @user.present?
+    @user.reset_user_password user_params
   end
 
   private
