@@ -22,6 +22,7 @@ resource "机房" do
 
     response_field :id, "机房ID"
     response_field :name, "机房名"
+    response_field :pic, "机房图片"
 
     example "获取机房列表成功" do
       do_request
@@ -44,6 +45,7 @@ resource "机房" do
 
     response_field :id, "机房ID"
     response_field :name, "机房名"
+    response_field :pic, "机房图片"
 
     example "获取机房列表成功（管理员）" do
       do_request
