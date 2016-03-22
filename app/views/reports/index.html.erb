@@ -45,43 +45,43 @@
   var defaultTime = $(".child a").data("default-time");
   var defaultHistory = $(".child a").data("default-history");
   require(
-      [
-          'echarts',
-          'echarts/chart/line' // 使用柱状图就加载bar模块，按需加载
+    [
+      'echarts',
+      'echarts/chart/line' // 使用柱状图就加载bar模块，按需加载
+    ],
+    function (ec) {
+      // 基于准备好的dom，初始化echarts图表
+      var myChart = ec.init(document.getElementById('main')); 
+      option = {
+      tooltip : {
+        trigger: 'axis'
+      },
+      legend: {
+        data:['报表']
+      },
+      calculable : true,
+      xAxis : [
+        {
+          type : 'category',
+          boundaryGap : false,
+          data : defaultTime
+        }
       ],
-      function (ec) {
-        // 基于准备好的dom，初始化echarts图表
-        var myChart = ec.init(document.getElementById('main')); 
-        option = {
-        tooltip : {
-            trigger: 'axis'
-        },
-        legend: {
-            data:['报表']
-        },
-        calculable : true,
-        xAxis : [
-            {
-                type : 'category',
-                boundaryGap : false,
-                data : defaultTime
-            }
-        ],
-        yAxis : [
-            {
-                type : 'value'
-            }
-        ],
-        series : [
-            {
-                name:'值',
-                type:'line',
-                data: defaultHistory
-            }
-        ]
+      yAxis : [
+        {
+          type : 'value'
+        }
+      ],
+      series : [
+        {
+          name:'值',
+          type:'line',
+          data: defaultHistory
+        }
+      ]
     };
-      // 为echarts对象加载数据
-      myChart.setOption(option);
+    // 为echarts对象加载数据
+    myChart.setOption(option);
     }
   );
 </script>
@@ -94,7 +94,7 @@
 <script type="text/javascript">
   $(function() {
     var _a = $("#deviceContent li.parent a");
-    _a.unbind();
+    _a.unbind();  //初始解除链接的绑定事件。
     _a.click(function(){
       $(this).parent().next(".pointContent").slideToggle();
       $(this).parent().siblings("li.parent").next(".pointContent").hide();
