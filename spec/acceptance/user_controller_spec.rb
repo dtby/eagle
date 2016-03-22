@@ -34,10 +34,6 @@ resource "用户信息" do
     let(:sms_token) { "989898" }
     let(:raw_post) { params.to_json }
 
-    user_attrs = FactoryGirl.attributes_for(:user)
-    header "X-User-Token", user_attrs[:authentication_token]
-    header "X-User-Phone", user_attrs[:phone]
-
     parameter :password, "新密码", required: true, scope: :user
     parameter :sms_token, "短信验证码", required: true, scope: :user
 
