@@ -13,6 +13,10 @@ class SystemsController < ApplicationController
   acts_as_token_authentication_handler_for User, only: [:index]
 
   def index
-    @systems = System.all
+    if params[:room_id].present?
+      @systems = Room.find_by(id: params[:room_id]).try(:systems)
+    else
+      @systems = System.all
+    end
   end
 end
