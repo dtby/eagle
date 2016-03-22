@@ -82,6 +82,7 @@ class User < ActiveRecord::Base
 	  elsif token_data["sms_token"] != sms_token
 	    self.errors.add(:sms_token, "不正确，请重试")
 	  end
+	  $redis.hdel "eagle_sms_token_cache", phone
 	end
 	
 	# #使用其他字段登录
