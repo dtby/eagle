@@ -31,10 +31,12 @@ resource "用户信息" do
 
     let(:id) { @user.id }
     let(:password) { "987654321" }
+    let(:phone) { "17712345678" }
     let(:sms_token) { "989898" }
     let(:raw_post) { params.to_json }
 
     parameter :password, "新密码", required: true, scope: :user
+    parameter :phone, "电话号码", required: true, scope: :user
     parameter :sms_token, "短信验证码", required: true, scope: :user
 
     response_field :id, "用户ID"
