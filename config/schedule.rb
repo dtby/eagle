@@ -30,6 +30,10 @@ end
 every 1.minutes do
   runner "Room.generate_value_meaning"
 end
+
+every :hour do
+  runner "Room.generate_value_meaning"
+end
 #
 # every 4.days do
 #   runner "AnotherModel.prune_old_records"
