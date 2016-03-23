@@ -43,6 +43,9 @@ Rails.application.routes.draw do
       collection do
         post :get_value_by_names
       end
+      member do
+        post :history_values
+      end
     end
 
     resources :devices, only: [:index, :show] do  # 设备
