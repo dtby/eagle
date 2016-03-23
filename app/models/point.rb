@@ -15,7 +15,8 @@
 #
 # Indexes
 #
-#  index_points_on_device_id  (device_id)
+#  index_points_on_device_id    (device_id)
+#  index_points_on_point_index  (point_index)
 #
 # Foreign Keys
 #
@@ -23,6 +24,9 @@
 #
 
 class Point < ActiveRecord::Base
+  acts_as_taggable # Alias for acts_as_taggable_on :tags
+  acts_as_taggable_on :number_type, :status_type, :alarm_type
+
   belongs_to :device
   has_one :point_alarm, dependent: :destroy
   has_many :alarm_histories, dependent: :destroy
