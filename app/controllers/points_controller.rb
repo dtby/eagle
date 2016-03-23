@@ -25,6 +25,7 @@
 class PointsController < ApplicationController
   acts_as_token_authentication_handler_for User, only: [:get_value_by_name]
   before_action :set_room, only: [:get_value_by_names]
+  before_action :set_point, only: [:history_values]
 
   def get_value_by_names
     names = get_value_by_names_params[:names]

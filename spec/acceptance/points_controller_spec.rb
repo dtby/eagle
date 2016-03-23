@@ -36,4 +36,35 @@ resource "点列表" do
     end
   end
 
+  post "/rooms/:room_id/points/:id/history_values" do
+    before do
+      @room = create(:room)
+      (0..3).each do |di|
+        device = create(:device, name: "device_#{di}", room: @room)
+        (0..3).each do |pi|
+          create(:point, device: device, name: "point_#{pi}", point_index: "#{di}#{pi}")
+        end
+      end
+    end
+
+    parameter :count, "最近count个小时的值（默认为5）", required: false
+
+    let(:id) { Point.last.id }
+    let(:room_id) { @room.id }
+    let(:count) { 4 }
+    let(:raw_post) { params.to_json }
+
+    user_attrs = FactoryGirl.attributes_for(:user)
+    header "X-User-Token", user_attrs[:authentication_token]
+    header "X-User-Phone", user_attrs[:phone]
+
+    response_field :time, "时间点"
+    response_field :value, "点的值"
+
+    example "获取点历史值成功" do
+      do_request
+      expect(status).to eq(200)
+    end
+  end
+
 end
