@@ -40,6 +40,18 @@ class Point < ActiveRecord::Base
     $redis.hget "eagle_point_value", point_index.to_s
   end
 
+  def history_values count
+    count ||= 5
+    caches = ($redis.hget "eagle_schedule_point_history", point_index) || (["0"]*24).join("-")
+    values = caches.split("-")
+    hash = {}
+    hour = Time.now.beginning_of_hour
+    values[-count..-1].reverse.each_with_index do |value, index|
+      hash[hour-index.hour] = value
+    end
+    hash
+  end
+
   def meaning
     value_meaning = $redis.hget "eagle_value_meaning", self.try(:point_index)
     return "" if value_meaning.nil?

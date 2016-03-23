@@ -5,7 +5,7 @@ class Schedule
   def self.point_history
     points = Point.where(name: "PUE")
     points.each do |point|
-      caches = ($redis.hget "eagle_schedule_point_history", point.point_index) || "0-0-0-0-0"
+      caches = ($redis.hget "eagle_schedule_point_history", point.point_index) || (["0"]*24).join("-")
       values = caches.split("-")
       values << (point.value || "0")
       values.shift

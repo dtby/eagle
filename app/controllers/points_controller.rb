@@ -36,6 +36,11 @@ class PointsController < ApplicationController
     end
   end
 
+  def history_values
+    count = (params[:count] || 5)
+    @hash = @point.history_values count
+  end
+
   private
   def get_value_by_names_params
     params.require(:point).permit(:names)
@@ -45,4 +50,7 @@ class PointsController < ApplicationController
     @room = Room.find_by(id: params[:room_id])
   end
 
+  def set_point
+    @point = Point.find_by(id: params[:id])
+  end
 end
