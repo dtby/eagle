@@ -94,3 +94,6 @@ gem 'sidekiq'
 # for sms 
 gem 'china_sms'
 gem 'phonelib'
+
+# for point classify
+gem 'acts-as-taggable-on', '~> 3.4'
