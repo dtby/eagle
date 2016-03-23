@@ -15,7 +15,8 @@
 #
 # Indexes
 #
-#  index_points_on_device_id  (device_id)
+#  index_points_on_device_id    (device_id)
+#  index_points_on_point_index  (point_index)
 #
 # Foreign Keys
 #
