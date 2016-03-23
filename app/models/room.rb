@@ -49,8 +49,7 @@ class Room < ActiveRecord::Base
   def self.generate_point_value
     start_time = DateTime.now.strftime("%Q").to_i
     PointState.all.each do |point_state|
-      p = Point.digital.find_by(point_index: point_state.try(:pid))
-      $redis.hset "eagle_point_value", point_state.try(:pid), (p.try(:meaning) || point_state.try(:value))
+      $redis.hset "eagle_point_value", point_state.try(:pid), (point_state.try(:value))
     end
     end_time = DateTime.now.strftime("%Q").to_i
     logger.info "Room.generate_point_value time is #{end_time-start_time}"

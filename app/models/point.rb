@@ -58,12 +58,12 @@ class Point < ActiveRecord::Base
 
   def meaning
     value_meaning = $redis.hget "eagle_value_meaning", self.try(:point_index)
-    return "" if value_meaning.nil?
-    index = self.value
-    if self.point_type == "alarm"
+    return value if value_meaning.nil?
+    index = value
+    if point_type == "alarm"
       index = self.state<0 ? (self.state+2) : (self.state+1)
     end
-    value_meaning.split("-")[index.try(:to_i)]
+    value_meaning.split("-")[(index.try(:to_i)||0)]
   end
 
   def color

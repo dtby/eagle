@@ -9,6 +9,7 @@ if @points.present?
     end
     json.name name
     json.value (point.value||"0")
+    json.meaning (point.meaning||"")
     json.color point.color
   end
 else
