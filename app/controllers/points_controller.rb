@@ -38,8 +38,8 @@ class PointsController < ApplicationController
   end
 
   def history_values
-    count = (params[:count] || 5)
-    @hash = @point.history_values count
+    count = params[:count] || 5
+    @hash = @point.try(:history_values, count) || {}
   end
 
   private
