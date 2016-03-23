@@ -18,8 +18,9 @@ class Schedule
   def self.point_classify
     start_time = DateTime.now.strftime("%Q").to_i
     Point.all.each do |point|
-      meaning = point.meaning
-      if meaning
+      meaning = point.try(:meaning)
+      if meaning =~ /\p{Han}/
+        puts "meaning is #{meaning}"
         if ["分", "合"].include? meaning
           point.tag_list.add "status_type"
         else
@@ -31,6 +32,6 @@ class Schedule
       point.save
     end
     end_time = DateTime.now.strftime("%Q").to_i
-    logger.info "Schedule.point_classify time is #{end_time-start_time}"
+    puts "Schedule.point_classify time is #{end_time-start_time}"
   end
 end

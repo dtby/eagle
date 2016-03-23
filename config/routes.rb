@@ -145,6 +145,12 @@ Rails.application.routes.draw do
 
   resources :sms_tokens, only: [:create]
 
+  namespace 'v2' do
+    resources :rooms, only: [] do
+      resources :devices, only: [:show]
+    end
+  end
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
