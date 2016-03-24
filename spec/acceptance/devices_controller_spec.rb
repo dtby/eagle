@@ -126,24 +126,24 @@ resource "设备列表" do
     response_field :name, "设备名"
     response_field :pic, "图片路径"
     with_options :scope => :number_type do
-      response_field :name, "点名"
-      response_field :value, "点的值"
-      response_field :meaning, "点值的意义"
-      response_field :color, "字体颜色"
+      response_field :name, "（数值类型的）点名"
+      response_field :value, "（数值类型的）点的值"
+      response_field :meaning, "（数值类型的）点值的意义"
+      response_field :color, "（数值类型的）字体颜色"
     end
     with_options :scope => :status_type do
-      response_field :name, "点名"
-      response_field :value, "点的值"
-      response_field :meaning, "点值的意义"
-      response_field :color, "字体颜色"
-    end
-    with_options :scope => :number_type do
-      response_field :name, "点名"
-      response_field :value, "点的值"
-      response_field :meaning, "点值的意义"
-      response_field :color, "字体颜色"
+      response_field :name, "（状态类型的）点名"
+      response_field :value, "（状态类型的）点的值"
+      response_field :meaning, "（状态类型的）点值的意义"
+      response_field :color, "（状态类型的）字体颜色"
     end
     with_options :scope => :alarm_type do
+      response_field :name, "（告警类型的）点名"
+      response_field :value, "（告警类型的）点的值"
+      response_field :meaning, "（告警类型的）点值的意义"
+      response_field :color, "（告警类型的）字体颜色"
+    end
+    with_options :scope => :alarm do
       response_field :name, "点名"
       response_field :value, "告警值"
       response_field :type, "告警类型"
