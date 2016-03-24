@@ -34,6 +34,10 @@ end
 every :hour do
   runner "Schedule.point_classify"
 end
+
+every :hour do
+  runner "Schedule.point_history"
+end
 #
 # every 4.days do
 #   runner "AnotherModel.prune_old_records"
