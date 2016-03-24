@@ -39,7 +39,7 @@ Rails.application.routes.draw do
   end
 
   resources :rooms, only: [:index, :show] do
-    resources :points, only: [] do 
+    resources :points, only: [] do
       collection do
         post :get_value_by_names
       end
@@ -77,7 +77,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :sub_systems, only:[] do 
+    resources :sub_systems, only:[] do
       collection do
         get :distrib
         get :ups
@@ -120,7 +120,7 @@ Rails.application.routes.draw do
   resources :users, only: [] do
     collection do
       post :update_password
-    end    
+    end
   end
 
   devise_for :users, controllers: {
@@ -130,14 +130,14 @@ Rails.application.routes.draw do
 
   resources :systems, only: [:index]
 
-  resources :check_phone, only: [] do 
+  resources :check_phone, only: [] do
     collection do
       post :auth
       post :auth_admin
     end
   end
 
-  resources :devices, only: [] do 
+  resources :devices, only: [] do
     member do
       resources :point_alarms, only: [:index]
     end
@@ -147,10 +147,14 @@ Rails.application.routes.draw do
 
   namespace 'v2' do
     resources :rooms, only: [] do
+      collection do
+        get :pue
+      end
       resources :devices, only: [:show]
+
     end
   end
-  
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
