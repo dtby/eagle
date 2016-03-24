@@ -32,7 +32,7 @@ every 1.minutes do
 end
 
 every :hour do
-  runner "Room.generate_value_meaning"
+  runner "Schedule.point_classify"
 end
 #
 # every 4.days do
