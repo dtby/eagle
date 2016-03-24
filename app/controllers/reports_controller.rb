@@ -1,7 +1,7 @@
 class ReportsController < BaseController
   def index
     start_time = DateTime.now.strftime("%Q").to_i
-    @devices = @room.devices
+    @devices = @room.devices.includes(:points)
     end_time = DateTime.now.strftime("%Q").to_i
     logger.info "ReportsController time is #{end_time-start_time}"
     logger.info "@device is #{@device.inspect}"
@@ -17,10 +17,6 @@ class ReportsController < BaseController
     @point_id = params[:point_id]
 
     point_histories = PointHistory.where({id: result[2], point_id: params[:point_id]})
-    p "xxxxxxxxxx"
-    p point_histories
-    p "yyyyyyyyy"
-
     respond_to do |format|
       format.html
       format.xls{

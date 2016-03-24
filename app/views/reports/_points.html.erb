@@ -12,6 +12,7 @@
       var room_id = $(this).data("room");
       var point_id = $(this).data("point");
       var name = $(this).data("name");
+      $(this).addClass("active").parent().siblings().find("a").removeClass("active");
       $("#point_id").val(point_id);
       $("#name").val(name);
       $("#pointName").text("名称：" + name).addClass("text-muted");

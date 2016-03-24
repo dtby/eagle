@@ -53,9 +53,15 @@
 <script type="text/javascript">
   $(function() {
     var _a = $("#deviceContent li.parent a");
-    _a.unbind();  //初始解除链接的绑定事件。
     _a.click(function(){
-      $(this).parent().next(".pointContent").slideToggle();
+      var pointContent = $(this).parent().next(".pointContent");
+      if(pointContent.hasClass("open")){
+        pointContent.slideUp("slow");
+        pointContent.removeClass("open");
+      }else{
+        pointContent.slideDown("slow");
+        pointContent.addClass("open");
+      }
       $(this).parent().siblings("li.parent").next(".pointContent").hide();
     });
     $('#datetimepicker1, #datetimepicker2').datetimepicker({

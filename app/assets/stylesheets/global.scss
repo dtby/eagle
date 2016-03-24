@@ -92,6 +92,9 @@ li.main-images-list {
   	line-height: 30px;
   	a {
   		color: #eeefef;
+      &.active {
+        color: #ed5565;
+      }
   	}
   }
 }
