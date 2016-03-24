@@ -72,7 +72,7 @@ Rails.application.routes.draw do
     #报表
     resources :reports, only: [:index] do
       collection do
-        get :replace_chart
+        get :results
         get :get_points
       end
     end

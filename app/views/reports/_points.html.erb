@@ -2,18 +2,20 @@
   <% device.points.each do |point| %>
     <!-- 搜索报表数据 -->
     <% default_result = PointHistory.default_result %>
-    <li class="child"><%= link_to format_report_name(point.name), replace_chart_room_reports_path(@room, point_id: point.id, name: point.name, start_time: start_time, end_time: end_time), remote: true, title: point.name, 'data-default-history': default_result[0].to_json, 'data-default-time': default_result[1].to_json %></li>
+    <li class="child"><%= link_to format_report_name(point.name), "javascript:void(0);", 'data-room': @room.id, 'data-point': point.id, 'data-name': format_report_name(point.name) %></li>
   <% end %>
 </ul>
 
 <script type="text/javascript">
   $(function(){
-    $("li.child a").each(function(){
-      var _this = $(this);
-      _this.click(function(){
-        $(this).addClass("redxx");
-        $(this).parent().siblings().find("a").removeClass("redxx");
-      })
+    $("li.child a").click(function(){
+      var room_id = $(this).data("room");
+      var point_id = $(this).data("point");
+      var name = $(this).data("name");
+      $("#point_id").val(point_id);
+      $("#name").val(name);
+      $("#pointName").text("名称：" + name).addClass("text-muted");
+      return false;
     })
   })
 </script>

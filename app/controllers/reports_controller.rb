@@ -6,28 +6,22 @@ class ReportsController < BaseController
     logger.info "ReportsController time is #{end_time-start_time}"
     logger.info "@device is #{@device.inspect}"
     #@point_histories = PointHistory.get_point_histories(params[:start_time])
-
-    respond_to do |format|
-      format.html
-      format.xls{
-        send_data( xls_content_for(PointHistory.default_result_hash),
-          :type => "text/excel;charset=utf-8; header=present",
-          :filename => "报表(#{Time.now.strftime("%F %H%M%S")}).xls" )
-      }
-    end
   end
 
-  def replace_chart
+  #报表搜索结果
+  def results
     result = PointHistory.result_by_sorts(params[:start_time], params[:end_time], params[:point_id])
-    @data = result[0].to_json
+    @data = result[0].map{|x| '%.1f' % x }.to_json
     @time = result[1].to_json
     @name = params[:name].to_json
     @point_id = params[:point_id]
 
     point_histories = PointHistory.where({id: result[2], point_id: params[:point_id]})
+    p "xxxxxxxxxx"
+    p point_histories
+    p "yyyyyyyyy"
 
     respond_to do |format|
-      format.js {}
       format.html
       format.xls{
         send_data( xls_content_for(point_histories),
