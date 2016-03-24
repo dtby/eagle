@@ -58,8 +58,12 @@ resource "点列表" do
     header "X-User-Token", user_attrs[:authentication_token]
     header "X-User-Phone", user_attrs[:phone]
 
-    response_field :time, "时间点"
+    response_field :name, "点名"
     response_field :value, "点的值"
+    with_options :scope => :history do
+      response_field :time, "时间点"
+      response_field :value, "点的历史值"
+    end
 
     example "获取点历史值成功" do
       do_request
