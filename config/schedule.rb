@@ -35,7 +35,7 @@ every :hour do
   runner "Schedule.point_classify"
 end
 
-every :hour do
+every 1.hour, :at => 15 do
   runner "Schedule.point_history"
 end
 #
