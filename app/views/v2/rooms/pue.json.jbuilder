@@ -1,1 +1,1 @@
-@pue_cache
+json.array! @pue_cache

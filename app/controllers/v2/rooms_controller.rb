@@ -10,7 +10,6 @@ class V2::RoomsController < BaseController
 
   def pue
     @pue_cache = $redis.lrange "pue_#{@room.id}", 0, 5
-    
   end
 
   private
