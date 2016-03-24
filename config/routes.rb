@@ -147,7 +147,7 @@ Rails.application.routes.draw do
 
   namespace 'v2' do
     resources :rooms, only: [] do
-      collection do
+      member do
         get :pue
       end
       resources :devices, only: [:show]
