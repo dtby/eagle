@@ -1,5 +1,5 @@
 class V2::RoomsController < BaseController
-  acts_as_token_authentication_handler_for User, only: [:show]
+  acts_as_token_authentication_handler_for User, only: [:show, :pue]
   before_action :authenticate_user!, only: [:show, :pue]
   before_action :set_room, only: [:show, :pue]
   respond_to :json
