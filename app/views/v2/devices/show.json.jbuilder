@@ -9,10 +9,10 @@ if @points.present?
         else
           name = point.name
         end
-        json.set! :name, point.name
-        json.set! :value, (point.value||"0")
-        json.set! :meaning, (point.meaning||"")
-        json.set! :color, point.color
+        json.name point.name
+        json.value (point.value||"0")
+        json.meaning (point.meaning||"")
+        json.color point.color
       end
     end
   end
