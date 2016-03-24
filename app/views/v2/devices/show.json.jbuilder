@@ -3,7 +3,7 @@ json.extract! @device, :id, :name, :pic
 if @points.present?
   ["number_type", "status_type", "alarm_type"].each do |type|
     json.set! type.to_sym do 
-      @points.tagged_with(type).to_a.sort_by {|p| p.name[/\d+/].to_i }.each do |point|
+      json.array! @points.tagged_with(type).to_a.sort_by {|p| p.name[/\d+/].to_i }.each do |point|
         if !(@device.try(:name).try(:include?, "机柜")) && (point.name.include? "-")
           name = point.name.split("-").last
         else
