@@ -151,7 +151,6 @@ Rails.application.routes.draw do
         get :pue
       end
       resources :devices, only: [:show]
-
     end
   end
 
