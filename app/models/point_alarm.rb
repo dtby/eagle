@@ -109,4 +109,10 @@ class PointAlarm < ActiveRecord::Base
     def generate_alarm_history
       AlarmHistory.find_or_create_by(point: self.point, check_state: self.state)
     end
+
+    def send_notification
+      # id, device_name, pid, state, created_at, updated_at, 
+      # is_checked, point_id, comment, type, meaning, alarm_value
+      NotificationSendJob.perform_later(self)
+    end
 end
