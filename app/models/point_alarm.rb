@@ -90,6 +90,7 @@ class PointAlarm < ActiveRecord::Base
 
     def update_alarm_history
       alarm_history = self.try(:point).try(:alarm_histories).try(:last)
+      return unless alarm_history.present?
       alarm_history.check_state = self.state
       alarm_history.checked_user = self.checked_user
       alarm_history.checked_time = DateTime.now if self.checked_at.present?
