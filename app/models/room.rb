@@ -59,12 +59,12 @@ class Room < ActiveRecord::Base
   def self.generate_value_meaning
     DigitalPoint.all.each do |dp|
       next if (dp.OffName.blank? || dp.OnName.blank?)
-      $redis.hset "eagle_value_meaning", dp.try(:PointID), [dp.OffName, dp.OnName].join("-") 
+      $redis.hset "eagle_value_meaning", dp.try(:PointID), [dp.OffName, dp.OnName].join("-")
     end
 
     AnalogPoint.all.each do |ap|
       next if ap.UpName.blank? || ap.UUpName.blank? || ap.DnName.blank? || ap.DDnName.blank?
-      $redis.hset "eagle_value_meaning", ap.try(:PointID), [ap.DDnName, ap.DnName, ap.UpName, ap.UUpName].join("-") 
+      $redis.hset "eagle_value_meaning", ap.try(:PointID), [ap.DDnName, ap.DnName, ap.UpName, ap.UUpName].join("-")
     end
     nil
   end
@@ -80,7 +80,7 @@ class Room < ActiveRecord::Base
         pattern_name = "普通温湿度" if pattern_name == "th802"
 
         next if pattern_name.blank?
-        
+
         sub_system = SubSystem.find_or_create_by(name: sub_name)
         menu = Menu.find_or_create_by(room: room, menuable_id: sub_system.try(:id), menuable_type: "SubSystem")
         menu.update(updated_at: DateTime.now)
@@ -157,7 +157,7 @@ class Room < ActiveRecord::Base
       end
 
       return if result.nil?
-      
+
       point_ids = ($redis.hget "eagle_key_points_value", device_id) || [0,0,0,0].join("-")
       unless point_ids.present?
         $redis.hset "eagle_key_points_value", device_id, [0,0,0,0].join("-")
@@ -166,7 +166,7 @@ class Room < ActiveRecord::Base
     else
       return
     end
- 
+
     point_ids = point_ids.split("-")
     return if point_ids[index] == point_id
     point_ids[index] = point_id
@@ -181,7 +181,7 @@ class Room < ActiveRecord::Base
   def self.datas_to_hash class_name, group_hash
     class_name.all.each do |ap|
       # BayName: 机房A-配电系统
-      # 机房A -> 配电系统 -> 配电柜 -> 
+      # 机房A -> 配电系统 -> 配电柜 ->
       bay_info = ap.BayName.upcase.split("-")
 
       device_name = bay_info.second
@@ -200,7 +200,7 @@ class Room < ActiveRecord::Base
       group_hash[bay_info.first] = {} unless group_hash[bay_info.first].present?
       group_hash[bay_info.first][ap.GroupName] = {} unless group_hash[bay_info.first][ap.GroupName].present?
       # puts "bay_info is #{bay_info}"
-      
+
       point_hash = {}
       group_hash[bay_info.first][ap.GroupName][device_name] = {} unless group_hash[bay_info.first][ap.GroupName][device_name].present?
       group_hash[bay_info.first][ap.GroupName][device_name][point_name] = "#{ap.PointID}!#{ap.try(:UpValue)}!#{ap.try(:DnValue)}"
@@ -208,7 +208,7 @@ class Room < ActiveRecord::Base
     group_hash
   end
 
-  
+
 
   # Room.generate_alarm_data
   def self.generate_alarm_data
@@ -216,7 +216,7 @@ class Room < ActiveRecord::Base
     aps = AnalogPoint.where('PointName=? or PointName=?', '电流有效值', '电压有效值')
     ap_names = aps.pluck(:BayName).uniq
 
-    
+
     ap_names.each_with_index do |name, index|
       puts "index is #{index}"
       points = aps.where(BayName: name)
@@ -256,6 +256,21 @@ class Room < ActiveRecord::Base
     logger.info "Room.generate_alarm_data time is #{end_time-start_time}"
     nil
   end
+
+  def self.get_pue room_id
+    pue_cache = ($redis.lrange "pue_#{room_id}", 0, 5).map { |e| MultiJson.load e } rescue []
+    if pue_cache.blank?
+      now_time = Time.now
+      (1..5).each do |offset|
+        pue_cache << {
+          datetime: (now_time - offset.hour).strftime("%Y-%m-%d %H"),
+          value: 0
+        }
+      end
+    end
+    pue_cache
+  end
+
   #  机房菜单字符串数组
   # 返回值: ［"#{menu_id}_#{menu_type}"］
   def menu_to_s
