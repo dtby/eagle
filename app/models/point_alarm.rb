@@ -90,6 +90,7 @@ class PointAlarm < ActiveRecord::Base
 
     def update_alarm_history
       alarm_history = self.try(:point).try(:alarm_histories).try(:last)
+      return unless alarm_history.present?
       alarm_history.check_state = self.state
       alarm_history.checked_user = self.checked_user
       alarm_history.checked_time = DateTime.now if self.checked_at.present?
@@ -107,5 +108,11 @@ class PointAlarm < ActiveRecord::Base
 
     def generate_alarm_history
       AlarmHistory.find_or_create_by(point: self.point, check_state: self.state)
+    end
+
+    def send_notification
+      # id, device_name, pid, state, created_at, updated_at, 
+      # is_checked, point_id, comment, type, meaning, alarm_value
+      NotificationSendJob.perform_later(self)
     end
 end

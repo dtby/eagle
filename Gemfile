@@ -97,3 +97,10 @@ gem 'phonelib'
 
 # for point classify
 gem 'acts-as-taggable-on', '~> 3.4'
+
+# for message notification
+gem 'httparty'
+gem 'ruby-for-xinge'
+
+# for faraday
+gem 'faraday'

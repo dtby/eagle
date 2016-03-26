@@ -18,6 +18,8 @@
 #  name                   :string(255)      default(""), not null
 #  phone                  :string(255)      default(""), not null
 #  authentication_token   :string(255)
+#  os                     :string(255)
+#  device_token           :string(255)
 #
 # Indexes
 #
@@ -28,7 +30,7 @@
 #
 
 class UsersController < ApplicationController
-  acts_as_token_authentication_handler_for User, only: [:show]
+  acts_as_token_authentication_handler_for User, only: [:show, :update_device]
   def show
   end
 
@@ -38,8 +40,16 @@ class UsersController < ApplicationController
     @user.reset_user_password user_params
   end
 
+  def update_device
+    current_user.update update_device_params
+  end
+
   private
   def user_params
     params.require(:user).permit(:password, :sms_token, :phone)
+  end
+
+  def update_device_params
+    params.require(:user).permit(:os, :device_token)
   end
 end

@@ -56,7 +56,7 @@ class PointAlarmsController < BaseController
     end
     
     return unless point_alarms.present?
-    point_alarms.select! { |pas| pas.state != 0}
+    point_alarms.select! { |pas| (pas.state != 0) || ((1.day.ago..DateTime.now).cover? pas.checked_at) }
     page = (params[:page].to_i < 1) ? 1 : params[:page]
     if params[:checked].present? && params[:checked] == "0"
       @point_alarms = point_alarms.paginate(page: page, per_page: (params[:per_page] || 10))
@@ -72,7 +72,8 @@ class PointAlarmsController < BaseController
     @results = {}
     if params[:room_id].present? && !(params[:sub_system_id].present?)
 
-      point_alarms = PointAlarm.where(room_id: params[:room_id], is_checked: false).where.not(state: 0)
+      point_alarms = PointAlarm.where("room_id = #{params[:room_id]} AND (state != 0 OR checked_at BETWEEN '#{1.day.ago.strftime("%Y-%m-%d %H:%M:%S")}' AND '#{DateTime.now.strftime("%y-%m-%d %H:%M:%S")}')")
+
       sub_system_ids = point_alarms.pluck(:sub_system_id)
 
       return unless sub_system_ids.present?
@@ -86,7 +87,7 @@ class PointAlarmsController < BaseController
       @results = Hash[sub_system_names.zip(ids)]
     elsif params[:sub_system_id].present?
 
-      point_alarms = PointAlarm.where(room_id: params[:room_id], sub_system_id: params[:sub_system_id], is_checked: false).where.not(state: 0)
+      point_alarms = PointAlarm.where("room_id = #{params[:room_id]} AND sub_system_id = #{params[:sub_system_id]} AND (state != 0 OR checked_at BETWEEN '#{1.day.ago.strftime("%Y-%m-%d %H:%M:%S")}' AND '#{DateTime.now.strftime("%y-%m-%d %H:%M:%S")}')")
       device_ids = point_alarms.pluck(:device_id)
       
       return unless device_ids.present?

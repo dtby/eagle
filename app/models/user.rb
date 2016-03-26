@@ -18,6 +18,8 @@
 #  name                   :string(255)      default(""), not null
 #  phone                  :string(255)      default(""), not null
 #  authentication_token   :string(255)
+#  os                     :string(255)
+#  device_token           :string(255)
 #
 # Indexes
 #

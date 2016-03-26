@@ -120,6 +120,7 @@ Rails.application.routes.draw do
   resources :users, only: [] do
     collection do
       post :update_password
+      post :update_device
     end
   end
 
@@ -151,7 +152,6 @@ Rails.application.routes.draw do
         get :pue
       end
       resources :devices, only: [:show]
-
     end
   end
 
