@@ -29,9 +29,13 @@ class NotificationSendJob < ActiveJob::Base
     title = "告警！"
     content = "#{point_alarm.device_name}的#{point_alarm.try(:point).try(:name)}出现告警！"
 
+    user_ids = UserRoom.where(room_id: point_alarm.room_id).pluck(:user_id).uniq
+
     [:android, :ios].each do |type|
-      sender = Xinge::Notification.instance.send type
-      response = sender.pushToAllDevice title, content, params, custom_content
+      User.where(id: user_ids, os: type.to_s).each do |user|
+        next unless user.present? && user.device_token.present?
+        response = sender.pushToSingleDevice title, content, params, custom_content
+      end
     end
   end
 
