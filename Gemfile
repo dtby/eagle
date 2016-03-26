@@ -103,4 +103,4 @@ gem 'httparty'
 gem 'ruby-for-xinge'
 
 # for faraday
-gem ''
+gem 'faraday'
