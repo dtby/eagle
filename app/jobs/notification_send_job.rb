@@ -48,10 +48,10 @@ class NotificationSendJob < ActiveJob::Base
     body = {
       alarm: {
         id: point_alarm.id,
-        room_id: point_alarm.room_id, 
-        device_name: point_alarm.device_name, 
-        created_at: point_alarm.created_at, 
-        point_id: point_alarm.point_id, 
+        room_id: point_alarm.room_id,
+        device_name: point_alarm.device.name, 
+        created_at: point_alarm.created_at,
+        point_id: point_alarm.point_id,
         comment: point_alarm.comment
       }
     }
