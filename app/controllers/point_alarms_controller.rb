@@ -107,7 +107,7 @@ class PointAlarmsController < BaseController
   end
 
   def checked
-    if @point_alarm.update(checked_at: DateTime.now, is_checked: true)
+    if @point_alarm.present? && @point_alarm.update(checked_at: DateTime.now, is_checked: true)
       @point_alarm.check_alarm_by_user(current_user.name)
       result = "处理成功"
     else
@@ -125,7 +125,7 @@ class PointAlarmsController < BaseController
   end
 
   def unchecked
-    if @point_alarm.update(is_checked: false)
+    if @point_alarm.present? && @point_alarm.update(is_checked: false)
       result = "处理成功"
     else
       result = "处理失败"
