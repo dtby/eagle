@@ -13,6 +13,7 @@ if @point_alarms.present?
     json.checked_at point_alarm.try(:checked_at).try(:strftime, "%Y-%m-%d %H:%M:%S")
     json.is_checked (point_alarm.try(:is_checked) || false)
     json.point_id point_alarm.try(:point_id)
+    json.point_name point_alarm.try(:point).try(:name)
     json.comment point_alarm.try(:comment)
     json.checked_user point_alarm.try(:checked_user) || ""
 
