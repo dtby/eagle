@@ -67,6 +67,10 @@ class PointAlarmsController < BaseController
     end
   end
 
+  def show
+    @point_alarm = PointAlarm.find_by(id: params[:id])
+  end
+
   def count
     # 子系统拥有的告警数、设备拥有的告警数
     @results = {}
