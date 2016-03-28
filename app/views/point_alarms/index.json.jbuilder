@@ -13,6 +13,7 @@ if @point_alarms.present?
     json.is_checked (point_alarm.try(:is_checked) || false)
     json.point_id point_alarm.try(:point_id)
     json.comment point_alarm.try(:comment)
+    json.checked_user point_alarm.try(:checked_user)
 
     type = "开关量告警"
     if (point_alarm.try(:state).present? && point_alarm.alarm_type == "alarm")

@@ -42,6 +42,8 @@ resource "告警相关" do
     response_field :updated_at, "更新时间"
     response_field :is_checked, "是否确认"
     response_field :point_id, "点ID"
+    response_field :comment, "说明"
+    response_field :checked_user, "确认人"
 
     example "获取告警列表成功（基于机房）" do
       do_request
@@ -81,6 +83,8 @@ resource "告警相关" do
     response_field :updated_at, "更新时间"
     response_field :is_checked, "是否确认"
     response_field :point_id, "点ID"
+    response_field :comment, "说明"
+    response_field :checked_user, "确认人"
 
     example "获取告警列表成功（基于设备）" do
       do_request
