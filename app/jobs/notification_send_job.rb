@@ -16,12 +16,13 @@ class NotificationSendJob < ActiveJob::Base
         state: point_alarm.state,
         created_at: point_alarm.created_at,
         updated_at: point_alarm.updated_at,
+        checked_at: point_alarm.checked_at,
         is_checked: point_alarm.is_checked,
         point_id: point_alarm.point_id,
         comment: point_alarm.comment,
         type: point_alarm.type,
         meaning: point_alarm.meaning,
-        alarm_value: point_alarm.alarm_value
+        alarm_value: point_alarm.alarm_value, 
       }
     }
 
