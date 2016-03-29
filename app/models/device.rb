@@ -32,7 +32,7 @@ class Device < ActiveRecord::Base
   has_many :point_alarms, dependent: :destroy
 
   def pic
-    path = pic_path || Attachment.find_by("tag like ? AND room_id = ?", "%#{name}%", room_id).try(:image_url).try(:medium)
+    path = pic_path || Attachment.find_by("tag like ? AND room_id = ?", "%#{name}%", room_id).try(:image_url).try(:small)
     "#{ActionController::Base.asset_host}#{path}" if path.present?
   end
 
