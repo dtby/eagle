@@ -3,17 +3,9 @@ class NotificationSendJob < ActiveJob::Base
 
   def perform point_alarm
     # Do something later
-    begin
-      notification_to_app point_alarm
-    rescue Exception => e
-      puts "Exception is #{e}"
-    end
-    begin
-      notification_to_wechat point_alarm
-    rescue Exception => e
-      puts "Exception is #{e}"
-    end
-
+    puts "abcd.1234"
+    # notification_to_app point_alarm
+    # notification_to_wechat point_alarm
   end
 
   def notification_to_app point_alarm
