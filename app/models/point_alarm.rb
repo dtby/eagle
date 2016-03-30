@@ -113,6 +113,7 @@ class PointAlarm < ActiveRecord::Base
     def send_notification
       # id, device_name, pid, state, created_at, updated_at, 
       # is_checked, point_id, comment, type, meaning, alarm_value
-      NotificationSendJob.perform_later(self)
+      NotificationSendJob.set(queue: :message).perform_later(self)
+
     end
 end
