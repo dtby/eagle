@@ -3,8 +3,17 @@ class NotificationSendJob < ActiveJob::Base
 
   def perform point_alarm
     # Do something later
-    notification_to_app point_alarm
-    notification_to_wechat point_alarm
+    begin
+      notification_to_app point_alarm
+    rescue Exception => e
+      puts "Exception is #{e}"
+    end
+    begin
+      notification_to_wechat point_alarm
+    rescue Exception => e
+      puts "Exception is #{e}"
+    end
+
   end
 
   def notification_to_app point_alarm
@@ -38,7 +47,7 @@ class NotificationSendJob < ActiveJob::Base
         sender = Xinge::Notification.instance.send type
         response = sender.pushToSingleDevice user.device_token, title, content, params, custom_content
         puts "response is #{response.inspect}"
-        logger.info "response is #{response.inspect}"
+        # logger.info "response is #{response.inspect}"
       end
     end
   end
