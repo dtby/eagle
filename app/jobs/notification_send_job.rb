@@ -37,6 +37,7 @@ class NotificationSendJob < ActiveJob::Base
         next unless user.present? && user.device_token.present?
         response = sender.pushToSingleDevice user.device_token, title, content, params, custom_content
         puts "response is #{response.inspect}"
+        logger.info "response is #{response.inspect}"
       end
     end
   end
