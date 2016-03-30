@@ -45,8 +45,13 @@ class NotificationSendJob < ActiveJob::Base
       User.where(id: user_ids, os: type.to_s).each do |user|
         next unless user.present? && user.device_token.present?
         sender = Xinge::Notification.instance.send type
-        response = sender.pushToSingleDevice user.device_token, title, content, params, custom_content
-        puts "response is #{response.inspect}"
+        begin
+          response = sender.pushToSingleDevice user.device_token, title, content, params, custom_content
+        rescue Exception => e
+          puts "Exception is #{e.inspect}"
+        ensure
+          puts "response is #{response.inspect}"
+        end
         # logger.info "response is #{response.inspect}"
       end
     end
