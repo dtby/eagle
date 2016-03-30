@@ -35,7 +35,8 @@ class NotificationSendJob < ActiveJob::Base
     [:android, :ios].each do |type|
       User.where(id: user_ids, os: type.to_s).each do |user|
         next unless user.present? && user.device_token.present?
-        response = sender.pushToSingleDevice title, content, params, custom_content
+        response = sender.pushToSingleDevice user.device_token, title, content, params, custom_content
+        puts "response is #{response.inspect}"
       end
     end
   end
