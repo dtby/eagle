@@ -3,9 +3,8 @@ class NotificationSendJob < ActiveJob::Base
 
   def perform point_alarm
     # Do something later
-    puts "abcd.1234"
-    # notification_to_app point_alarm
-    # notification_to_wechat point_alarm
+    notification_to_app point_alarm
+    notification_to_wechat point_alarm
   end
 
   def notification_to_app point_alarm
