@@ -11,7 +11,7 @@ class NotificationSendJob < ActiveJob::Base
     custom_content = {
       custom_content: {
         id: point_alarm.id,
-        device_name: point_alarm.device_name,
+        device_name: point_alarm.try(:device).try(:name),
         pid: point_alarm.pid,
         state: point_alarm.state,
         created_at: point_alarm.created_at,
@@ -20,7 +20,7 @@ class NotificationSendJob < ActiveJob::Base
         is_checked: point_alarm.is_checked,
         point_id: point_alarm.point_id,
         comment: point_alarm.comment,
-        type: point_alarm.type,
+        type: point_alarm.alarm_type,
         meaning: point_alarm.meaning,
         alarm_value: point_alarm.alarm_value, 
       }
@@ -28,7 +28,7 @@ class NotificationSendJob < ActiveJob::Base
 
     params = {}
     title = "告警！"
-    content = "#{point_alarm.device_name}的#{point_alarm.try(:point).try(:name)}出现告警！"
+    content = "#{point_alarm.try(:device).try(:name)}的#{point_alarm.try(:point).try(:name)}出现告警！"
 
     user_ids = UserRoom.where(room_id: point_alarm.room_id).pluck(:user_id).uniq
 
