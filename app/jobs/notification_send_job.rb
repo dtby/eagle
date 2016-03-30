@@ -1,5 +1,4 @@
 class NotificationSendJob < ActiveJob::Base
-  include Sidekiq::Worker
   queue_as :message
 
   def perform point_alarm

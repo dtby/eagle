@@ -1,5 +1,4 @@
 class AlarmProcessJob < ActiveJob::Base
-  include Sidekiq::Worker
   queue_as :alarm
 
   def perform(point_index, name)
