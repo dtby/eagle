@@ -82,7 +82,7 @@ class PointAlarm < ActiveRecord::Base
   end
 
   def check_alarm_by_user user_name
-    # AlarmProcessJob.perform_later(self.try(:point).try(:point_index), user_name)
+    AlarmProcessJob.set(queue: :alarm).perform_later(self.try(:point).try(:point_index), user_name)
     self.update(checked_user: user_name)
   end
 
@@ -114,6 +114,5 @@ class PointAlarm < ActiveRecord::Base
       # id, device_name, pid, state, created_at, updated_at, 
       # is_checked, point_id, comment, type, meaning, alarm_value
       NotificationSendJob.set(queue: :message).perform_later(self)
-
     end
 end
