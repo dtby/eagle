@@ -1,5 +1,5 @@
 class NotificationSendJob < ActiveJob::Base
-  queue_as :sidekiq
+  queue_as :message
 
   def perform point_alarm
     # Do something later
