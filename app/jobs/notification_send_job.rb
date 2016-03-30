@@ -42,7 +42,6 @@ class NotificationSendJob < ActiveJob::Base
           puts "Exception is #{e.inspect}"
         ensure
           puts "response is #{response.inspect}, params is #{user.phone}"
-          sleep 3
         end
         # logger.info "response is #{response.inspect}"
       end
