@@ -3,6 +3,7 @@ class NotificationSendJob < ActiveJob::Base
 
   def perform point_alarm
     # Do something later
+    sleep 1
     notification_to_app point_alarm
     notification_to_wechat point_alarm
   end
