@@ -37,7 +37,6 @@ class NotificationSendJob < ActiveJob::Base
       sender = Xinge::Notification.instance.send type
       User.where(id: user_ids, os: type.to_s).each do |user|
         next unless user.present? && user.device_token.present?  
-        next unless user.phone == "13601996876"
         begin
           response = sender.pushToSingleDevice user.device_token, title, content, params, custom_content
         rescue Exception => e
