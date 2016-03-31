@@ -32,7 +32,7 @@ class Device < ActiveRecord::Base
   has_many :point_alarms, dependent: :destroy
 
   def pic
-    path = pic_path || Attachment.find_by("tag like ? AND room_id = ?", "%#{name}%", room_id).try(:image_url).try(:small)
+    path = pic_path || Attachment.find_by("tag like ? AND room_id = ?", "%#{name}%", room_id).try(:image_url, :thumb)
     "#{ActionController::Base.asset_host}#{path}" if path.present?
   end
 
@@ -41,6 +41,7 @@ class Device < ActiveRecord::Base
     view_points = {}
 
     # 循环分组封装呆显示数据
+    # 排序需要修改 2016-3-31
     all_points = points.order("name asc")
     all_points.each do |point|
       state = point.try(:value) || 0
