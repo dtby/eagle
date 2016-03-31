@@ -1,5 +1,5 @@
 <ul>
-  <% device.points.each do |point| %>
+  <% device.points.analog.each do |point| %>
     <!-- 搜索报表数据 -->
     <% default_result = PointHistory.default_result %>
     <li class="child"><%= link_to format_report_name(point.name), "javascript:void(0);", 'data-room': @room.id, 'data-point': point.id, 'data-name': format_report_name(point.name) %></li>
