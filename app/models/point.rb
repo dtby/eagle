@@ -123,12 +123,13 @@ class Point < ActiveRecord::Base
       point_alarm = PointAlarm.find_or_create_by(point_id: point.id)
       
       if state != point_alarm.state
+        checked_user = (state == 0 ? "系统确认" : "")
         puts "DigitalAlarm size is #{PointAlarm.is_warning_alarm.size}, #{da.PointID}, #{point_alarm.state}  => #{state}"
         update_time = DateTime.new(cos.ADate.year, cos.ADate.month, cos.ADate.day, cos.ATime.hour,cos.ATime.min, cos.ATime.sec)
         point_alarm.update(state: state, comment: dp.try(:Comment), 
           is_checked: (state.to_i == 0), updated_at: update_time, alarm_type: 1, 
           room_id: point.try(:device).try(:room).try(:id),
-          device_id: point.try(:device).try(:id), 
+          device_id: point.try(:device).try(:id), checked_user: checked_user,
           sub_system_id: point.try(:device).try(:pattern).try(:sub_system).try(:id))
       end
     end
@@ -159,11 +160,12 @@ class Point < ActiveRecord::Base
       point_alarm = PointAlarm.find_or_create_by(point_id: point.id)
       
       if state != point_alarm.state
+        checked_user = (state == 0 ? "系统确认" : "")
         update_time = DateTime.new(cos.ADate.year, cos.ADate.month, cos.ADate.day, cos.ATime.hour,cos.ATime.min, cos.ATime.sec)
         point_alarm.update(state: state, comment: dp.try(:Comment), 
           is_checked: (state == 0), updated_at: update_time, alarm_type: 0,
           room_id: point.try(:device).try(:room).try(:id),
-          device_id: point.try(:device).try(:id), 
+          device_id: point.try(:device).try(:id), checked_user: checked_user,  
           sub_system_id: point.try(:device).try(:pattern).try(:sub_system).try(:id), 
           alarm_value: cos.AlarmValue)
       end
@@ -204,7 +206,8 @@ class Point < ActiveRecord::Base
         end
         alarm_value = cos.try(:AlarmValue) || ""
       end
-      pa.update(state: state, updated_at: update_time, alarm_value: alarm_value)  if pa.state != state
+      checked_user = (state == 0 ? "系统确认" : "")
+      pa.update(state: state, updated_at: update_time, alarm_value: alarm_value, checked_user: checked_user)  if pa.state != state
     end
     end_time_all = DateTime.now.strftime("%Q").to_i
     logger.info "Point.monitor_db time is #{end_time_all-start_time_all}"
