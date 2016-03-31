@@ -71,7 +71,7 @@ stop() {
 }
 status() {
 
-  ps -ef | grep 'sidekiq [0-9]*.[0-9]*.[0-9]*' | grep -v
+  ps -ef | grep 'sidekiq [0-9]*.[0-9]*.[0-9]*' | grep -v grep
   return $?
 }
 
