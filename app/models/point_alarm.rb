@@ -42,6 +42,7 @@ class PointAlarm < ActiveRecord::Base
   after_update :update_alarm_history, if: "checked_at_changed?"
   # after_update :update_is_checked, if: :no_alarm?
   after_create :generate_alarm_history
+  after_update :send_notification, if: "is_checked_changed?"
 
   default_scope { where.not(state: nil).order("updated_at DESC") }
 
@@ -113,6 +114,7 @@ class PointAlarm < ActiveRecord::Base
     def send_notification
       # id, device_name, pid, state, created_at, updated_at, 
       # is_checked, point_id, comment, type, meaning, alarm_value
+      return if self.is_checked?
       NotificationSendJob.set(queue: :message).perform_later(self)
     end
 end
