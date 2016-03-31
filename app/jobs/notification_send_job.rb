@@ -5,11 +5,22 @@ class NotificationSendJob < ActiveJob::Base
     # Do something later
     point_alarm = PointAlarm.find_by(id: point_alarm_id)
     return unless point_alarm.present?
-    notification_to_app point_alarm
+    [:android, :ios].each do |type|
+      user_ids = UserRoom.where(room_id: point_alarm.room_id).pluck(:user_id).uniq
+      puts user_ids
+      user_ids.each do |user_id|
+        notification_to_app point_alarm, user_id, type
+      end
+    end
     notification_to_wechat point_alarm
+    nil
   end
 
-  def notification_to_app point_alarm
+  def notification_to_app point_alarm, user_id, type
+
+    user = User.find(user_id)
+    return unless user.present? && user.device_token.present?  
+    return unless user.os == type.to_s
     custom_content = {
       custom_content: {
         id: point_alarm.id,
@@ -32,21 +43,13 @@ class NotificationSendJob < ActiveJob::Base
     title = "告警！"
     content = "#{point_alarm.try(:device).try(:name)}的#{point_alarm.try(:point).try(:name)}出现告警！"
 
-    user_ids = UserRoom.where(room_id: point_alarm.room_id).pluck(:user_id).uniq
-
-    [:android, :ios].each do |type|
-      sender = Xinge::Notification.instance.send type
-      User.where(id: user_ids, os: type.to_s).each do |user|
-        next unless user.present? && user.device_token.present?  
-        begin
-          response = sender.pushToSingleDevice user.device_token, title, content, params, custom_content
-        rescue Exception => e
-          puts "Exception is #{e.inspect}"
-        ensure
-          puts "response is #{response.inspect}, params is #{user.phone}"
-        end
-        # logger.info "response is #{response.inspect}"
-      end
+    sender = Xinge::Notification.instance.send type
+    begin
+      response = sender.pushToSingleDevice user.device_token, title, content, params, custom_content
+    rescue Exception => e
+      puts "Exception is #{e.inspect}"
+    ensure
+      puts "response is #{response.inspect}, params is #{user.phone}"
     end
   end
 
