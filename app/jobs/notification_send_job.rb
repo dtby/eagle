@@ -18,6 +18,7 @@ class NotificationSendJob < ActiveJob::Base
     size = user_infos.size
     user_infos.each_with_index do |user_info, index|
       puts "this is #{index}/#{size}, phone is #{user_info[0]}"
+      next unless user_info[1].present? && user_info[2].present?
       xinge_send point_alarm, user_info[1], user_info[2]
     end    
   end
