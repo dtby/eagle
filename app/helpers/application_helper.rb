@@ -20,14 +20,14 @@ module ApplicationHelper
 	end
 
   #告警类型
-	def alarm_status status
-    case status
-    when 1
-    	"告警"
-    when 0
-    	"设备正常"
-    end
-	end
+	# def alarm_status status
+ #    case status
+ #    when 1
+ #    	"告警"
+ #    when 0
+ #    	"设备正常"
+ #    end
+	# end
 
   #格式化小数
   def number_format number

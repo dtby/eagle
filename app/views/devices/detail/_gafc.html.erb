@@ -96,7 +96,7 @@
   <div class="col-md-12">
     <div class="panel panel-default warn-info">
       <div class="panel-heading text-center"><h4>报警信息</h4></div>
-      <div class="panel-body">
+      <div class="panel-body" style="height: 320px; overflow: auto;" >
         <% @points["告警"].keys.each_with_index do |key, index| %>
           <% if index % 4 == 0 %>
             <div class="air_d_grey col-sm-3" align="left">
