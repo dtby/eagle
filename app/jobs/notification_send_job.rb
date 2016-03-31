@@ -1,9 +1,10 @@
 class NotificationSendJob < ActiveJob::Base
   queue_as :message
 
-  def perform point_alarm
+  def perform point_alarm_id
     # Do something later
-    sleep 1
+    point_alarm = PointAlarm.find_by(id: point_alarm_id)
+    return unless point_alarm.present?
     notification_to_app point_alarm
     notification_to_wechat point_alarm
   end
