@@ -4,7 +4,7 @@
 			<!-- brand -->
 			<li class="nav-header">
 				<div class="profile-element text-center" style="color: #fff;">
-					<p class="block"> <strong><%= Time.now.strftime("%A %R %p")%></strong></p>
+					<p class="block"> <strong><%= Time.zone.now.strftime("%A %R %p")%></strong></p>
 					<% if @room.present? %>
 						<span class="label label-primary"><%= @room.name %></span>
 					<% end %>
