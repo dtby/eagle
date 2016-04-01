@@ -27,8 +27,8 @@ class NotificationSendJob < ActiveJob::Base
 
     size = user_infos.size
     user_infos.each_with_index do |user_info, index|
-      puts "this is #{index}/#{size}, phone is #{user_info[0]}"
       next unless user_info[1].present? && user_info[2].present?
+      puts "phone is #{user_info[0]}"
       xinge_send point_alarm, user_info[1], user_info[2]
     end    
   end
@@ -75,11 +75,18 @@ class NotificationSendJob < ActiveJob::Base
     body = {
       alarm: {
         id: point_alarm.id,
-        room_id: point_alarm.room_id,
-        device_name: point_alarm.device.name, 
+        device_name: point_alarm.try(:device).try(:name),
+        pid: point_alarm.pid,
+        state: point_alarm.state,
         created_at: point_alarm.created_at,
+        updated_at: point_alarm.updated_at,
+        checked_at: point_alarm.checked_at,
+        is_checked: point_alarm.is_checked,
         point_id: point_alarm.point_id,
-        comment: point_alarm.comment
+        comment: point_alarm.comment,
+        type: point_alarm.alarm_type,
+        meaning: point_alarm.meaning,
+        alarm_value: point_alarm.alarm_value
       }
     }
 
