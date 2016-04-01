@@ -37,7 +37,7 @@ class Device < ActiveRecord::Base
   end
 
   # 获取设备对应的点的值
-  def points_value 
+  def points_value
     view_points = {}
 
     # 循环分组封装呆显示数据
@@ -54,7 +54,7 @@ class Device < ActiveRecord::Base
       else
         view_points["其他"].blank? ? view_points["其他"] = {point.name => state } : view_points["其他"].merge!({point.name => state })
       end
-    end 
+    end
 
     view_points
   end
@@ -77,7 +77,7 @@ class Device < ActiveRecord::Base
       else
         view_points["其他"].blank? ? view_points["其他"] = {point.name => state } : view_points["其他"].merge!({point.name => state })
       end
-    end 
+    end
 
     view_points
   end
@@ -105,5 +105,24 @@ class Device < ActiveRecord::Base
       break if b_alarm
     end
     b_alarm
+  end
+
+  def alarm_count room_id, sub_system_id
+    point_alarms = PointAlarm.where("room_id = #{room_id} AND sub_system_id = #{sub_system_id} AND (state != 0 OR checked_at BETWEEN '#{1.day.ago.strftime("%Y-%m-%d %H:%M:%S")}' AND '#{DateTime.now.strftime("%y-%m-%d %H:%M:%S")}')")
+    device_ids = point_alarms.pluck(:device_id)
+
+    sub_system_ids = point_alarms.pluck(:sub_system_id)
+
+    return [] unless sub_system_ids.present?
+    counter = Hash.new(0)
+    sub_system_ids.each {|val| counter[val] += 1}
+    counter.each do |item|
+      results << {
+        device_id: item[0],
+        device_name: SubSystem.get_name(item[0]),
+        alarm_count: item[-1]
+      }
+    end
+    results
   end
 end
