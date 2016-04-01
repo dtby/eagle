@@ -283,9 +283,9 @@ class Room < ActiveRecord::Base
     sub_systems.includes(:system, :patterns).select{ |sub| sub.system == system}
   end
 
-  def alarms id
+  def alarm_count room_id
     results = []
-    point_alarms = PointAlarm.where("room_id = #{id} AND (state != 0 OR checked_at BETWEEN '#{1.day.ago.strftime("%Y-%m-%d %H:%M:%S")}' AND '#{DateTime.now.strftime("%y-%m-%d %H:%M:%S")}')")
+    point_alarms = PointAlarm.where("room_id = #{room_id} AND (state != 0 OR checked_at BETWEEN '#{1.day.ago.strftime("%Y-%m-%d %H:%M:%S")}' AND '#{DateTime.now.strftime("%y-%m-%d %H:%M:%S")}')")
 
     sub_system_ids = point_alarms.pluck(:sub_system_id)
 
