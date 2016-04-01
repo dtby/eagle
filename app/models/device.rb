@@ -31,6 +31,17 @@ class Device < ActiveRecord::Base
   has_many :alarms, dependent: :destroy
   has_many :point_alarms, dependent: :destroy
 
+  after_update :send_notification, if: "name_changed?"
+  after_create :send_notification
+
+  def self.get_name room_id, device_id
+    $redis.hget "device_name_cache", "#{room_id}_#{device_id}"
+  end
+
+  def send_notification
+    $redis.hget "device_name_cache", "#{self.room_id}_#{self.id}"
+  end
+
   def pic
     path = pic_path || Attachment.find_by("tag like ? AND room_id = ?", "%#{name}%", room_id).try(:image_url, :w_640)
     "#{ActionController::Base.asset_host}#{path}" if path.present?
@@ -111,11 +122,9 @@ class Device < ActiveRecord::Base
     point_alarms = PointAlarm.where("room_id = #{room_id} AND sub_system_id = #{sub_system_id} AND (state != 0 OR checked_at BETWEEN '#{1.day.ago.strftime("%Y-%m-%d %H:%M:%S")}' AND '#{DateTime.now.strftime("%y-%m-%d %H:%M:%S")}')")
     device_ids = point_alarms.pluck(:device_id)
 
-    sub_system_ids = point_alarms.pluck(:sub_system_id)
-
-    return [] unless sub_system_ids.present?
+    return [] unless device_ids.present?
     counter = Hash.new(0)
-    sub_system_ids.each {|val| counter[val] += 1}
+    device_ids.each {|val| counter[val] += 1}
     results = []
     counter.each do |item|
       results << {
