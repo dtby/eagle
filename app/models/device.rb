@@ -133,6 +133,6 @@ class Device < ActiveRecord::Base
         alarm_count: item[-1]
       }
     end
-    results
+    results = results.sort_by {|u| u[:device_name]}
   end
 end
