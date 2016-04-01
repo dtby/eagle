@@ -1,1 +1,1 @@
-json.results @results
+@results
