@@ -295,7 +295,7 @@ class Room < ActiveRecord::Base
     counter.each do |item|
       results << {
         device_id: item[0],
-        device_name: SubSystem.get_name item[0],
+        device_name: SubSystem.get_name(item[0]),
         alarm_count: item[-1]
       }
     end
