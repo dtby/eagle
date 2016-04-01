@@ -299,5 +299,6 @@ class Room < ActiveRecord::Base
         alarm_count: item[-1]
       }
     end
+    results
   end
 end
