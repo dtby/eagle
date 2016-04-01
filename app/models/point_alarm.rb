@@ -34,6 +34,9 @@
 #
 
 class PointAlarm < ActiveRecord::Base
+
+  establish_connection "eagle_#{Rails.env}".to_sym
+
   belongs_to :point
   belongs_to :room
   belongs_to :device
