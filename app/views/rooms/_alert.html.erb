@@ -62,7 +62,7 @@
               <% end %>
               <td class="text-center"><%= point_alarm.try(:device).try(:name) %></td>
               <td class="text-center"><%= point_alarm.comment %></td>
-              <td class="text-center"><%= point_alarm.alarm_value %></td>
+              <td class="text-center">告警：越上限告警(<%= point_alarm.alarm_value.present? ? point_alarm.alarm_value : '----' %>)</td>
               <td class="text-center"><%= point_alarm.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
               <td class="text-center">
                 <% unless point_alarm.checked_at %>
