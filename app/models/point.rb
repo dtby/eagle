@@ -120,7 +120,7 @@ class Point < ActiveRecord::Base
       dp = DigitalPoint.find_by(PointID: da.PointID)
       state = cos.try(:Status).try(:to_i)
 
-      point_alarm = PointAlarm.find_or_create_by(point_id: point.id)
+      point_alarm = PointAlarm.unscoped.find_or_create_by(point_id: point.id)
       
       if state != point_alarm.state
         checked_user, checked_at, is_checked = (state == 0)? ["系统确认", DateTime.now, true] : ["", nil, false]
@@ -158,7 +158,7 @@ class Point < ActiveRecord::Base
       end
 
 
-      point_alarm = PointAlarm.find_or_create_by(point_id: point.id)
+      point_alarm = PointAlarm.unscoped.find_or_create_by(point_id: point.id)
       
       if state != point_alarm.state
         checked_user, checked_at, is_checked = (state == 0)? ["系统确认", DateTime.now, true] : ["", nil, false]
