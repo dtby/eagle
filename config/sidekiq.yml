@@ -7,5 +7,7 @@ staging:
 production:
   :concurrency: 20
 :queues:
+  - message
+  - alarm
   - default
-  - [myqueue, 2]
+  

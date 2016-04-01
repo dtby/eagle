@@ -67,6 +67,10 @@ class PointAlarmsController < BaseController
     end
   end
 
+  def show
+    @point_alarm = PointAlarm.find_by(id: params[:id])
+  end
+
   def count
     # 子系统拥有的告警数、设备拥有的告警数
     @results = {}
@@ -103,7 +107,8 @@ class PointAlarmsController < BaseController
   end
 
   def checked
-    if @point_alarm.update(checked_at: DateTime.now)
+    puts "#{@point_alarm.inspect}"
+    if @point_alarm.present? && @point_alarm.update(checked_at: DateTime.now, is_checked: true)
       @point_alarm.check_alarm_by_user(current_user.name)
       result = "处理成功"
     else
@@ -121,7 +126,7 @@ class PointAlarmsController < BaseController
   end
 
   def unchecked
-    if @point_alarm.update(is_checked: false)
+    if @point_alarm.present? && @point_alarm.update(is_checked: false)
       result = "处理成功"
     else
       result = "处理失败"
@@ -153,8 +158,9 @@ class PointAlarmsController < BaseController
   end
 
   private
+
   def set_point_alarm
-    @point_alarm = PointAlarm.find_by(point_id: params[:point_id] || params[:id])
+    @point_alarm = (PointAlarm.find_by(point_id: params[:point_id]) || PointAlarm.find_by(id: params[:id]))
   end
 
   def set_room

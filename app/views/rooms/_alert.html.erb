@@ -44,10 +44,8 @@
               </th>
             <% end %>
             <th class="text-center">告警设备</th>
-            <th class="text-center">点信息</th>
-            <th class="text-center">越限告警</th>
             <th class="text-center">描述</th>
-            <th class="text-center">告警状态</th>
+            <th class="text-center">告警</th>
             <th class="text-center">告警时间</th>
             <th class="text-center">告警确认</th>
             <% if params[:action] == "checked_alert" %>
@@ -63,10 +61,8 @@
                 <td class="text-center"><%= check_box_tag "point_alarms[]", point_alarm.id, false, class: 'point-alarms' %></td>
               <% end %>
               <td class="text-center"><%= point_alarm.try(:device).try(:name) %></td>
-              <td><%= point_alarm.point_id %></td>
-              <td class="text-center"><%= point_alarm.meaning %></td>
-              <td><%= point_alarm.comment %></td>
-              <td class="text-center"><%= alarm_status point_alarm.state %></td>
+              <td class="text-center"><%= point_alarm.comment %></td>
+              <td class="text-center">告警：越上限告警(<%= point_alarm.alarm_value.present? ? point_alarm.alarm_value : '----' %>)</td>
               <td class="text-center"><%= point_alarm.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
               <td class="text-center">
                 <% unless point_alarm.checked_at %>

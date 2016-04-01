@@ -6,6 +6,9 @@ Rails.application.routes.draw do
 
   root to: "welcome#index"
 
+  require 'sidekiq/web'
+  mount Sidekiq::Web => '/sidekiq'
+
   #动力
   resources :power, only: [:index] do
     collection do
@@ -159,4 +162,6 @@ Rails.application.routes.draw do
       end
     end
   end
+  resources :point_alarms, only: [:show]
+
 end

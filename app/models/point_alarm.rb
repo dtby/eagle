@@ -34,6 +34,9 @@
 #
 
 class PointAlarm < ActiveRecord::Base
+
+  establish_connection "#{Rails.env}".to_sym
+
   belongs_to :point
   belongs_to :room
   belongs_to :device
@@ -42,6 +45,7 @@ class PointAlarm < ActiveRecord::Base
   after_update :update_alarm_history, if: "checked_at_changed?"
   # after_update :update_is_checked, if: :no_alarm?
   after_create :generate_alarm_history
+  after_update :send_notification, if: "is_checked_changed?"
 
   default_scope { where.not(state: nil).order("updated_at DESC") }
 
@@ -82,8 +86,41 @@ class PointAlarm < ActiveRecord::Base
   end
 
   def check_alarm_by_user user_name
-    AlarmProcessJob.perform_later(self.try(:point).try(:point_index), user_name)
+    AlarmProcessJob.set(queue: :alarm).perform_later(self.try(:point).try(:point_index), user_name)
     self.update(checked_user: user_name)
+  end
+
+  def xinge_send user
+    custom_content = {
+      custom_content: {
+        id: self.id,
+        device_name: self.try(:device).try(:name),
+        pid: self.pid,
+        state: self.state,
+        created_at: self.created_at,
+        updated_at: self.updated_at,
+        checked_at: self.checked_at,
+        is_checked: self.is_checked,
+        point_id: self.point_id,
+        comment: self.comment,
+        type: self.alarm_type,
+        meaning: self.meaning,
+        alarm_value: self.alarm_value, 
+      }
+    }
+
+    params = {}
+    title = "告警！"
+    content = "#{self.try(:room).try(:name)}-#{self.try(:device).try(:name)}的#{self.try(:point).try(:name)}出现告警！"
+
+    sender = Xinge::Notification.instance.send user.os
+    begin
+      response = sender.pushToSingleDevice user.device_token, title, content, params, custom_content
+    rescue Exception => e
+      puts "Exception is #{e.inspect}"
+    ensure
+      puts "response is #{response.inspect}"
+    end
   end
 
   private
@@ -113,6 +150,7 @@ class PointAlarm < ActiveRecord::Base
     def send_notification
       # id, device_name, pid, state, created_at, updated_at, 
       # is_checked, point_id, comment, type, meaning, alarm_value
-      NotificationSendJob.perform_later(self)
+      return if self.is_checked?
+      NotificationSendJob.set(queue: :message).perform_later(self.id)
     end
 end

@@ -31,6 +31,7 @@
 
 class UsersController < ApplicationController
   acts_as_token_authentication_handler_for User, only: [:show, :update_device]
+  before_action :set_user, only: [:update_device]
   def show
   end
 
@@ -41,7 +42,7 @@ class UsersController < ApplicationController
   end
 
   def update_device
-    current_user.update update_device_params
+    @user.update update_device_params
   end
 
   private
@@ -51,5 +52,9 @@ class UsersController < ApplicationController
 
   def update_device_params
     params.require(:user).permit(:os, :device_token)
+  end
+
+  def set_user
+    @user = User.find_by(phone: params[:user_phone])
   end
 end

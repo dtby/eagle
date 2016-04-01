@@ -36,5 +36,6 @@ FactoryGirl.define do
     phone "13012345678"
     name "eagle_test"
     authentication_token "abcd-1234"
+    os "bacd"
   end
 end
