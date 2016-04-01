@@ -90,6 +90,39 @@ class PointAlarm < ActiveRecord::Base
     self.update(checked_user: user_name)
   end
 
+  def xinge_send user
+    custom_content = {
+      custom_content: {
+        id: self.id,
+        device_name: self.try(:device).try(:name),
+        pid: self.pid,
+        state: self.state,
+        created_at: self.created_at,
+        updated_at: self.updated_at,
+        checked_at: self.checked_at,
+        is_checked: self.is_checked,
+        point_id: self.point_id,
+        comment: self.comment,
+        type: self.alarm_type,
+        meaning: self.meaning,
+        alarm_value: self.alarm_value, 
+      }
+    }
+
+    params = {}
+    title = "告警！"
+    content = "#{self.try(:room).try(:name)}-#{self.try(:device).try(:name)}的#{self.try(:point).try(:name)}出现告警！"
+
+    sender = Xinge::Notification.instance.send user.os
+    begin
+      response = sender.pushToSingleDevice user.device_token, title, content, params, custom_content
+    rescue Exception => e
+      puts "Exception is #{e.inspect}"
+    ensure
+      puts "response is #{response.inspect}"
+    end
+  end
+
   private
 
     def update_alarm_history
