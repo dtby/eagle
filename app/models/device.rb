@@ -116,6 +116,7 @@ class Device < ActiveRecord::Base
     return [] unless sub_system_ids.present?
     counter = Hash.new(0)
     sub_system_ids.each {|val| counter[val] += 1}
+    results = []
     counter.each do |item|
       results << {
         device_id: item[0],

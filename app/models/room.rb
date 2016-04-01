@@ -284,7 +284,6 @@ class Room < ActiveRecord::Base
   end
 
   def alarm_count room_id
-    results = []
     point_alarms = PointAlarm.where("room_id = #{room_id} AND (state != 0 OR checked_at BETWEEN '#{1.day.ago.strftime("%Y-%m-%d %H:%M:%S")}' AND '#{DateTime.now.strftime("%y-%m-%d %H:%M:%S")}')")
 
     sub_system_ids = point_alarms.pluck(:sub_system_id)
@@ -292,6 +291,7 @@ class Room < ActiveRecord::Base
     return [] unless sub_system_ids.present?
     counter = Hash.new(0)
     sub_system_ids.each {|val| counter[val] += 1}
+    results = []
     counter.each do |item|
       results << {
         device_id: item[0],
