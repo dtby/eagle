@@ -44,6 +44,7 @@ class PointAlarm < ActiveRecord::Base
 
   after_update :update_alarm_history, if: "checked_at_changed?"
   # after_update :update_is_checked, if: :no_alarm?
+  after_update :reset_checked_data, if: "state_changed?"
   after_create :generate_alarm_history
   after_update :send_notification, if: "is_checked_changed?"
 
@@ -152,5 +153,10 @@ class PointAlarm < ActiveRecord::Base
       # is_checked, point_id, comment, type, meaning, alarm_value
       return if self.is_checked?
       NotificationSendJob.set(queue: :message).perform_later(self.id)
+    end
+
+    def reset_checked_data
+      return if self.state == 0
+      self.update(checked_user:"", is_checked: false, checked_at: nil)
     end
 end
