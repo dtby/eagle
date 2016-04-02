@@ -22,4 +22,15 @@ class SubSystem < ActiveRecord::Base
   has_many :menus, as: :menuable, dependent: :destroy
   has_many :patterns, dependent: :destroy
   has_many :devices, through: :patterns
+
+  after_update :send_notification, if: "name_changed?"
+  after_create :send_notification
+
+  def self.get_name id
+    $redis.hget "sub_system_name_cache", id
+  end
+  
+  def send_notification
+    $redis.hset "sub_system_name_cache", self.id, self.name
+  end
 end
