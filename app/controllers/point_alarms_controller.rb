@@ -60,12 +60,13 @@ class PointAlarmsController < BaseController
     point_alarms.select! { |pas| (pas.state != 0) || ((1.day.ago..DateTime.now).cover? pas.checked_at) }
     page = (params[:page].to_i < 1) ? 1 : params[:page]
     if params[:checked].present? && params[:checked] == "0"
-      @point_alarms = point_alarms.paginate(page: page, per_page: (params[:per_page] || 10)).sort_by {|p| p.point.name[/\d+/].to_i }
+      point_alarms = point_alarms.
     elsif params[:checked].present? && params[:checked] == "1"
-      @point_alarms = point_alarms.select{ |pa| pa.is_checked }.paginate(page: page, per_page: (params[:per_page] || 10)).sort_by {|p| p.point.name[/\d+/].to_i }
+      point_alarms = point_alarms.select{ |pa| pa.is_checked }
     else
-      @point_alarms = point_alarms.select{ |pa| (!pa.is_checked) }.paginate(page: page, per_page: (params[:per_page] || 10)).sort_by {|p| p.point.name[/\d+/].to_i }
+      point_alarms = point_alarms.select{ |pa| (!pa.is_checked) }
     end
+    @point_alarms = point_alarms.sort_by {|p| p.point.name[/\d+/].to_i }.paginate(page: page, per_page: (params[:per_page] || 10))
   end
 
   def show
