@@ -42,11 +42,12 @@ class PointAlarm < ActiveRecord::Base
   belongs_to :device
   belongs_to :sub_system
 
-  after_update :update_alarm_history, if: "checked_at_changed?"
+  after_create :generate_alarm_history
+  
   # after_update :update_is_checked, if: :no_alarm?
   after_update :reset_checked_data, if: "state_changed?"
-  after_create :generate_alarm_history
   after_update :send_notification, if: "is_checked_changed?"
+  after_update :update_alarm_history, if: "checked_at_changed?"
 
   default_scope { where.not(state: nil).order("updated_at DESC") }
 
@@ -175,7 +176,7 @@ class PointAlarm < ActiveRecord::Base
     end
 
     def reset_checked_data
-      return if self.state == 0
+      return if (self.state == 0)
       self.update(checked_user:"", is_checked: false, checked_at: nil)
     end
 end
