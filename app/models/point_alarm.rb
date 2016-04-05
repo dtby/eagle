@@ -46,8 +46,8 @@ class PointAlarm < ActiveRecord::Base
   
   # after_update :update_is_checked, if: :no_alarm?
   after_update :reset_checked_data, if: "state_changed?"
-  after_update :send_notification, if: "is_checked_changed?"
-  after_update :update_alarm_history, if: "checked_at_changed?"
+  # after_update :send_notification, if: "is_checked_changed?"
+  # after_update :update_alarm_history, if: "checked_at_changed?"
 
   default_scope { where.not(state: nil).order("updated_at DESC") }
 
@@ -178,6 +178,14 @@ class PointAlarm < ActiveRecord::Base
     def reset_checked_data
       puts "reset_checked_data"
       return if (self.state == 0)
+      puts "send_notification start"
+      self.send_notification
+      puts "send_notification end"
+      puts "update_alarm_history start"
+      self.update_alarm_history
+      puts "update_alarm_history end"
+      puts "update start"
       self.update(checked_user:"", is_checked: false, checked_at: nil)
+      puts "update end"
     end
 end
