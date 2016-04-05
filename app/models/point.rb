@@ -126,10 +126,10 @@ class Point < ActiveRecord::Base
         
         puts "DigitalAlarm size is #{PointAlarm.is_warning_alarm.size}, #{da.PointID}, #{point_alarm.state}  => #{state}"
         update_time = DateTime.new(cos.ADate.year, cos.ADate.month, cos.ADate.day, cos.ATime.hour,cos.ATime.min, cos.ATime.sec)
-        point_alarm.update(state: state, comment: dp.try(:Comment), 
-          updated_at: update_time, alarm_type: 1, room_id: point.try(:device).try(:room).try(:id), 
+        point_alarm.update(state: state, comment: dp.try(:Comment),  alarm_type: 1, room_id: point.try(:device).try(:room).try(:id), 
           device_id: point.try(:device).try(:id), 
           sub_system_id: point.try(:device).try(:pattern).try(:sub_system).try(:id))
+        point_alarm.update(updated_at: update_time)
       end
     end
 
@@ -159,10 +159,11 @@ class Point < ActiveRecord::Base
       
       if state != point_alarm.state
         update_time = DateTime.new(cos.ADate.year, cos.ADate.month, cos.ADate.day, cos.ATime.hour,cos.ATime.min, cos.ATime.sec)
-        point_alarm.update(state: state, comment: dp.try(:Comment), updated_at: update_time, alarm_type: 0,
+        point_alarm.update(state: state, comment: dp.try(:Comment), alarm_type: 0,
           room_id: point.try(:device).try(:room).try(:id), device_id: point.try(:device).try(:id),
           sub_system_id: point.try(:device).try(:pattern).try(:sub_system).try(:id), 
           alarm_value: cos.AlarmValue)
+        point_alarm.update(updated_at: update_time)
       end
     end
     puts "DigitalAlarm size is #{PointAlarm.is_warning_alarm.size}"
