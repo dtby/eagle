@@ -182,10 +182,12 @@ class PointAlarm < ActiveRecord::Base
       puts "reset_checked_data"
       return if (self.state == 0)
 
-      puts "update start"
-      self.update(checked_user:"", is_checked: false, checked_at: nil)
-      puts "update end"
-
+      puts "update checked_user start"
+      self.update(checked_user:"")
+      puts "update is_checked start"
+      self.update(is_checked: false)
+      puts "update checked_at start"
+      self.update(checked_at: nil)
 
       puts "send_notification start"
       self.send_notification
