@@ -176,6 +176,7 @@ class PointAlarm < ActiveRecord::Base
     end
 
     def reset_checked_data
+      puts "reset_checked_data"
       return if (self.state == 0)
       self.update(checked_user:"", is_checked: false, checked_at: nil)
     end
