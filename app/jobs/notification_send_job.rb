@@ -3,6 +3,8 @@ class NotificationSendJob < ActiveJob::Base
 
   def perform point_alarm_id
     # Do something later
+    puts "NotificationSendJob process start #{point_alarm_id}"
+
     config = Rails.configuration.database_configuration
     ActiveRecord::Base.establish_connection config["#{Rails.env}"]
 
@@ -20,7 +22,8 @@ class NotificationSendJob < ActiveJob::Base
     rescue Exception => e
       puts "notification_to_wechat exception is #{e}"
     end
-
+    
+    puts "NotificationSendJob process end #{point_alarm_id}"
     nil
   end
 
