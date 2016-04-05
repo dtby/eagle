@@ -169,7 +169,9 @@ class PointAlarm < ActiveRecord::Base
       # id, device_name, pid, state, created_at, updated_at,
       # is_checked, point_id, comment, type, meaning, alarm_value
       return if self.is_checked?
+      logger.info "---- start NotificationSendJob #{self.id}, #{self.try(:point).try(:name)} ----"
       NotificationSendJob.set(queue: :message).perform_later(self.id)
+      logger.info "---- end NotificationSendJob #{self.id}, #{self.try(:point).try(:name)} ----"
     end
 
     def reset_checked_data
