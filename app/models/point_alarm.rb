@@ -142,16 +142,26 @@ class PointAlarm < ActiveRecord::Base
     end
   end
 
+
+  def send_notification
+    # id, device_name, pid, state, created_at, updated_at,
+    # is_checked, point_id, comment, type, meaning, alarm_value
+    return if self.is_checked?
+    logger.info "---- start NotificationSendJob #{self.id}, #{self.try(:point).try(:name)} ----"
+    NotificationSendJob.set(queue: :message).perform_later(self.id)
+    logger.info "---- end NotificationSendJob #{self.id}, #{self.try(:point).try(:name)} ----"
+  end
+  def update_alarm_history
+    alarm_history = self.try(:point).try(:alarm_histories).try(:last)
+    return unless alarm_history.present?
+    alarm_history.check_state = self.state
+    alarm_history.checked_user = self.checked_user
+    alarm_history.checked_time = DateTime.now if self.checked_at.present?
+    alarm_history.save
+  end
   private
 
-    def update_alarm_history
-      alarm_history = self.try(:point).try(:alarm_histories).try(:last)
-      return unless alarm_history.present?
-      alarm_history.check_state = self.state
-      alarm_history.checked_user = self.checked_user
-      alarm_history.checked_time = DateTime.now if self.checked_at.present?
-      alarm_history.save
-    end
+    
 
     def update_is_checked
       self.update(checked_at: DateTime.now)
@@ -166,26 +176,22 @@ class PointAlarm < ActiveRecord::Base
       AlarmHistory.find_or_create_by(point: self.point, check_state: self.state)
     end
 
-    def send_notification
-      # id, device_name, pid, state, created_at, updated_at,
-      # is_checked, point_id, comment, type, meaning, alarm_value
-      return if self.is_checked?
-      logger.info "---- start NotificationSendJob #{self.id}, #{self.try(:point).try(:name)} ----"
-      NotificationSendJob.set(queue: :message).perform_later(self.id)
-      logger.info "---- end NotificationSendJob #{self.id}, #{self.try(:point).try(:name)} ----"
-    end
+    
 
     def reset_checked_data
       puts "reset_checked_data"
       return if (self.state == 0)
+
+      puts "update start"
+      self.update(checked_user:"", is_checked: false, checked_at: nil)
+      puts "update end"
+
+
       puts "send_notification start"
       self.send_notification
       puts "send_notification end"
       puts "update_alarm_history start"
       self.update_alarm_history
       puts "update_alarm_history end"
-      puts "update start"
-      self.update(checked_user:"", is_checked: false, checked_at: nil)
-      puts "update end"
     end
 end
