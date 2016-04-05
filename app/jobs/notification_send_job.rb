@@ -84,8 +84,9 @@ class NotificationSendJob < ActiveJob::Base
         checked_at: point_alarm.checked_at,
         is_checked: point_alarm.is_checked,
         point_id: point_alarm.point_id,
+        point_name: point_alarm.try(:point).try(:name),
         comment: point_alarm.comment,
-        type: point_alarm.alarm_type,
+        type: point_alarm.get_type,
         meaning: point_alarm.meaning,
         alarm_value: point_alarm.alarm_value
       }
