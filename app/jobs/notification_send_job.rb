@@ -14,13 +14,13 @@ class NotificationSendJob < ActiveJob::Base
     rescue Exception => e
       puts "notification_to_app exception is #{e}"
     end
-    
+
     begin
-      notification_to_wechat point_alarm  
+      notification_to_wechat point_alarm
     rescue Exception => e
       puts "notification_to_wechat exception is #{e}"
     end
-    
+
     nil
   end
 
@@ -33,7 +33,7 @@ class NotificationSendJob < ActiveJob::Base
       next unless user_info[1].present? && user_info[2].present?
       puts "phone is #{user_info[0]}"
       xinge_send point_alarm, user_info[1], user_info[2]
-    end    
+    end
   end
 
   def xinge_send point_alarm, device_token, type
@@ -51,7 +51,7 @@ class NotificationSendJob < ActiveJob::Base
         comment: point_alarm.comment,
         type: point_alarm.alarm_type,
         meaning: point_alarm.meaning,
-        alarm_value: point_alarm.alarm_value, 
+        alarm_value: point_alarm.alarm_value,
       }
     }
 
@@ -81,13 +81,15 @@ class NotificationSendJob < ActiveJob::Base
         device_name: point_alarm.try(:device).try(:name),
         pid: point_alarm.pid,
         state: point_alarm.state,
+        room_id: point_alarm.device.room_id,
         created_at: point_alarm.created_at,
         updated_at: point_alarm.updated_at,
         checked_at: point_alarm.checked_at,
         is_checked: point_alarm.is_checked,
         point_id: point_alarm.point_id,
+        point_name: point_alarm.try(:point).try(:name),
         comment: point_alarm.comment,
-        type: point_alarm.alarm_type,
+        type: point_alarm.get_type,
         meaning: point_alarm.meaning,
         alarm_value: point_alarm.alarm_value
       }
