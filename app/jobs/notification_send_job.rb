@@ -3,6 +3,9 @@ class NotificationSendJob < ActiveJob::Base
 
   def perform point_alarm_id
     # Do something later
+    config = Rails.configuration.database_configuration
+    ActiveRecord::Base.establish_connection config["#{Rails.env}"]
+
     point_alarm = PointAlarm.find_by(id: point_alarm_id)
     return unless point_alarm.present?
 
