@@ -94,7 +94,8 @@ class Room < ActiveRecord::Base
             p.update(point_type: type) unless p.point_type
             p.update(max_value: max, min_value: min) if (max && min)
             p.update(state: true, updated_at: DateTime.now)
-            p.device.update(state: true, updated_at: DateTime.now) if p.device.present?
+            device.update(state: true, updated_at: DateTime.now)
+            logger.info "----- room device is #{device.inspect} -----"
             check_point sub_name, name, p.id, device.id
           end
         end
