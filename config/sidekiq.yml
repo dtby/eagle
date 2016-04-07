@@ -3,9 +3,9 @@
 :pidfile: tmp/pids/sidekiq.pid
 :logfile: ./log/sidekiq.log
 staging:
-  :concurrency: 10
+  :concurrency: 1000
 production:
-  :concurrency: 20
+  :concurrency: 2000
 :queues:
   - message
   - alarm

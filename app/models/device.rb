@@ -9,6 +9,7 @@
 #  updated_at :datetime         not null
 #  room_id    :integer
 #  pic_path   :string(255)
+#  state      :boolean          default(FALSE)
 #
 # Indexes
 #
@@ -24,7 +25,8 @@
 class Device < ActiveRecord::Base
   establish_connection "#{Rails.env}".to_sym
   scope :by_room, ->(room_id) { where("room_id = ?", room_id) }
-
+  default_scope { where(state: true) }
+  
   belongs_to :pattern
   belongs_to :room
   has_many :points, dependent: :destroy

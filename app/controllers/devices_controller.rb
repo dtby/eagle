@@ -9,6 +9,7 @@
 #  updated_at :datetime         not null
 #  room_id    :integer
 #  pic_path   :string(255)
+#  state      :boolean          default(FALSE)
 #
 # Indexes
 #
@@ -87,8 +88,6 @@ class DevicesController < BaseController
           case sub_sys_name
           when "温湿度系统"
             points = device.try(:points)
-            next if points.size.zero?
-            logger.info "device is #{device.inspect}, points size is #{points.size}"
             points.each do |point|
               @point_values[device.try(:id)][point.name] = (point.value || "0")
             end

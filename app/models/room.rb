@@ -87,19 +87,21 @@ class Room < ActiveRecord::Base
         patterns.each do | name, points|
           pattern = Pattern.find_or_create_by(sub_system_id: sub_system.id, name: pattern_name.try(:strip))
           name = "温湿度" if name.try(:include?, "温湿度")
-          device = Device.find_or_create_by(name: name, pattern: pattern, room: room)
+          device = Device.unscoped.find_or_create_by(name: name, pattern: pattern, room: room)
           points.each do |name, value|
             point_index, max, min = value.split("!")
             p = Point.unscoped.find_or_create_by(name: name, device: device, point_index: point_index)
             p.update(point_type: type) unless p.point_type
             p.update(max_value: max, min_value: min) if (max && min)
             p.update(state: true, updated_at: DateTime.now)
+            p.device.update(state: true, updated_at: DateTime.now) if p.device.present?
             check_point sub_name, name, p.id, device.id
           end
         end
       end
     end
     Point.where(updated_at: DateTime.new(2010,1,1)..15.minute.ago).update_all(state: false)
+    Device.where(updated_at: DateTime.new(2010,1,1)..15.minute.ago).update_all(state: false)
     Menu.where(menuable_type: "SubSystem", updated_at: DateTime.new(2010,1,1)..15.minute.ago).destroy_all
     nil
   end
@@ -232,7 +234,7 @@ class Room < ActiveRecord::Base
         device_name = device_name[0] + "机柜"
       end
 
-      device = Device.find_or_create_by(name: device_name)
+      device = Device.unscoped.find_or_create_by(name: device_name)
       alarm = Alarm.find_or_create_by(device_name: (name.split("-").last.remove line), device_id: device.try(:id))
       points.each_with_index do |point, index|
         ps = PointState.where(pid: point.PointID).first
