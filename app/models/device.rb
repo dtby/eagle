@@ -27,6 +27,8 @@ class Device < ActiveRecord::Base
   scope :by_room, ->(room_id) { where("room_id = ?", room_id) }
   default_scope { where(state: true) }
 
+  attr_accessor :render_partial_path
+
   belongs_to :pattern
   belongs_to :room
   has_many :points, dependent: :destroy
@@ -137,5 +139,16 @@ class Device < ActiveRecord::Base
       }
     end
     results = results.sort_by {|u| u[:device_name]}
+  end
+
+
+  def render_partial_path
+    if self.pattern.partial_path.present?
+      "devices/detail/#{self.pattern.partial_path}"
+    elsif SubSystem::DefaultPartial[self.pattern.sub_system.name].present?
+      "devices/default/#{SubSystem::DefaultPartial[self.pattern.sub_system.name]}"
+    else
+      "devices/detail/default"
+    end
   end
 end

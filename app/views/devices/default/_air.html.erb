@@ -1,0 +1,76 @@
+<div class="clearfix">
+  <div class="col-xs-12 p-xs text-center animated fadeInRightBig">
+    <div class="panel panel-default">
+      <div class="panel-heading">空调实时数据</div>
+      <div class="panel-body">
+        <div class="col-xs-12">
+          <div class="col-md-3 air_img">
+            <%=image_tag  "10-1.png" ,width:"100%" %>
+            <p></p>
+          </div>
+          <div class="col-md-5">
+            <div class="panel panel-default">
+              <div class="panel-heading">运行参数</div>
+              <div class="panel-body water_tab">
+                <div class="col-xs-6 water_g water_g1">25.5℃</div>
+                <div class="col-xs-6 water_g water_g2">58％</div>
+                <div class="col-xs-12">
+                  <span class="grey_d grey_d1">设定温度</span><span class="grey_d grey_d2">20%</span>
+                  <span class="grey_d grey_d3">设定湿度</span><span class="grey_d grey_d2">49.2%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="panel panel-default">
+              <div class="panel-heading">元件状态</div>
+              <div class="panel-body water_tab1">
+                <table class="table table1">
+                  <tr class="open1">
+                    <td>风机</td>
+                    <td>开启</td>
+                  </tr>
+                  <tr class="close1">
+                    <td>压缩机1</td>
+                    <td>关闭</td>
+                  </tr>
+                  <tr class="open1">
+                    <td>压缩机2</td>
+                    <td>开启</td>
+                  </tr>
+                  <tr class="open1">
+                    <td>制冷</td>
+                    <td>开启</td>
+                  </tr>
+                  <tr class="close1">
+                    <td>制热</td>
+                    <td>关闭</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-12">
+          <div class="panel panel-default panel3">
+            <div class="panel-heading">报警信息</div>
+            <div class="panel-body table-responsive">
+              <table class="table table2">
+                <tr>
+                  <% 5.times do |i|%>
+                    <td class="air_d_grey">
+                      <div class="span1"><span class="grey_d0 grey_d1">设定温度</span><span class="grey_d0 grey_d2">20%</span></div><br>
+                      <div class="span1"><span class="grey_d0 grey_d1">设定湿度</span><span class="grey_d0 grey_d4">49%</span></div><br>
+                      <div class="span1"><span class="grey_d0 grey_d1">设定温度</span><span class="grey_d0 grey_d2">20%</span></div><br>
+                      <div class="span1"><span class="grey_d0 grey_d1">设定湿度</span><span class="grey_d0 grey_d4">49%</span></div>
+                    </td>
+                  <% end %>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
