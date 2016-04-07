@@ -105,6 +105,8 @@ class Point < ActiveRecord::Base
 
     if PointAlarm.all.size > 0 && (!reset)
       updated_at = PointAlarm.order("updated_at DESC").first.try(:updated_at)
+      puts "----- updated_at is #{updated_at} -----"
+      logger.info "----- updated_at is #{updated_at} -----"
       das = DigitalAlarm.where("ADate >= ?", updated_at.strftime("%Y-%m-%d"))   
       aas = AnalogAlarm.where("ADate >= ?", updated_at.strftime("%Y-%m-%d"))   
     else
