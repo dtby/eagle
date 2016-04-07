@@ -67,14 +67,14 @@ class Point < ActiveRecord::Base
     max_value = self.try(:max_value).try(:to_f)
     min_value = self.try(:min_value).try(:to_f)
 
-    color = "black"
+    color = "green"
     if (value.present? && max_value.present? && min_value.present?)
       if value > max_value
         color = "red"
       elsif value < min_value
         color = "blue"
       elsif value.between?(min_value, max_value)
-        color = "black"
+        color = "green"
       end
     end
     color
