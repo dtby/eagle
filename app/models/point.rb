@@ -212,7 +212,7 @@ class Point < ActiveRecord::Base
       # update_time = DateTime.new(cos.ADate.year, cos.ADate.month, cos.ADate.day, cos.ATime.hour, cos.ATime.minute, cos.ATime.second)
       if pa.state != state
         checked_user, checked_at, is_checked = (state == 0)? ["系统确认", DateTime.now, true] : ["", nil, false]
-        pa.update(state: state, updated_at: DateTime.now, alarm_value: alarm_value, checked_user: checked_user, checked_at: checked_at, is_checked: is_checked)  
+        pa.update(state: state, alarm_value: alarm_value, checked_user: checked_user, checked_at: checked_at, is_checked: is_checked)  
       end
     end
     end_time_all = DateTime.now.strftime("%Q").to_i
