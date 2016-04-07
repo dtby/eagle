@@ -26,6 +26,15 @@ class SubSystem < ActiveRecord::Base
   after_update :send_notification, if: "name_changed?"
   after_create :send_notification
 
+  DefaultPartial = {
+    "UPS系统" => "ups",
+    "电量仪系统" => "electricity",
+    "空调系统" => "air",
+    "温湿度系统" => "temp",
+    "漏水系统" => "leak",
+    "消防系统" => "fire",
+  }
+
   def self.get_name id
     $redis.hget "sub_system_name_cache", id
   end

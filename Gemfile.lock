@@ -1,5 +1,5 @@
 GEM
-  remote: https://rubygems.org/
+  remote: https://gems.ruby-china.org/
   specs:
     actionmailer (4.2.3)
       actionpack (= 4.2.3)
@@ -331,3 +331,6 @@ DEPENDENCIES
   whenever
   will_paginate (~> 3.0.6)
   will_paginate-bootstrap
+
+BUNDLED WITH
+   1.11.2
