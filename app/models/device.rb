@@ -26,7 +26,7 @@ class Device < ActiveRecord::Base
   establish_connection "#{Rails.env}".to_sym
   scope :by_room, ->(room_id) { where("room_id = ?", room_id) }
   default_scope { where(state: true) }
-  
+
   belongs_to :pattern
   belongs_to :room
   has_many :points, dependent: :destroy
@@ -78,7 +78,7 @@ class Device < ActiveRecord::Base
     view_points = {}
 
     # 循环分组封装呆显示数据
-    all_points = points.order("name asc")
+    all_points = points
     all_points.each do |point|
       state = point.try(:point_alarm).try(:state) || 0
       state = state.to_s + "_" + (point.try(:point_alarm).try(:alarm_type) || "digital") if show_alarm_type
