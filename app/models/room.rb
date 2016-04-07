@@ -95,7 +95,7 @@ class Room < ActiveRecord::Base
             p.update(max_value: max, min_value: min) if (max && min)
             p.update(state: true, updated_at: DateTime.now)
             device.update(state: true, updated_at: DateTime.now)
-            logger.info "----- room device is #{device.inspect} -----"
+            logger.info "----- room device is #{device.inspect} -----" if device.name == "温湿度"
             check_point sub_name, name, p.id, device.id
           end
         end
