@@ -9,6 +9,7 @@
 #  updated_at :datetime         not null
 #  room_id    :integer
 #  pic_path   :string(255)
+#  state      :boolean          default(FALSE)
 #
 # Indexes
 #
