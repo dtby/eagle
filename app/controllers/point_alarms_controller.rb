@@ -86,7 +86,7 @@ class PointAlarmsController < BaseController
       ids = sub_system_ids.uniq
       sub_system_names = []
       Array(ids).each do |id|
-        next if id.zero?
+        next unless id
         sub_system_names << SubSystem.find(id).try(:name)
       end
       ids = sub_system_ids.uniq.collect { |ssi| sub_system_ids.count(ssi) }
@@ -101,7 +101,7 @@ class PointAlarmsController < BaseController
       ids = device_ids.uniq
       device_names = []
       Array(ids).each do |id|
-        next if id.zero?
+        next unless id
         device_names << Device.find(id).try(:name)
       end
       ids = device_ids.uniq.collect { |di| device_ids.count(di) }
