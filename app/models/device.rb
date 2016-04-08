@@ -33,12 +33,8 @@ class Device < ActiveRecord::Base
   belongs_to :room
   has_many :points, dependent: :destroy
   has_many :point_histories, dependent: :destroy
-<<<<<<< HEAD
-  has_one :alarm
-=======
   has_many :alarms, dependent: :destroy
   has_many :point_alarms, dependent: :destroy
->>>>>>> 94eec04890f1d237e671420f51e629ff70ab3b70
 
   after_update :send_notification, if: "name_changed?"
   after_create :send_notification
