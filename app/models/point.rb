@@ -105,7 +105,6 @@ class Point < ActiveRecord::Base
 
     if PointAlarm.all.size > 0 && (!reset)
       updated_at = PointAlarm.order("updated_at DESC").first.try(:updated_at)
-      puts "----- updated_at is #{updated_at} -----"
       logger.info "----- updated_at is #{updated_at} -----"
       das = DigitalAlarm.where("ADate >= ?", updated_at.strftime("%Y-%m-%d"))   
       aas = AnalogAlarm.where("ADate >= ?", updated_at.strftime("%Y-%m-%d"))   
@@ -128,7 +127,7 @@ class Point < ActiveRecord::Base
         checked_user, checked_at, is_checked = (state == 0)? ["系统确认", DateTime.now, true] : ["", nil, false]
         
         update_time = DateTime.new(cos.ADate.year, cos.ADate.month, cos.ADate.day, cos.ATime.hour,cos.ATime.min, cos.ATime.sec)
-        puts "DigitalAlarm size is #{PointAlarm.is_warning_alarm.size}, #{da.PointID}, #{point_alarm.state}  => #{state}, in #{update_time}"
+        logger.info "DigitalAlarm size is #{PointAlarm.is_warning_alarm.size}, #{da.PointID}, #{point_alarm.state}  => #{state}, in #{update_time}"
         point_alarm.update(state: state, comment: dp.try(:Comment), 
           is_checked: is_checked, updated_at: update_time, alarm_type: 1, 
           room_id: point.try(:device).try(:room).try(:id), device_id: point.try(:device).try(:id), 
@@ -164,7 +163,7 @@ class Point < ActiveRecord::Base
       
       if state != point_alarm.state
         update_time = DateTime.new(cos.ADate.year, cos.ADate.month, cos.ADate.day, cos.ATime.hour,cos.ATime.min, cos.ATime.sec)
-        puts "AnalogAlarm size is #{PointAlarm.is_warning_alarm.size}, #{aa.PointID}, #{point_alarm.state}  => #{state}, in #{update_time}"
+        logger.info "AnalogAlarm size is #{PointAlarm.is_warning_alarm.size}, #{aa.PointID}, #{point_alarm.state}  => #{state}, in #{update_time}"
         checked_user, checked_at, is_checked = (state == 0)? ["系统确认", DateTime.now, true] : ["", nil, false]
         update_time = DateTime.new(cos.ADate.year, cos.ADate.month, cos.ADate.day, cos.ATime.hour,cos.ATime.min, cos.ATime.sec)
         point_alarm.update(state: state, comment: dp.try(:Comment), 
@@ -175,7 +174,7 @@ class Point < ActiveRecord::Base
           alarm_value: cos.AlarmValue)
       end
     end
-    puts "DigitalAlarm size is #{PointAlarm.is_warning_alarm.size}"
+    logger.info "DigitalAlarm size is #{PointAlarm.is_warning_alarm.size}"
     nil
   end
   # Point.datas_to_hash
@@ -214,7 +213,7 @@ class Point < ActiveRecord::Base
       if pa.state != state
         checked_user, checked_at, is_checked = (state == 0)? ["系统确认", DateTime.now, true] : ["", nil, false]
         pa.update(state: state, updated_at: update_time, alarm_value: alarm_value, checked_user: checked_user, checked_at: checked_at, is_checked: is_checked)  
-        puts "update_time is #{update_time}"
+        logger.info "update_time is #{update_time}"
       end
     end
     end_time_all = DateTime.now.strftime("%Q").to_i
