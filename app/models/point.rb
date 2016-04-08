@@ -163,6 +163,7 @@ class Point < ActiveRecord::Base
       point_alarm = PointAlarm.unscoped.find_or_create_by(point_id: point.id)
       
       if state != point_alarm.state
+        update_time = DateTime.new(cos.ADate.year, cos.ADate.month, cos.ADate.day, cos.ATime.hour,cos.ATime.min, cos.ATime.sec)
         puts "AnalogAlarm size is #{PointAlarm.is_warning_alarm.size}, #{aa.PointID}, #{point_alarm.state}  => #{state}, in #{update_time}"
         checked_user, checked_at, is_checked = (state == 0)? ["系统确认", DateTime.now, true] : ["", nil, false]
         update_time = DateTime.new(cos.ADate.year, cos.ADate.month, cos.ADate.day, cos.ATime.hour,cos.ATime.min, cos.ATime.sec)
@@ -213,6 +214,7 @@ class Point < ActiveRecord::Base
       if pa.state != state
         checked_user, checked_at, is_checked = (state == 0)? ["系统确认", DateTime.now, true] : ["", nil, false]
         pa.update(state: state, updated_at: update_time, alarm_value: alarm_value, checked_user: checked_user, checked_at: checked_at, is_checked: is_checked)  
+        puts "update_time is #{update_time}"
       end
     end
     end_time_all = DateTime.now.strftime("%Q").to_i
