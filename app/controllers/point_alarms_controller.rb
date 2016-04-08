@@ -57,7 +57,7 @@ class PointAlarmsController < BaseController
     end
     
     return unless point_alarms.present?
-    point_alarms.select! { |pas| (pas.state != 0) || ((1.day.ago..DateTime.now).cover? pas.checked_at) }
+    point_alarms.select! { |pas| (pas.point.present?) && ((pas.state != 0) || ((1.day.ago..DateTime.now).cover? pas.checked_at)) }
     page = (params[:page].to_i < 1) ? 1 : params[:page]
     if params[:checked].present? && params[:checked] == "0"
       point_alarms = point_alarms
