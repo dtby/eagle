@@ -42,11 +42,10 @@ class PointAlarm < ActiveRecord::Base
   belongs_to :device
   belongs_to :sub_system
 
-  after_update :update_alarm_history, if: "checked_at_changed?"
-  # after_update :update_is_checked, if: :no_alarm?
-  after_update :reset_checked_data, if: "state_changed?"
   after_create :generate_alarm_history
-  after_update :send_notification, if: "is_checked_changed?"
+  
+  after_update :send_notification, if: "state_changed?"
+  after_update :update_alarm_history, if: "checked_at_changed?"
 
   default_scope { where.not(state: nil).order("updated_at DESC") }
 
@@ -143,6 +142,15 @@ class PointAlarm < ActiveRecord::Base
 
   private
 
+    def send_notification
+      # id, device_name, pid, state, created_at, updated_at,
+      # is_checked, point_id, comment, type, meaning, alarm_value
+      # return if self.is_checked?
+      logger.info "---- start NotificationSendJob #{self.id}, #{self.try(:point).try(:name)} ----"
+      NotificationSendJob.set(queue: :message).perform_later(self.id)
+      logger.info "---- end NotificationSendJob #{self.id}, #{self.try(:point).try(:name)} ----"
+    end
+
     def update_alarm_history
       alarm_history = self.try(:point).try(:alarm_histories).try(:last)
       return unless alarm_history.present?
@@ -156,24 +164,11 @@ class PointAlarm < ActiveRecord::Base
       self.update(checked_at: DateTime.now)
     end
 
-
     def no_alarm?
       self.state == 0
     end
 
     def generate_alarm_history
       AlarmHistory.find_or_create_by(point: self.point, check_state: self.state)
-    end
-
-    def send_notification
-      # id, device_name, pid, state, created_at, updated_at,
-      # is_checked, point_id, comment, type, meaning, alarm_value
-      return if self.is_checked?
-      NotificationSendJob.set(queue: :message).perform_later(self.id)
-    end
-
-    def reset_checked_data
-      return if self.state == 0
-      self.update(checked_user:"", is_checked: false, checked_at: nil)
     end
 end

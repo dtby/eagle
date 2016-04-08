@@ -21,9 +21,10 @@
   <%#= render partial: 'devices/detail/default', locals: { device: @device, exclude_points: @exclude_points } %>
 <% #end %>
  -->
+<%# if @device.pattern.partial_path.present? %>
+  <%#= render partial: "devices/detail/#{@device.pattern.partial_path}", locals: { device: @device, exclude_points: @exclude_points, alarms: @alarms } %>
+<%# else %>
+  <%#= render partial: 'devices/detail/default', locals: { device: @device, exclude_points: @exclude_points } %>
+<%# end %>
 
-<% if @device.pattern.partial_path.present? %>
-  <%= render partial: "devices/detail/#{@device.pattern.partial_path}", locals: { device: @device, exclude_points: @exclude_points, alarms: @alarms } %>
-<% else %>
-  <%= render partial: 'devices/detail/default', locals: { device: @device, exclude_points: @exclude_points } %>
-<% end %>
+<%= render partial: @device.render_partial_path , locals: { device: @device, exclude_points: @exclude_points } %>

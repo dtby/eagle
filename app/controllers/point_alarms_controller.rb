@@ -57,7 +57,7 @@ class PointAlarmsController < BaseController
     end
     
     return unless point_alarms.present?
-    point_alarms.select! { |pas| (pas.state != 0) || ((1.day.ago..DateTime.now).cover? pas.checked_at) }
+    point_alarms.select! { |pas| (pas.point.present?) && ((pas.state != 0) || ((1.day.ago..DateTime.now).cover? pas.checked_at)) }
     page = (params[:page].to_i < 1) ? 1 : params[:page]
     if params[:checked].present? && params[:checked] == "0"
       point_alarms = point_alarms
@@ -77,15 +77,15 @@ class PointAlarmsController < BaseController
     # 子系统拥有的告警数、设备拥有的告警数
     @results = {}
     if params[:room_id].present? && !(params[:sub_system_id].present?)
-
+      
       point_alarms = PointAlarm.where("room_id = #{params[:room_id]} AND (state != 0 OR checked_at BETWEEN '#{1.day.ago.strftime("%Y-%m-%d %H:%M:%S")}' AND '#{DateTime.now.strftime("%y-%m-%d %H:%M:%S")}')")
 
-      sub_system_ids = point_alarms.pluck(:sub_system_id)
+      sub_system_ids = point_alarms.pluck(:sub_system_id).compact
 
       return unless sub_system_ids.present?
       ids = sub_system_ids.uniq
       sub_system_names = []
-      ids.each do |id|
+      Array(ids).each do |id|
         sub_system_names << SubSystem.find(id).try(:name)
       end
       ids = sub_system_ids.uniq.collect { |ssi| sub_system_ids.count(ssi) }
@@ -94,12 +94,12 @@ class PointAlarmsController < BaseController
     elsif params[:sub_system_id].present?
 
       point_alarms = PointAlarm.where("room_id = #{params[:room_id]} AND sub_system_id = #{params[:sub_system_id]} AND (state != 0 OR checked_at BETWEEN '#{1.day.ago.strftime("%Y-%m-%d %H:%M:%S")}' AND '#{DateTime.now.strftime("%y-%m-%d %H:%M:%S")}')")
-      device_ids = point_alarms.pluck(:device_id)
+      device_ids = point_alarms.pluck(:device_id).compact
       
       return unless device_ids.present?
       ids = device_ids.uniq
       device_names = []
-      ids.each do |id|
+      Array(ids).each do |id|
         device_names << Device.find(id).try(:name)
       end
       ids = device_ids.uniq.collect { |di| device_ids.count(di) }
