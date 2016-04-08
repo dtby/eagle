@@ -11,11 +11,11 @@ class NotificationSendJob < ActiveJob::Base
     point_alarm = PointAlarm.find_by(id: point_alarm_id)
     return unless point_alarm.present?
 
-    begin
+    # begin
       notification_to_app point_alarm
-    rescue Exception => e
-      puts "notification_to_app exception is #{e}"
-    end
+    # rescue Exception => e
+    #   puts "notification_to_app exception is #{e}"
+    # end
 
     begin
       notification_to_wechat point_alarm
