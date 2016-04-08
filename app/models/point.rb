@@ -126,7 +126,7 @@ class Point < ActiveRecord::Base
       if state != point_alarm.state
         checked_user, checked_at, is_checked = (state == 0)? ["系统确认", DateTime.now, true] : ["", nil, false]
         
-        update_time = DateTime.new(cos.ADate.year, cos.ADate.month, cos.ADate.day, cos.ATime.hour,cos.ATime.min, cos.ATime.sec)
+        update_time = DateTime.new(cos.ADate.year, cos.ADate.month, cos.ADate.day, cos.ATime.hour,cos.ATime.min, cos.ATime.sec) - 8.hour
         logger.info "DigitalAlarm size is #{PointAlarm.is_warning_alarm.size}, #{da.PointID}, #{point_alarm.state}  => #{state}, in #{update_time}"
         point_alarm.update(state: state, comment: dp.try(:Comment), 
           is_checked: is_checked, updated_at: update_time, alarm_type: 1, 
@@ -162,10 +162,9 @@ class Point < ActiveRecord::Base
       point_alarm = PointAlarm.unscoped.find_or_create_by(point_id: point.id)
       
       if state != point_alarm.state
-        update_time = DateTime.new(cos.ADate.year, cos.ADate.month, cos.ADate.day, cos.ATime.hour,cos.ATime.min, cos.ATime.sec)
-        logger.info "AnalogAlarm size is #{PointAlarm.is_warning_alarm.size}, #{aa.PointID}, #{point_alarm.state}  => #{state}, in #{update_time}"
         checked_user, checked_at, is_checked = (state == 0)? ["系统确认", DateTime.now, true] : ["", nil, false]
-        update_time = DateTime.new(cos.ADate.year, cos.ADate.month, cos.ADate.day, cos.ATime.hour,cos.ATime.min, cos.ATime.sec)
+        update_time = DateTime.new(cos.ADate.year, cos.ADate.month, cos.ADate.day, cos.ATime.hour,cos.ATime.min, cos.ATime.sec) - 8.hour
+        logger.info "AnalogAlarm size is #{PointAlarm.is_warning_alarm.size}, #{aa.PointID}, #{point_alarm.state}  => #{state}, in #{update_time}"
         point_alarm.update(state: state, comment: dp.try(:Comment), 
           is_checked: (state == 0), updated_at: update_time, alarm_type: 0,
           room_id: point.try(:device).try(:room).try(:id), device_id: point.try(:device).try(:id),
