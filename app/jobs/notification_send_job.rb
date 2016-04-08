@@ -11,11 +11,11 @@ class NotificationSendJob < ActiveJob::Base
     point_alarm = PointAlarm.find_by(id: point_alarm_id)
     return unless point_alarm.present?
 
-    # begin
+    begin
       notification_to_app point_alarm
-    # rescue Exception => e
-    #   puts "notification_to_app exception is #{e}"
-    # end
+    rescue Exception => e
+      puts "notification_to_app exception is #{e}"
+    end
 
     begin
       notification_to_wechat point_alarm
@@ -59,7 +59,7 @@ class NotificationSendJob < ActiveJob::Base
     }
 
     params = {}
-    title = point_alarm.state.zero? "告警消除！": "告警！"
+    title = point_alarm.state.zero?? "告警消除！": "告警！"
     content = "#{point_alarm.try(:room).try(:name)}-#{point_alarm.try(:device).try(:name)}的#{point_alarm.try(:point).try(:name)}出现告警！"
 
     sender = Xinge::Notification.instance.send type
