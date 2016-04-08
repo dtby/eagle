@@ -29,6 +29,7 @@ class Room < ActiveRecord::Base
     path = Attachment.find_by("tag like ? AND room_id = ?", "%主图%", id).try(:image_url, :w_640)
     "#{ActionController::Base.asset_host}#{path}" if path.present?
   end
+
   # Room.get_computer_room_list
   def self.get_computer_room_list
     start_time = DateTime.now.strftime("%Q").to_i
@@ -284,9 +285,9 @@ class Room < ActiveRecord::Base
   end
 
   def alarm_count room_id
-    point_alarms = PointAlarm.where("room_id = #{room_id} AND (state != 0 OR checked_at BETWEEN '#{1.day.ago.strftime("%Y-%m-%d %H:%M:%S")}' AND '#{DateTime.now.strftime("%y-%m-%d %H:%M:%S")}')")
+    point_alarms = PointAlarm.where("room_id = #{room_id} AND (state <> 0 OR checked_at BETWEEN '#{1.day.ago.strftime("%Y-%m-%d %H:%M:%S")}' AND '#{DateTime.now.strftime("%y-%m-%d %H:%M:%S")}')")
 
-    sub_system_ids = point_alarms.pluck(:sub_system_id)
+    sub_system_ids = point_alarms.pluck(:sub_system_id).compact
 
     return [] unless sub_system_ids.present?
     counter = Hash.new(0)
