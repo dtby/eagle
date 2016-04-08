@@ -96,6 +96,7 @@ class Room < ActiveRecord::Base
             p.update(max_value: max, min_value: min) if (max && min)
             p.update(state: true, updated_at: DateTime.now)
             device.update(state: true, updated_at: DateTime.now)
+            p.point_alarm(state: nil) if p.point_alarm.present?
             check_point sub_name, name, p.id, device.id
           end
         end
