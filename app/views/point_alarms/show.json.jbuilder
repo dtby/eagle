@@ -10,6 +10,6 @@ json.point_id @point_alarm.try(:point_id)
 json.point_name @point_alarm.try(:point).try(:name)
 json.comment @point_alarm.try(:comment)
 json.checked_user @point_alarm.try(:checked_user) || ""
-json.type @point_alarm.get_type
+json.type @point_alarm.try(:get_type)
 json.meaning @point_alarm.try(:meaning)
 json.alarm_value @point_alarm.try(:alarm_value)
