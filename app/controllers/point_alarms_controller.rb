@@ -77,15 +77,16 @@ class PointAlarmsController < BaseController
     # 子系统拥有的告警数、设备拥有的告警数
     @results = {}
     if params[:room_id].present? && !(params[:sub_system_id].present?)
-
-      point_alarms = PointAlarm.where("room_id = #{params[:room_id]} AND (state != 0 OR checked_at BETWEEN '#{1.day.ago.strftime("%Y-%m-%d %H:%M:%S")}' AND '#{DateTime.now.strftime("%y-%m-%d %H:%M:%S")}')")
+      #{params[:room_id]}
+      point_alarms = PointAlarm.where("room_id = 1 AND (state != 0 OR checked_at BETWEEN '#{1.day.ago.strftime("%Y-%m-%d %H:%M:%S")}' AND '#{DateTime.now.strftime("%y-%m-%d %H:%M:%S")}')")
 
       sub_system_ids = point_alarms.pluck(:sub_system_id)
 
       return unless sub_system_ids.present?
       ids = sub_system_ids.uniq
       sub_system_names = []
-      ids.each do |id|
+      Array(ids).each do |id|
+        next if id.zero?
         sub_system_names << SubSystem.find(id).try(:name)
       end
       ids = sub_system_ids.uniq.collect { |ssi| sub_system_ids.count(ssi) }
@@ -99,7 +100,8 @@ class PointAlarmsController < BaseController
       return unless device_ids.present?
       ids = device_ids.uniq
       device_names = []
-      ids.each do |id|
+      Array(ids).each do |id|
+        next if id.zero?
         device_names << Device.find(id).try(:name)
       end
       ids = device_ids.uniq.collect { |di| device_ids.count(di) }
