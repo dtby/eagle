@@ -44,6 +44,7 @@ class PointAlarm < ActiveRecord::Base
 
   after_update :update_alarm_history, if: "checked_at_changed?"
   # after_update :update_is_checked, if: :no_alarm?
+  after_update :reset_checked_data, if: "state_changed?"
   after_create :generate_alarm_history
   after_update :send_notification, if: "is_checked_changed?"
 
@@ -80,6 +81,23 @@ class PointAlarm < ActiveRecord::Base
     value_meaning.split("-")[index]
   end
 
+  def get_type
+    alarm_type = '开关量告警'
+    if self.state.present? and self.alarm_type == 'alarm'
+      case self.try(:state) || 0
+      when -2
+        alarm_type = '越下下限'
+      when -1
+        alarm_type = '越下限'
+      when 1
+        alarm_type = '越上限'
+      when 2
+        alarm_type = '越上上限'
+      end
+    end
+    alarm_type
+  end
+
   def self.keyword start_time, end_time
     return self.all if start_time.blank? && end_time.blank?
     self.where("created_at > ? AND created_at < ?", start_time.to_datetime, end_time.to_datetime)
@@ -105,7 +123,7 @@ class PointAlarm < ActiveRecord::Base
         comment: self.comment,
         type: self.alarm_type,
         meaning: self.meaning,
-        alarm_value: self.alarm_value, 
+        alarm_value: self.alarm_value,
       }
     }
 
@@ -148,9 +166,14 @@ class PointAlarm < ActiveRecord::Base
     end
 
     def send_notification
-      # id, device_name, pid, state, created_at, updated_at, 
+      # id, device_name, pid, state, created_at, updated_at,
       # is_checked, point_id, comment, type, meaning, alarm_value
       return if self.is_checked?
       NotificationSendJob.set(queue: :message).perform_later(self.id)
+    end
+
+    def reset_checked_data
+      return if self.state == 0
+      self.update(checked_user:"", is_checked: false, checked_at: nil)
     end
 end
