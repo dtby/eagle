@@ -1,0 +1,79 @@
+<div class="clearfix power__ups">
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-body text-center">
+        <h2><%= device.name %></h2>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12 p-xs">
+    <div class="mblock left">
+      <div class="row">
+        <div class="col-xs-3 p-r"></div>
+        <div class="col-xs-9 p-l">
+          <%=image_tag"power-ups2.jpg",width:"80%", height: "100%", id: 'ups_img'%>
+          <!-- 左侧表格1 -->
+          <div class="table-responsive table-left1">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th colspan="2" class="text-center">市电输入</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @points["市电输入"].each do |point| %>
+                  <% unless exclude_points["市电输入"] && exclude_points["市电输入"].include?(point[0]) %>
+                    <tr>
+                      <td width="72%" align="center"><b><%= point[0] %></b></td>
+                      <td align="center"><%= point[1] %></td>
+                    </tr>
+                  <% end %>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+          <!-- 右侧表格 -->
+          <div class="table-responsive table-right">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th colspan="2" class="text-center">UPS输出</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @points["UPS输出"].each do |point| %>
+                  <% unless exclude_points["UPS输出"] && exclude_points["UPS输出"].include?(point[0]) %>
+                    <tr>
+                      <td width="60%" align="center"><b><%= point[0] %></b></td>
+                      <td align="center"><%= point[1] %></td>
+                    </tr>
+                  <% end %>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+          <!-- 下部表格 -->
+          <div class="table-responsive table-bottom">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th colspan="2" class="text-center">电池模块</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @points["电池模块"].each do |point| %>
+                  <% unless exclude_points["电池模块"] && exclude_points["电池模块"].include?(point[0]) %>
+                    <tr>
+                      <td width="60%" align="center"><b><%= point[0] %></b></td>
+                      <td align="center"><%= point[1] %></td>
+                    </tr>
+                  <% end %>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

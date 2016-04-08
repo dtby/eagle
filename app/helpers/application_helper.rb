@@ -18,4 +18,29 @@ module ApplicationHelper
 		}
 		icons[menu] || 'fa-home'
 	end
+
+  #告警类型
+	# def alarm_status status
+ #    case status
+ #    when 1
+ #    	"告警"
+ #    when 0
+ #    	"设备正常"
+ #    end
+	# end
+
+  #格式化小数
+  def number_format number
+    '%.1f' % number.to_f
+  end
+
+  #格式化报表名称
+  def format_report_name name
+    if name.to_s.include?("-")
+      name.split("-")[1]
+    else
+      name
+    end
+  end
+
 end

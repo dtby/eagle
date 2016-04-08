@@ -1,0 +1,48 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>设备图片列表</h5>
+          <!-- 新增机房 -->
+            <%= link_to new_admin_attachment_path, remote: true, format: :js, class: "ibox-title-new room-new" do %>
+              <i class="fa fa-plus fa-lg"></i>
+            <% end %>
+        </div>
+        <div class="ibox-content">
+          <table class="footable table table-stripped text-center toggle-arrow-tiny" data-page-size="2">
+            <thead>
+              <tr>
+                <th class="text-center">机房</th>
+                <th class="text-center">图片</th>
+                <th class="text-center">标签</th>
+                <th class="text-center">状态</th>
+              </tr>
+            </thead>
+            <tbody data-no-turbolink>
+            <% @attachments.each do |attachment| %>
+              <tr>
+                <td><%= attachment.try(:room).try(:name) %></td>
+                <td><%= image_tag attachment.image_url(:thumb) %></td>
+                <td><%= attachment.tag %></td>
+                <td>
+                  <%= link_to edit_admin_attachment_path(attachment), class: 'btn btn-xs btn-default', remote: true, format: :js do %>
+                    <span class="glyphicon glyphicon-edit"></span>
+                  <% end %>
+                  <%= link_to delete_admin_attachment_path(attachment), data: {confirm: "确认删除吗？"}, method: :patch, class: 'btn btn-xs btn-danger' do %>
+                    <span class="glyphicon glyphicon-trash"></span>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+        <div class="text-center">
+          <%= will_paginate @attachments, renderer: BootstrapPagination::Rails  %></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="attachmentModalContent"></div>
+  

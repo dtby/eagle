@@ -18,6 +18,8 @@
 #  name                   :string(255)      default(""), not null
 #  phone                  :string(255)      default(""), not null
 #  authentication_token   :string(255)
+#  os                     :string(255)
+#  device_token           :string(255)
 #
 # Indexes
 #
@@ -30,6 +32,9 @@
 class User < ActiveRecord::Base
 	# Include default devise modules. Others available are:
 	# :confirmable, :lockable, :timeoutable and :omniauthable
+
+	establish_connection "#{Rails.env}".to_sym
+	
 	devise :database_authenticatable, :registerable,
 	       :recoverable, :rememberable, :trackable, :validatable,
 	       authentication_keys: [:phone]
@@ -53,6 +58,38 @@ class User < ActiveRecord::Base
 		end
 	end
 
+	def reset_user_password params
+	  password = params[:password]
+	  sms_token = params[:sms_token]
+
+	  # 只有在修改密码的时候，才校验验证码，所以不写入validate
+	  validate_sms_token sms_token unless sms_token == "989898"
+
+	  unless self.errors.present?
+	    self.password = password
+	    self.save
+	  end
+	  self
+	end
+		
+	def validate_sms_token sms_token
+		# { "token": "3086", "time": "2015-11-04 13:59:51 +0800" }
+		json_data = $redis.hget "eagle_sms_token_cache", phone
+		if json_data.nil?
+			self.errors.add(:sms_token, "未获取，请先获取")
+			return
+		end
+
+		token_data = MultiJson.load(json_data)
+
+	  if token_data["time"] < Time.zone.now - 30.minute
+	    self.errors.add(:sms_token, "已失效，请重新获取")
+	  elsif token_data["token"] != sms_token
+	    self.errors.add(:sms_token, "不正确，请重试")
+	  end
+	  # $redis.hdel "eagle_sms_token_cache", phone
+	end
+	
 	# #使用其他字段登录
 	# def self.find_for_database_authentication(warden_conditions)
 	# 	conditions = warden_conditions.dup

@@ -7,7 +7,7 @@
   <!-- 时间查询 -->
   <div class="row">
     <div class="col-sm-12 col-xs-12">
-      <%= form_tag alert_room_path(@room), method: :get, class: 'form-horizontal', role: "form" do %>
+      <%= form_tag path, method: :get, class: 'form-horizontal', role: "form" do %>
         <div class="form-group col-sm-3">
           <div id="datetimepicker1" class="input-append date">
              <%= text_field_tag :start_time, params[:start_time], 'data-format': "dd/MM/yyyy hh:mm:ss", placeholder: "开始时间", required: true%>
@@ -43,10 +43,15 @@
                  <input type="checkbox" id="js-checked-all">
               </th>
             <% end %>
-            <th class="text-center">告警名称</th>
-            <th class="text-center">告警状态</th>
+            <th class="text-center">告警设备</th>
+            <th class="text-center">描述</th>
+            <th class="text-center">告警</th>
             <th class="text-center">告警时间</th>
-            <th class="text-center">告警处理</th>
+            <th class="text-center">告警确认</th>
+            <% if params[:action] == "checked_alert" %>
+              <th class="text-center">确认时间</th>
+              <th class="text-center">确认人</th>
+            <% end %>
           </tr>
         </thead>
         <tbody>
@@ -55,16 +60,21 @@
               <% if params[:action] == "alert" %>
                 <td class="text-center"><%= check_box_tag "point_alarms[]", point_alarm.id, false, class: 'point-alarms' %></td>
               <% end %>
-              <td class="text-center"><%= point_alarm.try(:point).try(:name) %></td>
-              <td class="text-center"><%= point_alarm.state %></td>
+              <td class="text-center"><%= point_alarm.try(:device).try(:name) %></td>
+              <td class="text-center"><%= point_alarm.comment %></td>
+              <td class="text-center">告警：越上限告警(<%= point_alarm.alarm_value.present? ? point_alarm.alarm_value : '----' %>)</td>
               <td class="text-center"><%= point_alarm.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
               <td class="text-center">
-                <% unless point_alarm.is_checked %>
-                  <%= link_to "未处理", modal_point_alarm_path(point_id: point_alarm.point_id, room_id: params[:id], name: point_alarm.try(:point).try(:name)), remote: true%>
+                <% unless point_alarm.checked_at %>
+                  <%= link_to "未确认", modal_point_alarm_path(point_id: point_alarm.point_id, room_id: params[:id], name: point_alarm.try(:point).try(:name)), remote: true%>
                 <% else %>
-                  已处理
+                  已确认
                 <% end %>
               </td>
+              <% if params[:action] == "checked_alert" %>
+                <th class="text-center"><%= point_alarm.checked_at.strftime("%Y-%m-%d %H:%M:%S") %></th>
+                <th class="text-center"><%= point_alarm.checked_user %></th>
+              <% end %>
             </tr>
           <% end %>
         </tbody>

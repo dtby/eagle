@@ -8,6 +8,7 @@
 #  check_state  :integer
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
+#  checked_user :string(255)
 #
 # Indexes
 #
@@ -20,5 +21,4 @@
 
 class AlarmHistory < ActiveRecord::Base
   belongs_to :point
-  
 end

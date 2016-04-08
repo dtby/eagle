@@ -42,6 +42,7 @@
   background: #eee;
   display: block;
   float: left;
+  font-weight: bold;
 }
 .warning-icon {
   width: 20%;
@@ -55,7 +56,12 @@
 
 //覆盖logo的背景
 .logo-wrapper {
-  background: #3d5263!important;
+  background: #33343d!important;
+}
+
+#temperatureImg {
+  display: block;
+  margin: 0 auto;
 }
 
 //电流数据效果
@@ -63,3 +69,27 @@
 .xc-status.green {background: green;}
 .xc-status.gray {background: gray;}
 .xc-danger {color: red!important; font-weight: bold; font-size: 20px;}
+
+//报表相关样式
+.time-position {
+  position: relative;
+  .add-on {
+    position: absolute;
+    top: 4px;
+  }
+}
+.grey-bg {
+  background: #33343c!important;
+}
+.errorAlert {
+  margin-left: -28px;
+  margin-bottom: 2px;
+  font-size: 12px;
+}
+.tipbar {
+  color: #fff;
+  height: 40px;
+  line-height: 40px;
+  background: #34343c;
+  margin-top: 30px;
+}

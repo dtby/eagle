@@ -1,0 +1,22 @@
+<ul>
+  <% device.points.analog.each do |point| %>
+    <!-- 搜索报表数据 -->
+    <% default_result = PointHistory.default_result %>
+    <li class="child"><%= link_to format_report_name(point.name), "javascript:void(0);", 'data-room': @room.id, 'data-point': point.id, 'data-name': format_report_name(point.name) %></li>
+  <% end %>
+</ul>
+
+<script type="text/javascript">
+  $(function(){
+    $("li.child a").click(function(){
+      var room_id = $(this).data("room");
+      var point_id = $(this).data("point");
+      var name = $(this).data("name");
+      $(this).addClass("active").parent().siblings().find("a").removeClass("active");
+      $("#point_id").val(point_id);
+      $("#name").val(name);
+      $("#pointName").text("名称：" + name).addClass("text-muted");
+      return false;
+    })
+  })
+</script>

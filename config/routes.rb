@@ -1,8 +1,13 @@
 Rails.application.routes.draw do
 
+  get 'user/show'
+
   get 'point_controller/show'
 
   root to: "welcome#index"
+
+  require 'sidekiq/web'
+  mount Sidekiq::Web => '/sidekiq'
 
   #动力
   resources :power, only: [:index] do
@@ -37,29 +42,45 @@ Rails.application.routes.draw do
   end
 
   resources :rooms, only: [:index, :show] do
+    resources :points, only: [] do
+      collection do
+        post :get_value_by_names
+      end
+      member do
+        post :history_values
+      end
+    end
+
     resources :devices, only: [:index, :show] do  # 设备
       collection do
         post :search
       end
-      member do 
+      member do
+        get :refresh_data
         resources :points, only: [:index, :show]
       end
     end
-    resources :point_alarms, only: [:index]
+    resources :point_alarms, only: [:index] do
+      collection do
+        post :count
+      end
+    end
     member do
       get :alert
       get :checked_alert
       get :video
       get :pic
+      get :refersh_alert
     end
     #报表
     resources :reports, only: [:index] do
       collection do
-        get :replace_chart
+        get :results
+        get :get_points
       end
     end
 
-    resources :sub_systems, only:[] do 
+    resources :sub_systems, only:[] do
       collection do
         get :distrib
         get :ups
@@ -82,12 +103,29 @@ Rails.application.routes.draw do
     resources :admins # 管理用户
     resources :rooms # 机房管理
     resources :ftps, only: [:index, :create]
+    resources :attachments do
+      member do
+        post :delete
+        patch :delete
+      end
+    end
   end
 
   devise_for :admins, controllers: {
     sessions: 'admins/sessions',
     passwords: 'admins/passwords'
   }
+
+  constraints(id: /\d+/) do
+    resources :users, only: :show
+  end
+
+  resources :users, only: [] do
+    collection do
+      post :update_password
+      post :update_device
+    end
+  end
 
   devise_for :users, controllers: {
     sessions: 'users/sessions',
@@ -96,66 +134,34 @@ Rails.application.routes.draw do
 
   resources :systems, only: [:index]
 
-  resources :check_phone, only: [] do 
+  resources :check_phone, only: [] do
     collection do
       post :auth
+      post :auth_admin
     end
   end
 
+  resources :devices, only: [] do
+    member do
+      resources :point_alarms, only: [:index]
+    end
+  end
 
+  resources :sms_tokens, only: [:create]
 
+  namespace 'v2' do
+    resources :rooms, only: [] do
+      member do
+        get :pue
+      end
+      resources :devices, only: [:show]
+    end
+    resources :point_alarms, only: [] do
+      collection do
+        get :count
+      end
+    end
+  end
+  resources :point_alarms, only: [:show]
 
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
-
-  # You can have the root of your site routed with "root"
-
-  # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
-
-  # Example of named route that can be invoked with purchase_url(id: product.id)
-  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
-
-  # Example resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
-
-  # Example resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
-
-  # Example resource route with sub-resources:
-  #   resources :products do
-  #     resources :comments, :sales
-  #     resource :seller
-  #   end
-
-  # Example resource route with more complex sub-resources:
-  #   resources :products do
-  #     resources :comments
-  #     resources :sales do
-  #       get 'recent', on: :collection
-  #     end
-  #   end
-
-  # Example resource route with concerns:
-  #   concern :toggleable do
-  #     post 'toggle'
-  #   end
-  #   resources :posts, concerns: :toggleable
-  #   resources :photos, concerns: :toggleable
-
-  # Example resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
 end

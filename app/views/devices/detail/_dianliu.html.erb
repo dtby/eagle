@@ -1,31 +1,49 @@
-<div class="clearfix">
-  <div class="col-xs-12 p-xs">
-    <div class="mblock">
-      <h2 class="text-center text-muted"><%= alarm.device_name %></h2>
-      <div class="table-responsive my-table  my-left">
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <th class="text-center">空开状态</th>
-              <th class="text-center">电压值</th>
-              <th class="text-center">电流值</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="text-center">
-                <% if alarm.volt_warning || alarm.cur_warning %>
-                  <span class="xc-status gray"></span>
-                <% else %>
-                  <span class="xc-status green"></span>
-                <% end %>
-              </td>
-              <td class="text-center unit <%=alarm.volt_warning.present? ? 'xc-danger' : ''%>"><%= alarm.voltage %></td>
-              <td class="text-center unit <%=alarm.cur_warning.present? ? 'xc-danger' : ''%>"><%= alarm.current %></td>
-            </tr>
-          </tbody>
-        </table>
+<div class="col-sm-12 col-xs-12">
+  <% alarms.each do |alarm| %>
+    <div class="col-xs-6 col-sm-6">
+      <div class="mblock">
+        <div class="table-responsive my-table  my-left">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th class="text-center" colspan="6"><%= alarm.device_name %></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-center">电路</td>
+                <td class="text-center">空开状态</td>
+                <td class="text-center">电压</td>
+                <td class="text-center">电流</td>
+              </tr>
+              <tr>
+                <td class="text-center">A路</td>
+                <td class="text-center">
+                  <% if alarm.volt_warning || alarm.cur_warning %>
+                    <span class="xc-status gray"></span>
+                  <% else %>
+                    <span class="xc-status green"></span>
+                  <% end %>
+                </td>
+                <td class="text-center unit <%=alarm.volt_warning.present? ? 'xc-danger' : ''%>"><%= alarm.voltage.to_f %></td>
+                <td class="text-center unit <%=alarm.cur_warning.present? ? 'xc-danger' : ''%>"><%= alarm.current.to_f %></td>
+              </tr>
+              <tr>
+                <td class="text-center">B路</td>
+                <td class="text-center">
+                  <% if alarm.volt_warning2 || alarm.cur_warning2 %>
+                    <span class="xc-status gray"></span>
+                  <% else %>
+                    <span class="xc-status green"></span>
+                  <% end %>
+                </td>
+                <td class="text-center unit <%=alarm.volt_warning.present? ? 'xc-danger' : ''%>"><%= alarm.voltage2.to_f %></td>
+                <td class="text-center unit <%=alarm.cur_warning.present? ? 'xc-danger' : ''%>"><%= alarm.current2.to_f %></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-  </div>
+  <% end %>
 </div>

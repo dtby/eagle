@@ -27,6 +27,17 @@ every 3.minutes do
   runner "Room.get_computer_room_list"
 end
 
+every 1.minutes do
+  runner "Room.generate_value_meaning"
+end
+
+every :hour do
+  runner "Schedule.point_classify"
+end
+
+every 1.hour, :at => 15 do
+  runner "Schedule.point_history"
+end
 #
 # every 4.days do
 #   runner "AnotherModel.prune_old_records"

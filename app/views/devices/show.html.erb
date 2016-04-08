@@ -1,21 +1,29 @@
-<% if @device.pattern.partial_path == "gafc" %>
-  <%= render partial: 'devices/detail/gafc', locals: { device: @device, exclude_points: @exclude_points } %>
-<% elsif @device.pattern.partial_path == "cool_sys_weitu" %>
-  <%= render partial: 'devices/detail/cool_sys_weitu', locals: { device: @device, exclude_points: @exclude_points } %>
-<% elsif @device.pattern.partial_path == "commen_temp" %>
-  <%= render partial: 'devices/detail/commen_temp', locals: { device: @device, exclude_points: @exclude_points } %>
-<% elsif @device.pattern.partial_path == "weitu" %>
-  <%= render partial: 'devices/detail/weitu', locals: { device: @device, exclude_points: @exclude_points } %>
-<% elsif @device.pattern.partial_path == "leaking_7053" %>
-  <%= render partial: 'devices/detail/leaking_7053', locals: { device: @device, exclude_points: @exclude_points } %>
-<% elsif @device.pattern.partial_path == "fire_7053" %>
-  <%= render partial: 'devices/detail/fire_7053', locals: { device: @device, exclude_points: @exclude_points } %>
-<% elsif @device.pattern.partial_path == "elec_meter_umw450" %>
-  <%= render partial: 'devices/detail/elec_meter_umw450', locals: { device: @device, exclude_points: @exclude_points } %>
-<% elsif @device.pattern.partial_path == "power" %>
-  <%= render partial: 'devices/detail/power', locals: { device: @device, exclude_points: @exclude_points } %>
-<% elsif @device.pattern.partial_path == "dianliu" %>
-  <%= render partial: 'devices/detail/dianliu', locals: { device: @device, exclude_points: @exclude_points, alarm: @alarm } %>
+<!--
+<% #if @device.pattern.partial_path == "gafc" %>
+  <%#= render partial: 'devices/detail/gafc', locals: { device: @device, exclude_points: @exclude_points } %>
+<% #elsif @device.pattern.partial_path == "cool_sys_weitu" %>
+  <%#= render partial: 'devices/detail/cool_sys_weitu', locals: { device: @device, exclude_points: @exclude_points } %>
+<% #elsif @device.pattern.partial_path == "commen_temp" %>
+  <%#= render partial: 'devices/detail/commen_temp', locals: { device: @device, exclude_points: @exclude_points } %>
+<% #elsif @device.pattern.partial_path == "weitu" %>
+  <%#= render partial: 'devices/detail/weitu', locals: { device: @device, exclude_points: @exclude_points } %>
+<% #elsif @device.pattern.partial_path == "leaking_7053" %>
+  <%#= render partial: 'devices/detail/leaking_7053', locals: { device: @device, exclude_points: @exclude_points } %>
+<% #elsif @device.pattern.partial_path == "fire_7053" %>
+  <%#= render partial: 'devices/detail/fire_7053', locals: { device: @device, exclude_points: @exclude_points } %>
+<% #elsif @device.pattern.partial_path == "elec_meter_umw450" %>
+  <%#= render partial: 'devices/detail/elec_meter_umw450', locals: { device: @device, exclude_points: @exclude_points } %>
+<% #elsif @device.pattern.partial_path == "power" %>
+  <%#= render partial: 'devices/detail/power', locals: { device: @device, exclude_points: @exclude_points } %>
+<% #elsif @device.pattern.partial_path == "dianliu" %>
+  <%#= render partial: 'devices/detail/dianliu', locals: { device: @device, exclude_points: @exclude_points, alarms: @alarms } %>
+<% #else %>
+  <%#= render partial: 'devices/detail/default', locals: { device: @device, exclude_points: @exclude_points } %>
+<% #end %>
+ -->
+
+<% if @device.pattern.partial_path.present? %>
+  <%= render partial: "devices/detail/#{@device.pattern.partial_path}", locals: { device: @device, exclude_points: @exclude_points, alarms: @alarms } %>
 <% else %>
   <%= render partial: 'devices/detail/default', locals: { device: @device, exclude_points: @exclude_points } %>
 <% end %>

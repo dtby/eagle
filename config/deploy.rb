@@ -5,10 +5,10 @@ require 'mina/rvm'    # for rvm support. (http://rvm.io)
 
 set :term_mode, nil
 
-set :domain, '112.124.97.145'
+set :domain, '139.196.190.201'
 set :deploy_to, '/home/deploy/eagle'
 set :repository, 'https://github.com/dtby/eagle.git'
-set :branch, 'master'
+set :branch, 'develop'
 
 # For system-wide RVM install.
 set :rvm_path, '/home/deploy/.rvm/scripts/rvm'
@@ -30,7 +30,7 @@ task :environment do
   # invoke :'rbenv:load'
 
   # For those using RVM, use this to load an RVM version@gemset.
-  invoke :'rvm:use[ruby 2.2.1]'
+  invoke :'rvm:use[ruby 2.2]'
 end
 
 # Put any custom mkdir's in here for when `mina setup` is ran.

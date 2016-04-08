@@ -1,0 +1,3 @@
+$(".modal-backdrop").remove();
+$("#attachmentModalContent").html("<%= escape_javascript( render 'attachment_modal', attachment: @attachment)%>");
+$('#attachmentModal').modal('show');

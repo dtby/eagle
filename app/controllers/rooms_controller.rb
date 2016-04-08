@@ -11,15 +11,21 @@
 #
 
 class RoomsController < BaseController
-  before_action :authenticate_user!, only: [:show, :alert, :checked_alert, :video, :pic]
-  acts_as_token_authentication_handler_for User, only: [:index]
+  before_action :authenticate_user!, only: [:show, :alert, :checked_alert, :video, :pic, :refersh_alert]
+  acts_as_token_authentication_handler_for User, only: [:index], fallback_to_devise: false
+  acts_as_token_authentication_handler_for Admin, only: [:index], fallback_to_devise: false
   respond_to :json
 
   def index
-    @rooms = UserRoom.where(user: current_user).map { |e| e.room }
+    if current_user.present?
+      @rooms = UserRoom.where(user: current_user).map { |e| e.room }
+    elsif current_admin.present?
+      @rooms = Room.all
+    end
   end
 
   def show
+    @attachment = @room.attachments.find_by(tag: "主图")
   end
 
   def alert
@@ -27,7 +33,9 @@ class RoomsController < BaseController
                         .get_alarm_point_by_room(@room.id)
                         .paginate(page: params[:page], per_page: 20)
                         .order_desc
+                        .is_warning_alarm
                         .keyword(params[:start_time], params[:end_time])
+    puts "@point_alarms is #{@point_alarms.inspect}"
   end
 
   def checked_alert
@@ -35,6 +43,12 @@ class RoomsController < BaseController
                                       .paginate(page: params[:page], per_page: 20)
                                       .order_desc
                                       .keyword(params[:start_time], params[:end_time])
+  end
+
+  def refersh_alert
+    respond_to do |format|
+      format.js { }
+    end
   end
 
   def video

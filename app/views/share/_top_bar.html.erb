@@ -10,8 +10,8 @@
 		<ul class="nav ace-nav navbar-top-links navbar-right">
 			<!-- 机房选择 -->
 			<li>
-				<%= link_to alert_room_path(@room), class: "js-ref-page" do %>
-				  告警 <span class="badge badge-danger js-alert-num"><%= render partial: "share/alert", locals: {alerts: @alerts} %></span>
+				<%= link_to alert_room_path(@room), class: "js-ref-page", 'data-url': refersh_alert_room_path(@room) do %>
+				  告警 <span class="badge badge-danger" id="js-alert-num"><%= @alerts.length %></span>
 				<% end %>
 			</li>
 			<li class="dropdown">
@@ -40,13 +40,11 @@
 </div>
 
 <script type="text/javascript">
-  function refAlerts() {
-  	window.location.reload();
-  }
-	// $(function(){
- //    setInterval("refAlerts()", 15000);
- //    $(".js-ref-page").click(function(){
- //      refAlerts();
- //    });
-	// })
+  var url = $(".js-ref-page").data('url');
+  function refreshPartial() {
+	  $.ajax({
+	    url: url
+	 })
+	}
+	setInterval(refreshPartial, 5000)
 </script>

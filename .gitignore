@@ -27,9 +27,12 @@ capybara-*.html
 /spec/tmp
 /config/database.yml
 /config/secrets.yml
+/config/ftp.yml
 /releases
 /shared
 /scm
+
+app/assets/.DS_Store
 
 /lience
 lience

@@ -1,7 +1,6 @@
 class BaseController < ApplicationController
-  before_action :authenticate_user!, :authenticate_and_set_room, :list_alerts, if: lambda { |controller| controller.request.format.html? }
-
-
+  before_action :authenticate_user!, :authenticate_and_set_room, if: lambda { |controller| controller.request.format.html?}
+  before_action :list_alerts
   # 验证用户是否有访问当前机房的权限
   def authenticate_and_set_room
     # room赋值
@@ -35,11 +34,11 @@ class BaseController < ApplicationController
   def list_alerts
     if params[:room_id].present?
       @room = Room.where(id: params[:room_id]).first
-    elsif params[:room_id].present?
+    elsif params[:id].present?
       @room = Room.where(id: params[:id]).first
     end
     if @room.present?
-      @alerts = PointAlarm.unchecked.get_alarm_point_by_room(@room.id)
+      @alerts = PointAlarm.unchecked.is_warning_alarm.get_alarm_point_by_room(@room.id)
     else
       @alerts = {}
     end
