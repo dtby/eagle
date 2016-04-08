@@ -77,8 +77,8 @@ class PointAlarmsController < BaseController
     # 子系统拥有的告警数、设备拥有的告警数
     @results = {}
     if params[:room_id].present? && !(params[:sub_system_id].present?)
-      #{params[:room_id]}
-      point_alarms = PointAlarm.where("room_id = 1 AND (state != 0 OR checked_at BETWEEN '#{1.day.ago.strftime("%Y-%m-%d %H:%M:%S")}' AND '#{DateTime.now.strftime("%y-%m-%d %H:%M:%S")}')")
+      
+      point_alarms = PointAlarm.where("room_id = #{params[:room_id]} AND (state != 0 OR checked_at BETWEEN '#{1.day.ago.strftime("%Y-%m-%d %H:%M:%S")}' AND '#{DateTime.now.strftime("%y-%m-%d %H:%M:%S")}')")
 
       sub_system_ids = point_alarms.pluck(:sub_system_id)
 
