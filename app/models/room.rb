@@ -175,7 +175,7 @@ class Room < ActiveRecord::Base
 
         device_name = bay_info.second[0] + "机柜"  # C机柜
       end
-      device = "温湿度" if device_name.include? "温湿度"
+      device_name = "温湿度" if device_name.include? "温湿度"
 
       information.room        = bay_info.first
       information.sub_room    = sub_room if ["温湿度系统", "漏水系统", "消防系统"].include? sub_system
@@ -194,6 +194,7 @@ class Room < ActiveRecord::Base
       # point_hash = {}
       # group_hash[bay_info.first][ap.GroupName][device_name] = {} unless group_hash[bay_info.first][ap.GroupName][device_name].present?
       # group_hash[bay_info.first][ap.GroupName][device_name][point_name] = "#{ap.PointID}!#{ap.try(:UpValue)}!#{ap.try(:DnValue)}"
+      puts "information is #{information.inspect}" if device_name.include? "温湿度"
     end
     informations
   end
