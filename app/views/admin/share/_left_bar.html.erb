@@ -11,6 +11,12 @@
 				</div>
 			</li>
 
+			<li class="<%= 'active' if params[:controller] == 'admin/areas' %>">
+				<%= link_to admin_areas_path do %>
+					<i class="fa fa-barcode"></i> <span class="nav-label">区域</span>
+				<% end %>
+			</li>
+
 			<li class="<%= 'active' if params[:controller] == 'admin/rooms' %>">
 				<%= link_to admin_rooms_path do %>
 					<i class="fa fa-home"></i> <span class="nav-label">机房</span>

@@ -1,6 +1,16 @@
 class BaseController < ApplicationController
   before_action :authenticate_user!, :authenticate_and_set_room, if: lambda { |controller| controller.request.format.html?}
   before_action :list_alerts
+
+  before_action :validate_mac_code
+  
+  private
+  def validate_mac_code
+    if MacCode.encrypt_macaddr !=  MacCode.get_lience
+      return render text: "权限验证失败，详情联系开系统提供商！"
+    end
+  end
+  
   # 验证用户是否有访问当前机房的权限
   def authenticate_and_set_room
     # room赋值

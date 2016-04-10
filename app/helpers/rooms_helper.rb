@@ -8,6 +8,15 @@
 #  updated_at   :datetime         not null
 #  link         :string(255)
 #  monitor_link :string(255)
+#  area_id      :integer
+#
+# Indexes
+#
+#  index_rooms_on_area_id  (area_id)
+#
+# Foreign Keys
+#
+#  fk_rails_8a9660ed06  (area_id => areas.id)
 #
 
 module RoomsHelper

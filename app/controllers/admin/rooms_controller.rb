@@ -1,4 +1,4 @@
-class Admin::RoomsController < Admin::BaseController
+class Admin::RoomsController < AdminBaseController
 	before_action :set_room, only: [:edit, :show, :update, :destroy]
 	respond_to :html, :js
 
@@ -20,7 +20,7 @@ class Admin::RoomsController < Admin::BaseController
 	end
 
 	def index
-		@rooms = Room.all
+		@rooms = Room.includes(:area).all
 	end
 
 	def edit
@@ -51,7 +51,7 @@ class Admin::RoomsController < Admin::BaseController
 	private 
 
 	def room_params
-		params.require(:room).permit(:name, :link, :monitor_link)
+		params.require(:room).permit(:name, :link, :monitor_link, :area_id)
 	end
 
   def set_room

@@ -1,4 +1,4 @@
-class Admin::PatternsController < Admin::BaseController
+class Admin::PatternsController < AdminBaseController
   before_action :set_pattern, only: [:show, :update]
 
 	def index

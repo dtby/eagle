@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160410092552) do
+ActiveRecord::Schema.define(version: 20160410141821) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -72,6 +72,12 @@ ActiveRecord::Schema.define(version: 20160410092552) do
   create_table "analog_points", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "areas", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "attachments", force: :cascade do |t|
@@ -164,18 +170,6 @@ ActiveRecord::Schema.define(version: 20160410092552) do
   add_index "point_histories", ["device_id"], name: "index_point_histories_on_device_id", using: :btree
   add_index "point_histories", ["point_id"], name: "index_point_histories_on_point_id", using: :btree
 
-  create_table "point_histories_201602", force: :cascade do |t|
-    t.string   "point_name",  limit: 255
-    t.string   "point_value", limit: 255
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-    t.integer  "point_id",    limit: 4
-    t.integer  "device_id",   limit: 4
-  end
-
-  add_index "point_histories_201602", ["device_id"], name: "index_point_histories_201602_on_device_id", using: :btree
-  add_index "point_histories_201602", ["point_id"], name: "index_point_histories_201602_on_point_id", using: :btree
-
   create_table "point_states", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -202,7 +196,10 @@ ActiveRecord::Schema.define(version: 20160410092552) do
     t.datetime "updated_at",               null: false
     t.string   "link",         limit: 255
     t.string   "monitor_link", limit: 255
+    t.integer  "area_id",      limit: 4
   end
+
+  add_index "rooms", ["area_id"], name: "index_rooms_on_area_id", using: :btree
 
   create_table "sms_tokens", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -306,6 +303,7 @@ ActiveRecord::Schema.define(version: 20160410092552) do
   add_foreign_key "point_histories", "devices"
   add_foreign_key "point_histories", "points"
   add_foreign_key "points", "devices"
+  add_foreign_key "rooms", "areas"
   add_foreign_key "sub_rooms", "rooms"
   add_foreign_key "sub_systems", "systems"
   add_foreign_key "user_rooms", "rooms"

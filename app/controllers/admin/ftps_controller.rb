@@ -1,4 +1,4 @@
-class Admin::FtpsController < Admin::BaseController
+class Admin::FtpsController < AdminBaseController
   def index
     @ftp = Ftp.get_ftp_config
   end
