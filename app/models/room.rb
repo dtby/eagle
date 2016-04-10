@@ -8,6 +8,15 @@
 #  updated_at   :datetime         not null
 #  link         :string(255)
 #  monitor_link :string(255)
+#  area_id      :integer
+#
+# Indexes
+#
+#  index_rooms_on_area_id  (area_id)
+#
+# Foreign Keys
+#
+#  fk_rails_8a9660ed06  (area_id => areas.id)
 #
 
 class Room < ActiveRecord::Base
@@ -15,6 +24,7 @@ class Room < ActiveRecord::Base
   validates_presence_of :name#, :link
   validates_uniqueness_of :name
 
+  belongs_to :area
   has_many :menus, dependent: :destroy
   has_many :systems, source: 'menuable', source_type: 'System', through: :menus
   has_many :sub_systems, source: 'menuable', source_type: 'SubSystem', through: :menus

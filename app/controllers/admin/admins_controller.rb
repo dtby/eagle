@@ -1,4 +1,4 @@
-class Admin::AdminsController < Admin::BaseController
+class Admin::AdminsController < AdminBaseController
 	before_action :set_admin, only: [:edit, :update, :destroy]
 	before_action :set_admins, only: [:index, :create, :update, :destroy]
 	respond_to :html, :js

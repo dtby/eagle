@@ -1,15 +1,20 @@
 class ApplicationController < ActionController::Base
   respond_to :html, :json
+  layout :get_layout
 
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :null_session
-  before_action :validate_mac_code
-  
-  private
-  def validate_mac_code
-    if MacCode.encrypt_macaddr !=  MacCode.get_lience
-      return render text: "权限验证失败，详情联系开系统提供商！"
+
+
+  def get_layout
+    if params[:controller].include?("admin")
+      'admin'
+    elsif devise_controller?
+      'login'
+    else
+      'application'
     end
   end
+  
 end

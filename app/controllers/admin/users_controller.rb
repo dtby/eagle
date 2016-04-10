@@ -1,4 +1,4 @@
-class Admin::UsersController < Admin::BaseController
+class Admin::UsersController < AdminBaseController
 	before_action :set_user, only: [:edit, :update, :destroy]
 	before_action :set_users, only: [:index, :create, :update, :destroy]
 	before_action :set_rooms, except: [:destroy]
