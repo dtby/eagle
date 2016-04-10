@@ -11,4 +11,15 @@
 #
 
 module RoomsHelper
+  Information = Struct.new(
+    :room, 
+    :sub_room, 
+    :system, 
+    :sub_system,
+    :pattern,
+    :device,
+    :point,
+    :point_index,
+    :up_value,
+    :down_value)
 end

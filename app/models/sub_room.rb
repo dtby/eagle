@@ -19,4 +19,6 @@
 
 class SubRoom < ActiveRecord::Base
   belongs_to :room
+
+  has_many :devices, dependent: :destroy
 end
