@@ -72,6 +72,7 @@ class Room < ActiveRecord::Base
 
   def self.generate_system  point_hash, type
     # 机房 => { 系统 => 子系统 => { 点 => 数据 }
+    # 机房 (=> 子机房) => 设备
     point_hash.each do |room, system_hash|
       room = Room.find_or_create_by(name: room)
       system_hash.each do |sub_name, patterns|
