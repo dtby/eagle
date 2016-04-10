@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160410092339) do
+ActiveRecord::Schema.define(version: 20160410092552) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -86,13 +86,14 @@ ActiveRecord::Schema.define(version: 20160410092339) do
   add_index "attachments", ["room_id"], name: "index_attachments_on_room_id", using: :btree
 
   create_table "devices", force: :cascade do |t|
-    t.string   "name",       limit: 255
-    t.integer  "pattern_id", limit: 4
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
-    t.integer  "room_id",    limit: 4
-    t.string   "pic_path",   limit: 255
-    t.boolean  "state",                  default: false
+    t.string   "name",        limit: 255
+    t.integer  "pattern_id",  limit: 4
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.integer  "room_id",     limit: 4
+    t.string   "pic_path",    limit: 255
+    t.boolean  "state",                   default: false
+    t.integer  "sub_room_id", limit: 4
   end
 
   add_index "devices", ["pattern_id"], name: "index_devices_on_pattern_id", using: :btree
