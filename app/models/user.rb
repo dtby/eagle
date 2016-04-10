@@ -46,6 +46,7 @@ class User < ActiveRecord::Base
 
 	has_many :user_rooms, dependent: :destroy
 	has_many :rooms, through: :user_rooms
+	has_many :areas, through: :rooms
 
 	# attr_accessor :login
 
