@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160407125236) do
+ActiveRecord::Schema.define(version: 20160410092552) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -86,13 +86,14 @@ ActiveRecord::Schema.define(version: 20160407125236) do
   add_index "attachments", ["room_id"], name: "index_attachments_on_room_id", using: :btree
 
   create_table "devices", force: :cascade do |t|
-    t.string   "name",       limit: 255
-    t.integer  "pattern_id", limit: 4
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
-    t.integer  "room_id",    limit: 4
-    t.string   "pic_path",   limit: 255
-    t.boolean  "state",                  default: false
+    t.string   "name",        limit: 255
+    t.integer  "pattern_id",  limit: 4
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.integer  "room_id",     limit: 4
+    t.string   "pic_path",    limit: 255
+    t.boolean  "state",                   default: false
+    t.integer  "sub_room_id", limit: 4
   end
 
   add_index "devices", ["pattern_id"], name: "index_devices_on_pattern_id", using: :btree
@@ -163,6 +164,18 @@ ActiveRecord::Schema.define(version: 20160407125236) do
   add_index "point_histories", ["device_id"], name: "index_point_histories_on_device_id", using: :btree
   add_index "point_histories", ["point_id"], name: "index_point_histories_on_point_id", using: :btree
 
+  create_table "point_histories_201602", force: :cascade do |t|
+    t.string   "point_name",  limit: 255
+    t.string   "point_value", limit: 255
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.integer  "point_id",    limit: 4
+    t.integer  "device_id",   limit: 4
+  end
+
+  add_index "point_histories_201602", ["device_id"], name: "index_point_histories_201602_on_device_id", using: :btree
+  add_index "point_histories_201602", ["point_id"], name: "index_point_histories_201602_on_point_id", using: :btree
+
   create_table "point_states", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -195,6 +208,15 @@ ActiveRecord::Schema.define(version: 20160407125236) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "sub_rooms", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.integer  "room_id",    limit: 4
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "sub_rooms", ["room_id"], name: "index_sub_rooms_on_room_id", using: :btree
 
   create_table "sub_systems", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -284,6 +306,7 @@ ActiveRecord::Schema.define(version: 20160407125236) do
   add_foreign_key "point_histories", "devices"
   add_foreign_key "point_histories", "points"
   add_foreign_key "points", "devices"
+  add_foreign_key "sub_rooms", "rooms"
   add_foreign_key "sub_systems", "systems"
   add_foreign_key "user_rooms", "rooms"
   add_foreign_key "user_rooms", "users"

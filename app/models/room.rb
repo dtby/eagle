@@ -11,7 +11,7 @@
 #
 
 class Room < ActiveRecord::Base
-
+  include RoomsHelper
   validates_presence_of :name#, :link
   validates_uniqueness_of :name
 
@@ -35,18 +35,19 @@ class Room < ActiveRecord::Base
     start_time = DateTime.now.strftime("%Q").to_i
     # 名字-> [{系统 -> 设备}, ... {系统 -> 设备}]
     point_hash = {}
-    datas_to_hash AnalogPoint, point_hash
-    generate_system point_hash, "analog"
+    informations = datas_to_hash AnalogPoint, point_hash
+    generate_system informations, "analog"
 
     point_hash = {}
-    datas_to_hash DigitalPoint, point_hash
-    generate_system point_hash, "digital"
+    informations = datas_to_hash DigitalPoint, point_hash
+    generate_system informations, "digital"
 
     end_time = DateTime.now.strftime("%Q").to_i
     logger.info "Room.get_computer_room_list time is #{end_time-start_time}"
   end
 
   # Room.generate_point_value
+  # 用于生成点的数值
   def self.generate_point_value
     start_time = DateTime.now.strftime("%Q").to_i
     PointState.all.each do |point_state|
@@ -57,6 +58,7 @@ class Room < ActiveRecord::Base
   end
 
   # Room.generate_value_meaning
+  # 用户生成点的值， 对应的意义， 若该值无具体含义，则显示点的值
   def self.generate_value_meaning
     DigitalPoint.all.each do |dp|
       next if (dp.OffName.blank? || dp.OnName.blank?)
@@ -70,42 +72,6 @@ class Room < ActiveRecord::Base
     nil
   end
 
-  def self.generate_system  point_hash, type
-    # 机房 => { 系统 => 子系统 => { 点 => 数据 }
-    point_hash.each do |room, system_hash|
-      room = Room.find_or_create_by(name: room)
-      system_hash.each do |sub_name, patterns|
-        sub_name, pattern_name = sub_name.split("-")
-        # puts "sub_name is #{sub_name}, pattern_name is #{pattern_name}"
-        sub_name.delete! "普通" if sub_name.present? && (sub_name.include? "普通")
-        pattern_name = "普通温湿度" if pattern_name == "th802"
-
-        next if pattern_name.blank?
-
-        sub_system = SubSystem.find_or_create_by(name: sub_name)
-        menu = Menu.find_or_create_by(room: room, menuable_id: sub_system.try(:id), menuable_type: "SubSystem")
-        menu.update(updated_at: DateTime.now)
-        patterns.each do | name, points|
-          pattern = Pattern.find_or_create_by(sub_system_id: sub_system.id, name: pattern_name.try(:strip))
-          name = "温湿度" if name.try(:include?, "温湿度")
-          device = Device.unscoped.find_or_create_by(name: name, pattern: pattern, room: room)
-          points.each do |name, value|
-            point_index, max, min = value.split("!")
-            p = Point.unscoped.find_or_create_by(name: name, device: device, point_index: point_index)
-            p.update(point_type: type) unless p.point_type
-            p.update(max_value: max, min_value: min) if (max && min)
-            p.update(state: true, updated_at: DateTime.now)
-            device.update(state: true, updated_at: DateTime.now)
-            check_point sub_name, name, p.id, device.id
-          end
-        end
-      end
-    end
-    Point.where(updated_at: DateTime.new(2010,1,1)..15.minute.ago).update_all(state: false)
-    Device.where(updated_at: DateTime.new(2010,1,1)..15.minute.ago).update_all(state: false)
-    Menu.where(menuable_type: "SubSystem", updated_at: DateTime.new(2010,1,1)..15.minute.ago).destroy_all
-    nil
-  end
 
 
   def self.check_point sub_sys_name, point_name, point_id, device_id
@@ -181,14 +147,24 @@ class Room < ActiveRecord::Base
     point_name[index+offset].ord - "A".ord
   end
 
+  # 用struct来优化
   def self.datas_to_hash class_name, group_hash
+    informations = []
     class_name.all.each do |ap|
-      # BayName: 机房A-配电系统
-      # 机房A -> 配电系统 -> 配电柜 ->
-      bay_info = ap.BayName.upcase.split("-")
+      next if ap.BayName.blank? || ap.GroupName.blank? || ap.PointName.blank?
+      information = Information.new
+      # BayName: 机房-设备
+      # GroupName: 系统-风格
+      # PointName: （子机房-）点名
 
+      sub_system, pattern = ap.GroupName.split("-")
+      sub_system.delete! "普通" if sub_system.include? "普通"
+      pattern = "普通温湿度" if pattern == "th802"
+      
+      bay_info = ap.BayName.upcase.split("-")
       device_name = bay_info.second
       point_name = ap.PointName.upcase
+      sub_room, point_name = ap.PointName.split("-") if ap.PointName.include?("-") && ["温湿度系统", "漏水系统", "消防系统"].include?(sub_system)
 
       if bay_info.second.present? && (/\d+机柜/ =~ bay_info.second)
         index = bay_info.second.index "机柜"
@@ -199,18 +175,107 @@ class Room < ActiveRecord::Base
 
         device_name = bay_info.second[0] + "机柜"  # C机柜
       end
+      device = "温湿度" if device_name.include? "温湿度"
 
-      group_hash[bay_info.first] = {} unless group_hash[bay_info.first].present?
-      group_hash[bay_info.first][ap.GroupName] = {} unless group_hash[bay_info.first][ap.GroupName].present?
-      # puts "bay_info is #{bay_info}"
+      information.room        = bay_info.first
+      information.sub_room    = sub_room if ["温湿度系统", "漏水系统", "消防系统"].include? sub_system
+      information.sub_system  = sub_system
+      information.pattern     = pattern 
+      information.device      = device_name
+      information.point       = point_name
+      information.point_index = ap.PointID
+      information.up_value    = ap.try(:UpValue)
+      information.down_value  = ap.try(:DnValue)
 
-      point_hash = {}
-      group_hash[bay_info.first][ap.GroupName][device_name] = {} unless group_hash[bay_info.first][ap.GroupName][device_name].present?
-      group_hash[bay_info.first][ap.GroupName][device_name][point_name] = "#{ap.PointID}!#{ap.try(:UpValue)}!#{ap.try(:DnValue)}"
+      informations << information
+
+      # group_hash[bay_info.first] = {} unless group_hash[bay_info.first].present?
+      # group_hash[bay_info.first][ap.GroupName] = {} unless group_hash[bay_info.first][ap.GroupName].present?
+      # point_hash = {}
+      # group_hash[bay_info.first][ap.GroupName][device_name] = {} unless group_hash[bay_info.first][ap.GroupName][device_name].present?
+      # group_hash[bay_info.first][ap.GroupName][device_name][point_name] = "#{ap.PointID}!#{ap.try(:UpValue)}!#{ap.try(:DnValue)}"
     end
-    group_hash
+    informations
   end
 
+  def self.generate_system informations, type
+    # 机房 => { 系统 => 子系统 => { 点 => 数据 }
+    # 机房 (=> 子机房) => 设备
+    informations.each do |information|
+      room = Room.find_or_create_by(name: information.room)
+      sub_system = SubSystem.find_or_create_by(name: information.sub_system)
+
+      next if information.pattern.blank?
+      
+      menu = Menu.find_or_create_by(room: room, menuable_id: sub_system.try(:id), menuable_type: "SubSystem")
+      menu.update(updated_at: DateTime.now)
+
+      pattern = Pattern.find_or_create_by(sub_system_id: sub_system.id, name: information.pattern.try(:strip))
+      device = Device.unscoped.find_or_create_by(name: information.device, pattern: pattern, room: room)
+
+      point = Point.unscoped.find_or_create_by(name: information.point, device: device, point_index: information.point_index) 
+
+      if information.sub_room.present?
+        sub_room = SubRoom.find_or_create_by(name: information.sub_room, room: room)
+        device.sub_room = sub_room
+      end
+      device.state      = true
+      device.updated_at = DateTime.now
+      device.save
+
+      if information.up_value && information.down_value
+        point.max_value = information.up_value 
+        point.min_value = information.down_value
+      end
+      point.point_type  = type
+      point.state       = true
+      point.updated_at  = DateTime.now
+      point.save
+
+      check_point information.sub_system, information.point, point.id, device.id
+    end
+
+    points = Point.where(updated_at: DateTime.new(2010,1,1)..15.minute.ago)
+    points.each do |point|
+      point.update(state: false)
+      point.point_alarm.update(state: nil) if point.point_alarm.present?
+    end
+    Device.where(updated_at: DateTime.new(2010,1,1)..15.minute.ago).update_all(state: false)
+    Menu.where(menuable_type: "SubSystem", updated_at: DateTime.new(2010,1,1)..15.minute.ago).destroy_all
+    nil
+
+    # point_hash.each do |room, system_hash|
+    #   room = Room.find_or_create_by(name: room)
+    #   system_hash.each do |sub_name, patterns|
+    #     sub_name, pattern_name = sub_name.split("-")
+    #     # puts "sub_name is #{sub_name}, pattern_name is #{pattern_name}"
+    #     sub_name.delete! "普通" if sub_name.present? && (sub_name.include? "普通")
+    #     pattern_name = "普通温湿度" if pattern_name == "th802"
+
+    #     next if pattern_name.blank?
+
+    #     sub_system = SubSystem.find_or_create_by(name: sub_name)
+    #     menu = Menu.find_or_create_by(room: room, menuable_id: sub_system.try(:id), menuable_type: "SubSystem")
+    #     menu.update(updated_at: DateTime.now)
+    #     patterns.each do | name, points|
+    #       pattern = Pattern.find_or_create_by(sub_system_id: sub_system.id, name: pattern_name.try(:strip))
+    #       name = "温湿度" if name.try(:include?, "温湿度")
+    #       device = Device.unscoped.find_or_create_by(name: name, pattern: pattern, room: room)
+    #       points.each do |name, value|
+    #         point_index, max, min = value.split("!")
+    #         p = Point.unscoped.find_or_create_by(name: name, device: device, point_index: point_index)
+    #         p.update(point_type: type) unless p.point_type
+    #         p.update(max_value: max, min_value: min) if (max && min)
+    #         p.update(state: true, updated_at: DateTime.now)
+    #         device.update(state: true, updated_at: DateTime.now)
+    #         p.point_alarm(state: nil) if p.point_alarm.present?
+    #         check_point sub_name, name, p.id, device.id
+    #       end
+    #     end
+    #   end
+    # end
+   
+  end
 
 
   # Room.generate_alarm_data

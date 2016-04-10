@@ -2,14 +2,15 @@
 #
 # Table name: devices
 #
-#  id         :integer          not null, primary key
-#  name       :string(255)
-#  pattern_id :integer
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  room_id    :integer
-#  pic_path   :string(255)
-#  state      :boolean          default(FALSE)
+#  id          :integer          not null, primary key
+#  name        :string(255)
+#  pattern_id  :integer
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  room_id     :integer
+#  pic_path    :string(255)
+#  state       :boolean          default(FALSE)
+#  sub_room_id :integer
 #
 # Indexes
 #
@@ -31,6 +32,8 @@ class Device < ActiveRecord::Base
 
   belongs_to :pattern
   belongs_to :room
+  belongs_to :sub_room
+  
   has_many :points, dependent: :destroy
   has_many :point_histories, dependent: :destroy
   has_many :alarms, dependent: :destroy

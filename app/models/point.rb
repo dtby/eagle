@@ -32,7 +32,7 @@ class Point < ActiveRecord::Base
   has_many :alarm_histories, dependent: :destroy
   has_many :point_histories, dependent: :destroy
 
-  default_scope { where(state: true).order("cast(name as unsigned) asc") }
+  default_scope { where(state: true).order("cast(points.name as unsigned) asc") }
 
   enum point_type: [:analog, :digital]
 
