@@ -28,28 +28,20 @@ class PointHistory < ActiveRecord::Base
     config = YAML.load_file('config/history.yml')
     interval = config["interval"]
     month = DateTime.now.strftime("%Y%m")
-#
-# <<<<<<< HEAD
-#     return if PointHistory.proxy(month: month).first.present? && interval*60 > Time.now - PointHistory.proxy(month: month).first.try(:created_at)
-#
-#     Point.all.each do |point|
-#       logger.info "point is #{point.name}"
-#       PointHistory.proxy(month: month).create(point_name: point.name, point_value: point.value, point: point, device_id: point.device.id)
-# =======
+
     if PointHistory.proxy(month: month).all.size != 0
       return if PointHistory.proxy(month: month).first.present? && interval*60 > Time.now - PointHistory.proxy(month: month).first.try(:created_at)
     end
-
+    
     Point.all.each do |point|
       next if point.try(:name).try(:include?, "告警-")
-
+      
       begin
         PointHistory.proxy(month: month).create(point_name: point.name, point_value: point.value, point: point, device_id: point.try(:device).try(:id))
       rescue Exception => e
         logger.info "point is #{point.name}, device is #{point.try(:device).try(:name)}, failed, Exception is #{e}"
         next
-      end
-# >>>>>>> 94eec04890f1d237e671420f51e629ff70ab3b70
+      end      
     end
     end_time = DateTime.now.strftime("%Q").to_i
     logger.info "PointHistory.generate_point_history time is #{end_time-start_time}"
