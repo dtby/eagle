@@ -86,7 +86,7 @@ class PointAlarmsController < BaseController
       return unless point_alarms.present?
 
       point_alarms.select! { |pa| ((1.day.ago..DateTime.now).cover? pa.checked_at) || pa.checked_at.blank? }
-      sub_system_ids = point_alarms.pluck(:sub_system_id).compact
+      sub_system_ids = point_alarms.collect { |pa| pa.sub_system_id }.compact
 
       return unless sub_system_ids.present?
       ids = sub_system_ids.uniq
@@ -109,8 +109,8 @@ class PointAlarmsController < BaseController
         ((1.day.ago..DateTime.now).cover? pa.checked_at) || pa.checked_at.blank? 
       }
    
-      device_ids = point_alarms.pluck(:device_id).compact
-      
+      device_ids = point_alarms.collect { |pa| pa.device_id }.compact
+
       return unless device_ids.present?
       ids = device_ids.uniq
       device_names = []
