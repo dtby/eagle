@@ -1,4 +1,4 @@
-class Admin::AttachmentsController < ApplicationController
+class Admin::AttachmentsController < AdminBaseController
   before_action :set_attachment, only: [:edit, :show, :update, :delete]
   respond_to :html, :js
 
