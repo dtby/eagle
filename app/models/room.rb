@@ -160,6 +160,7 @@ class Room < ActiveRecord::Base
   # 用struct来优化
   def self.datas_to_hash class_name, group_hash
     informations = []
+    sub_rooms = ["温湿度系统", "漏水系统", "消防系统", "电量仪系统", "配电系统"].map!(&:freeze).freeze
     class_name.all.each do |ap|
       next if ap.BayName.blank? || ap.GroupName.blank? || ap.PointName.blank?
       information = Information.new
@@ -187,8 +188,9 @@ class Room < ActiveRecord::Base
       end
       device_name = "温湿度" if device_name.include? "温湿度"
 
+
       information.room        = bay_info.first
-      information.sub_room    = sub_room if ["温湿度系统", "漏水系统", "消防系统"].include? sub_system
+      information.sub_room    = sub_room if sub_rooms.include? sub_system
       information.sub_system  = sub_system
       information.pattern     = pattern 
       information.device      = sub_room.blank? ? "#{device_name}" : "#{sub_room}#{device_name}"
