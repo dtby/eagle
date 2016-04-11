@@ -80,7 +80,10 @@ class PointAlarmsController < BaseController
     @results = {}
     if params[:room_id].present? && !(params[:sub_system_id].present?)
       
-      point_alarms = PointAlarm.where("room_id = #{params[:room_id]} AND (state != 0 OR checked_at BETWEEN '#{1.day.ago.strftime("%Y-%m-%d %H:%M:%S")}' AND '#{DateTime.now.strftime("%y-%m-%d %H:%M:%S")}')")
+      point_alarms = 
+        PointAlarm.is_warning_alarm.where(
+          room_id: params[:room_id])
+      point_alarms.select! { |pa| ((1.day.ago..DateTime.now).cover? pa.checked_at) || pa.checked_at.blank? }
 
       sub_system_ids = point_alarms.pluck(:sub_system_id).compact
 
@@ -95,7 +98,15 @@ class PointAlarmsController < BaseController
       @results = Hash[sub_system_names.zip(ids)]
     elsif params[:sub_system_id].present?
 
-      point_alarms = PointAlarm.where("room_id = #{params[:room_id]} AND sub_system_id = #{params[:sub_system_id]} AND (state != 0 OR checked_at BETWEEN '#{1.day.ago.strftime("%Y-%m-%d %H:%M:%S")}' AND '#{DateTime.now.strftime("%y-%m-%d %H:%M:%S")}')")
+      # point_alarms = PointAlarm.where("room_id = #{params[:room_id]} AND sub_system_id = #{params[:sub_system_id]} AND (state != 0 OR checked_at BETWEEN '#{1.day.ago.strftime("%Y-%m-%d %H:%M:%S")}' AND '#{DateTime.now.strftime("%y-%m-%d %H:%M:%S")}')")
+      point_alarms = 
+        PointAlarm.is_warning_alarm.where(
+          room_id: params[:room_id])
+
+      point_alarms.select! { |pa| 
+        ((1.day.ago..DateTime.now).cover? pa.checked_at) || pa.checked_at.blank? 
+      }
+   
       device_ids = point_alarms.pluck(:device_id).compact
       
       return unless device_ids.present?
