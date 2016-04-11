@@ -83,8 +83,9 @@ class PointAlarmsController < BaseController
       point_alarms = 
         PointAlarm.is_warning_alarm.where(
           room_id: params[:room_id])
-      point_alarms.select! { |pa| ((1.day.ago..DateTime.now).cover? pa.checked_at) || pa.checked_at.blank? }
+      return unless point_alarms.present?
 
+      point_alarms.to_a.select! { |pa| ((1.day.ago..DateTime.now).cover? pa.checked_at) || pa.checked_at.blank? }
       sub_system_ids = point_alarms.pluck(:sub_system_id).compact
 
       return unless sub_system_ids.present?
@@ -102,8 +103,9 @@ class PointAlarmsController < BaseController
       point_alarms = 
         PointAlarm.is_warning_alarm.where(
           room_id: params[:room_id])
-
-      point_alarms.select! { |pa| 
+      return unless point_alarms.present?
+      
+      point_alarms.to_a.select! { |pa| 
         ((1.day.ago..DateTime.now).cover? pa.checked_at) || pa.checked_at.blank? 
       }
    
