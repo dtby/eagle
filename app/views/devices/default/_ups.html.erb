@@ -260,7 +260,7 @@
                     x:'60%', // for funnel
                     itemStyle : labelFromatter,
                     data : [
-                    {name:'other', value: <%= 100 - value.to_i * 100 %>, itemStyle : labelBottom},
+                    {name:'other', value: 0, itemStyle : labelBottom},
                     {name:<%= key %>, value: <%= value %>,itemStyle : labelTop}
                     ]
               },
