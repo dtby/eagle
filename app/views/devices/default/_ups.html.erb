@@ -228,7 +228,7 @@
           normal : {
             label : {
               formatter : function (params){
-                return params.value
+                return 'other' + params.value + '%'
               },
               textStyle: {
                 baseline : 'bottom',
@@ -269,7 +269,7 @@
                 itemStyle : labelFromatter,
                 data : [
                   {name:'other', value: 0, itemStyle : labelBottom},
-                  {name:'<%= key %>', value: '<%= value.to_i %>' ,itemStyle : labelTop}
+                  {name:'<%= key %>', value: <%= value.to_i %> ,itemStyle : labelTop}
                 ]
               },
             <% end %>
