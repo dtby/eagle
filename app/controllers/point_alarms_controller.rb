@@ -82,7 +82,7 @@ class PointAlarmsController < BaseController
       
       point_alarms = 
         PointAlarm.is_warning_alarm.where(
-          room_id: 1).try(:to_a)
+          room_id: params[:room_id]).try(:to_a)
       return unless point_alarms.present?
 
       point_alarms.select! { |pa| ((1.day.ago..DateTime.now).cover? pa.checked_at) || pa.checked_at.blank? }
