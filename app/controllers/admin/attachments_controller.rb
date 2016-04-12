@@ -32,7 +32,8 @@ class Admin::AttachmentsController < AdminBaseController
     else
       flash[:notice] = "更新失败"
     end
-    return render js: "window.location.href = '#{admin_attachments_path}';"
+    return redirect_to admin_attachments_path
+    # return render js: "window.location.href = '#{admin_attachments_path}';"
   end
 
   def delete
