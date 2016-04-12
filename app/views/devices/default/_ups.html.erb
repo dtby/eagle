@@ -252,10 +252,10 @@
             data:[]
           },
           series : [
-            <% @points["表格"].each_with_index do |(key, value), index| %>
+            <% @points["表格"].each do |key, value| %>
               {
                 type : 'pie',
-                center : ['<%= pie_x index %>', '<%= pie_y index %>'],
+                center : ['25%', '16.6%'],
                 radius : radius,
                     x:'60%', // for funnel
                     itemStyle : labelFromatter,
