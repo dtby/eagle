@@ -14,63 +14,17 @@
           <%=image_tag"power-ups2.jpg",width:"80%", height: "100%", id: 'ups_img'%>
           <!-- 左侧表格1 -->
           <div class="table-responsive table-left1">
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th colspan="2" class="text-center">市电输入</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% @points["市电输入"].each do |point| %>
-                  <% unless exclude_points["市电输入"] && exclude_points["市电输入"].include?(point[0]) %>
-                    <tr>
-                      <td width="72%" align="center"><b><%= point[0] %></b></td>
-                      <td align="center"><%= point[1] %></td>
-                    </tr>
-                  <% end %>
-                <% end %>
-              </tbody>
-            </table>
+            <%= render partial: "../share/table", locals: { title: "市电输入", points: @points } %>
           </div>
           <!-- 右侧表格 -->
-          <div class="table-responsive table-right">
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th colspan="2" class="text-center">UPS输出</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% @points["UPS输出"].each do |point| %>
-                  <% unless exclude_points["UPS输出"] && exclude_points["UPS输出"].include?(point[0]) %>
-                    <tr>
-                      <td width="60%" align="center"><b><%= point[0] %></b></td>
-                      <td align="center"><%= point[1] %></td>
-                    </tr>
-                  <% end %>
-                <% end %>
-              </tbody>
-            </table>
-          </div>
+          <% if @points["AC"].present? %>
+            <div class="table-responsive table-right">
+              <%= render partial: "../share/table", locals: { title: "UPS输出", points: @points } %>
+            </div>
+          <% end %>
           <!-- 下部表格 -->
           <div class="table-responsive table-bottom">
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th colspan="2" class="text-center">电池模块</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% @points["电池模块"].each do |point| %>
-                  <% unless exclude_points["电池模块"] && exclude_points["电池模块"].include?(point[0]) %>
-                    <tr>
-                      <td width="60%" align="center"><b><%= point[0] %></b></td>
-                      <td align="center"><%= point[1] %></td>
-                    </tr>
-                  <% end %>
-                <% end %>
-              </tbody>
-            </table>
+            <%= render partial: "../share/table", locals: { title: "电池模块", points: @points } %>
           </div>
         </div>
       </div>

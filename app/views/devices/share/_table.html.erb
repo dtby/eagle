@@ -1,0 +1,17 @@
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th colspan="2" class="text-center"><%= title %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% points["#{title}"].each do |key, value| %>
+      <% unless exclude_points["#{title}"] && exclude_points["#{title}"].include?(key) %>
+        <tr>
+          <td width="72%" align="center"><b><%= key %></b></td>
+          <td align="center"><%= value %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
