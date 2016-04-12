@@ -255,7 +255,7 @@
             <% @points["表格"].each_with_index do |(key, value), index| %>
               {
                 type : 'pie',
-                center : [<%= pie_x index %>, <%= pie_y index %>],
+                center : ['<%= pie_x index %>', '<%= pie_y index %>'],
                 radius : radius,
                     x:'60%', // for funnel
                     itemStyle : labelFromatter,
