@@ -220,7 +220,7 @@
           normal : {
             label : {
               formatter : function (params){
-                return 100 - params.value + '%'
+                return params.value
               },
               textStyle: {
                 baseline : 'bottom',
@@ -252,88 +252,18 @@
             data:[]
           },
           series : [
-            <% unless exclude_points["表格"] && exclude_points["表格"].include?("输入总视在功率") %>
+            <% @points["表格"].each_with_index do |(key, point_value), index| %>
               {
                 type : 'pie',
-                center : ['25%', '16.6%'],
-                radius : radius,
-                    x:'60%', // for funnel
-                    itemStyle : labelFromatter,
-                    data : [
-                    {name:'other', value: <%= 100 - @points["表格"]["输入总视在功率"].to_i * 100 %>, itemStyle : labelBottom},
-                    {name:'输入总视在功率', value: <%= @points["表格"]["输入总视在功率"].to_i * 100 %>,itemStyle : labelTop}
-                    ]
-              },
-            <% end %>
-
-            <% unless exclude_points["表格"] && exclude_points["表格"].include?("输出总视在功率") %>
-              {
-                type : 'pie',
-                center : ['75%', '16.6%'],
-                radius : radius,
-                x:'80%', // for funnel
-                itemStyle : labelFromatter,
-                data : [
-                  {name:'other', value: <%= 100 - @points["表格"]["输出总视在功率"].to_i * 100 %>, itemStyle : labelBottom},
-                  {name:'输入总视在功率', value: <%= @points["表格"]["输出总视在功率"].to_i * 100 %>,itemStyle : labelTop}
-                ]
-              },
-            <% end %>
-
-            <% unless exclude_points["表格"] && exclude_points["表格"].include?("输入总有功") %>
-              {
-                type : 'pie',
-                center : ['25%', '50%'],
+                center : ['<%= pie_x index %>', '<%= pie_y index %>'],
                 radius : radius,
                 x:'60%', // for funnel
                 itemStyle : labelFromatter,
                 data : [
-                  {name:'other', value: <%= 100 - @points["表格"]["输入总有功"].to_i * 100 %>, itemStyle : labelBottom},
-                  {name:'输入总视在功率', value: <%= @points["表格"]["输入总有功"].to_i * 100 %>,itemStyle : labelTop}
+                  {name:'other', value: <%= point_value %>, itemStyle : labelBottom},
+                  {name:'<%= key %>', value: <%= point_value %> ,itemStyle : labelTop}
                 ]
               },
-            <% end %>
-
-            <% unless exclude_points["表格"] && exclude_points["表格"].include?("输出总有功") %>
-              {
-                type : 'pie',
-                center : ['75%', '50%'],
-                radius : radius,
-                x:'80%', // for funnel
-                itemStyle : labelFromatter,
-                data : [
-                  {name:'other', value: <%= 100 - @points["表格"]["输出总有功"].to_i * 100 %>, itemStyle : labelBottom},
-                  {name:'输入总视在功率', value: <%= @points["表格"]["输出总有功"].to_i * 100 %>,itemStyle : labelTop}
-                ]
-              },
-            <% end %>
-
-            <% unless exclude_points["表格"] && exclude_points["表格"].include?("输入平均功率因数") %>
-              {
-                type : 'pie',
-                center : ['25%', '83.3%'],
-                radius : radius,
-                x:'60%', // for funnel
-                itemStyle : labelFromatter,
-                data : [
-                  {name:'other', value: <%= 100 - @points["表格"]["输入平均功率因数"].to_i * 100 %>, itemStyle : labelBottom},
-                  {name:'输入总视在功率', value: <%= @points["表格"]["输入平均功率因数"].to_i * 100 %>,itemStyle : labelTop}
-                ]
-              },
-            <% end %>
-
-            <% unless exclude_points["表格"] && exclude_points["表格"].include?("输出平均功率因数") %>
-              {
-                type : 'pie',
-                center : ['75%', '83.3%'],
-                radius : radius,
-                x:'80%', // for funnel
-                itemStyle : labelFromatter,
-                data : [
-                  {name:'other', value: <%= 100 - @points["表格"]["输出平均功率因数"].to_i * 100 %>, itemStyle : labelBottom},
-                  {name:'输入总视在功率', value: <%= @points["表格"]["输出平均功率因数"].to_i * 100 %>,itemStyle : labelTop}
-                ]
-              }
             <% end %>
             ]
           };
