@@ -5,11 +5,11 @@
     </tr>
   </thead>
   <tbody>
-    <% points["#{title}"].each do |key, value| %>
-      <% unless exclude_points["#{title}"] && exclude_points["#{title}"].include?(key) %>
+    <% points["#{key}"].each do |k, v| %>
+      <% unless exclude_points["#{key}"] && exclude_points["#{key}"].include?(k) %>
         <tr>
-          <td width="72%" align="center"><b><%= key %></b></td>
-          <td align="center"><%= value %></td>
+          <td width="72%" align="center"><b><%= k %></b></td>
+          <td align="center"><%= v %></td>
         </tr>
       <% end %>
     <% end %>

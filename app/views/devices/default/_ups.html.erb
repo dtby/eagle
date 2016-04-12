@@ -14,17 +14,17 @@
           <%=image_tag"power-ups2.jpg",width:"80%", height: "100%", id: 'ups_img'%>
           <!-- 左侧表格1 -->
           <div class="table-responsive table-left1">
-            <%= render partial: "../share/table", locals: { title: "市电输入", points: @points } %>
+            <%= render partial: "devices/share/table", locals: { title: "市电输入", points: @points, key: "市电输入" } %>
           </div>
           <!-- 右侧表格 -->
           <% if @points["AC"].present? %>
             <div class="table-responsive table-right">
-              <%= render partial: "../share/table", locals: { title: "UPS输出", points: @points } %>
+              <%= render partial: "devices/share/table", locals: { title: "UPS输出", points: @points, key: "AC" } %>
             </div>
           <% end %>
           <!-- 下部表格 -->
           <div class="table-responsive table-bottom">
-            <%= render partial: "../share/table", locals: { title: "电池模块", points: @points } %>
+            <%= render partial: "devices/share/table", locals: { title: "电池模块", points: @points, key: "电池模块" } %>
           </div>
         </div>
       </div>
