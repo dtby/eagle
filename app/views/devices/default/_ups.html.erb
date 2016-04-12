@@ -97,14 +97,6 @@
       </div>
     <% end %>
 
-    <div class="row">
-      <div class="col-xs-12">
-        <% @points["表格"].each_with_index do |(key, value), index| %>
-          <p><%= key %>: <%= value %></p>
-        <% end %>
-      </div>
-    </div>
-
   </div>
   <% if @points["告警"].present? %>
     <div class="col-md-12">
