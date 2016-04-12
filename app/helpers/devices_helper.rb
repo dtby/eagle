@@ -32,4 +32,21 @@ module DevicesHelper
       content_tag(:i, nil, class: "warning red")
     end
   end
+
+  # 计算ups环形图标x轴位置
+  def pie_x index
+  	index.even? ? 25 : 75
+  end
+
+  # 计算ups环形图标y轴位置
+  def pie_y index
+  	if index <= 1
+  		16.6
+  	elsif index <= 3 && index > 1
+  		50
+  	elsif index <= 5 && index > 3
+  		83.3
+		end
+  end
+  
 end
