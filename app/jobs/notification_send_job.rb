@@ -59,8 +59,14 @@ class NotificationSendJob < ActiveJob::Base
     }
 
     params = {}
-    title = point_alarm.state.zero?? "告警消除！": "告警！"
-    content = "#{point_alarm.try(:room).try(:name)}-#{point_alarm.try(:device).try(:name)}的#{point_alarm.try(:point).try(:name)}出现告警！"
+    if point_alarm.state.zero?
+      title = "告警消除！"
+      content = "#{point_alarm.try(:room).try(:name)}-#{point_alarm.try(:device).try(:name)}的#{point_alarm.try(:point).try(:name)}告警消除！"
+    else
+      title = "新告警！"
+      content = "#{point_alarm.try(:room).try(:name)}-#{point_alarm.try(:device).try(:name)}的#{point_alarm.try(:point).try(:name)}出现告警！"
+    end
+    
 
     sender = Xinge::Notification.instance.send type
     begin
