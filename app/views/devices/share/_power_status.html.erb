@@ -1,0 +1,21 @@
+<!-- 配电状态表格复用模块（风冷机组） -->
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th colspan="4" class="text-center"><%= "hfajkhsd" %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% points.each_with_index do |(k, v), index| %>
+      <% unless exclude_points && exclude_points.include?(k) %>
+        <% if index % 2 == 0 %>
+        <tr>
+        <% end %>
+          <td width="25%" align="center"><b><%= k %></b></td>
+          <td width="25%" align="center"><%= v %></td>
+        <% if index % 2 == 1 %>
+        </tr>
+        <% end %>    
+    <% end %>
+  </tbody>
+</table>
