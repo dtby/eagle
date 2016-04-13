@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160413043657) do
+ActiveRecord::Schema.define(version: 20160413053420) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -290,21 +290,4 @@ ActiveRecord::Schema.define(version: 20160413043657) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "alarm_histories", "points"
-  add_foreign_key "alarms", "devices"
-  add_foreign_key "attachments", "rooms"
-  add_foreign_key "devices", "patterns"
-  add_foreign_key "devices", "rooms"
-  add_foreign_key "menus", "rooms"
-  add_foreign_key "point_alarms", "devices"
-  add_foreign_key "point_alarms", "points"
-  add_foreign_key "point_alarms", "rooms"
-  add_foreign_key "point_alarms", "sub_systems"
-  add_foreign_key "point_histories", "devices"
-  add_foreign_key "point_histories", "points"
-  add_foreign_key "points", "devices"
-  add_foreign_key "sub_rooms", "rooms"
-  add_foreign_key "sub_systems", "systems"
-  add_foreign_key "user_rooms", "rooms"
-  add_foreign_key "user_rooms", "users"
 end

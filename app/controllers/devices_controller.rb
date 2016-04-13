@@ -17,11 +17,6 @@
 #  index_devices_on_pattern_id  (pattern_id)
 #  index_devices_on_room_id     (room_id)
 #
-# Foreign Keys
-#
-#  fk_rails_2deefbda3a  (pattern_id => patterns.id)
-#  fk_rails_3824183ebe  (room_id => rooms.id)
-#
 
 class DevicesController < BaseController
   before_action :authenticate_user!, if: lambda { |controller| controller.request.format.html? }
