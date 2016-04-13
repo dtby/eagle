@@ -48,25 +48,8 @@
           </div>
         </div>
         <div class="col-xs-12">
-          <div class="panel panel-default panel3 warn-info">
-            <div class="panel-heading">报警信息</div>
-            <div class="panel-body">
-              <div class="">
-                <% @points["告警"].keys.each_with_index do |key, index| %>
-                  <% if index % 4 == 0 %>
-                    <div class="air_d_grey col-sm-3" align="left">
-                  <% end %>
-                    <div class="info-row" style="overflow:hidden;">
-                      <span class="warning-name"><%= key %></span>
-                      <span class="warning-icon"><%= warning_status @points["告警"][key] %></span>
-                    </div><br>
-                  <% if index%4 == 3 %>
-                    </div>
-                  <% end %>
-                <% end %>
-              </div>
-            </div>
-          </div>
+          <!-- 告警信息：图标 -->
+          <%= render partial: "devices/share/warn_info_icon", locals: { points: @points, points_key: "告警" } %>
         </div>
       </div>
     </div>

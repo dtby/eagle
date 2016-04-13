@@ -20,10 +20,6 @@
 #
 #  index_alarms_on_device_id  (device_id)
 #
-# Foreign Keys
-#
-#  fk_rails_d487d49ffe  (device_id => devices.id)
-#
 
 class Alarm < ActiveRecord::Base
   belongs_to :device

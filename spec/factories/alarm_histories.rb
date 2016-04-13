@@ -14,10 +14,6 @@
 #
 #  index_alarm_histories_on_point_id  (point_id)
 #
-# Foreign Keys
-#
-#  fk_rails_e54dc154ed  (point_id => points.id)
-#
 
 FactoryGirl.define do
   factory :alarm_history do

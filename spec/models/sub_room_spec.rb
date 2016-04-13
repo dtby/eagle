@@ -12,10 +12,6 @@
 #
 #  index_sub_rooms_on_room_id  (room_id)
 #
-# Foreign Keys
-#
-#  fk_rails_4211e75010  (room_id => rooms.id)
-#
 
 require 'rails_helper'
 

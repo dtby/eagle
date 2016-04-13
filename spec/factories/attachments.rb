@@ -14,10 +14,6 @@
 #
 #  index_attachments_on_room_id  (room_id)
 #
-# Foreign Keys
-#
-#  fk_rails_18d9b5ec37  (room_id => rooms.id)
-#
 
 FactoryGirl.define do
   factory :attachment do

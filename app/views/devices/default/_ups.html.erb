@@ -14,65 +14,17 @@
           <%=image_tag"power-ups2.jpg",width:"80%", height: "100%", id: 'ups_img'%>
           <!-- 左侧表格1 -->
           <div class="table-responsive table-left1">
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th colspan="2" class="text-center">市电输入</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% @points["市电输入"].each do |point| %>
-                  <% unless exclude_points["市电输入"] && exclude_points["市电输入"].include?(point[0]) %>
-                    <tr>
-                      <td width="72%" align="center"><b><%= point[0] %></b></td>
-                      <td align="center"><%= point[1] %></td>
-                    </tr>
-                  <% end %>
-                <% end %>
-              </tbody>
-            </table>
+            <%= render partial: "devices/share/table", locals: { title: "市电输入", points: @points["市电输入"], exclude_points: exclude_points["市电输入"] } %>
           </div>
           <!-- 右侧表格 -->
           <% if @points["AC"].present? %>
             <div class="table-responsive table-right">
-              <table class="table table-bordered">
-                <thead>
-                  <tr>
-                    <th colspan="2" class="text-center">UPS输出</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% @points["AC"].each do |point| %>
-                    <% unless exclude_points["AC"] && exclude_points["AC"].include?(point[0]) %>
-                      <tr>
-                        <td width="60%" align="center"><b><%= point[0] %></b></td>
-                        <td align="center"><%= point[1] %></td>
-                      </tr>
-                    <% end %>
-                  <% end %>
-                </tbody>
-              </table>
+              <%= render partial: "devices/share/table", locals: { title: "UPS输出", points: @points["AC"], exclude_points: exclude_points["AC"] } %>
             </div>
           <% end %>
           <!-- 下部表格 -->
           <div class="table-responsive table-bottom">
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th colspan="2" class="text-center">电池模块</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% @points["电池模块"].each do |point| %>
-                <% unless exclude_points["电池模块"] && exclude_points["电池模块"].include?(point[0]) %>
-                <tr>
-                  <td width="60%" align="center"><b><%= point[0] %></b></td>
-                  <td align="center"><%= point[1] %></td>
-                </tr>
-                <% end %>
-                <% end %>
-              </tbody>
-            </table>
+            <%= render partial: "devices/share/table", locals: { title: "电池模块", points: @points["电池模块"], exclude_points: exclude_points["电池模块"] } %>
           </div>
         </div>
       </div>
@@ -96,8 +48,8 @@
         </div>
       </div>
     <% end %>
-
   </div>
+
   <% if @points["告警"].present? %>
     <div class="col-md-12">
       <div class="panel panel-default warn-info">
@@ -119,6 +71,7 @@
       </div>  
     </div>
   <% end %>
+  
 </div>
 
 <script type="text/javascript">
@@ -220,7 +173,7 @@
           normal : {
             label : {
               formatter : function (params){
-                return 100 - params.value + '%'
+                return params.value
               },
               textStyle: {
                 baseline : 'bottom',
@@ -252,88 +205,18 @@
             data:[]
           },
           series : [
-            <% unless exclude_points["表格"] && exclude_points["表格"].include?("输入总视在功率") %>
+            <% @points["表格"].each_with_index do |(key, point_value), index| %>
               {
                 type : 'pie',
-                center : ['25%', '16.6%'],
-                radius : radius,
-                    x:'60%', // for funnel
-                    itemStyle : labelFromatter,
-                    data : [
-                    {name:'other', value: <%= 100 - @points["表格"]["输入总视在功率"].to_i * 100 %>, itemStyle : labelBottom},
-                    {name:'输入总视在功率', value: <%= @points["表格"]["输入总视在功率"].to_i * 100 %>,itemStyle : labelTop}
-                    ]
-              },
-            <% end %>
-
-            <% unless exclude_points["表格"] && exclude_points["表格"].include?("输出总视在功率") %>
-              {
-                type : 'pie',
-                center : ['75%', '16.6%'],
-                radius : radius,
-                x:'80%', // for funnel
-                itemStyle : labelFromatter,
-                data : [
-                  {name:'other', value: <%= 100 - @points["表格"]["输出总视在功率"].to_i * 100 %>, itemStyle : labelBottom},
-                  {name:'输入总视在功率', value: <%= @points["表格"]["输出总视在功率"].to_i * 100 %>,itemStyle : labelTop}
-                ]
-              },
-            <% end %>
-
-            <% unless exclude_points["表格"] && exclude_points["表格"].include?("输入总有功") %>
-              {
-                type : 'pie',
-                center : ['25%', '50%'],
+                center : ['<%= pie_x index %>', '<%= pie_y index %>'],
                 radius : radius,
                 x:'60%', // for funnel
                 itemStyle : labelFromatter,
                 data : [
-                  {name:'other', value: <%= 100 - @points["表格"]["输入总有功"].to_i * 100 %>, itemStyle : labelBottom},
-                  {name:'输入总视在功率', value: <%= @points["表格"]["输入总有功"].to_i * 100 %>,itemStyle : labelTop}
+                  {name:'other', value: <%= point_value %>, itemStyle : labelBottom},
+                  {name:'<%= key %>', value: <%= point_value %> ,itemStyle : labelTop}
                 ]
               },
-            <% end %>
-
-            <% unless exclude_points["表格"] && exclude_points["表格"].include?("输出总有功") %>
-              {
-                type : 'pie',
-                center : ['75%', '50%'],
-                radius : radius,
-                x:'80%', // for funnel
-                itemStyle : labelFromatter,
-                data : [
-                  {name:'other', value: <%= 100 - @points["表格"]["输出总有功"].to_i * 100 %>, itemStyle : labelBottom},
-                  {name:'输入总视在功率', value: <%= @points["表格"]["输出总有功"].to_i * 100 %>,itemStyle : labelTop}
-                ]
-              },
-            <% end %>
-
-            <% unless exclude_points["表格"] && exclude_points["表格"].include?("输入平均功率因数") %>
-              {
-                type : 'pie',
-                center : ['25%', '83.3%'],
-                radius : radius,
-                x:'60%', // for funnel
-                itemStyle : labelFromatter,
-                data : [
-                  {name:'other', value: <%= 100 - @points["表格"]["输入平均功率因数"].to_i * 100 %>, itemStyle : labelBottom},
-                  {name:'输入总视在功率', value: <%= @points["表格"]["输入平均功率因数"].to_i * 100 %>,itemStyle : labelTop}
-                ]
-              },
-            <% end %>
-
-            <% unless exclude_points["表格"] && exclude_points["表格"].include?("输出平均功率因数") %>
-              {
-                type : 'pie',
-                center : ['75%', '83.3%'],
-                radius : radius,
-                x:'80%', // for funnel
-                itemStyle : labelFromatter,
-                data : [
-                  {name:'other', value: <%= 100 - @points["表格"]["输出平均功率因数"].to_i * 100 %>, itemStyle : labelBottom},
-                  {name:'输入总视在功率', value: <%= @points["表格"]["输出平均功率因数"].to_i * 100 %>,itemStyle : labelTop}
-                ]
-              }
             <% end %>
             ]
           };

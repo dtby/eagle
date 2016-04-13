@@ -18,10 +18,6 @@
 #  index_points_on_device_id    (device_id)
 #  index_points_on_point_index  (point_index)
 #
-# Foreign Keys
-#
-#  fk_rails_d6f3cdbe9a  (device_id => devices.id)
-#
 
 class PointsController < ApplicationController
   acts_as_token_authentication_handler_for User, only: [:get_value_by_name]

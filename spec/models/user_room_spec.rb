@@ -13,11 +13,6 @@
 #  index_user_rooms_on_room_id  (room_id)
 #  index_user_rooms_on_user_id  (user_id)
 #
-# Foreign Keys
-#
-#  fk_rails_3ee87d0014  (user_id => users.id)
-#  fk_rails_577ff954d1  (room_id => rooms.id)
-#
 
 require 'rails_helper'
 

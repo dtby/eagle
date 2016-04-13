@@ -14,10 +14,6 @@
 #
 #  index_rooms_on_area_id  (area_id)
 #
-# Foreign Keys
-#
-#  fk_rails_8a9660ed06  (area_id => areas.id)
-#
 
 class RoomsController < BaseController
   before_action :authenticate_user!, only: [:show, :alert, :checked_alert, :video, :pic, :refersh_alert]

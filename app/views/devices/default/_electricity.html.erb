@@ -9,23 +9,7 @@
           </div>
           <div class="col-xs-6">
             <div class="table-responsive cabinet-table">
-              <table class="table table-bordered">
-                <thead>
-                  <tr class="text-center">
-                    <td colspan="2">系统</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% @points["系统"].each do |key, value| %>
-                    <% unless exclude_points["系统"] && exclude_points["系统"].include?(key) %>
-                      <tr>
-                        <td scope="row" align="center" width="60%"><%= key %></td>
-                        <td class="unit"  align="center"><%= value %></td>
-                      </tr>
-                    <% end %>
-                  <% end %>
-                </tbody>
-              </table>
+              <%= render partial: "devices/share/table", locals: { title: "系统", points: @points["系统"], exclude_points: exclude_points["系统"] } %>
             </div>
           </div>
         </div>
@@ -60,13 +44,15 @@
   </div>
 </div>
 
+<script type="text/javascript">
+  //设置左右两模块等高
+  var height = $("#top_left").height();
+  $("#top_right").height(height);
+  $("#load1").height(height-60);
+</script>
+
 <!--输出负载率 -->
 <script type="text/javascript">
-    //设置左右两模块等高
-    var height = $("#top_left").height();
-    $("#top_right").height(height);
-    $("#load1").height(height-60);
-
     //保留一位小数
     var format_number = function(i){
       num = new Number(i)

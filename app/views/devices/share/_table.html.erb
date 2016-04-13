@@ -1,0 +1,20 @@
+<!-- 通用表格复用模块（UPS系统） -->
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th colspan="2" class="text-center"><%= title %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% points.each do |k, v| %>
+      <% unless exclude_points && exclude_points.include?(k) %>
+        <tr>
+          <td width="50%" align="center"><b><%= k %></b></td>
+          <td align="center"><%= v %></td>
+          <td width="50%" align="center"><b><%= k %></b></td>
+          <td align="center"><%= v %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>

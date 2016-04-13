@@ -25,13 +25,6 @@
 #  index_point_alarms_on_room_id        (room_id)
 #  index_point_alarms_on_sub_system_id  (sub_system_id)
 #
-# Foreign Keys
-#
-#  fk_rails_72669ae946  (room_id => rooms.id)
-#  fk_rails_776a91d70e  (device_id => devices.id)
-#  fk_rails_d8bc97a1a7  (sub_system_id => sub_systems.id)
-#  fk_rails_de15df710f  (point_id => points.id)
-#
 
 class PointAlarm < ActiveRecord::Base
 
