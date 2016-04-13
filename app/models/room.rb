@@ -35,6 +35,8 @@ class Room < ActiveRecord::Base
   has_many :devices, dependent: :destroy
   has_many :point_alarms, dependent: :destroy
 
+  after_commit: notify_task, :on => [:create, :update]
+
   def pic
     path = Attachment.find_by("tag like ? AND room_id = ?", "%主图%", id).try(:image_url, :w_640)
     "#{ActionController::Base.asset_host}#{path}" if path.present?
@@ -170,7 +172,7 @@ class Room < ActiveRecord::Base
       sub_system, pattern = ap.GroupName.split("-")
       sub_system.delete! "普通" if sub_system.include? "普通"
       pattern = "普通温湿度" if pattern == "th802"
-      
+
       bay_info = ap.BayName.upcase.split("-")
       device_name = bay_info.second
       point_name = ap.PointName.upcase
@@ -190,7 +192,7 @@ class Room < ActiveRecord::Base
       information.room        = bay_info.first
       information.sub_room    = sub_room if ["温湿度系统", "漏水系统", "消防系统"].include? sub_system
       information.sub_system  = sub_system
-      information.pattern     = pattern 
+      information.pattern     = pattern
       information.device      = sub_room.blank? ? "#{device_name}" : "#{sub_room}#{device_name}"
       information.point       = point_name
       information.point_index = ap.PointID
@@ -211,14 +213,14 @@ class Room < ActiveRecord::Base
       sub_system = SubSystem.find_or_create_by(name: information.sub_system)
 
       next if information.pattern.blank?
-      
+
       menu = Menu.find_or_create_by(room: room, menuable_id: sub_system.try(:id), menuable_type: "SubSystem")
       menu.update(updated_at: DateTime.now)
 
       pattern = Pattern.find_or_create_by(sub_system_id: sub_system.id, name: information.pattern.try(:strip))
       device = Device.unscoped.find_or_create_by(name: information.device, pattern: pattern, room: room)
 
-      point = Point.unscoped.find_or_create_by(name: information.point, device: device, point_index: information.point_index) 
+      point = Point.unscoped.find_or_create_by(name: information.point, device: device, point_index: information.point_index)
 
       if information.sub_room.present?
         sub_room = SubRoom.find_or_create_by(name: information.sub_room, room: room)
@@ -229,7 +231,7 @@ class Room < ActiveRecord::Base
       device.save
 
       if information.up_value && information.down_value
-        point.max_value = information.up_value 
+        point.max_value = information.up_value
         point.min_value = information.down_value
       end
       point.point_type  = type
@@ -247,7 +249,7 @@ class Room < ActiveRecord::Base
     end
     Device.where(updated_at: DateTime.new(2010,1,1)..15.minute.ago).update_all(state: false)
     Menu.where(menuable_type: "SubSystem", updated_at: DateTime.new(2010,1,1)..15.minute.ago).destroy_all
-    nil   
+    nil
   end
 
 
@@ -325,7 +327,7 @@ class Room < ActiveRecord::Base
   end
 
   def alarm_count room_id
-    point_alarms = PointAlarm.where("room_id = #{room_id} AND (state <> 0 OR checked_at BETWEEN '#{1.day.ago.strftime("%Y-%m-%d %H:%M:%S")}' AND '#{DateTime.now.strftime("%y-%m-%d %H:%M:%S")}')")
+    point_alarms = PointAlarm.where("room_id = ? AND state <> 0", room_id)
 
     sub_system_ids = point_alarms.pluck(:sub_system_id).compact
 
@@ -341,5 +343,9 @@ class Room < ActiveRecord::Base
       }
     end
     results
+  end
+
+  def notify_task
+
   end
 end
