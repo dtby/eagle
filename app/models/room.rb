@@ -14,10 +14,6 @@
 #
 #  index_rooms_on_area_id  (area_id)
 #
-# Foreign Keys
-#
-#  fk_rails_8a9660ed06  (area_id => areas.id)
-#
 
 class Room < ActiveRecord::Base
   include RoomsHelper
