@@ -175,6 +175,7 @@ class Room < ActiveRecord::Base
       point_name = ap.PointName.upcase
       sub_room, point_name = ap.PointName.split("-") if ap.PointName.include?("-") && ["温湿度系统", "漏水系统", "消防系统"].include?(sub_system)
 
+      next if point_name.blank? || device_name.blank?
       if bay_info.second.present? && (/\d+机柜/ =~ bay_info.second)
         index = bay_info.second.index "机柜"
         line = bay_info.second[index+2..-1]
