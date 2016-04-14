@@ -277,7 +277,7 @@ class Room < ActiveRecord::Base
       # alarm = Alarm.find_or_create_by(device_name: (name.split("-").last.remove line), device_id: device.try(:id))
       alarm = Alarm.find_or_create_by(device_name: (name.split("-").last.try(:remove, line)), device_id: device.try(:id))
       points.each_with_index do |point, index|
-        ps = PointState.where(pid: point.PointID).first
+        ps = PointState.where(PointID: point.PointID).first
         # puts "value is #{ps.value}, name is #{name}"
         # C11视在功率A路
         point_name = device_info + point.PointName+line
