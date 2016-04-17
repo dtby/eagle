@@ -178,6 +178,7 @@ class Room < ActiveRecord::Base
       point_name = ap.PointName.upcase
       sub_room, point_name = ap.PointName.split("-") if ap.PointName.include?("-") && ["温湿度系统", "漏水系统", "消防系统"].include?(sub_system)
 
+      next if point_name.blank? || device_name.blank?
       if bay_info.second.present? && (/\d+机柜/ =~ bay_info.second)
         index = bay_info.second.index "机柜"
         line = bay_info.second[index+2..-1]
@@ -276,9 +277,10 @@ class Room < ActiveRecord::Base
       end
 
       device = Device.unscoped.find_or_create_by(name: device_name)
-      alarm = Alarm.find_or_create_by(device_name: (name.split("-").last.remove line), device_id: device.try(:id))
+      # alarm = Alarm.find_or_create_by(device_name: (name.split("-").last.remove line), device_id: device.try(:id))
+      alarm = Alarm.find_or_create_by(device_name: (name.split("-").last.try(:remove, line)), device_id: device.try(:id))
       points.each_with_index do |point, index|
-        ps = PointState.where(pid: point.PointID).first
+        ps = PointState.where(PointID: point.PointID).first
         # puts "value is #{ps.value}, name is #{name}"
         # C11视在功率A路
         point_name = device_info + point.PointName+line

@@ -8,9 +8,9 @@
 #
 
 class PointState < ActiveRecord::Base
-  self.table_name = "litop_point"
+  self.table_name = "ptsts"
   self.abstract_class = true
-  establish_connection "3droom_db".to_sym
+  establish_connection "dap".to_sym
 
   # 由于源数据库中存在type字段
   # 在rails中，默认用这个字段来处理继承。
