@@ -349,6 +349,7 @@ class Room < ActiveRecord::Base
 
   # room 更新后发消息到异步任务
   def notify_task
-
+    params = {type: 'room', data: self}
+    NotifyWeixinJob.set(queue: :sync_info).perform_later(params)
   end
 end
