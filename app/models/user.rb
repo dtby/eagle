@@ -34,7 +34,7 @@ class User < ActiveRecord::Base
 	# :confirmable, :lockable, :timeoutable and :omniauthable
 
 	establish_connection "#{Rails.env}".to_sym
-	
+
 	devise :database_authenticatable, :registerable,
 	       :recoverable, :rememberable, :trackable, :validatable,
 	       authentication_keys: [:phone]
@@ -47,6 +47,8 @@ class User < ActiveRecord::Base
 	has_many :user_rooms, dependent: :destroy
 	has_many :rooms, through: :user_rooms
 	has_many :areas, through: :rooms
+
+	after_commit :notify_task, :on => [:create, :update]
 
 	# attr_accessor :login
 
@@ -72,7 +74,7 @@ class User < ActiveRecord::Base
 	  end
 	  self
 	end
-		
+
 	def validate_sms_token sms_token
 		# { "token": "3086", "time": "2015-11-04 13:59:51 +0800" }
 		json_data = $redis.hget "eagle_sms_token_cache", phone
@@ -90,7 +92,7 @@ class User < ActiveRecord::Base
 	  end
 	  # $redis.hdel "eagle_sms_token_cache", phone
 	end
-	
+
 	# #使用其他字段登录
 	# def self.find_for_database_authentication(warden_conditions)
 	# 	conditions = warden_conditions.dup
@@ -98,6 +100,12 @@ class User < ActiveRecord::Base
 	# 	#where(conditions).where(["phone = :value OR name = :value", { :value => login.strip }]).first
 	# 	where(conditions).where(["phone = :value", { :value => login.strip }]).first
 	# end
+
+	# user 更新后发消息到异步任务
+  def notify_task
+    params = {type: 'user', data: self.to_json}
+    NotifyWeixinJob.set(queue: :sync_info).perform_later(params)
+  end
 
 	protected
 	def email_required?

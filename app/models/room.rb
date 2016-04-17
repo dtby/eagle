@@ -14,10 +14,6 @@
 #
 #  index_rooms_on_area_id  (area_id)
 #
-# Foreign Keys
-#
-#  fk_rails_8a9660ed06  (area_id => areas.id)
-#
 
 class Room < ActiveRecord::Base
   include RoomsHelper
@@ -349,7 +345,6 @@ class Room < ActiveRecord::Base
 
   # room 更新后发消息到异步任务
   def notify_task
-    p self.to_json
     params = {type: 'room', data: self.to_json}
     NotifyWeixinJob.set(queue: :sync_info).perform_later(params)
   end
