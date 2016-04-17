@@ -52,6 +52,13 @@ class User < ActiveRecord::Base
 
 	# attr_accessor :login
 
+	def as_json(options=nil)
+	  {
+			phone: phone,
+			token: authentication_token,
+			name: name
+		}
+	end
 	#判断是否需要更新密码
 	def update_user(params)
 		if params[:password].present? || params[:password_confirmation].present?
