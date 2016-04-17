@@ -10,4 +10,4 @@ production:
   - message
   - alarm
   - default
-  
+  - sync_info
