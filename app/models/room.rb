@@ -33,6 +33,16 @@ class Room < ActiveRecord::Base
 
   after_commit :notify_task, :on => [:create, :update]
 
+  def as_json(options=nil)
+    {
+      id: id,
+      name: name,
+      link: link,
+      monitor_link: monitor_link,
+      pic: self.pic
+    }
+  end
+  
   def pic
     path = Attachment.find_by("tag like ? AND room_id = ?", "%主图%", id).try(:image_url, :w_640)
     "#{ActionController::Base.asset_host}#{path}" if path.present?
