@@ -70,7 +70,7 @@ class Room < ActiveRecord::Base
     start_time = DateTime.now.strftime("%Q").to_i
     PointState.all.each do |point_state|
       p point_state
-      $redis.hset "eagle_point_value", point_state.try(:PointID), (point_state.try(:value))
+      $redis.hset "eagle_point_value", point_state.try(:PointID), (point_state.try(:Status))
     end
     end_time = DateTime.now.strftime("%Q").to_i
     logger.info "Room.generate_point_value time is #{end_time-start_time}"
