@@ -41,7 +41,7 @@
                       <% unless exclude_points["部件状态"] && exclude_points["部件状态"].include?(key) %>
                         <tr class="<%= value == "0" ? "open1" : "close1" %>">
                           <td width="60%"><%= key %></td>
-                          <td><%= value == "0" ? "开启" : "关闭" %></td>
+                          <td><%= value == "0" ? "关闭" : "开启" %></td>
                         </tr>
                       <% end %>
                     <% end %>
