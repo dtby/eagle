@@ -69,6 +69,7 @@ class Room < ActiveRecord::Base
   def self.generate_point_value
     start_time = DateTime.now.strftime("%Q").to_i
     PointState.all.each do |point_state|
+      p point_state
       $redis.hset "eagle_point_value", point_state.try(:PointID), (point_state.try(:value))
     end
     end_time = DateTime.now.strftime("%Q").to_i
