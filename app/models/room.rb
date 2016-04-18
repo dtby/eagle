@@ -42,7 +42,7 @@ class Room < ActiveRecord::Base
       pic: self.pic
     }
   end
-  
+
   def pic
     path = Attachment.find_by("tag like ? AND room_id = ?", "%主图%", id).try(:image_url, :w_640)
     "#{ActionController::Base.asset_host}#{path}" if path.present?
@@ -69,7 +69,7 @@ class Room < ActiveRecord::Base
   def self.generate_point_value
     start_time = DateTime.now.strftime("%Q").to_i
     PointState.all.each do |point_state|
-      $redis.hset "eagle_point_value", point_state.try(:pid), (point_state.try(:value))
+      $redis.hset "eagle_point_value", point_state.try(:PointID), (point_state.try(:value))
     end
     end_time = DateTime.now.strftime("%Q").to_i
     logger.info "Room.generate_point_value time is #{end_time-start_time}"
