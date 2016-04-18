@@ -70,14 +70,14 @@
                     <th class="text-center">Slaver1</th>
                     <th class="text-center">Slaver2</th>
                   </tr>
-                  <% size = @points["Slaver1"].size > @points["Slaver2"].size ? @points["Slaver1"].size : @points["Slaver2"].size %>
+                  <% size = @points["SLAVER1"].size > @points["SLAVER2"].size ? @points["SLAVER1"].size : @points["SLAVER2"].size %>
                   <% (0...size).each do |i| %>
                     <tr>
                       <td width="50%">
-                        <%= "#{@points["Slaver1"].keys[i]}：#{point_value(@points["Slaver1"].keys[i], @points["Slaver1"], exclude_points["Slaver1"])}" if @points["Slaver1"].keys[i].present? %>
+                        <%= "#{@points["SLAVER1"].keys[i]}：#{point_value(@points["SLAVER1"].keys[i], @points["SLAVER1"], exclude_points["SLAVER1"])}" if @points["SLAVER1"].keys[i].present? %>
                       </td>
                       <td width="50%">
-                        <%= "#{@points["Slaver2"].keys[i]}：#{point_value(@points["Slaver2"].keys[i], @points["Slaver2"], exclude_points["Slaver2"])}" if @points["Slaver2"].keys[i].present? %>
+                        <%= "#{@points["SLAVER2"].keys[i]}：#{point_value(@points["SLAVER2"].keys[i], @points["SLAVER2"], exclude_points["SLAVER2"])}" if @points["SLAVER2"].keys[i].present? %>
                       </td>
                     </tr>
                   <% end %>
@@ -87,11 +87,11 @@
                     <th class="text-center">Slaver3</th>
                     <th class="text-center">系统</th>
                   </tr>
-                  <% size = @points["Slaver3"].size > @points["系统"].size ? @points["Slaver3"].size : @points["系统"].size %>
+                  <% size = @points["SLAVER3"].size > @points["系统"].size ? @points["SLAVER3"].size : @points["系统"].size %>
                   <% (0...size).each do |i| %>
                     <tr>
                       <td width="50%">
-                        <%= "#{@points["Slaver3"].keys[i]}：#{point_value(@points["Slaver3"].keys[i], @points["Slaver3"], exclude_points["Slaver3"])}" if @points["Slaver3"].keys[i].present? %>
+                        <%= "#{@points["SLAVER3"].keys[i]}：#{point_value(@points["SLAVER3"].keys[i], @points["SLAVER3"], exclude_points["SLAVER3"])}" if @points["SLAVER3"].keys[i].present? %>
                       </td>
                       <td width="50%">
                         <%= "#{@points["系统"].keys[i]}：#{point_value(@points["系统"].keys[i], @points["系统"], exclude_points["系统"])}" if @points["系统"].keys[i].present? %>
@@ -138,5 +138,5 @@
     </div>
   </div>
 
-  
+
 </div>
