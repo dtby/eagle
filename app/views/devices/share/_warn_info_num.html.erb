@@ -8,11 +8,11 @@
         <div class="air_d_grey col-sm-3" align="left">
           <div class="info-row" style="overflow:hidden;">
             <span class="warning-name">温度<%= index.to_s.rjust(2, "0") %></span>
-            <span class="warning-icon"><%= points["#{points_key}"]["温度#{index.to_s.rjust(2, "0")}"] %></span>
+            <span class="warning-icon unit"><%= points["#{points_key}"]["温度#{index.to_s.rjust(2, "0")}"] %></span>
           </div>
           <div class="info-row" style="overflow:hidden;">
             <span class="warning-name">湿度<%= index.to_s.rjust(2, "0") %></span>
-            <span class="warning-icon"><%= points["#{points_key}"]["湿度#{index.to_s.rjust(2, "0")}"] %></span>
+            <span class="warning-icon unit"><%= points["#{points_key}"]["湿度#{index.to_s.rjust(2, "0")}"] %></span>
           </div>
           <br />
         </div>
