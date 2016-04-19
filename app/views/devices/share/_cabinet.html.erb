@@ -4,21 +4,24 @@
     <div class="mblock">
       <h2 class="text-center text-muted"><%= device.name %></h2>
       <div class="table-responsive my-table  my-left">
-        <div class="row">
-          <%= device.pattern.name %>
-        </div>
-        <div class="row">
-          <% points.keys.each do |group| %>
-            <% points[group].each do |p, v| %>
-              <div class="col-xs-3">
-                <%= p %>
-              </div>
-              <div class="col-xs-3">
-                <%= v %>
-              </div>
+        
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+            <th colspan="4"><%= device.pattern.name %></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% points.keys.each do |group| %>
+              <% points[group].each do |p, v| %>
+                <tr>
+                  <th scope="row"><%= p %></th>
+                  <td class="unit"><%= v %></td>
+                </tr>
+              <% end %>
             <% end %>
-          <% end %>
-        </div>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
