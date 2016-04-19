@@ -13,7 +13,7 @@ class PictureDownload
 
   def download start_time, end_time
     begin
-      @ftp.connect(@config["url"], @config["port"])  
+      @ftp.connect(@config["url"], @config["port"])
     rescue Exception => e
       return "Exception is #{e}"
     end
@@ -46,8 +46,12 @@ class PictureDownload
   end
 
   def self.keyword(start_time, end_time)
+    if start_time.present? and end_time.present?
+      PictureDownload.new.download(start_time.strftime("%Y%m%d%H%M%S000"), end_time.strftime("%Y%m%d%H%M%S000"))
+    end
     files = self.pic_list
     return files if start_time.blank? && end_time.blank?
+
     pics = []
     files.each do |file|
       created_time = file.split("_")[2].to_datetime
