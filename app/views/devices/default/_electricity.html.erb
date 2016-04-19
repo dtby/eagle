@@ -240,7 +240,7 @@
         var  option = {
 
           series : [
-            <% unless exclude_points["相功率"] && exclude_points["相功率"].include?("A相功率") %>
+            <% unless exclude_points["相功率"] && exclude_points["相功率"].eql?("A相功率") %>
               <% if @points["相功率"].present? %>
                 {
                   type : 'pie',
@@ -255,7 +255,7 @@
                 },
               <% end %>
             <% end %>
-            <% unless exclude_points["相功率"] && exclude_points["相功率"].include?("B相功率") %>
+            <% unless exclude_points["相功率"] && exclude_points["相功率"].eql?("B相功率") %>
               <% if @points["相功率"].present? %>
                 {
                   type : 'pie',
@@ -270,7 +270,7 @@
                 },
               <% end %>
             <% end %>
-            <% unless exclude_points["相功率"] && exclude_points["相功率"].include?("C相功率") %>
+            <% unless exclude_points["相功率"] && exclude_points["相功率"].eql?("C相功率") %>
               <% if @points["相功率"].present? %>
                 {
                   type : 'pie',
@@ -285,51 +285,51 @@
                 },
               <% end %>
             <% end %>
-            <% unless exclude_points["功率因数"] && exclude_points["功率因数"].include?("A相功率因数") %>
-              <% if @points["功率因数"].present? %>
-                {
-                  type : 'pie',
-                  center : ['16.5%', '70%'],
-                  radius : radius,
-                  x:'30%', // for funnel
-                  itemStyle : labelFromatter,
-                  data : [
-                    {name:'other', value:<%= 100 - @points["功率因数"]["A相功率因数"].to_i %>, itemStyle : labelBottom},
-                    {name:'A相功率因数', value:<%= @points["功率因数"]["A相功率因数"].to_i %>,itemStyle : labelTop}
-                  ]
-                },
-              <% end %>
-            <% end %>
-            <% unless exclude_points["功率因数"] && exclude_points["功率因数"].include?("B相功率因数") %>
-              <% if @points["功率因数"].present? %>
-                {
-                  type : 'pie',
-                  center : ['50%', '70%'],
-                  radius : radius,
-                  x:'50%', // for funnel
-                  itemStyle : labelFromatter,
-                  data : [
-                    {name:'other', value:<%= 100 - @points["功率因数"]["B相功率因数"].to_i %>, itemStyle : labelBottom},
-                    {name:'B相功率因数', value:<%= @points["功率因数"]["B相功率因数"].to_i %>,itemStyle : labelTop}
-                  ]
-                },
-              <% end %>
-            <% end %>
-            <% unless exclude_points["功率因数"] && exclude_points["功率因数"].include?("C相功率因数") %>
-              <% if @points["功率因数"].present? %>
-                {
-                  type : 'pie',
-                  center : ['83.5%', '70%'],
-                  radius : radius,
-                  x:'70%', // for funnel
-                  itemStyle : labelFromatter,
-                  data : [
-                    {name:'other', value:<%= 100 - @points["功率因数"]["C相功率因数"].to_i %>, itemStyle : labelBottom},
-                    {name:'C相功率因数', value:<%= @points["功率因数"]["C相功率因数"].to_i %>,itemStyle : labelTop}
-                  ]
-                },
-              <% end %>
-            <% end %>
+            // <% unless exclude_points["功率因数"] && exclude_points["功率因数"].include?("A相功率因数") %>
+            //   <% if @points["功率因数"].present? %>
+            //     {
+            //       type : 'pie',
+            //       center : ['16.5%', '70%'],
+            //       radius : radius,
+            //       x:'30%', // for funnel
+            //       itemStyle : labelFromatter,
+            //       data : [
+            //         {name:'other', value:<%= 100 - @points["功率因数"]["A相功率因数"].to_i %>, itemStyle : labelBottom},
+            //         {name:'A相功率因数', value:<%= @points["功率因数"]["A相功率因数"].to_i %>,itemStyle : labelTop}
+            //       ]
+            //     },
+            //   <% end %>
+            // <% end %>
+            // <% unless exclude_points["功率因数"] && exclude_points["功率因数"].include?("B相功率因数") %>
+            //   <% if @points["功率因数"].present? %>
+            //     {
+            //       type : 'pie',
+            //       center : ['50%', '70%'],
+            //       radius : radius,
+            //       x:'50%', // for funnel
+            //       itemStyle : labelFromatter,
+            //       data : [
+            //         {name:'other', value:<%= 100 - @points["功率因数"]["B相功率因数"].to_i %>, itemStyle : labelBottom},
+            //         {name:'B相功率因数', value:<%= @points["功率因数"]["B相功率因数"].to_i %>,itemStyle : labelTop}
+            //       ]
+            //     },
+            //   <% end %>
+            // <% end %>
+            // <% unless exclude_points["功率因数"] && exclude_points["功率因数"].include?("C相功率因数") %>
+            //   <% if @points["功率因数"].present? %>
+            //     {
+            //       type : 'pie',
+            //       center : ['83.5%', '70%'],
+            //       radius : radius,
+            //       x:'70%', // for funnel
+            //       itemStyle : labelFromatter,
+            //       data : [
+            //         {name:'other', value:<%= 100 - @points["功率因数"]["C相功率因数"].to_i %>, itemStyle : labelBottom},
+            //         {name:'C相功率因数', value:<%= @points["功率因数"]["C相功率因数"].to_i %>,itemStyle : labelTop}
+            //       ]
+            //     },
+            //   <% end %>
+            // <% end %>
       ]
     };
     // 为echarts对象加载数据
@@ -494,8 +494,8 @@
           <% end %>
           ]
         };
-        // 为echarts对象加载数据 
-        myChart.setOption(option); 
+        // 为echarts对象加载数据
+        myChart.setOption(option);
         }
         );
 </script>

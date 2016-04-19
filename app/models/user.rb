@@ -55,7 +55,7 @@ class User < ActiveRecord::Base
 	def as_json(options=nil)
 	  {
 			phone: phone,
-			token: authentication_token,
+			authentication_token: authentication_token,
 			name: name
 		}
 	end
