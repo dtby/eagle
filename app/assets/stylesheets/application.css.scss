@@ -20,3 +20,8 @@
  */
 @import "bootstrap-sprockets";
 @import "bootstrap";
+
+.col-xs-7, .col-xs-5 {
+  padding-left: 0;
+  padding-right: 0;
+}
