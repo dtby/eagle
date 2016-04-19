@@ -60,8 +60,8 @@
               <tr>
                 <th colspan="4" class="text-center"></th>
               </tr>
-              <% if @points["告警FC"].present? %>
-                <% @points["告警FC"].keys.each_with_index do |pn, index| %>
+              <% if @points["告警"].present? %>
+                <% @points["告警"].keys.each_with_index do |pn, index| %>
                   <% if index%4 == 0 %>
                     <tr>
                   <% end %>
@@ -71,7 +71,7 @@
                   <% end %>
                 <% end %>
               <% end %>
-              <% if @points["告警FC"].present? %>
+              <% if @points["告警"].present? %>
                 <% @points["告警Sys"].keys.each_with_index do |pn, index| %>
                   <% if index%4 == 0 %>
                     <tr>
