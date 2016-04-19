@@ -71,17 +71,7 @@
                   <% end %>
                 <% end %>
               <% end %>
-              <% if @points["告警"].present? %>
-                <% @points["告警Sys"].keys.each_with_index do |pn, index| %>
-                  <% if index%4 == 0 %>
-                    <tr>
-                  <% end %>
-                    <td width="25%"><i class="fa fa-circle <%= 'red' if point_value(pn, @points["告警Sys"], exclude_points["告警Sys"]) == "1" %>"></i>&nbsp;&nbsp;<%= pn %></td>
-                  <% if index%4 == 3 %>
-                    </tr>
-                  <% end %>
-                <% end %>
-              <% end %>
+              
             </table>
           </div>
         </div>
