@@ -28,10 +28,10 @@
 
           <div class="col-md-8">
             <div class="row">
-              <div class="col-md-5">
+              <div class="col-md-6">
                 <%= image_tag "cold-wind.gif", style: "width: 100%; padding-top: 48%;" %>
               </div>
-              <div class="col-md-7">
+              <div class="col-md-6">
                 <table class="table table-bordered">
                   <tr>
                     <th class="text-center">Slaver3</th>
@@ -41,7 +41,7 @@
                   <% (0...size).each do |i| %>
                     <tr>
                       <td width="50%">
-                        <div class="col-xs-8"><%= @points["系统"].keys[i]%>:</div><div class="col-xs-4 unit text-right"><%= "#{point_value(@points["SLAVER3"].keys[i], @points["SLAVER3"], exclude_points["SLAVER3"])}" if @points["SLAVER3"].keys[i].present? %>
+                        <div class="col-xs-8"><%= @points["SLAVER3"].keys[i]%>:</div><div class="col-xs-4 unit text-right"><%= "#{point_value(@points["SLAVER3"].keys[i], @points["SLAVER3"], exclude_points["SLAVER3"])}" if @points["SLAVER3"].keys[i].present? %>
                       </td>
                       <td width="50%">
                         <div class="col-xs-8"><%= @points["系统"].keys[i]%>:</div><div class="col-xs-4 unit text-right"><%= "#{point_value(@points["系统"].keys[i], @points["系统"], exclude_points["系统"])}" if @points["系统"].keys[i].present? %>
