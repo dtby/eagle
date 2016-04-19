@@ -25,6 +25,7 @@ class PictureDownload
     files = @ftp.nlst
     return "there is no file in this path" unless files.present?
     download_size = 0
+    download_files = []
     files.each do |file|
       time_strings = file.split("_")[2]
       time = time_strings.ljust(13, "0")
@@ -32,9 +33,10 @@ class PictureDownload
         puts file
         download_size += 1
         @ftp.get(file, "#{@path}#{file}")
+        download_files << file
       end
     end
-    "#{download_size} files download"
+    download_files
   end
 
   def self.pic_list
@@ -48,17 +50,17 @@ class PictureDownload
   def self.keyword(start_time_str, end_time_str)
     start_time = Time.parse(start_time_str) rescue Time.now - 30.minute
     end_time = Time.parse(end_time) rescue Time.now
-    PictureDownload.new.download(start_time.strftime("%Y%m%d%H%M%S000"), end_time.strftime("%Y%m%d%H%M%S000"))
-
-    files = self.pic_list
-
-    pics = []
-    files.each do |file|
-      file_time = file.split("_")[2].to_datetime
-      if file_time >= start_time and file_time <= end_time
-        pics << file
-      end
-    end
-    pics
+    files = PictureDownload.new.download(start_time.strftime("%Y%m%d%H%M%S000"), end_time.strftime("%Y%m%d%H%M%S000"))
+    #
+    # files = self.pic_list
+    #
+    # pics = []
+    # files.each do |file|
+    #   file_time = file.split("_")[2].to_datetime
+    #   if file_time >= start_time and file_time <= end_time
+    #     pics << file
+    #   end
+    # end
+    # pics
   end
 end
