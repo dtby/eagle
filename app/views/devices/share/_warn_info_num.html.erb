@@ -4,7 +4,7 @@
   <div class="panel-body">
     <div class="">
       <% if points.present? && points["#{points_key}"].present? %>
-        <% (0..(points["#{points_key}"].size/2)).each do |index| %>
+        <% (1..(points["#{points_key}"].size/2)).each do |index| %>
         <div class="air_d_grey col-sm-3" align="left">
           <div class="info-row" style="overflow:hidden;">
             <span class="warning-name">温度<%= index.to_s.rjust(2, "0") %></span>
