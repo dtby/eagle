@@ -45,12 +45,13 @@ class PictureDownload
     files
   end
 
-  def self.keyword(start_time, end_time)
-    if start_time.present? and end_time.present?
-      PictureDownload.new.download(start_time.strftime("%Y%m%d%H%M%S000"), end_time.strftime("%Y%m%d%H%M%S000"))
-    end
+  def self.keyword(start_time_str, end_time_str)
+    start_time = Time.parse(start_time_str) rescue Time.now - 1.day
+    end_time = Time.parse(end_time) rescue Time.now
+    PictureDownload.new.download(start_time.strftime("%Y%m%d%H%M%S000"), end_time.strftime("%Y%m%d%H%M%S000"))
+
     files = self.pic_list
-    return files if start_time.blank? && end_time.blank?
+    return files if start_time_str.blank? && end_time_str.blank?
 
     pics = []
     files.each do |file|
