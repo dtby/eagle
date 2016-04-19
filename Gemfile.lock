@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/yuzixun/ruby-for-xinge.git
-  revision: 5bed1b2260431ff049a4ceeff5d24a21b74f5a0d
-  ref: 5bed1b2260431ff049a4ceeff5d24a21b74f5a0d
+  revision: a28e857b35f99c72e4cbb866ec8e23d121a1aa36
+  ref: a28e857b35f99c72e4cbb866ec8e23d121a1aa36
   specs:
     ruby-for-xinge (0.1.4)
 
