@@ -240,7 +240,7 @@
         var  option = {
 
           series : [
-            <% unless exclude_points["相功率"] && exclude_points["相功率"].include?("A相功率") %>
+            <% unless exclude_points["相功率"] && exclude_points["相功率"].eql?("A相功率") %>
               <% if @points["相功率"].present? %>
                 {
                   type : 'pie',
@@ -255,7 +255,7 @@
                 },
               <% end %>
             <% end %>
-            <% unless exclude_points["相功率"] && exclude_points["相功率"].include?("B相功率") %>
+            <% unless exclude_points["相功率"] && exclude_points["相功率"].eql?("B相功率") %>
               <% if @points["相功率"].present? %>
                 {
                   type : 'pie',
@@ -270,7 +270,7 @@
                 },
               <% end %>
             <% end %>
-            <% unless exclude_points["相功率"] && exclude_points["相功率"].include?("C相功率") %>
+            <% unless exclude_points["相功率"] && exclude_points["相功率"].eql?("C相功率") %>
               <% if @points["相功率"].present? %>
                 {
                   type : 'pie',
@@ -494,8 +494,8 @@
           <% end %>
           ]
         };
-        // 为echarts对象加载数据 
-        myChart.setOption(option); 
+        // 为echarts对象加载数据
+        myChart.setOption(option);
         }
         );
 </script>
