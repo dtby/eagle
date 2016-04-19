@@ -4,7 +4,6 @@
     <div class="mblock">
       <h2 class="text-center text-muted"><%= device.name %></h2>
       <div class="table-responsive my-table  my-left">
-        
         <table class="table table-bordered">
           <thead>
             <tr>
@@ -13,11 +12,13 @@
           </thead>
           <tbody>
             <% points.keys.each do |group| %>
-              <% points[group].each do |p, v| %>
-                <tr>
-                  <th scope="row"><%= p %></th>
-                  <td class="unit"><%= v %></td>
-                </tr>
+              <%= unless group.eql?('其他') %>
+                <% points[group].each do |p, v| %>
+                  <tr>
+                    <th scope="row"><%= p %></th>
+                    <td class="unit"><%= v %></td>
+                  </tr>
+                <% end %>
               <% end %>
             <% end %>
           </tbody>
