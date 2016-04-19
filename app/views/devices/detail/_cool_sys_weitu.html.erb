@@ -65,7 +65,7 @@
                   <% if index%4 == 0 %>
                     <tr>
                   <% end %>
-                    <td width="25%"><i class="fa fa-circle <%= 'red' if point_value(pn, @points["告警FC"], exclude_points["告警FC"]) == "1" %>"></i>&nbsp;&nbsp;<%= pn %></td>
+                    <td width="25%"><i class="fa fa-circle <%= 'red' if point_value(pn, @points["告警"], exclude_points["告警"]) == "1" %>"></i>&nbsp;&nbsp;<%= pn %></td>
                   <% if index%4 == 3 %>
                     </tr>
                   <% end %>
