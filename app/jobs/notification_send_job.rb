@@ -28,18 +28,23 @@ class NotificationSendJob < ActiveJob::Base
   end
 
   def notification_to_app point_alarm
-    user_ids = UserRoom.where(room_id: point_alarm.room_id).pluck(:user_id).uniq
-    user_infos = User.where(id: user_ids).pluck(:phone, :device_token, :os)
+    # user_ids = UserRoom.where(room_id: point_alarm.room_id).pluck(:user_id).uniq
+    # user_infos = User.where(id: user_ids).pluck(:phone, :device_token, :os)
 
-    size = user_infos.size
-    user_infos.each_with_index do |user_info, index|
-      next unless user_info[1].present? && user_info[2].present?
-      puts "phone is #{user_info[0]}"
-      xinge_send point_alarm, user_info[1], user_info[2]
+    # size = user_infos.size
+    # user_infos.each_with_index do |user_info, index|
+    #   next unless user_info[1].present? && user_info[2].present?
+    #   puts "phone is #{user_info[0]}"
+    #   xinge_send point_alarm, user_info[1], user_info[2]
+    # end
+    tag_list = [point_alarm.try(:room).try(:name)]
+    ["ios", "android"].each do |type|
+      xinge_send point_alarm, tag_list, type
     end
+    
   end
 
-  def xinge_send point_alarm, device_token, type
+  def xinge_send point_alarm, tag_list, type
     custom_content = {
       custom_content: {
         id: point_alarm.id,
@@ -70,7 +75,8 @@ class NotificationSendJob < ActiveJob::Base
 
     sender = Xinge::Notification.instance.send type
     begin
-      response = sender.pushToSingleDevice device_token, title, content, params, custom_content
+      # response = sender.pushToSingleDevice device_token, title, content, params, custom_content
+      response = sender.pushTagsDevice(title, content, tag_list, "OR", params, custom_content)
     rescue Exception => e
       puts "Exception is #{e.inspect}"
     ensure

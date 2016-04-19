@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/yuzixun/ruby-for-xinge.git
+  revision: 5bed1b2260431ff049a4ceeff5d24a21b74f5a0d
+  ref: 5bed1b2260431ff049a4ceeff5d24a21b74f5a0d
+  specs:
+    ruby-for-xinge (0.1.4)
+
 GEM
   remote: https://gems.ruby-china.org/
   specs:
@@ -210,7 +217,6 @@ GEM
       json (~> 1.4, >= 1.4.6)
       mustache (~> 0.99, >= 0.99.4)
       rspec (>= 3.0.0)
-    ruby-for-xinge (0.1.4)
     ruby-ole (1.2.12)
     sass (3.4.22)
     sass-rails (5.0.4)
@@ -312,7 +318,7 @@ DEPENDENCIES
   redis-namespace
   rspec-rails (~> 3.0)
   rspec_api_documentation
-  ruby-for-xinge
+  ruby-for-xinge!
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   seedbank

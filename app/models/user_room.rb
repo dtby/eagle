@@ -20,6 +20,8 @@ class UserRoom < ActiveRecord::Base
 	belongs_to :user
 	belongs_to :room
 
+	after_save :add_room_tag
+
 	#保存用户有权限的机房
 	def self.save_user_rooms(user, rooms)
 		create_rooms = rooms.to_a
@@ -81,4 +83,16 @@ class UserRoom < ActiveRecord::Base
 			self.where(room_id: room.id, user_id: delete_user).destroy_all
 		end
 	end
+
+	def add_room_tag
+		return unless (user.os) && (user.device_token) && (room.name)
+
+		sender = Xinge::Notification.instance.send user.os
+		tag_token_list = [[room.name, user.device_token]].to_s
+		sender.tags_batch_set tag_token_list
+	end
+
+	private
+
+		
 end
