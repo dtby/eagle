@@ -100,7 +100,7 @@ gem 'acts-as-taggable-on', '~> 3.4'
 
 # for message notification
 gem 'httparty'
-gem 'ruby-for-xinge'
+gem 'ruby-for-xinge', :git => 'https://github.com/yuzixun/ruby-for-xinge.git', :ref => '5bed1b2260431ff049a4ceeff5d24a21b74f5a0d'
 
 # for faraday
 gem 'faraday'
