@@ -4,21 +4,32 @@
     <div class="mblock">
       <h2 class="text-center text-muted"><%= device.name %></h2>
       <div class="table-responsive my-table  my-left">
-        <div class="row">
-          <%= device.pattern.name %>
-        </div>
-        <div class="row">
-          <% points.keys.each do |group| %>
-            <% points[group].each do |p, v| %>
-              <div class="col-xs-3">
-                <%= p %>
-              </div>
-              <div class="col-xs-3">
-                <%= v %>
-              </div>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+            <th colspan="5"><%= device.pattern.name %></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>名称</td>
+              <td>有功功率</td>
+              <td>电压</td>
+              <td>电流</td>
+              <td>频率</td>
+            </tr>
+            <% points.keys.each do |group| %>
+              <% unless group.eql?('其他') %>
+                <tr>
+                  <td><%= group %></td>
+                <% points[group].each do |p, v| %>
+                    <td class="unit"><%= v %></td>
+                <% end %>
+                </tr>
+              <% end %>
             <% end %>
-          <% end %>
-        </div>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
