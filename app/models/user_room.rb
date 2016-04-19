@@ -85,7 +85,7 @@ class UserRoom < ActiveRecord::Base
 	end
 
 	def add_room_tag
-		next unless (user.os) && (user.device_token) && (room.name)
+		return unless (user.os) && (user.device_token) && (room.name)
 
 		sender = Xinge::Notification.instance.send user.os
 		tag_token_list = [[room.name, user.device_token]].to_s
