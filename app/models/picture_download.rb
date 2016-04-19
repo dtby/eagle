@@ -46,7 +46,7 @@ class PictureDownload
   end
 
   def self.keyword(start_time_str, end_time_str)
-    start_time = Time.parse(start_time_str) rescue Time.now - 1.day
+    start_time = Time.parse(start_time_str) rescue Time.now - 1.hour
     end_time = Time.parse(end_time) rescue Time.now
     PictureDownload.new.download(start_time.strftime("%Y%m%d%H%M%S000"), end_time.strftime("%Y%m%d%H%M%S000"))
 
