@@ -3,7 +3,7 @@ class NotificationSendJob < ActiveJob::Base
 
   def perform point_alarm_id
     # Do something later
-    puts "NotificationSendJob process start #{point_alarm_id}"
+    logger.info "NotificationSendJob process start #{point_alarm_id}"
 
     config = Rails.configuration.database_configuration
     ActiveRecord::Base.establish_connection config["#{Rails.env}"]
@@ -14,16 +14,16 @@ class NotificationSendJob < ActiveJob::Base
     begin
       notification_to_app point_alarm
     rescue Exception => e
-      puts "notification_to_app exception is #{e}"
+      logger.info "notification_to_app exception is #{e}"
     end
 
     begin
       notification_to_wechat point_alarm
     rescue Exception => e
-      puts "notification_to_wechat exception is #{e}"
+      logger.info "notification_to_wechat exception is #{e}"
     end
     
-    puts "NotificationSendJob process end #{point_alarm_id}"
+    logger.info "NotificationSendJob process end #{point_alarm_id}"
     nil
   end
 
