@@ -32,10 +32,10 @@
 FactoryGirl.define do
   factory :user do
     password "123456"
-    email "eagle_test@qq.com"
     phone "13012345678"
     name "eagle_test"
     authentication_token "abcd-1234"
     os "bacd"
+    email "eagle_test@qq.com"
   end
 end

@@ -5,7 +5,7 @@ resource "告警相关" do
   header "Content-Type", "application/json"
 
   get "/rooms/:id/point_alarms" do
-    before do
+    before(:each) do
       create(:user)
       @room = create(:room)
       @sub_system = create(:sub_system)
@@ -13,7 +13,7 @@ resource "告警相关" do
       (0..3).each do |i|
         device = create(:device, room: @room, name: "device#{i}", pattern: pattern)
         (0..i).each do |index|
-          point = create(:point, device: device)
+          point = create(:point, device: device, name: "point_#{index}_#{i}")
           point_alarm = create(:point_alarm, point: point, is_checked: true, room: @room, device: point.device)
         end
         
@@ -52,7 +52,7 @@ resource "告警相关" do
   end
 
   get "/devices/:device_id/point_alarms" do
-    before do
+    before(:each) do
       create(:user)
       @room = create(:room)
       @sub_system = create(:sub_system)
@@ -93,7 +93,7 @@ resource "告警相关" do
   end
 
   post "/point_alarms/:point_id/checked" do 
-    before do
+    before(:each) do
       create(:user)
       @room = create(:room)
       @points = []
@@ -123,7 +123,7 @@ resource "告警相关" do
   end
 
   post "/point_alarms/:point_id/unchecked" do 
-    before do
+    before(:each) do
       create(:user)
       @room = create(:room)
       @points = []
@@ -155,7 +155,7 @@ resource "告警相关" do
   end
 
   post "/rooms/:room_id/point_alarms/count" do 
-    before do
+    before(:each) do
       create(:user)
       @room = create(:room)
       @points = []
@@ -192,7 +192,7 @@ resource "告警相关" do
   end
 
   post "/rooms/:room_id/point_alarms/count" do 
-    before do
+    before(:each) do
       create(:user)
       @room = create(:room)
       @points = []
@@ -232,7 +232,7 @@ resource "告警相关" do
   end
 
   post "/rooms/:room_id/point_alarms/count" do 
-    before do
+    before(:each) do
       create(:user)
       @room = create(:room)
       @points = []
@@ -269,7 +269,7 @@ resource "告警相关" do
   end
 
   get "/point_alarms/:id" do 
-    before do
+    before(:each) do
       create(:user)
       @room = create(:room)
       @points = []
@@ -315,7 +315,7 @@ resource "告警相关" do
   end
 
   post "/point_alarms" do 
-    before do
+    before(:each) do
       room = create(:room)
       sub_system = create(:sub_system, name: "sub_system_1")
       pattern = create(:pattern, sub_system: sub_system, name: "pattern_1")
@@ -356,7 +356,6 @@ resource "告警相关" do
 
     example "更新告警信息成功" do
       do_request
-      puts "response is #{response_body}"
       expect(status).to eq(200)
     end
   end

@@ -5,7 +5,7 @@ resource "设备列表" do
   header "Content-Type", "application/json"
 
   get "/rooms/:id/devices" do
-    before do
+    before(:each) do
       create(:user)
       @room = create(:room)
       (0..3).each do |i|
@@ -31,7 +31,7 @@ resource "设备列表" do
   end
 
   post "/rooms/:id/devices/search" do
-    before do
+    before(:each) do
       create(:user)
       @room = create(:room)
       sub_system = create(:sub_system, name: "配电系统")
@@ -70,7 +70,7 @@ resource "设备列表" do
   end
 
   get "/rooms/:room_id/devices/:id" do
-    before do
+    before(:each) do
       create(:user)
       @room = create(:room)
       (0..3).each do |i|
@@ -100,7 +100,7 @@ resource "设备列表" do
   end
 
   get "/v2/rooms/:room_id/devices/:id" do
-    before do
+    before(:each) do
       create(:user)
       @room = create(:room)
       types = ["number_type", "status_type", "alarm_type"]
