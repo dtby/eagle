@@ -60,8 +60,8 @@ class RoomsController < BaseController
   end
 
   def pic
-    start_time = Time.parse(params[:start_time]).strftime("%Y%m%d%H%M%S000")
-    end_time = Time.parse(params[:end_time]).strftime("%Y%m%d%H%M%S000")
+    start_time = Time.parse(params[:start_time])
+    end_time = Time.parse(params[:end_time])
     @pics = PictureDownload.keyword(start_time, end_time)
   end
 
