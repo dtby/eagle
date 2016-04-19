@@ -54,7 +54,7 @@ class PictureDownload
 
     pics = []
     files.each do |file|
-      fil_time = file.split("_")[2].to_datetime
+      file_time = file.split("_")[2].to_datetime
       if file_time >= start_time and file_time <= end_time
         pics << file
       end
