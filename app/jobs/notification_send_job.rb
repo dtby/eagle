@@ -66,10 +66,10 @@ class NotificationSendJob < ActiveJob::Base
     params = {}
     if point_alarm.state.zero?
       title = "告警消除！"
-      content = "#{point_alarm.try(:room).try(:name)}-#{point_alarm.try(:device).try(:name)}的#{point_alarm.try(:point).try(:name)}告警消除！"
+      content = "【告警消除】#{point_alarm.try(:room).try(:name)}-#{point_alarm.try(:device).try(:name)}的#{point_alarm.try(:point).try(:name)}告警消除！"
     else
       title = "新告警！"
-      content = "#{point_alarm.try(:room).try(:name)}-#{point_alarm.try(:device).try(:name)}的#{point_alarm.try(:point).try(:name)}出现告警！"
+      content = "【新告警】#{point_alarm.try(:room).try(:name)}-#{point_alarm.try(:device).try(:name)}的#{point_alarm.try(:point).try(:name)}出现告警！"
     end
     
 
