@@ -4,17 +4,13 @@
   <div class="panel-body">
     <div class="">
       <% if points.present? && points["#{points_key}"].present? %>
-        <% points["#{points_key}"].keys.each_with_index do |key, index| %>
-          <% if index % 4 == 0 %>
-            <div class="air_d_grey col-sm-3" align="left">
-          <% end %>
-            <div class="info-row" style="overflow:hidden;">
-              <span class="warning-name"><%= key %></span>
-              <span class="warning-icon"><%= points["#{points_key}"][key] %></span>
-            </div><br>
-          <% if index%4 == 3 %>
-            </div>
-          <% end %>
+        <% (0..(points["#{points_key}"].size/2)).each do |index| %>
+        <div class="air_d_grey col-sm-3" align="left">
+          <div class="info-row" style="overflow:hidden;">
+            <span class="warning-name"><%= points["#{points_key}"].to_a[index][0] %></span>
+            <span class="warning-icon"><%= points["#{points_key}"].to_a[index][1] %></span>
+          </div>
+        </div>
         <% end %>
       <% else %>
         <div class="text-center">暂无数据</div>
