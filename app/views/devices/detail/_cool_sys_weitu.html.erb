@@ -16,10 +16,10 @@
               <% (0...size).each do |i| %>
                 <tr>
                   <td width="50%">
-                    <div class="col-xs-7"><%= @points["SLAVER1"].keys[i] %>：</div><div class="col-xs-5 unit text-right"><%= "#{point_value(@points["SLAVER1"].keys[i], @points["SLAVER1"], exclude_points["SLAVER1"])}" if @points["SLAVER1"].keys[i].present? %></div>
+                    <div class="col-xs-8"><%= @points["SLAVER1"].keys[i] %>:</div><div class="col-xs-4 unit text-right"><%= "#{point_value(@points["SLAVER1"].keys[i], @points["SLAVER1"], exclude_points["SLAVER1"])}" if @points["SLAVER1"].keys[i].present? %></div>
                   </td>
                   <td width="50%">
-                    <%= "#{@points["SLAVER2"].keys[i]}：#{point_value(@points["SLAVER2"].keys[i], @points["SLAVER2"], exclude_points["SLAVER2"])}" if @points["SLAVER2"].keys[i].present? %>
+                    <div class="col-xs-8"><%= @points["SLAVER2"].keys[i]%>:</div><div class="col-xs-4 unit text-right"><%= "#{point_value(@points["SLAVER2"].keys[i], @points["SLAVER2"], exclude_points["SLAVER2"])}" if @points["SLAVER2"].keys[i].present? %>
                   </td>
                 </tr>
               <% end %>
