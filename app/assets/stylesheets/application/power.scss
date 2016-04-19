@@ -34,16 +34,16 @@
 	}
 	.table-left1{
 		position: absolute;
-		width: 30%;
-		left: -30%;
-		top: 30px;		
+		width: 45%;
+		left: -45%;
+		top: 30px;
 	}
 	.table-left2{
 		position: absolute;
-		width: 30%;
-		left: -30%;
-		top: 35%;		
-	}	
+		width: 45%;
+		left: -45%;
+		top: 35%;
+	}
 	.table-right{
 		position: absolute;
 		width: 35%;
@@ -292,7 +292,7 @@
 			top: 68%;
 			left: 29%;
 		}
-		
+
 		&.show10 {
 			top: 23%;
 			left: 38%;
@@ -367,7 +367,7 @@
 			top: 23%;
 			left: 72%;
 		}
-		
+
 	}
 }
 
@@ -444,7 +444,7 @@
 			top: 54%;
 			left: 31%;
 		}
-		
+
 		&.show10 {
 			top: 68%;
 			left: 30%;
@@ -571,7 +571,7 @@
 				color: red;
 			}
 		}
-		
+
 		&.show1 {
 			top: 16%;
 			left: 20%;
@@ -616,7 +616,7 @@
 			top: 30%;
 			left: 42%;
 		}
-		
+
 		&.show10 {
 			top: 56%;
 			left: 41%;
@@ -669,11 +669,11 @@
 			margin-top: 60px;
 		}
 		tr {
-			th { 
-				height: 36px; 
+			th {
+				height: 36px;
 				font-size: 16px;
 			}
-		} 
-		tr:nth-child(even) > td {background-color: #f2f2f2;}  
+		}
+		tr:nth-child(even) > td {background-color: #f2f2f2;}
 	}
 }
