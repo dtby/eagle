@@ -12,7 +12,7 @@
           </thead>
           <tbody>
             <% points.keys.each do |group| %>
-              <%= unless group.eql?('其他') %>
+              <% unless group.eql?('其他') %>
                 <% points[group].each do |p, v| %>
                   <tr>
                     <th scope="row"><%= p %></th>
