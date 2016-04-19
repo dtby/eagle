@@ -89,7 +89,8 @@ class UserRoom < ActiveRecord::Base
 
 		sender = Xinge::Notification.instance.send user.os
 		tag_token_list = [[room.name, user.device_token]].to_s
-		sender.tags_batch_set tag_token_list
+		result = sender.tags_batch_set tag_token_list
+		result
 	end
 
 	private
