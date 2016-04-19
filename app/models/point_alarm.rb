@@ -69,11 +69,11 @@ class PointAlarm < ActiveRecord::Base
     if params[:state].to_i.zero?
       checked_at    = time
       checked_user  = "系统确认"
-      checked_at    = true
+      is_checked    = true
     else
       checked_at    = nil
       checked_user  = ""
-      checked_at    = false
+      is_checked    = false
     end
 
     update(

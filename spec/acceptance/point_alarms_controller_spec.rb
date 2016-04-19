@@ -332,7 +332,7 @@ resource "告警相关" do
 
     let(:point_index) { "123456" }
     let(:time) { "2016-04-19 18:18:18" }
-    let(:state) { 1 }
+    let(:state) { 0 }
     let(:alarm_value) { "Return Value:22" }
     let(:alarm_type) { 0 }
     let(:comment) { "漏水" }
