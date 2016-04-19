@@ -33,7 +33,7 @@ class User < ActiveRecord::Base
 	# Include default devise modules. Others available are:
 	# :confirmable, :lockable, :timeoutable and :omniauthable
 
-	establish_connection "#{Rails.env}".to_sym
+	# establish_connection "#{Rails.env}".to_sym
 
 	devise :database_authenticatable, :registerable,
 	       :recoverable, :rememberable, :trackable, :validatable,
