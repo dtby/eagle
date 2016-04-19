@@ -51,11 +51,11 @@ class PictureDownload
     PictureDownload.new.download(start_time.strftime("%Y%m%d%H%M%S000"), end_time.strftime("%Y%m%d%H%M%S000"))
 
     files = self.pic_list
-    
+
     pics = []
     files.each do |file|
-      created_time = file.split("_")[2].to_datetime
-      if start_time <= created_time && created_time - 1.day<= end_time
+      fil_time = file.split("_")[2].to_datetime
+      if file_time >= start_time and file_time <= end_time
         pics << file
       end
     end
