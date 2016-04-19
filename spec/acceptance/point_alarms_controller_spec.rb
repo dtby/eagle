@@ -347,10 +347,6 @@ resource "告警相关" do
     parameter :alarm_type, "告警类型（0：遥测点，1：遥信点）", required: true
     parameter :comment, "描述（点信息表里的Comment字段）", required: true
 
-    user_attrs = FactoryGirl.attributes_for(:user)
-    header "X-User-Token", user_attrs[:authentication_token]
-    header "X-User-Phone", user_attrs[:phone]
-
     response_field :error_code, "错误码"
     response_field :error_info, "错误信息"
 
