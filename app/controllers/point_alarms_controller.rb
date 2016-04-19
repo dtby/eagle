@@ -34,6 +34,38 @@ class PointAlarmsController < BaseController
   before_action :set_point_alarm, only: [:checked, :unchecked, :modal, :update_multiple]
   acts_as_token_authentication_handler_for User, only: [:index, :checked, :unchecked, :modal, :update_multiple]
 
+
+  def create
+    # :point_index, :time, :status, :alarm_value, :alarm_type, :point_type
+    @errors = ""
+    # permit_ips = ["127.0.0.1".freeze].freeze
+    # unless permit_ips.include? request.remote_ip
+    #   @error_code = 10001
+    #   @errors = "没有权限！"
+    #   return
+    # end
+    
+    point = Point.unscoped.find_by(point_index: params[:point_index])
+    unless point.present?
+      @error_code = 10002
+      @errors = "没有找到该告警对应的点！"
+      return
+    end
+    point_alarm = PointAlarm.find_or_create_by(point_id: point.id)
+
+    infos = params.merge(point: point)
+    result = point_alarm.update_info infos
+
+    if result
+      @errors = "数据更新成功！"
+      @error_code = 0
+    else
+      @errors = "数据更新失败！" 
+      @error_code = 10003
+    end
+
+  end
+
   def index
     if (params[:sub_system].present?) && (!params[:id].present?)
       sub_system = SubSystem.find_by(name: params[:sub_system])

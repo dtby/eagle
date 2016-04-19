@@ -63,6 +63,37 @@ class PointAlarm < ActiveRecord::Base
   scope :order_desc, -> {order("updated_at DESC")}
   scope :get_alarm_point_by_room, -> (room_id) { where(room_id: room_id)}
 
+  def update_info params
+    # "2012-12-13 12:50".to_datetime
+    time = params[:time].to_datetime
+    if params[:state].to_i.zero?
+      checked_at    = time
+      checked_user  = "系统确认"
+      checked_at    = true
+    else
+      checked_at    = nil
+      checked_user  = ""
+      checked_at    = false
+    end
+
+    update(
+      state: params[:state].to_i, 
+      comment: params[:comment], 
+      
+      alarm_type: params[:alarm_type],
+      alarm_value: params[:alarm_value],
+
+      room_id: params[:point].try(:device).try(:room).try(:id), 
+      device_id: params[:point].try(:device).try(:id),
+      sub_system_id: params[:point].try(:device).try(:pattern).try(:sub_system).try(:id),
+
+      checked_user: checked_user, 
+      checked_at: checked_at, 
+      is_checked: is_checked, 
+      updated_at: time, 
+    )
+  end
+
   def meaning
     value_meaning = $redis.hget "eagle_value_meaning", self.try(:point).try(:point_index)
     return "" if value_meaning.nil?

@@ -21,7 +21,7 @@
 
 FactoryGirl.define do
   factory :point do
-    
+    point_index "123456"
   end
 
 end

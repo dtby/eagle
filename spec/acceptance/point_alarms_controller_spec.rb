@@ -313,4 +313,51 @@ resource "告警相关" do
       expect(status).to eq(200)
     end
   end
+
+  post "/point_alarms" do 
+    before do
+      room = create(:room)
+      sub_system = create(:sub_system, name: "sub_system_1")
+      pattern = create(:pattern, sub_system: sub_system, name: "pattern_1")
+      device = create(:device, room: room, name: "device_1", pattern: pattern)
+      point = create(:point, device: device)
+    end
+
+    parameter :point_index, "点ID", required: true
+    parameter :time, "告警时间", required: true
+    parameter :state, "告警状态", required: true
+    parameter :alarm_value, "告警信息（如：Return Value:22）", required: false
+    parameter :alarm_type, "告警类型（0：遥测点，1：遥信点）", required: true
+    parameter :comment, "描述（点信息表里的Comment字段）", required: true
+
+    let(:point_index) { "123456" }
+    let(:time) { "2016-04-19 18:18:18" }
+    let(:state) { 1 }
+    let(:alarm_value) { "Return Value:22" }
+    let(:alarm_type) { 0 }
+    let(:comment) { "漏水" }
+
+    let(:raw_post) { params.to_json }
+
+    # :point_index, :time, :status, :alarm_value, :alarm_type, :point_type
+    parameter :point_index, "点ID", required: true
+    parameter :time, "告警时间", required: true
+    parameter :state, "告警状态", required: true
+    parameter :alarm_value, "告警信息（遥信点才有。如：Return Value:22）", required: false
+    parameter :alarm_type, "告警类型（0：遥测点，1：遥信点）", required: true
+    parameter :comment, "描述（点信息表里的Comment字段）", required: true
+
+    user_attrs = FactoryGirl.attributes_for(:user)
+    header "X-User-Token", user_attrs[:authentication_token]
+    header "X-User-Phone", user_attrs[:phone]
+
+    response_field :error_code, "错误码"
+    response_field :error_info, "错误信息"
+
+    example "更新告警信息成功" do
+      do_request
+      puts "response is #{response_body}"
+      expect(status).to eq(200)
+    end
+  end
 end
