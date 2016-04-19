@@ -24,17 +24,17 @@ class Schedule
   def self.point_classify
     start_time = DateTime.now.strftime("%Q").to_i
     Point.all.each do |point|
-      meaning = point.try(:meaning)
-      if meaning =~ /\p{Han}/
-        puts "meaning is #{meaning}"
-        if ["分", "合"].include? meaning
+
+      if point.point_type == "analog"
+        if point.name =~ /\A部件状态-|\A开关-/
           point.tag_list.add "status_type"
-        else
+        elsif point.name =~ /\A告警-/
           point.tag_list.add "alarm_type"
         end
-      else
+      elsif (point.point_type == "digital") && (point.name.include? "-")
         point.tag_list.add "number_type"
       end
+
       point.save
     end
     end_time = DateTime.now.strftime("%Q").to_i
