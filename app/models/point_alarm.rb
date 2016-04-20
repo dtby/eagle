@@ -65,7 +65,7 @@ class PointAlarm < ActiveRecord::Base
 
   def update_info params
     # "2012-12-13 12:50".to_datetime
-    logger.info "params is #{params}"
+    logger.info "params is #{params}, #{params["time"]} "
     time = params["time"].to_datetime
     if params["state"].to_i.zero?
       checked_at    = time
@@ -76,7 +76,7 @@ class PointAlarm < ActiveRecord::Base
       checked_user  = ""
       is_checked    = false
     end
-
+    puts "update start"
     self.update(
       state: params["state"].to_i, 
       comment: params["comment"], 
@@ -93,6 +93,7 @@ class PointAlarm < ActiveRecord::Base
       is_checked: is_checked, 
       updated_at: time
     )
+    puts "update finish"
   end
 
   def meaning
