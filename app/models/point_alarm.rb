@@ -76,7 +76,7 @@ class PointAlarm < ActiveRecord::Base
       checked_user  = ""
       is_checked    = false
     end
-    puts "update start"
+    logger.info "update start"
     self.update(
       state: params["state"].to_i, 
       comment: params["comment"], 
@@ -93,7 +93,6 @@ class PointAlarm < ActiveRecord::Base
       is_checked: is_checked, 
       updated_at: time
     )
-    puts "update finish"
   end
 
   def meaning
