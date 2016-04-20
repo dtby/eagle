@@ -66,8 +66,8 @@ class PointAlarm < ActiveRecord::Base
   def update_info params
     # "2012-12-13 12:50".to_datetime
     logger.info "params is #{params}"
-    time = params[:time].to_datetime
-    if params[:state].to_i.zero?
+    time = params["time"].to_datetime
+    if params["state"].to_i.zero?
       checked_at    = time
       checked_user  = "系统确认"
       is_checked    = true
@@ -77,16 +77,16 @@ class PointAlarm < ActiveRecord::Base
       is_checked    = false
     end
 
-    self.update_attuibue(
-      state: params[:state].to_i, 
-      comment: params[:comment], 
+    self.update(
+      state: params["state"].to_i, 
+      comment: params["comment"], 
       
-      alarm_type: params[:alarm_type].to_i,
-      alarm_value: params[:alarm_value],
+      alarm_type: params["alarm_type"].to_i,
+      alarm_value: params["alarm_value"],
 
-      room_id: params[:point].try(:device).try(:room).try(:id), 
-      device_id: params[:point].try(:device).try(:id),
-      sub_system_id: params[:point].try(:device).try(:pattern).try(:sub_system).try(:id),
+      room_id: params["point"].try(:device).try(:room).try(:id), 
+      device_id: params["point"].try(:device).try(:id),
+      sub_system_id: params["point"].try(:device).try(:pattern).try(:sub_system).try(:id),
 
       checked_user: checked_user, 
       checked_at: checked_at, 
