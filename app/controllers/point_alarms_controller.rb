@@ -46,7 +46,10 @@ class PointAlarmsController < BaseController
     # end
     
     point = Point.unscoped.find_by(point_index: params[:point_index])
-    point.update(state: true) unless point.state
+    unless point.state
+      point.update(state: true)
+      device.update(state: true)
+    end
     unless point.present?
       @error_code = 10002
       @errors = "没有找到该告警对应的点！"
