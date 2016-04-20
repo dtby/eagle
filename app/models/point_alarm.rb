@@ -78,7 +78,7 @@ class PointAlarm < ActiveRecord::Base
     end
     point = Point.find_by(id: params["point_id"])
     logger.info "update start"
-    self.update(
+    result = self.update(
       state: params["state"].to_i, 
       comment: params["comment"], 
       
@@ -94,6 +94,8 @@ class PointAlarm < ActiveRecord::Base
       is_checked: is_checked, 
       updated_at: time
     )
+    logger.info "result is #{result}"
+    result
   end
 
   def meaning
