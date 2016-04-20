@@ -65,7 +65,7 @@ class PointAlarm < ActiveRecord::Base
 
   def update_info params
     # "2012-12-13 12:50".to_datetime
-    logger.info "params is #{params}, #{params["time"]} "
+    logger.info "params is #{params}, #{params["time"]}"
     time = params["time"].to_datetime
     if params["state"].to_i.zero?
       checked_at    = time
@@ -76,6 +76,7 @@ class PointAlarm < ActiveRecord::Base
       checked_user  = ""
       is_checked    = false
     end
+    point = Point.find_by(id: params["point_id"])
     logger.info "update start"
     self.update(
       state: params["state"].to_i, 
@@ -84,9 +85,9 @@ class PointAlarm < ActiveRecord::Base
       alarm_type: params["alarm_type"].to_i,
       alarm_value: params["alarm_value"],
 
-      room_id: params["point"].try(:device).try(:room).try(:id), 
-      device_id: params["point"].try(:device).try(:id),
-      sub_system_id: params["point"].try(:device).try(:pattern).try(:sub_system).try(:id),
+      room_id: point.try(:device).try(:room).try(:id), 
+      device_id: point.try(:device).try(:id),
+      sub_system_id: point.try(:device).try(:pattern).try(:sub_system).try(:id),
 
       checked_user: checked_user, 
       checked_at: checked_at, 

@@ -53,7 +53,7 @@ class PointAlarmsController < BaseController
     end
     point_alarm = PointAlarm.find_or_create_by(point: point)
 
-    infos = params.merge(point: point)
+    infos = params.merge(point_id: point.id)
     result = point_alarm.update_info infos
 
     if result
