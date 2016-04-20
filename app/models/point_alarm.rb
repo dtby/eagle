@@ -80,7 +80,7 @@ class PointAlarm < ActiveRecord::Base
       state: params[:state].to_i, 
       comment: params[:comment], 
       
-      alarm_type: params[:alarm_type],
+      alarm_type: params[:alarm_type].to_i,
       alarm_value: params[:alarm_value],
 
       room_id: params[:point].try(:device).try(:room).try(:id), 
