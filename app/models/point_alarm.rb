@@ -65,6 +65,7 @@ class PointAlarm < ActiveRecord::Base
 
   def update_info params
     # "2012-12-13 12:50".to_datetime
+    logger.info "params is #{params}"
     time = params[:time].to_datetime
     if params[:state].to_i.zero?
       checked_at    = time
@@ -76,7 +77,7 @@ class PointAlarm < ActiveRecord::Base
       is_checked    = false
     end
 
-    self.update!(
+    self.update_attuibue(
       state: params[:state].to_i, 
       comment: params[:comment], 
       
