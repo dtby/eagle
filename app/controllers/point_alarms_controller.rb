@@ -51,7 +51,7 @@ class PointAlarmsController < BaseController
       @errors = "没有找到该告警对应的点！"
       return
     end
-    point_alarm = PointAlarm.find_or_create_by(point_id: point.id)
+    point_alarm = PointAlarm.find_or_create_by(point: point)
 
     infos = params.merge(point: point)
     result = point_alarm.update_info infos

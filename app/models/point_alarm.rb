@@ -76,7 +76,7 @@ class PointAlarm < ActiveRecord::Base
       is_checked    = false
     end
 
-    update(
+    self.update!(
       state: params[:state].to_i, 
       comment: params[:comment], 
       
@@ -90,7 +90,7 @@ class PointAlarm < ActiveRecord::Base
       checked_user: checked_user, 
       checked_at: checked_at, 
       is_checked: is_checked, 
-      updated_at: time, 
+      updated_at: time
     )
   end
 
