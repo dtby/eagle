@@ -8,7 +8,7 @@
 set :output, "log/cron_log.log"
 #
 every 1.minutes do
-  runner "Point.monitor_db"
+  # runner "Point.monitor_db"
 end
 
 every 1.minutes do
