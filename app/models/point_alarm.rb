@@ -168,6 +168,44 @@ class PointAlarm < ActiveRecord::Base
     end
   end
 
+  def notification_to_app os
+    tag_list = [self.try(:room).try(:name)]
+    return unless tag_list.present?
+
+    custom_content = {
+      custom_content: get_notify_content_hash
+    }
+    params = {}
+    if self.state.zero?
+      title = "告警消除！"
+      content = "【告警消除】#{self.try(:room).try(:name)}-#{self.try(:device).try(:name)}的#{self.try(:point).try(:name)}告警消除！"
+    else
+      title = "新告警！"
+      content = "【新告警】#{self.try(:room).try(:name)}-#{self.try(:device).try(:name)}的#{self.try(:point).try(:name)}出现告警！"
+    end
+
+    sender = Xinge::Notification.instance.send os
+    begin
+      response = sender.pushTagsDevice(title, content, tag_list, "OR", params, custom_content)
+    rescue Exception => e
+      puts "Exception is #{e.inspect}"
+    ensure
+      puts "response is #{response.inspect}"
+    end
+  end
+
+  def notification_to_ios
+    notification_to_app :ios
+  end
+
+  def notification_to_android
+    notification_to_app :android
+  end
+
+  def notification_to_wechat
+    
+  end
+
   private
 
     def send_notification
@@ -177,6 +215,26 @@ class PointAlarm < ActiveRecord::Base
       logger.info "---- start NotificationSendJob #{self.id}, #{self.try(:point).try(:name)} ----"
       NotificationSendJob.set(queue: :message).perform_later(self.id)
       logger.info "---- end NotificationSendJob #{self.id}, #{self.try(:point).try(:name)} ----"
+    end
+
+    def get_notify_content_hash
+      {
+        id: self.id,
+        device_name: self.try(:device).try(:name),
+        pid: self.pid,
+        state: self.state,
+        room_id: self.device.room_id,
+        created_at: self.created_at,
+        updated_at: self.updated_at,
+        checked_at: self.checked_at,
+        is_checked: self.is_checked,
+        point_id: self.point_id,
+        point_name: self.try(:point).try(:name),
+        comment: self.comment,
+        type: self.get_type,
+        meaning: self.meaning,
+        alarm_value: self.alarm_value
+      }
     end
 
     def update_alarm_history
