@@ -203,7 +203,14 @@ class PointAlarm < ActiveRecord::Base
   end
 
   def notification_to_wechat
-    
+    body = {
+      alarm: get_notify_content_hash
+    }
+    conn = Faraday.new(:url => "http://115.29.211.21/") do |faraday|
+      faraday.request  :url_encoded
+      faraday.adapter  Faraday.default_adapter
+    end
+    response = conn.post '/alarms/fetch', body, Accept: "application/json"
   end
 
   private
