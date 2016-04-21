@@ -66,7 +66,7 @@ class PointAlarm < ActiveRecord::Base
   def update_info params
     # "2012-12-13 12:50".to_datetime
     logger.info "params is #{params}, #{params["time"]}"
-    time = params["time"].to_datetime
+    time = Time.zone.parse params["time"]
     if params["state"].to_i.zero?
       checked_at    = time
       checked_user  = "系统确认"
