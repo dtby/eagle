@@ -43,6 +43,7 @@ class UsersController < ApplicationController
 
   def update_device
     @user.update update_device_params
+    @user.reload.update_room_tags
   end
 
   private
@@ -56,5 +57,9 @@ class UsersController < ApplicationController
 
   def set_user
     @user = User.find_by(phone: params[:user_phone])
+  end
+
+  def update_room_tags
+
   end
 end

@@ -114,6 +114,22 @@ class User < ActiveRecord::Base
     NotifyWeixinJob.set(queue: :sync_info).perform_later(params)
   end
 
+  def update_room_tags
+  	return unless self.try(:os) && self.try(:device_token)
+
+  	tag_token_list = []
+  	self.rooms.each do |room|
+  	  if room.name.present? 
+  	    tag_token_list << [room.try(:name), self.try(:device_token)]
+  	  end
+  	end
+  	
+  	if tag_token_list.present?
+  	  sender = Xinge::Notification.instance.send self.try(:os)
+  	  result = sender.tags_batch_set tag_token_list.to_s 
+  	end
+  end
+
 	protected
 	def email_required?
 		false
