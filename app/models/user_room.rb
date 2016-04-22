@@ -84,16 +84,16 @@ class UserRoom < ActiveRecord::Base
 		end
 	end
 
-	def add_room_tag
-		return unless (user.os) && (user.device_token) && (room.name)
-
-		sender = Xinge::Notification.instance.send user.os
-		tag_token_list = [[room.name, user.device_token]].to_s
-		result = sender.tags_batch_set tag_token_list
-		result
-	end
+	
 
 	private
+		def add_room_tag
+			return unless user.try(:os) && user.try(:device_token) && room.try(:name)
 
+			sender = Xinge::Notification.instance.send user.try(:os)
+			tag_token_list = [[room.try(:name), user.try(:device_token)]].to_s
+			result = sender.tags_batch_set tag_token_list
+			result
+		end
 		
 end

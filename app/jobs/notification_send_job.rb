@@ -3,7 +3,7 @@ class NotificationSendJob < ActiveJob::Base
 
   def perform point_alarm_id
     # Do something later
-    puts "NotificationSendJob process start #{point_alarm_id}"
+    logger.info "NotificationSendJob process start #{point_alarm_id}"
 
     config = Rails.configuration.database_configuration
     ActiveRecord::Base.establish_connection config["#{Rails.env}"]
@@ -14,102 +14,28 @@ class NotificationSendJob < ActiveJob::Base
     begin
       notification_to_app point_alarm
     rescue Exception => e
-      puts "notification_to_app exception is #{e}"
+      logger.info "notification_to_app exception is #{e}"
     end
 
     begin
       notification_to_wechat point_alarm
     rescue Exception => e
-      puts "notification_to_wechat exception is #{e}"
+      logger.info "notification_to_wechat exception is #{e}"
     end
     
-    puts "NotificationSendJob process end #{point_alarm_id}"
+    logger.info "NotificationSendJob process end #{point_alarm_id}"
     nil
   end
 
   def notification_to_app point_alarm
-    # user_ids = UserRoom.where(room_id: point_alarm.room_id).pluck(:user_id).uniq
-    # user_infos = User.where(id: user_ids).pluck(:phone, :device_token, :os)
-
-    # size = user_infos.size
-    # user_infos.each_with_index do |user_info, index|
-    #   next unless user_info[1].present? && user_info[2].present?
-    #   puts "phone is #{user_info[0]}"
-    #   xinge_send point_alarm, user_info[1], user_info[2]
-    # end
     tag_list = [point_alarm.try(:room).try(:name)]
-    ["ios", "android"].each do |type|
-      xinge_send point_alarm, tag_list, type
-    end
-    
-  end
-
-  def xinge_send point_alarm, tag_list, type
-    custom_content = {
-      custom_content: {
-        id: point_alarm.id,
-        device_name: point_alarm.try(:device).try(:name),
-        pid: point_alarm.pid,
-        state: point_alarm.state,
-        created_at: point_alarm.created_at,
-        updated_at: point_alarm.updated_at,
-        checked_at: point_alarm.checked_at,
-        is_checked: point_alarm.is_checked,
-        point_id: point_alarm.point_id,
-        comment: point_alarm.comment,
-        type: point_alarm.alarm_type,
-        meaning: point_alarm.meaning,
-        alarm_value: point_alarm.alarm_value,
-      }
-    }
-
-    params = {}
-    if point_alarm.state.zero?
-      title = "告警消除！"
-      content = "【告警消除】#{point_alarm.try(:room).try(:name)}-#{point_alarm.try(:device).try(:name)}的#{point_alarm.try(:point).try(:name)}告警消除！"
-    else
-      title = "新告警！"
-      content = "【新告警】#{point_alarm.try(:room).try(:name)}-#{point_alarm.try(:device).try(:name)}的#{point_alarm.try(:point).try(:name)}出现告警！"
-    end
-    
-
-    sender = Xinge::Notification.instance.send type
-    begin
-      # response = sender.pushToSingleDevice device_token, title, content, params, custom_content
-      response = sender.pushTagsDevice(title, content, tag_list, "OR", params, custom_content)
-    rescue Exception => e
-      puts "Exception is #{e.inspect}"
-    ensure
-      puts "response is #{response.inspect}"
+    [:ios, :android].each do |type|
+      point_alarm.notification_to_app type
     end
   end
+
 
   def notification_to_wechat point_alarm
-    conn = Faraday.new(:url => "http://115.29.211.21/") do |faraday|
-      faraday.request  :url_encoded
-      faraday.adapter  Faraday.default_adapter
-    end
-
-    body = {
-      alarm: {
-        id: point_alarm.id,
-        device_name: point_alarm.try(:device).try(:name),
-        pid: point_alarm.pid,
-        state: point_alarm.state,
-        room_id: point_alarm.device.room_id,
-        created_at: point_alarm.created_at,
-        updated_at: point_alarm.updated_at,
-        checked_at: point_alarm.checked_at,
-        is_checked: point_alarm.is_checked,
-        point_id: point_alarm.point_id,
-        point_name: point_alarm.try(:point).try(:name),
-        comment: point_alarm.comment,
-        type: point_alarm.get_type,
-        meaning: point_alarm.meaning,
-        alarm_value: point_alarm.alarm_value
-      }
-    }
-
-    response = conn.post '/alarms/fetch', body, Accept: "application/json"
+    point_alarm.notification_to_wechat
   end
 end

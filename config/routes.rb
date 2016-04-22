@@ -22,7 +22,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :point_alarms, only: [] do
+  resources :point_alarms, only: [:create] do
     member do
       patch :checked, :unchecked
       post :checked, :unchecked

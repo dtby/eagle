@@ -43,6 +43,7 @@ class UsersController < ApplicationController
 
   def update_device
     @user.update update_device_params
+    XingeTagUpdateJob.set(queue: :message).perform_later @user.id
   end
 
   private

@@ -63,6 +63,41 @@ class PointAlarm < ActiveRecord::Base
   scope :order_desc, -> {order("updated_at DESC")}
   scope :get_alarm_point_by_room, -> (room_id) { where(room_id: room_id)}
 
+  def update_info params
+    # "2012-12-13 12:50".to_datetime
+    logger.info "params is #{params}, #{params["time"]}"
+    time = Time.zone.parse params["time"]
+    if params["state"].to_i.zero?
+      checked_at    = time
+      checked_user  = "系统确认"
+      is_checked    = true
+    else
+      checked_at    = nil
+      checked_user  = ""
+      is_checked    = false
+    end
+    point = Point.find_by(id: params["point_id"])
+    logger.info "update start"
+    result = self.update(
+      state: params["state"].to_i, 
+      comment: params["comment"], 
+      
+      alarm_type: params["alarm_type"].to_i,
+      alarm_value: params["alarm_value"],
+
+      room_id: point.try(:device).try(:room).try(:id), 
+      device_id: point.try(:device).try(:id),
+      sub_system_id: point.try(:device).try(:pattern).try(:sub_system).try(:id),
+
+      checked_user: checked_user, 
+      checked_at: checked_at, 
+      is_checked: is_checked, 
+      updated_at: time
+    )
+    logger.info "result is #{result}"
+    result
+  end
+
   def meaning
     value_meaning = $redis.hget "eagle_value_meaning", self.try(:point).try(:point_index)
     return "" if value_meaning.nil?
@@ -133,6 +168,51 @@ class PointAlarm < ActiveRecord::Base
     end
   end
 
+  def notification_to_app os
+    tag_list = [self.try(:room).try(:name)]
+    return unless tag_list.present?
+
+    custom_content = {
+      custom_content: get_notify_content_hash
+    }
+    params = {}
+    if self.state.zero?
+      title = "告警消除！"
+      content = "【告警消除】#{self.try(:room).try(:name)}-#{self.try(:device).try(:name)}的#{self.try(:point).try(:name)}告警消除！"
+    else
+      title = "新告警！"
+      content = "【新告警】#{self.try(:room).try(:name)}-#{self.try(:device).try(:name)}的#{self.try(:point).try(:name)}出现告警！"
+    end
+
+    sender = Xinge::Notification.instance.send os
+    begin
+      response = sender.pushTagsDevice(title, content, tag_list, "OR", params, custom_content)
+    rescue Exception => e
+      puts "Exception is #{e.inspect}"
+    ensure
+      puts "response is #{response.inspect}"
+    end
+  end
+
+  def notification_to_ios
+    notification_to_app :ios
+  end
+
+  def notification_to_android
+    notification_to_app :android
+  end
+
+  def notification_to_wechat
+    body = {
+      alarm: get_notify_content_hash
+    }
+    conn = Faraday.new(:url => "http://115.29.211.21/") do |faraday|
+      faraday.request  :url_encoded
+      faraday.adapter  Faraday.default_adapter
+    end
+    response = conn.post '/alarms/fetch', body, Accept: "application/json"
+  end
+
   private
 
     def send_notification
@@ -142,6 +222,26 @@ class PointAlarm < ActiveRecord::Base
       logger.info "---- start NotificationSendJob #{self.id}, #{self.try(:point).try(:name)} ----"
       NotificationSendJob.set(queue: :message).perform_later(self.id)
       logger.info "---- end NotificationSendJob #{self.id}, #{self.try(:point).try(:name)} ----"
+    end
+
+    def get_notify_content_hash
+      {
+        id: self.id,
+        device_name: self.try(:device).try(:name),
+        pid: self.pid,
+        state: self.state,
+        room_id: self.device.room_id,
+        created_at: self.created_at,
+        updated_at: self.updated_at,
+        checked_at: self.checked_at,
+        is_checked: self.is_checked,
+        point_id: self.point_id,
+        point_name: self.try(:point).try(:name),
+        comment: self.comment,
+        type: self.get_type,
+        meaning: self.meaning,
+        alarm_value: self.alarm_value
+      }
     end
 
     def update_alarm_history

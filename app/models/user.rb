@@ -33,7 +33,7 @@ class User < ActiveRecord::Base
 	# Include default devise modules. Others available are:
 	# :confirmable, :lockable, :timeoutable and :omniauthable
 
-	establish_connection "#{Rails.env}".to_sym
+	# establish_connection "#{Rails.env}".to_sym
 
 	devise :database_authenticatable, :registerable,
 	       :recoverable, :rememberable, :trackable, :validatable,
@@ -112,6 +112,22 @@ class User < ActiveRecord::Base
   def notify_task
     params = {type: 'user', data: self.to_json}
     NotifyWeixinJob.set(queue: :sync_info).perform_later(params)
+  end
+
+  def update_room_tags
+  	return unless self.try(:os) && self.try(:device_token)
+
+  	tag_token_list = []
+  	self.rooms.each do |room|
+  	  if room.name.present? 
+  	    tag_token_list << [room.try(:name), self.try(:device_token)]
+  	  end
+  	end
+  	
+  	if tag_token_list.present?
+  	  sender = Xinge::Notification.instance.send self.try(:os)
+  	  result = sender.tags_batch_set tag_token_list.to_s 
+  	end
   end
 
 	protected

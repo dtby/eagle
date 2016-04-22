@@ -5,7 +5,7 @@ resource "用户信息" do
   header "Content-Type", "application/json"
 
   get "/users/:id" do
-    before do
+    before(:each) do
       @user = create(:user)
     end
 
@@ -25,7 +25,7 @@ resource "用户信息" do
   end
 
   post "/users/update_password" do
-    before do
+    before(:each) do
       @user = create(:user)
     end
 
@@ -52,7 +52,7 @@ resource "用户信息" do
   end
 
   post "/users/update_device" do
-    before do
+    before(:each) do
       @user = create(:user)
     end
 
@@ -77,7 +77,6 @@ resource "用户信息" do
 
     example "修改设备信息成功" do
       do_request
-      puts "response is #{response_body}"
       expect(status).to eq(200)
     end
   end

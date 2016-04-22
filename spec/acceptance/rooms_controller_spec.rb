@@ -5,7 +5,7 @@ resource "机房" do
   header "Content-Type", "application/json"
 
   get "/rooms" do
-    before do
+    before(:each) do
       @rooms = []
       @rooms << create(:room, name: "room1")
       @rooms << create(:room, name: "room2")
@@ -31,7 +31,7 @@ resource "机房" do
   end
 
   get "/rooms" do
-    before do
+    before(:each) do
       @rooms = []
       @rooms << create(:room, name: "room1")
       @rooms << create(:room, name: "room2")

@@ -207,7 +207,6 @@ class Room < ActiveRecord::Base
       information.down_value  = ap.try(:DnValue)
 
       informations << information
-      puts "information is #{information.inspect}" if device_name.include? "温湿度"
     end
     informations
   end

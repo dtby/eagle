@@ -5,7 +5,7 @@ resource "点列表" do
   header "Content-Type", "application/json"
 
   post "/rooms/:id/points/get_value_by_names" do
-    before do
+    before(:each) do
       @room = create(:room)
       (0..3).each do |di|
         device = create(:device, name: "device_#{di}", room: @room)
@@ -37,7 +37,7 @@ resource "点列表" do
   end
 
   post "/rooms/:room_id/points/:id/history_values" do
-    before do
+    before(:each) do
       @room = create(:room)
       (0..3).each do |di|
         device = create(:device, name: "device_#{di}", room: @room)

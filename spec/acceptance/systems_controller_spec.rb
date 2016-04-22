@@ -5,7 +5,7 @@ resource "系统列表" do
   header "Content-Type", "application/json"
 
   get "/systems" do
-    before do
+    before(:each) do
       create(:user)
       (0..3).each do |i|
         system = create(:system, sys_name: "sys_name_#{i}")

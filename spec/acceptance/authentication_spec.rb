@@ -5,7 +5,7 @@ resource "用户鉴权" do
   header "Content-Type", "application/json"
 
   post "/users/sign_in" do
-    before do
+    before(:each) do
       @user = create(:user)
     end
 
@@ -32,7 +32,7 @@ resource "用户鉴权" do
   end
 
   post "/check_phone/auth" do
-    before do
+    before(:each) do
       @user = create(:user)
     end
 

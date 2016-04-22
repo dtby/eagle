@@ -5,7 +5,7 @@ resource "验证码" do
   header "Content-Type", "application/json"
 
   post "/sms_tokens" do
-    before do
+    before(:each) do
       @user = create(:user)
     end
 
