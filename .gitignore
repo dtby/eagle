@@ -62,7 +62,7 @@ bower.json
 
 # Ignore pow environment settings
 .powenv
-
+.idea/
 *.TXT
 /config/file.yml
 /config/application.yml
