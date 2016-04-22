@@ -12,11 +12,16 @@
 #  room_id       :integer
 #  device_id     :integer
 #  sub_system_id :integer
-#  alarm_type    :integer
 #  alarm_value   :string(255)
 #  checked_at    :datetime
 #  checked_user  :string(255)
 #  is_checked    :boolean
+#  alarm_type    :string(255)
+#  reported_at   :datetime
+#  cleared_at    :datetime
+#  meaning       :string(255)
+#  is_cleared    :boolean
+#  device_name   :string(255)
 #
 # Indexes
 #

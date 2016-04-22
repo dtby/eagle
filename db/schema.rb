@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160413053420) do
+ActiveRecord::Schema.define(version: 20160422094545) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -146,11 +146,16 @@ ActiveRecord::Schema.define(version: 20160413053420) do
     t.integer  "room_id",       limit: 4
     t.integer  "device_id",     limit: 4
     t.integer  "sub_system_id", limit: 4
-    t.integer  "alarm_type",    limit: 4
     t.string   "alarm_value",   limit: 255
     t.datetime "checked_at"
     t.string   "checked_user",  limit: 255
     t.boolean  "is_checked"
+    t.string   "alarm_type",    limit: 255
+    t.datetime "reported_at"
+    t.datetime "cleared_at"
+    t.string   "meaning",       limit: 255
+    t.boolean  "is_cleared"
+    t.string   "device_name",   limit: 255
   end
 
   add_index "point_alarms", ["device_id"], name: "index_point_alarms_on_device_id", using: :btree
@@ -169,18 +174,6 @@ ActiveRecord::Schema.define(version: 20160413053420) do
 
   add_index "point_histories", ["device_id"], name: "index_point_histories_on_device_id", using: :btree
   add_index "point_histories", ["point_id"], name: "index_point_histories_on_point_id", using: :btree
-
-  create_table "point_histories_201602", force: :cascade do |t|
-    t.string   "point_name",  limit: 255
-    t.string   "point_value", limit: 255
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-    t.integer  "point_id",    limit: 4
-    t.integer  "device_id",   limit: 4
-  end
-
-  add_index "point_histories_201602", ["device_id"], name: "index_point_histories_201602_on_device_id", using: :btree
-  add_index "point_histories_201602", ["point_id"], name: "index_point_histories_201602_on_point_id", using: :btree
 
   create_table "point_states", force: :cascade do |t|
     t.datetime "created_at", null: false
