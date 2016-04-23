@@ -60,10 +60,10 @@
               <% if params[:action] == "alert" %>
                 <td class="text-center"><%= check_box_tag "point_alarms[]", point_alarm.id, false, class: 'point-alarms' %></td>
               <% end %>
-              <td class="text-center"><%= point_alarm.try(:device).try(:name) %></td>
-              <td class="text-center"><%= point_alarm.comment %></td>
-              <td class="text-center">告警：越上限告警(<%= point_alarm.alarm_value.present? ? point_alarm.alarm_value : '----' %>)</td>
-              <td class="text-center"><%= point_alarm.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+              <td class="text-center"><%= point_alarm.device_name %></td>
+              <td class="text-center"><%= point_alarm.meaning %></td>
+              <td class="text-center"><%= point_alarm.alarm_type %></td>
+              <td class="text-center"><%= point_alarm.reported_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
               <td class="text-center">
                 <% unless point_alarm.checked_at %>
                   <%= link_to "未确认", modal_point_alarm_path(point_id: point_alarm.point_id, room_id: params[:id], name: point_alarm.try(:point).try(:name)), remote: true%>
