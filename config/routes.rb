@@ -62,7 +62,7 @@ Rails.application.routes.draw do
     end
     resources :point_alarms, only: [:index] do
       collection do
-        post :count
+        get :count
       end
     end
     member do
@@ -81,6 +81,7 @@ Rails.application.routes.draw do
     end
 
     resources :sub_systems, only:[] do
+      resources :point_alarms, only: [:index]
       collection do
         get :distrib
         get :ups
@@ -143,9 +144,7 @@ Rails.application.routes.draw do
   end
 
   resources :devices, only: [] do
-    member do
-      resources :point_alarms, only: [:index]
-    end
+    resources :point_alarms, only: [:index]
   end
 
   resources :sms_tokens, only: [:create]

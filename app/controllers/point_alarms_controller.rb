@@ -72,84 +72,34 @@ class PointAlarmsController < BaseController
   end
 
   def index
-    if (params[:sub_system].present?) && (!params[:id].present?)
-      sub_system = SubSystem.find_by(name: params[:sub_system])
-      return unless sub_system.present?
-      devices = sub_system.patterns.map(&:devices).flatten
-      return unless devices.present?
-      point_alarms = devices.map(&:point_alarms).flatten
-      point_alarms = point_alarms.select { |point_alarm| params[:room_id].to_i == point_alarm.room_id } 
-    elsif (!params[:sub_system].present?) && (params[:id].present?)
-      device = Device.find_by(id: params[:id])
-      point_alarms = device.try(:point_alarms).to_a
-    else
-      point_alarms = PointAlarm.where(room_id: params[:room_id]).to_a
-    end
-    
-    return unless point_alarms.present?
-    point_alarms.select! { |pas| (pas.state != 0) && 
-      (((1.day.ago..DateTime.now).cover? pas.checked_at) || pas.checked_at.blank?) }
+    _point_alarms = point_alarm_relations params
 
-    page = (params[:page].to_i < 1) ? 1 : params[:page]
-    if params[:checked].present? && params[:checked] == "0"
-      point_alarms = point_alarms
-    elsif params[:checked].present? && params[:checked] == "1"
-      point_alarms = point_alarms.select{ |pa| pa.is_checked }
+    _page = params[:page] || 1
+    _per_page = params[:per_page] || 10
+
+    _checked = params[:checked].to_i
+    if _checked == 0
+      @point_alarms = _point_alarms.paginate(page: _page, per_page: _per_page)
+    elsif _checked == 1
+      @point_alarms = _point_alarms.checked.paginate(page: _page, per_page: _per_page)
     else
-      point_alarms = point_alarms.select{ |pa| (!pa.is_checked) }
+      @point_alarms = _point_alarms.active.uncheck_or_one_day_checked.paginate(page: _page, per_page: _per_page)
     end
-    @point_alarms = point_alarms.sort_by {|p| p.point.name[/\d+/].to_i }.paginate(page: page, per_page: (params[:per_page] || 10))
   end
 
   def show
     @point_alarm = PointAlarm.find_by(id: params[:id])
   end
 
+  # 统计这个房间的告警数量
   def count
-    # 子系统拥有的告警数、设备拥有的告警数
-    @results = {}
-    if params[:room_id].present? && !(params[:sub_system_id].present?)
-      
-      point_alarms = 
-        PointAlarm.is_warning_alarm.where(
-          room_id: params[:room_id]).try(:to_a)
-      return unless point_alarms.present?
-
-      point_alarms.select! { |pa| ((1.day.ago..DateTime.now).cover? pa.checked_at) || pa.checked_at.blank? }
-      sub_system_ids = point_alarms.collect { |pa| pa.sub_system_id }.compact
-
-      return unless sub_system_ids.present?
-      ids = sub_system_ids.uniq
-      sub_system_names = []
-      Array(ids).each do |id|
-        sub_system_names << SubSystem.find(id).try(:name)
+    if params[:room_id].present?
+      _point_alarms = PointAlarm.where(room_id: params[:room_id]).active.uncheck_or_one_day_checked
+      @room_count = _point_alarms.count
+      _group_count_hash = _point_alarms.group(:sub_system_id).count
+      @sub_system_count_hash = _group_count_hash.each_with_object({}) do |(id, count), o|
+        o[SubSystem.find_by(id: id)] = count if id.present?
       end
-      ids = sub_system_ids.uniq.collect { |ssi| sub_system_ids.count(ssi) }
-
-      @results = Hash[sub_system_names.zip(ids)]
-    elsif params[:sub_system_id].present?
-
-      # point_alarms = PointAlarm.where("room_id = #{params[:room_id]} AND sub_system_id = #{params[:sub_system_id]} AND (state != 0 OR checked_at BETWEEN '#{1.day.ago.strftime("%Y-%m-%d %H:%M:%S")}' AND '#{DateTime.now.strftime("%y-%m-%d %H:%M:%S")}')")
-      point_alarms = 
-        PointAlarm.is_warning_alarm.where(
-          room_id: params[:room_id]).try(:to_a)
-      return unless point_alarms.present?
-
-      point_alarms.select! { |pa| 
-        ((1.day.ago..DateTime.now).cover? pa.checked_at) || pa.checked_at.blank? 
-      }
-   
-      device_ids = point_alarms.collect { |pa| pa.device_id }.compact
-
-      return unless device_ids.present?
-      ids = device_ids.uniq
-      device_names = []
-      Array(ids).each do |id|
-        device_names << Device.find(id).try(:name)
-      end
-      ids = device_ids.uniq.collect { |di| device_ids.count(di) }
-      
-      @results = Hash[device_names.zip(ids)]
     end
   end
 
@@ -208,6 +158,20 @@ class PointAlarmsController < BaseController
 
   def set_point_alarm
     @point_alarm = (PointAlarm.find_by(point_id: params[:point_id]) || PointAlarm.find_by(id: params[:id]))
+  end
+
+  def point_alarm_relations params
+    # 单个设备的告警
+    if params[:device_id].present?
+      _point_alarms = PointAlarm.where(device_id: params[:device_id])
+    # 单个sub system的告警
+    elsif params[:sub_system_id].present?
+      _point_alarms = PointAlarm.where(room_id: params[:room_id], sub_system_id: params[:sub_system_id])
+    # 单个room的告警
+    else
+      _point_alarms = PointAlarm.where(room_id: params[:room_id])
+    end
+    _point_alarms
   end
 
   def set_room

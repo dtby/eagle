@@ -42,12 +42,10 @@ class PointAlarm < ActiveRecord::Base
 
   after_create :generate_alarm_history
   
-  after_update :send_notification, if: "state_changed?"
+  after_update :send_notification, if: "is_cleared_changed?"
   after_update :update_alarm_history, if: "checked_at_changed?"
 
-  default_scope { where.not(state: nil).order("updated_at DESC") }
-
-  enum alarm_type: [:alarm, :digital]
+  default_scope { order("reported_at DESC") }
 
   #参数point_index
   #返回单个point的id
@@ -62,72 +60,47 @@ class PointAlarm < ActiveRecord::Base
     PointAlarm.find_by(point_id: point.id)
   end
 
-  scope :checked, -> {where("point_alarms.checked_at is not null")}
-  scope :unchecked, -> {where("point_alarms.checked_at is null")}
-  scope :is_warning_alarm, -> {where.not(state: 0)}
-  scope :order_desc, -> {order("updated_at DESC")}
+  scope :checked, -> { where(is_checked: true) }
+  scope :unchecked, -> { where(is_checked: false) }
+  scope :cleard, -> { where(is_cleared: true) }
+  scope :active, -> { where(is_cleared: false) }
+  scope :uncheck_or_one_day_checked, -> { where( 'is_checked = ? OR checked_at > ?', false, 1.day.ago ) }
+
+  scope :order_desc, -> {order("reported_at DESC")}
   scope :get_alarm_point_by_room, -> (room_id) { where(room_id: room_id)}
 
+  # point_index：设备点号
+  # device_name：点名
+  # alarm_flag: 0代表报警， 1代表解除
+  # meaning： 告警状态
+  # alarm_type: 告警类型
+  # time： 告警时间
   def update_info params
-    # "2012-12-13 12:50".to_datetime
-    logger.info "params is #{params}, #{params["time"]}"
-    time = Time.zone.parse params["time"]
-    if params["state"].to_i.zero?
-      checked_at    = time
-      checked_user  = "系统确认"
-      is_checked    = true
+    _is_cleared = params[:alarm_flag].to_i == 1 ? true : false
+    self.is_cleared = _is_cleared
+    self.device_name = params[:device_name]
+    self.is_cleared = _is_cleared
+    _time = Time.zone.parse params[:time]
+    if _is_cleared
+      self.cleared_at = _time
+      self.checked_at = _time
+      self.checked_user = "系统确认"
+      self.is_checked = true
     else
-      checked_at    = nil
-      checked_user  = ""
-      is_checked    = false
+      self.reported_at = _time
+      self.cleared_at = nil
+      self.checked_at = nil
+      self.checked_user = ""
+      self.is_checked = false
     end
+    self.meaning = params[:meaning]
+    self.alarm_type = params[:alarm_type]
+
     point = Point.find_by(id: params["point_id"])
-    logger.info "update start"
-    result = self.update(
-      state: params["state"].to_i, 
-      comment: params["comment"], 
-      
-      alarm_type: params["alarm_type"].to_i,
-      alarm_value: params["alarm_value"],
-
-      room_id: point.try(:device).try(:room).try(:id), 
-      device_id: point.try(:device).try(:id),
-      sub_system_id: point.try(:device).try(:pattern).try(:sub_system).try(:id),
-
-      checked_user: checked_user, 
-      checked_at: checked_at, 
-      is_checked: is_checked, 
-      updated_at: time
-    )
-    logger.info "result is #{result}"
-    result
-  end
-
-  def meaning
-    value_meaning = $redis.hget "eagle_value_meaning", self.try(:point).try(:point_index)
-    return "" if value_meaning.nil?
-    index = self.state
-    if self.alarm_type == "alarm"
-      index = self.state<0 ? (self.state+2) : (self.state+1)
-    end
-    value_meaning.split("-")[index]
-  end
-
-  def get_type
-    alarm_type = '开关量告警'
-    if self.state.present? and self.alarm_type == 'alarm'
-      case self.try(:state) || 0
-      when -2
-        alarm_type = '越下下限'
-      when -1
-        alarm_type = '越下限'
-      when 1
-        alarm_type = '越上限'
-      when 2
-        alarm_type = '越上上限'
-      end
-    end
-    alarm_type
+    self.room_id = point.try(:device).try(:room).try(:id)
+    self.device_id = point.try(:device).try(:id)
+    self.sub_system_id = point.try(:device).try(:pattern).try(:sub_system).try(:id)
+    self.save
   end
 
   def self.keyword start_time, end_time
@@ -138,39 +111,6 @@ class PointAlarm < ActiveRecord::Base
   def check_alarm_by_user user_name
     AlarmProcessJob.set(queue: :alarm).perform_later(self.try(:point).try(:point_index), user_name)
     self.update(checked_user: user_name)
-  end
-
-  def xinge_send user
-    custom_content = {
-      custom_content: {
-        id: self.id,
-        device_name: self.try(:device).try(:name),
-        pid: self.pid,
-        state: self.state,
-        created_at: self.created_at,
-        updated_at: self.updated_at,
-        checked_at: self.checked_at,
-        is_checked: self.is_checked,
-        point_id: self.point_id,
-        comment: self.comment,
-        type: self.alarm_type,
-        meaning: self.meaning,
-        alarm_value: self.alarm_value,
-      }
-    }
-
-    params = {}
-    title = "告警！"
-    content = "#{self.try(:room).try(:name)}-#{self.try(:device).try(:name)}的#{self.try(:point).try(:name)}出现告警！"
-
-    sender = Xinge::Notification.instance.send user.os
-    begin
-      response = sender.pushToSingleDevice user.device_token, title, content, params, custom_content
-    rescue Exception => e
-      puts "Exception is #{e.inspect}"
-    ensure
-      puts "response is #{response.inspect}"
-    end
   end
 
   def notification_to_app os
@@ -218,6 +158,10 @@ class PointAlarm < ActiveRecord::Base
     response = conn.post '/alarms/fetch', body, Accept: "application/json"
   end
 
+  def as_json option=nil
+    get_notify_content_hash
+  end
+
   private
 
     def send_notification
@@ -234,18 +178,16 @@ class PointAlarm < ActiveRecord::Base
         id: self.id,
         device_name: self.try(:device).try(:name),
         pid: self.pid,
-        state: self.state,
-        room_id: self.device.room_id,
-        created_at: self.created_at,
-        updated_at: self.updated_at,
+        room_id: self.room_id,
+        reported_at: self.reported_at,
+        cleared_at: self.cleared_at,
         checked_at: self.checked_at,
         is_checked: self.is_checked,
+        is_cleared: self.is_cleared,
         point_id: self.point_id,
-        point_name: self.try(:point).try(:name),
-        comment: self.comment,
-        type: self.get_type,
-        meaning: self.meaning,
-        alarm_value: self.alarm_value
+        point_name: self.device_name,
+        type: self.alarm_type,
+        meaning: self.meaning
       }
     end
 

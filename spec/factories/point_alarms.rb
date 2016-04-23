@@ -34,8 +34,12 @@
 FactoryGirl.define do
   factory :point_alarm do
     pid 1
-state 1
     comment "comment"
+    alarm_value "alarm value"
+    alarm_type "alarm type"
+    is_checked false
+    is_cleared false
+    device_name "alarm device name"
   end
 
 end

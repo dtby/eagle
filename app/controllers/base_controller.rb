@@ -48,7 +48,7 @@ class BaseController < ApplicationController
       @room = Room.where(id: params[:id]).first
     end
     if @room.present?
-      @alerts = PointAlarm.unchecked.is_warning_alarm.get_alarm_point_by_room(@room.id)
+      @alerts = PointAlarm.unchecked.active.get_alarm_point_by_room(@room.id)
     else
       @alerts = {}
     end
