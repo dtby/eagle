@@ -63,9 +63,9 @@
               <td class="text-center"><%= point_alarm.device_name %></td>
               <td class="text-center"><%= point_alarm.meaning %></td>
               <td class="text-center"><%= point_alarm.alarm_type %></td>
-              <td class="text-center"><%= point_alarm.reported_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+              <td class="text-center"><%= point_alarm.reported_at.try(:strftime, "%Y-%m-%d %H:%M:%S").to_s %></td>
               <td class="text-center">
-                <% unless point_alarm.checked_at %>
+                <% unless point_alarm.is_checked %>
                   <%= link_to "未确认", modal_point_alarm_path(point_id: point_alarm.point_id, room_id: params[:id], name: point_alarm.try(:point).try(:name)), remote: true%>
                 <% else %>
                   已确认
