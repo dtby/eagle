@@ -18,7 +18,7 @@
           </div>
           <!-- 右侧表格 -->
           <div class="table-responsive table-right">
-            <%= render partial: "devices/share/table", locals: { title: "UPS输出", points: @points["UPS输出"], exclude_points: exclude_points["UPS输出"] } %>
+            <%= render partial: "devices/share/table", locals: { title: "UPS输出", points: @points["UPS输出"] || [], exclude_points: exclude_points["UPS输出"] } %>
           </div>
           <!-- 下部表格 -->
           <div class="table-responsive table-bottom">
