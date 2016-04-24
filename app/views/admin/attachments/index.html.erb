@@ -45,4 +45,6 @@
   </div>
 </div>
 <div id="attachmentModalContent"></div>
-  
+<%= content_for :scripts do %>
+  <%= javascript_include_tag "attachments", 'data-turbolinks-track' => true %>
+<% end %>

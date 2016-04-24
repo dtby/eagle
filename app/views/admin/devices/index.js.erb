@@ -1,0 +1,6 @@
+var tag_options = "";
+<% @devices.each do |device| %>
+  tag_options = tag_options + "<option value='<%= device%>'><%= device%></option>"
+<% end %>
+$("#attachment_tag").html(tag_options);
+$("#attachment_tag").removeAttr('disabled');

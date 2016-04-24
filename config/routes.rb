@@ -102,7 +102,9 @@ Rails.application.routes.draw do
     resources :users # 用户
     resources :patterns # 型号设置
     resources :admins # 管理用户
-    resources :rooms # 机房管理
+    resources :rooms do # 机房管理
+      resources :devices
+    end
     resources :areas # 区域管理
     resources :ftps, only: [:index, :create]
     resources :attachments do
