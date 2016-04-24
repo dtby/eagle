@@ -8,14 +8,15 @@ if @point_alarms.present?
     json.device_name point_alarm.try(:device).try(:name)
     json.pid point_alarm.pid
     json.room_id point_alarm.device.room_id
-    json.reported_at point_alarm.reported_at
-    json.cleared_at point_alarm.cleared_at
-    json.checked_at point_alarm.checked_at
+    json.reported_at point_alarm.reported_at.try(:strftime, "%Y-%m-%d %H:%M:%S")
+    json.cleared_at point_alarm.cleared_at.try(:strftime, "%Y-%m-%d %H:%M:%S")
+    json.checked_at point_alarm.checked_at.try(:strftime, "%Y-%m-%d %H:%M:%S")
     json.is_checked point_alarm.is_checked
     json.is_cleared point_alarm.is_cleared
     json.point_id point_alarm.point_id
     json.point_name point_alarm.device_name
     json.type point_alarm.alarm_type
     json.meaning point_alarm.meaning
+    json.checked_user point_alarm.checked_user
   end
 end
