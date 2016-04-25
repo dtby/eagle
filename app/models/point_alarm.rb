@@ -121,7 +121,7 @@ class PointAlarm < ActiveRecord::Base
       custom_content: get_notify_content_hash
     }
     params = {}
-    if self.state.zero?
+    if self.is_cleared?
       title = "告警消除！"
       content = "【告警消除】#{self.try(:room).try(:name)}-#{self.try(:device).try(:name)}的#{self.try(:point).try(:name)}告警消除！"
     else
