@@ -42,7 +42,7 @@ class PointAlarm < ActiveRecord::Base
 
   after_create :generate_alarm_history
   
-  after_update :send_notification, if: "is_cleared_changed?"
+  # after_update :send_notification, if: "is_cleared_changed?"
   after_update :update_alarm_history, if: "checked_at_changed?"
 
   default_scope { order("reported_at DESC") }
@@ -101,6 +101,8 @@ class PointAlarm < ActiveRecord::Base
     self.device_id = point.try(:device).try(:id)
     self.sub_system_id = point.try(:device).try(:pattern).try(:sub_system).try(:id)
     self.save
+
+    send_notification
   end
 
   def self.keyword start_time, end_time
