@@ -42,7 +42,7 @@ class PointAlarm < ActiveRecord::Base
 
   after_create :generate_alarm_history
   
-  after_update :send_notification, if: "is_cleared_changed?"
+  # after_update :send_notification, if: "is_cleared_changed?"
   after_update :update_alarm_history, if: "checked_at_changed?"
 
   default_scope { order("reported_at DESC") }
@@ -101,6 +101,8 @@ class PointAlarm < ActiveRecord::Base
     self.device_id = point.try(:device).try(:id)
     self.sub_system_id = point.try(:device).try(:pattern).try(:sub_system).try(:id)
     self.save
+
+    send_notification
   end
 
   def self.keyword start_time, end_time
@@ -121,7 +123,7 @@ class PointAlarm < ActiveRecord::Base
       custom_content: get_notify_content_hash
     }
     params = {}
-    if self.state.zero?
+    if self.is_cleared?
       title = "告警消除！"
       content = "【告警消除】#{self.try(:room).try(:name)}-#{self.try(:device).try(:name)}的#{self.try(:point).try(:name)}告警消除！"
     else
@@ -167,7 +169,6 @@ class PointAlarm < ActiveRecord::Base
     def send_notification
       # id, device_name, pid, state, created_at, updated_at,
       # is_checked, point_id, comment, type, meaning, alarm_value
-      return unless self.state
       logger.info "---- start NotificationSendJob #{self.id}, #{self.try(:point).try(:name)} ----"
       NotificationSendJob.set(queue: :message).perform_later(self.id)
       logger.info "---- end NotificationSendJob #{self.id}, #{self.try(:point).try(:name)} ----"

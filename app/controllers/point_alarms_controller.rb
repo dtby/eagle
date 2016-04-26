@@ -77,7 +77,7 @@ class PointAlarmsController < BaseController
     _page = params[:page] || 1
     _per_page = params[:per_page] || 10
 
-    _checked = params[:checked].to_i
+    _checked = params[:checked] || 2
     if _checked == 0
       @point_alarms = _point_alarms.paginate(page: _page, per_page: _per_page)
     elsif _checked == 1

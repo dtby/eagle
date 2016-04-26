@@ -114,6 +114,12 @@ class User < ActiveRecord::Base
     NotifyWeixinJob.set(queue: :sync_info).perform_later(params)
   end
 
+  def self.update_xinge_tags
+    User.all.each do |user|
+      user.update_room_tags
+    end
+  end
+
   def update_room_tags
   	return unless self.try(:os) && self.try(:device_token)
 
