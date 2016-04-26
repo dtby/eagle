@@ -211,8 +211,8 @@ class PointHistory < ActiveRecord::Base
   end
 
   def reports(start_time_str, end_time_str, points)
-    start_time = DateTime.parse(start_time_str) + 8.hour
-    end_time = DateTime.parse(end_time) + 8.hour
+    start_time = DateTime.parse(start_time_str) - 8.hour
+    end_time = DateTime.parse(end_time_str) - 8.hour
     sql = ActiveRecord::Base.connection()
 
     if start_time.month == end_time.month
