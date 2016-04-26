@@ -32,16 +32,16 @@ class PointHistory < ActiveRecord::Base
     if PointHistory.proxy(month: month).all.size != 0
       return if PointHistory.proxy(month: month).first.present? && interval*60 > Time.now - PointHistory.proxy(month: month).first.try(:created_at)
     end
-    
+
     Point.all.each do |point|
       next if point.try(:name).try(:include?, "告警-")
-      
+
       begin
         PointHistory.proxy(month: month).create(point_name: point.name, point_value: point.value, point: point, device_id: point.try(:device).try(:id))
       rescue Exception => e
         logger.info "point is #{point.name}, device is #{point.try(:device).try(:name)}, failed, Exception is #{e}"
         next
-      end      
+      end
     end
     end_time = DateTime.now.strftime("%Q").to_i
     logger.info "PointHistory.generate_point_history time is #{end_time-start_time}"
@@ -208,6 +208,25 @@ class PointHistory < ActiveRecord::Base
       ids = PointHistory.where({id: phs.collect{|x| x.id.to_i}}).collect{|x| x.id.to_i}
     end
     result_array = [pds, pts, ids]
+  end
+
+  def reports(start_time_str, end_time_str, points)
+    start_time = DateTime.parse(start_time_str) + 8.hour
+    end_time = DateTime.parse(end_time) + 8.hour
+    sql = ActiveRecord::Base.connection()
+
+    if start_time.month == end_time.month
+      query_str = "select p1.* from point_histories_#{start_time.strftime('%Y%m')} as p1 where p1.created_at between #{start_time} and #{end_time} and p1.point_id in (#{points})"
+    else
+      query_str = "select p1.* from point_histories_#{start_time.strftime('%Y%m')} as p1 where p1.created_at > #{start_time} and p1.point_id in (#{points})"
+      query_str << "union"
+      query_str << "select p2.* from point_histories_#{end_time.strftime('%Y%m')} as p2 where p2.created_at < #{end_time} and p2.point_id in (#{points});"
+    end
+    result = sql.select_all query_str
+    result['rows']
+    # select p1.* from point_histories_201603 as p1 where p1.created_at > '2016-03-28 00:00' and p1.point_id in (8100)
+    #   union
+    # select p2.* from point_histories_201604 as p2 where p2.created_at < '2016-04-10' and p2.point_id in (8100);
   end
 
   def self.format_month month
