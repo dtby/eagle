@@ -223,10 +223,7 @@ class PointHistory < ActiveRecord::Base
       query_str << "select p2.* from point_histories_#{end_time.strftime('%Y%m')} as p2 where p2.created_at < '#{end_time.strftime('%Y-%m-%d %H:%M:00')}' and p2.point_id in (#{points});"
     end
     result = sql.select_all query_str
-    result['rows']
-    # select p1.* from point_histories_201603 as p1 where p1.created_at > '2016-03-28 00:00' and p1.point_id in (8100)
-    #   union
-    # select p2.* from point_histories_201604 as p2 where p2.created_at < '2016-04-10' and p2.point_id in (8100);
+    result.rows
   end
 
   def self.format_month month
