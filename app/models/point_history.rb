@@ -216,11 +216,11 @@ class PointHistory < ActiveRecord::Base
     sql = ActiveRecord::Base.connection()
 
     if start_time.month == end_time.month
-      query_str = "select p1.* from point_histories_#{start_time.strftime('%Y%m')} as p1 where p1.created_at between #{start_time} and #{end_time} and p1.point_id in (#{points})"
+      query_str = "select p1.* from point_histories_#{start_time.strftime('%Y%m')} as p1 where p1.created_at between '#{start_time.strftime('%Y-%m-%d %H:%M:00')}' and '#{end_time.strftime('%Y-%m-%d %H:%M:00')}' and p1.point_id in (#{points})"
     else
-      query_str = "select p1.* from point_histories_#{start_time.strftime('%Y%m')} as p1 where p1.created_at > #{start_time} and p1.point_id in (#{points})"
+      query_str = "select p1.* from point_histories_#{start_time.strftime('%Y%m')} as p1 where p1.created_at > '#{start_time.strftime('%Y-%m-%d %H:%M:00')}' and p1.point_id in (#{points})"
       query_str << "union"
-      query_str << "select p2.* from point_histories_#{end_time.strftime('%Y%m')} as p2 where p2.created_at < #{end_time} and p2.point_id in (#{points});"
+      query_str << "select p2.* from point_histories_#{end_time.strftime('%Y%m')} as p2 where p2.created_at < '#{end_time.strftime('%Y-%m-%d %H:%M:00')}' and p2.point_id in (#{points});"
     end
     result = sql.select_all query_str
     result['rows']
