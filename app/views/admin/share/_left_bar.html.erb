@@ -29,6 +29,12 @@
 				<% end %>
 			</li>
 
+			<li class="<%= 'active' if params[:controller] == 'admin/report' %>">
+				<%= link_to admin_report_index_path do %>
+					<i class="fa fa-line-chart"></i> <span class="nav-label">报表</span>
+				<% end %>
+			</li>
+
 			<li class="<%= 'active' if params[:controller] == 'admin/admins' %>">
 				<%= link_to admin_admins_path do %>
 					<i class="fa fa-user"></i> <span class="nav-label">管理员</span>
@@ -58,7 +64,7 @@
 					<% system.sub_systems.each do |sub_system| %>
 						<li class="<%= 'active' if params[:controller] == 'admin/patterns' && sub_system == @pattern.try(:sub_system) %>">
 							<%= link_to '#' do %>
-								<%= sub_system.name %> 
+								<%= sub_system.name %>
 								<%= '<span class="fa arrow"></span>'.html_safe if sub_system.patterns.present? %>
 							<% end %>
 							<!-- 三级菜单 -->

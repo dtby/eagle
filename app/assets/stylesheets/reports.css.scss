@@ -1,0 +1,68 @@
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+.left_bar {
+  width: 22%;
+  float: left;
+}
+.device-selection {
+  min-height: 800px;
+  max-height: 800px;
+  margin-top: 10px;
+  overflow-x: hidden;
+  border: 1px solid #d4d4d4;
+}
+.device-item {
+  height: 42px;
+  line-height: 42px;
+  padding-left: 40px;
+  margin: 5px;
+  border: 1px solid #ddd;
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+.selection-content {
+  width: 77%;
+  min-height: 844px;
+  float: left;
+  margin-left: 10px;
+  position: relative;
+  border: 1px solid #d4d4d4;
+}
+.point-item {
+  padding: 8px 16px;
+  margin: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  input {
+    margin-right: 4px;
+  }
+}
+.tool-bar {
+  width: 100%;
+  height: 52px;
+  line-height: 52px;
+  bottom: 0;
+  position: absolute;
+  text-align: center;
+}
+.report-device-points {
+  height: 100px;
+  margin-top:10px;
+  border: 1px solid #d4d4d5;
+  overflow-y: auto;
+}
+label.btn {
+  margin: 5px 5px!important;
+}
+.btn-primary.active {
+  color: #fff;
+  background-color: #0f0f0f;
+}
+#chartsContent {
+  width: 80%;
+  height: 300px;
+  margin: 50px auto;
+}

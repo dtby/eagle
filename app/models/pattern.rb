@@ -37,9 +37,10 @@ class Pattern < ActiveRecord::Base
     all_points = points.group(:name).order("points.id asc").pluck(:name)
     all_points.each do |point_name|
       if point_name.include?('-')
-        group = point_name.split('-', 2).try(:first).try(:strip)
+        splits = point_name.split('-', 2)
+        group = splits.try(:first).try(:strip)
         if group.present?
-          pn = point_name.split('-', 2).try(:last).try(:strip)
+          pn = splits.try(:last).try(:strip)
           point_group[group].blank? ? point_group[group] = [pn] : point_group[group].push(pn)
         end
       else

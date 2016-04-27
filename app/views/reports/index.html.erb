@@ -1,88 +1,66 @@
 <div class="row" id="reportsContent">
   <div class="col-sm-12">
-    <div class="col-sm-3">
-      <ul id="deviceContent" style="max-height: 540px;overflow: auto;">
-        <% @devices.each do |device| %>
-          <li class="parent"><%= link_to "+ " + device.name.to_s, get_points_room_reports_path(@room, device_id: device.id, start_time: params[:start_time], end_time: params[:end_time]), remote: true %></li>
-          <div class="pointContent"></div>
-        <% end %>
-      </ul>
+    <input type="hidden" id="room_id" data="<%= @room.id %>" />
+    <%= form_tag results_room_reports_path(@room), remote: true, method: :get do |f| %>
+    <div class="col-sm-2">
+      <%= select :report, :device, @devices, {prompt: "请选择设备"}, class: 'form-control', required: true %>
     </div>
-    <!-- 搜索表单 -->
-    <div class="col-sm-4 col-sm-offset-2" id="chartsContent" style="margin-top: 160px;">
-      <!-- 选中点的名称 -->
-      <h4 class="text-center" id="pointName" style="padding: 10px 0;"></h4>
-      <!-- 错误提示信息 -->
-      <p class="errorAlert"></p>
-      <%= form_tag results_room_reports_path(@room), method: :get, target: "_blank", class: 'form-horizontal', role: "form" do %>
-        <%= hidden_field_tag :point_id, params[:point_id] %>
-        <%= hidden_field_tag :room_id, params[:room_id] %>
-        <%= hidden_field_tag :name, params[:name] %>
-        <div class="row">
-          <div class="form-group">
-            <div id="datetimepicker1" class="input-append date time-position">
-               <%= text_field_tag :start_time, params[:start_time], 'data-format': "dd/MM/yyyy hh:mm:ss", placeholder: "开始时间", class: "form-control"%>
-                <span class="add-on">
-                  <i data-time-icon="glyphicon glyphicon-time" data-date-icon="glyphicon glyphicon-calendar">
-                  </i>
-                </span>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="form-group">
-            <div id="datetimepicker2" class="input-append date time-position">
-              <%= text_field_tag :end_time, params[:end_time], 'data-format': "dd/MM/yyyy hh:mm:ss", placeholder: "截止时间", class: "form-control" %>
-                <span class="add-on">
-                  <i data-time-icon="glyphicon glyphicon-time" data-date-icon="glyphicon glyphicon-calendar">
-                  </i>
-                </span>
-            </div>
-          </div>
-        </div>
-        <div class="row text-center">
-          <%= button_tag(type: 'submit', class: "btn btn-sm btn-default grey-bg js-submit-search") do %>
-            <i class="glyphicon glyphicon-search"></i> 搜索
-          <% end %>
-        </div>
+    <div class="col-sm-2">
+      <input id="start_time" name="start_time" type="text" class="form-control" data-format="yyyy-MM-dd hh:mm" placeholder="开始时间"></input>
+    </div>
+    <div class="col-sm-2">
+      <%= text_field_tag :end_time, params[:end_time], 'data-format': "yyyy-MM-dd hh:mm", placeholder: "结束时间", class: "form-control" %>
+    </div>
+    <div class="col-sm-6">
+      <%= button_tag(type: 'submit', class: "btn btn-sm btn-default grey-bg js-submit-search") do %>
+        <i class="glyphicon glyphicon-search"></i> 搜索
       <% end %>
+      <%= link_to("导出到Excel", '#', id: 'export_to_excel', class: "btn btn-sm btn-default grey-bg") %>
+    </div>
+    <div id="report-device-points" class="report-device-points btn-group col-sm-12" data-toggle="buttons">
+
+    </div>
+    <% end %>
+  </div>
+
+  <div class="col-sm-12">
+    <div id="chartsContent">
+
     </div>
   </div>
 </div>
+<%= content_for :scripts do %>
+  <%= javascript_include_tag "reports", 'data-turbolinks-track' => true %>
+  <script type="text/javascript">
+    $(function() {
+      $('#start_time, #end_time').datetimepicker({
+        language: 'zh-CN',
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1
+      });
 
-<script type="text/javascript">
-  $(function() {
-    var _a = $("#deviceContent li.parent a");
-    _a.click(function(){
-      var pointContent = $(this).parent().next(".pointContent");
-      if(pointContent.hasClass("open")){
-        pointContent.slideUp("slow");
-        pointContent.removeClass("open");
-      }else{
-        pointContent.slideDown("slow");
-        pointContent.addClass("open");
-      }
-      $(this).parent().siblings("li.parent").next(".pointContent").hide();
+      $('#export_to_excel').on('click', function(){
+        var start_time = $('#start_time').val()
+        var end_time = $('#end_time').val()
+        var points_dom = $('#report-device-points').children('label')
+        var points = []
+        points_dom.each(function(){
+          if ($(this).hasClass('active') == true) {
+            points.push($($(this).children()[0]).attr('data'));
+          }
+        });
+        var room_id = $('#room_id').attr('data')
+        $.ajax({
+          method: 'get',
+          url: "/rooms/"+room_id+"/reports/import",
+          data: {start_time: start_time, end_time: end_time, points: points},
+          success: function(data, status){
+            window.open("reports/" + data.file_name);
+          }
+        });
+      });
     });
-    $('#datetimepicker1, #datetimepicker2').datetimepicker({
-       collapse: false
-    });
-    $(".js-submit-search").click(function(){
-      var point_id = $("#point_id").val();
-      var start_time = $("#start_time").val();
-      var end_time = $("#end_time").val();
-      if(!point_id){
-        $(".errorAlert").html("<span class='text-danger'>请在左边栏选择查询点!</span>");
-        return false;
-      }
-      if(!start_time){
-        $(".errorAlert").html("<span class='text-danger'>请输入开始时间!</span>");
-        return false;
-      }
-      if(!end_time){
-        $(".errorAlert").html("<span class='text-danger'>请输入结束时间!</span>");
-        return false;
-      }
-    })
-  });
-</script>
+  </script>
+
+<% end %>

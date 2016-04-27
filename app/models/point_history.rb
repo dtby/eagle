@@ -211,19 +211,25 @@ class PointHistory < ActiveRecord::Base
   end
 
   def reports(start_time_str, end_time_str, points)
+    return [] if points.blank?
     start_time = DateTime.parse(start_time_str) - 8.hour
     end_time = DateTime.parse(end_time_str) - 8.hour
     sql = ActiveRecord::Base.connection()
 
     if start_time.month == end_time.month
-      query_str = "select p1.* from point_histories_#{start_time.strftime('%Y%m')} as p1 where p1.created_at between '#{start_time.strftime('%Y-%m-%d %H:%M:00')}' and '#{end_time.strftime('%Y-%m-%d %H:%M:00')}' and p1.point_id in (#{points})"
+      query_str = "select DATE_FORMAT(p1.created_at, '%Y-%m-%d %h:%i'), p1.point_name, p1.point_value from point_histories_#{start_time.strftime('%Y%m')} as p1 where p1.created_at between '#{start_time.strftime('%Y-%m-%d %H:%M:00')}' and '#{end_time.strftime('%Y-%m-%d %H:%M:00')}' and p1.point_id in (#{points})"
     else
-      query_str = "select p1.* from point_histories_#{start_time.strftime('%Y%m')} as p1 where p1.created_at > '#{start_time.strftime('%Y-%m-%d %H:%M:00')}' and p1.point_id in (#{points})"
+      query_str = "select DATE_FORMAT(p1.created_at, '%Y-%m-%d %h:%i'), p1.point_name, p1.point_value from point_histories_#{start_time.strftime('%Y%m')} as p1 where p1.created_at > '#{start_time.strftime('%Y-%m-%d %H:%M:00')}' and p1.point_id in (#{points})"
       query_str << "union"
-      query_str << "select p2.* from point_histories_#{end_time.strftime('%Y%m')} as p2 where p2.created_at < '#{end_time.strftime('%Y-%m-%d %H:%M:00')}' and p2.point_id in (#{points});"
+      query_str << "select DATE_FORMAT(p2.created_at, '%Y-%m-%d %h:%i'), p2.point_name, p2.point_value from point_histories_#{end_time.strftime('%Y%m')} as p2 where p2.created_at < '#{end_time.strftime('%Y-%m-%d %H:%M:00')}' and p2.point_id in (#{points});"
     end
     result = sql.select_all query_str
-    result.rows
+    result_hash = {}
+    result.rows.each do |item|
+      result_hash[item[1]] ||= []
+      result_hash[item[1]] << [item[0], item[2].to_f.round(1)]
+    end
+    result_hash
   end
 
   def self.format_month month

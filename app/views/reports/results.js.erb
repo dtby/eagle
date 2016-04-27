@@ -1,0 +1,55 @@
+require.config({
+  paths: {
+    echarts:'./echarts/echarts'
+  }
+});
+require(
+  ['echarts', 'echarts/chart/line'],
+  function(ec){
+    $('#chartsContent').each(function(){
+      var myChart = ec.init($(this).get(0));
+      var option = {
+        grid: {
+          x: 20, y: 50, width: '100%'
+        },
+        calculable: true,
+        tooltip: { trigger: 'axis' },
+        legend: { show: true, data: [
+          <% @result_hash.keys.each do |k| %>
+            '<%= k %>',
+          <% end %>
+        ], textStyle: {color: 'auto'} },
+        xAxis: {
+          type: 'category',
+          splitLine: {show: false},
+          axisLine: {show: false},
+          axisTick: {show: false},
+          data: [
+            <% @result_hash.first[1].each do |v| %>
+              '<%= v[0] %>',
+            <% end %>
+          ]
+        },
+        yAxis: {
+          type: 'value',
+          scale: true,
+          axisLine: {show: false},
+        },
+        series: [
+          <% @result_hash.each do |index, item| %>
+          {
+            name: '<%= index %>',
+            type: 'line',
+            data: [
+              <% item.each do |v| %>
+                <%= v[1] %>,
+              <% end %>
+            ]
+          },
+          <% end %>
+        ]
+      }
+      myChart.setOption(option);
+    });
+  }
+);

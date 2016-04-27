@@ -12,11 +12,7 @@ class PictureDownload
   end
 
   def download start_time, end_time
-    begin
-      @ftp.connect(@config["url"], @config["port"])
-    rescue Exception => e
-      return "Exception is #{e}"
-    end
+    @ftp.connect(@config["url"], @config["port"])
     user = @config["user"] || "anonymous"
     passwd = @config["passwd"]
 

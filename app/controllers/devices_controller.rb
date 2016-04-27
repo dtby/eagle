@@ -70,10 +70,10 @@ class DevicesController < BaseController
 
     sub_system = SubSystem.find_by(name: params[:sub_sys_name])
     return unless sub_system.present?
-    sub_sys_name = params[:sub_sys_name]    
+    sub_sys_name = params[:sub_sys_name]
     patterns = sub_system.try(:patterns)
     @devices = []
-    
+
     if patterns.present?
       patterns.each do |pattern|
         devices = pattern.devices.where(room_id: params[:room_id])
@@ -130,7 +130,7 @@ class DevicesController < BaseController
     names = ["A相电压", "B相电压", "C相电压", "频率"]
 
     0.upto(3) do |index|
-      @point_values[device.try(:id)][names[index]] = 
+      @point_values[device.try(:id)][names[index]] =
         Point.find_by(id: point_ids.try(:[], index).try(:to_i)).try(:value) || "0"
     end
   end
@@ -139,16 +139,20 @@ class DevicesController < BaseController
   def con_point_values device
     point_ids = $redis.hget "eagle_key_points_value", device.id
     point_ids = point_ids.try(:split, "-")
-    
+
     @point_values[device.try(:id)] = {}
     names = ["温度", "湿度"]
-    
+
     0.upto(1) do |index|
-      @point_values[device.try(:id)][names[index]] = 
+      @point_values[device.try(:id)][names[index]] =
         Point.find_by(id: point_ids.try(:[], index).try(:to_i)).try(:value) || "0"
     end
   end
 
+  def points
+    device_id = params[:id]
+    @points = Device.report_points(device_id).pluck(:id, :name)
+  end
 
   private
 

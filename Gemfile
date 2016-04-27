@@ -44,7 +44,7 @@ group :development, :test do
   gem "factory_girl_rails", "~> 4.0"
   gem 'rspec_api_documentation'
   gem 'database_cleaner'
-  
+
   gem 'awesome_print'
   gem 'pry'
   #gem 'rack-mini-profiler'
@@ -83,7 +83,8 @@ gem 'redis'
 gem 'redis-namespace'
 
 # 导出为xls或csv
-gem "spreadsheet_on_rails"
+# gem "spreadsheet_on_rails"
+gem 'axlsx'
 
 #图片上传
 gem 'carrierwave'
@@ -92,7 +93,7 @@ gem "mini_magick"
 # for Delayed Job
 gem 'sidekiq'
 
-# for sms 
+# for sms
 gem 'china_sms'
 gem 'phonelib'
 

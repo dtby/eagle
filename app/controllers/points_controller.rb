@@ -12,6 +12,7 @@
 #  point_type  :integer
 #  max_value   :string(255)
 #  min_value   :string(255)
+#  s_report    :integer          default(0)
 #
 # Indexes
 #

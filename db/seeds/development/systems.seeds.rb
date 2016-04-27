@@ -6,7 +6,8 @@ System.create!([
   { id: 4, sys_name: '安全' },
   { id: 5, sys_name: '远程' },
   { id: 6, sys_name: '能效' },
-  { id: 7, sys_name: '部署' }
+  { id: 7, sys_name: '部署' },
+  { id: 8, sys_name: '报表' }
 ])
 
 SubSystem.destroy_all
@@ -85,5 +86,3 @@ Pattern.create!([
 #   { id: 13, sub_system_id: 8, name: 'ACFM', partial_path: 'acfm' },  #apc空调
 #   { id: 14, sub_system_id: 1, name: 'SY', partial_path: 'apc_ups' }  #apc ups
 # ])
-
-

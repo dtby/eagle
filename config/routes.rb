@@ -76,6 +76,7 @@ Rails.application.routes.draw do
     resources :reports, only: [:index] do
       collection do
         get :results
+        get :import
         get :get_points
       end
     end
@@ -103,8 +104,11 @@ Rails.application.routes.draw do
     resources :patterns # 型号设置
     resources :admins # 管理用户
     resources :rooms do # 机房管理
-      resources :devices
+      resources :devices, shallow: true do
+        resources :points
+      end
     end
+    resources :reports
     resources :areas # 区域管理
     resources :ftps, only: [:index, :create]
     resources :attachments do
@@ -146,6 +150,9 @@ Rails.application.routes.draw do
   end
 
   resources :devices, only: [] do
+    member do
+      get :points
+    end
     resources :point_alarms, only: [:index]
   end
 

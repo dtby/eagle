@@ -3,6 +3,7 @@
 <head>
   <title>iGrid监控平台</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag    "#{controller.controller_name}", media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= Gon::Base.render_data %>
   <%= csrf_meta_tags %>
@@ -30,7 +31,8 @@
 				<!-- 皮肤及设置 -->
 				<%#= render partial: "/share/setting" %>
 			</div>
-		</div>	
+		</div>
+    <%= yield :scripts %>
 	</body>
 
 </html>

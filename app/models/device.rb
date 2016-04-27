@@ -21,6 +21,7 @@
 class Device < ActiveRecord::Base
   establish_connection "#{Rails.env}".to_sym
   scope :by_room, ->(room_id) { where("room_id = ?", room_id) }
+  scope :report_points, ->(device_id) { find_by(id: device_id).points.where(s_report: 1)}
   default_scope { where(state: true) }
 
   attr_accessor :render_partial_path
@@ -28,7 +29,7 @@ class Device < ActiveRecord::Base
   belongs_to :pattern
   belongs_to :room
   belongs_to :sub_room
-  
+
   has_many :points, dependent: :destroy
   has_many :point_histories, dependent: :destroy
   has_many :alarms, dependent: :destroy
@@ -138,7 +139,6 @@ class Device < ActiveRecord::Base
     end
     results = results.sort_by {|u| u[:device_name]}
   end
-
 
   def render_partial_path
     if self.pattern.partial_path.present?

@@ -13,6 +13,8 @@
 //= require jquery
 //= require jquery.turbolinks
 //= require jquery_ujs
+//= require ./application/bootstrap-datetimepicker
+//= require ./application/locales/bootstrap-datetimepicker.zh-CN
 //= require bootstrap-sprockets
 //= require ./frame/inspinia
 //= require ./frame/pace.min
@@ -22,5 +24,5 @@
 //= require ./frame/footable.all.min
 //= require ./echarts/echarts
 //= require_tree ./echarts/chart
-//= require_tree ./application/.
+//= require ./application/sweetalert.min
 //= require turbolinks

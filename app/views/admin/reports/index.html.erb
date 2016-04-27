@@ -1,0 +1,31 @@
+<div class="col-md-12 p-xs animated fadeInRightBig">
+	<div class="ibox float-e-margins">
+		<div class="ibox-title text-center">
+			<h5>报表设置</h5>
+		</div>
+		<div class="ibox-content table-responsive">
+      <div class="row">
+        <%= form_for admin_report_index_path, remote: true, method: :post do |f| %>
+        <div class="nav left_bar">
+          <%= select :report, :room_id, @rooms, {prompt: "请选择机房"}, class: 'form-control' %>
+          <%= hidden_field_tag :device_id %>
+          <ul id="device_selection" class="device-selection">
+
+          </ul>
+        </div>
+        <div class="selection-content">
+          <div id='selection-content'>
+
+          </div>
+          <div class="tool-bar">
+            <%= f.submit "提交", class: 'btn sub-btn btn-primary'%>
+          </div>
+        </div>
+        <% end %>
+      </div>
+		</div>
+	</div>
+</div>
+<%= content_for :scripts do %>
+  <%= javascript_include_tag "report_setting", 'data-turbolinks-track' => true %>
+<% end %>

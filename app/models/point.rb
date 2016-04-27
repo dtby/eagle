@@ -12,6 +12,7 @@
 #  point_type  :integer
 #  max_value   :string(255)
 #  min_value   :string(255)
+#  s_report    :integer          default(0)
 #
 # Indexes
 #
@@ -82,7 +83,7 @@ class Point < ActiveRecord::Base
     # generate_digital_alarm
     # end_time = DateTime.now.strftime("%Q").to_i
     # logger.info "generate_digital_alarm time is #{end_time-start_time}"
-   
+
     datas_to_hash
 
     nil
@@ -102,8 +103,8 @@ class Point < ActiveRecord::Base
     if PointAlarm.all.size > 0 && (!reset)
       updated_at = PointAlarm.order("updated_at DESC").first.try(:updated_at)
       logger.info "----- updated_at is #{updated_at} -----"
-      das = DigitalAlarm.where("ADate >= ?", updated_at.strftime("%Y-%m-%d"))   
-      aas = AnalogAlarm.where("ADate >= ?", updated_at.strftime("%Y-%m-%d"))   
+      das = DigitalAlarm.where("ADate >= ?", updated_at.strftime("%Y-%m-%d"))
+      aas = AnalogAlarm.where("ADate >= ?", updated_at.strftime("%Y-%m-%d"))
     else
       das = DigitalAlarm.all
       aas = AnalogAlarm.all
@@ -112,22 +113,22 @@ class Point < ActiveRecord::Base
     das.each do |da|
       point = Point.find_by(point_index: da.PointID.to_s)
       next unless point.present?
-      
+
       cos = DigitalAlarm.order("ADate DESC, ATime DESC, AMSecond DESC").find_by(PointID: da.PointID)
       dp = DigitalPoint.find_by(PointID: da.PointID)
       state = cos.try(:Status).try(:to_i)
 
       point_alarm = PointAlarm.unscoped.find_or_create_by(point_id: point.id)
-      
+
       if state != point_alarm.state
         checked_user, checked_at, is_checked = (state == 0)? ["系统确认", DateTime.now, true] : ["", nil, false]
-        
+
         update_time = DateTime.new(cos.ADate.year, cos.ADate.month, cos.ADate.day, cos.ATime.hour,cos.ATime.min, cos.ATime.sec) - 8.hour
         logger.info "DigitalAlarm size is #{PointAlarm.is_warning_alarm.size}, #{da.PointID}, #{point_alarm.state}  => #{state}, in #{update_time}"
-        point_alarm.update(state: state, comment: dp.try(:Comment), 
-          is_checked: is_checked, updated_at: update_time, alarm_type: 1, 
-          room_id: point.try(:device).try(:room).try(:id), device_id: point.try(:device).try(:id), 
-          checked_user: checked_user, checked_at: checked_at, 
+        point_alarm.update(state: state, comment: dp.try(:Comment),
+          is_checked: is_checked, updated_at: update_time, alarm_type: 1,
+          room_id: point.try(:device).try(:room).try(:id), device_id: point.try(:device).try(:id),
+          checked_user: checked_user, checked_at: checked_at,
           sub_system_id: point.try(:device).try(:pattern).try(:sub_system).try(:id))
       end
     end
@@ -137,7 +138,7 @@ class Point < ActiveRecord::Base
       next unless point.present?
       cos = AnalogAlarm.order("ADate DESC, ATime DESC, AMSecond DESC").find_by(PointID: aa.PointID)
       dp = AnalogPoint.find_by(PointID: aa.PointID)
-      
+
       state = cos.try(:Status)
       if ((state == 1 && state.class == Integer) || (state && state.class == TrueClass))
         state = 0
@@ -156,16 +157,16 @@ class Point < ActiveRecord::Base
 
 
       point_alarm = PointAlarm.unscoped.find_or_create_by(point_id: point.id)
-      
+
       if state != point_alarm.state
         checked_user, checked_at, is_checked = (state == 0)? ["系统确认", DateTime.now, true] : ["", nil, false]
         update_time = DateTime.new(cos.ADate.year, cos.ADate.month, cos.ADate.day, cos.ATime.hour,cos.ATime.min, cos.ATime.sec) - 8.hour
         logger.info "AnalogAlarm size is #{PointAlarm.is_warning_alarm.size}, #{aa.PointID}, #{point_alarm.state}  => #{state}, in #{update_time}"
-        point_alarm.update(state: state, comment: dp.try(:Comment), 
+        point_alarm.update(state: state, comment: dp.try(:Comment),
           is_checked: (state == 0), updated_at: update_time, alarm_type: 0,
           room_id: point.try(:device).try(:room).try(:id), device_id: point.try(:device).try(:id),
-          checked_user: checked_user, checked_at: checked_at,  
-          sub_system_id: point.try(:device).try(:pattern).try(:sub_system).try(:id), 
+          checked_user: checked_user, checked_at: checked_at,
+          sub_system_id: point.try(:device).try(:pattern).try(:sub_system).try(:id),
           alarm_value: cos.AlarmValue)
       end
     end
@@ -207,12 +208,21 @@ class Point < ActiveRecord::Base
       end
       if pa.state != state
         checked_user, checked_at, is_checked = (state == 0)? ["系统确认", DateTime.now, true] : ["", nil, false]
-        pa.update(state: state, updated_at: update_time, alarm_value: alarm_value, checked_user: checked_user, checked_at: checked_at, is_checked: is_checked)  
+        pa.update(state: state, updated_at: update_time, alarm_value: alarm_value, checked_user: checked_user, checked_at: checked_at, is_checked: is_checked)
         logger.info "update_time is #{update_time}"
       end
     end
     end_time_all = DateTime.now.strftime("%Q").to_i
     logger.info "Point.monitor_db time is #{end_time_all-start_time_all}"
 
+  end
+
+  def update_report_show device, params
+    return if device.blank?
+    sql = ActiveRecord::Base.connection()
+    sql.update "update points set s_report = 0 where device_id = #{device}"
+    return if params.blank?
+    points = params.try(:keys).try(:join, ',')
+    sql.update "update points set s_report = 1 where id in (#{points})"
   end
 end

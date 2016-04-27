@@ -352,6 +352,12 @@ class Room < ActiveRecord::Base
     results
   end
 
+  def report_devices
+    sql = ActiveRecord::Base.connection()
+    result = sql.select_all "SELECT distinct(d.name) as name, d.id FROM points as p, devices as d where d.room_id = #{id} and p.device_id = d.id and p.s_report = 1;"
+    result.rows
+  end
+
   # room 更新后发消息到异步任务
   def notify_task
     params = {type: 'room', data: self.to_json}
