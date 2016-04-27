@@ -26,13 +26,13 @@ class Schedule
     Point.all.each do |point|
 
       if point.point_type == "analog"
+        point.tag_list.add "number_type"
+      elsif (point.point_type == "digital") && (point.name.include? "-")
         if point.name =~ /\A部件状态-|\A开关-/
           point.tag_list.add "status_type"
         elsif point.name =~ /\A告警-/
           point.tag_list.add "alarm_type"
         end
-      elsif (point.point_type == "digital") && (point.name.include? "-")
-        point.tag_list.add "number_type"
       end
 
       point.save
