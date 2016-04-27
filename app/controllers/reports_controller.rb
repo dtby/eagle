@@ -23,7 +23,7 @@ class ReportsController < BaseController
   def import
     start_time = params[:start_time]
     end_time   = params[:end_time]
-    points = params[:points]
+    points = params[:points].join(',')
     result = PointHistory.new.reports(start_time, end_time, points)
 
     file_name = Report.new.write_to_excel @room.id, result
