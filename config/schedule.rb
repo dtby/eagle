@@ -20,7 +20,7 @@ every 1.minutes do
   runner "Room.generate_alarm_data"
 end
 
-every 1.minutes do
+every 10.minutes do
   runner "PointHistory.generate_point_history"
 end
 

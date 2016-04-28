@@ -24,14 +24,15 @@ class PointHistory < ActiveRecord::Base
 
   # PointHistory.generate_point_history
   def self.generate_point_history
-    start_time = DateTime.now.strftime("%Q").to_i
-    config = YAML.load_file('config/history.yml')
-    interval = config["interval"]
+    # start_time = DateTime.now.strftime("%Q").to_i
+    # config = YAML.load_file('config/history.yml')
+    # interval = config["interval"]
     month = DateTime.now.strftime("%Y%m")
 
-    if PointHistory.proxy(month: month).all.size != 0
-      return if PointHistory.proxy(month: month).first.present? && interval*60 > Time.now - PointHistory.proxy(month: month).first.try(:created_at)
-    end
+    # if PointHistory.proxy(month: month).all.size != 0
+    #   first_item = PointHistory.proxy(month: month).first
+    #   return if first_item.present? && interval*60 > Time.now - PointHistory.proxy(month: month).first.try(:created_at)
+    # end
 
     Point.all.each do |point|
       next if point.try(:name).try(:include?, "告警-")
