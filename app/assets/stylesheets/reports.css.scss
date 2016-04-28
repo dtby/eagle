@@ -45,7 +45,6 @@ ul {
   height: 52px;
   line-height: 52px;
   bottom: 0;
-  position: absolute;
   text-align: center;
 }
 .report-device-points {
@@ -65,4 +64,7 @@ label.btn {
   width: 80%;
   height: 300px;
   margin: 50px auto;
+}
+#all-selected {
+  display: none;
 }

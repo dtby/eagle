@@ -1,6 +1,14 @@
 jQuery ->
   $('input[type=submit]').hide()
 
+  $('#all-selected')
+    .on 'click', (evt) ->
+      items = $("#selection-content").children()
+      for item in items
+        console.log(item)
+        $(item).find('input').attr('checked', 'checked')
+      evt.preventDefault()
+
   $("#report_room_id")
     .on 'change', (evt) ->
       room_id = $(this).children('option:selected').val()
@@ -23,8 +31,15 @@ jQuery ->
         dataType: 'json'
         success: (data, textStatus) ->
           for point in data.points
-            if point[2] == 1
-              $('#selection-content').append("<label class='point-item'><input name='report_points[#{point[0]}]' checked type='checkbox'/>#{point[1]}</label>")
+            names = point[1].split('-')
+            if names.length > 1
+              name = names[1]
             else
-              $('#selection-content').append("<label class='point-item'><input name='report_points[#{point[0]}]' type='checkbox'/>#{point[1]}</label>")
+              name = names[0]
+
+            if point[2] == 1
+              $('#selection-content').append("<label class='point-item'><input name='report_points[#{point[0]}]' checked type='checkbox'/>#{name}</label>")
+            else
+              $('#selection-content').append("<label class='point-item'><input name='report_points[#{point[0]}]' type='checkbox'/>#{name}</label>")
             $('input[type=submit]').show()
+            $('#all-selected').show()
