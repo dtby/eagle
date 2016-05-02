@@ -5,6 +5,7 @@
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= stylesheet_link_tag    "#{controller.controller_name}", media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag "#{controller.controller_name}", 'data-turbolinks-track' => true %>
   <%= Gon::Base.render_data %>
   <%= csrf_meta_tags %>
   <%= favicon_link_tag "favicon_logo.ico" %>

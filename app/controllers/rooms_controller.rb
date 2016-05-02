@@ -39,7 +39,6 @@ class RoomsController < BaseController
                         .paginate(page: params[:page], per_page: 20)
                         .active
                         .keyword(params[:start_time], params[:end_time])
-    puts "@point_alarms is #{@point_alarms.inspect}"
   end
 
   def checked_alert

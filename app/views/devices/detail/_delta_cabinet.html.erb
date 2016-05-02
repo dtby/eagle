@@ -1,0 +1,72 @@
+<!-- 配电柜|配电系统，表格复用模块 -->
+<div>
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-body text-center">
+        <h2><%= device.name %></h2>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="clearfix">
+  <div class="col-xs-12 p-xs">
+    <div class="mblock">
+      <div class="row">
+        <div class="col-xs-6 wrap">
+          <div class="system-table">
+            <div class="title">系统数据</div>
+            <div class="content">
+            <% @points['系统'].each do |point| %>
+              <div class="col-xs-6 item">
+                <div class="col-xs-6 item-name"><%= point[0] %></div>
+                <div class="col-xs-6 item-value"><%= point[1] %></div>
+              </div>
+            <% end %>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-6 wrap">
+          <div class="faceplate-table">
+            <div class="title">面板</div>
+            <div class="content">
+            <% @points['面板'].each do |point| %>
+              <div class="col-xs-6 item">
+                <div class="col-xs-6 item-name"><%= point[0] %></div>
+                <div class="col-xs-6 item-value"><%= point[1] %></div>
+              </div>
+            <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-6 wrap">
+          <div class="circuitry-table">
+            <div class="title">1路</div>
+            <div class="content">
+            <% @points['1路'].each do |point| %>
+              <div class="col-xs-6 item">
+                <div class="col-xs-6 item-name"><%= point[0] %></div>
+                <div class="col-xs-6 item-value"><%= point[1] %></div>
+              </div>
+            <% end %>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-6 wrap">
+          <div class="circuitry-table">
+            <div class="title">2路</div>
+            <div class="content">
+            <% @points['2路'].each do |point| %>
+              <div class="col-xs-6 item">
+                <div class="col-xs-6 item-name"><%= point[0] %></div>
+                <div class="col-xs-6 item-value"><%= point[1] %></div>
+              </div>
+            <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

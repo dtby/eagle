@@ -1,0 +1,72 @@
+<!-- 配电柜|配电系统，表格复用模块 -->
+<div>
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-body text-center">
+        <h2><%= device.name %></h2>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="clearfix">
+  <div class="col-xs-12 p-xs">
+    <div class="mblock">
+      <div class="row">
+        <div class="col-xs-10 col-xs-offset-1 system-table">
+          <div class="row title">系统数据</div>
+          <table class="content">
+            <tr class="bg-gray">
+              <td></td>
+              <td><b>A相</b></td>
+              <td><b>B相</b></td>
+              <td><b>C相</b></td>
+            </tr>
+            <tr>
+              <td class="bg-gray"><b>电流</b></td>
+              <td><%= @points['系统']['A相电流'] %></td>
+              <td><%= @points['系统']['B相电流'] %></td>
+              <td><%= @points['系统']['C相电流'] %></td>
+            </tr>
+            <tr>
+              <td class="bg-gray"><b>电压</b></td>
+              <td><%= @points['系统']['A相电压'] %></td>
+              <td><%= @points['系统']['B相电压'] %></td>
+              <td><%= @points['系统']['C相电压'] %></td>
+            </tr>
+            <tr>
+              <td class="bg-gray"><b>功率</b></td>
+              <td><%= @points['系统']['有功功率'] %></td>
+              <td><%= @points['系统']['无功功率'] %></td>
+              <td><%= @points['系统']['视在功率'] %></td>
+            </tr>
+            <tr>
+              <td rowspan="2" class="bg-gray">电能</td>
+              <td>有功</td>
+              <td colspan="2"><%= @points['系统']['有功电能'] %></td>
+            </tr>
+            <tr>
+              <td>无功</td>
+              <td colspan="2"><%= @points['系统']['无功电能'] %></td>
+            </tr>
+          </table>
+        </div>
+        
+      </div>
+      <div class="row">
+        <div class="col-xs-10 col-xs-offset-1 faceplate-table">
+          <div class="row title">开关状态</div>
+          <div class="row content">
+          <% @points['开关'].each do |point| %>
+            <div class="wrap col-xs-3">
+              <div class="item">
+                <div class="col-xs-8 item-name"><%= point[0] %></div>
+                <div class="col-xs-4 item-status"><%= switch_status(point[1]) %></div>
+              </div>
+            </div>
+          <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

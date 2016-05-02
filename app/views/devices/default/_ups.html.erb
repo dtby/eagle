@@ -31,19 +31,19 @@
     </div>
   </div>
   <div class="col-md-4 p-xs">
-    <!-- <div class="row">
+    <div class="row">
       <div class="col-xs-12">
         <div class="mblock part-bar">
           <span class="text-muted">输出负载率</span>
-          <div id="ups_bar"style="width: 100%;"></div>
+          <div id="ups_bar" style="width: 100%;"></div>
         </div>
       </div>
-    </div> -->
+    </div>
     <% if  @points["表格"].present? %>
       <div class="row">
         <div class="col-xs-12">
           <div class="mblock part-pie">
-            <div id="ups_pie"style="width: 100%;"></div>
+            <div id="ups_pie" style="width: 100%;"></div>
           </div>
         </div>
       </div>
@@ -95,53 +95,53 @@
   });
 
   // 条形图
-  // require(
-  //   [
-  //   'echarts',
-  //     'echarts/chart/bar', // 使用柱状图就加载bar模块，按需加载
-  //     ],
-  //     function (bar) {
-  //     // 基于准备好的dom，初始化echarts图表
-  //     var upsBar = bar.init(document.getElementById('ups_bar'), 'macarons');
+  require(
+    [
+    'echarts',
+      'echarts/chart/bar', // 使用柱状图就加载bar模块，按需加载
+      ],
+      function (bar) {
+      // 基于准备好的dom，初始化echarts图表
+      var upsBar = bar.init(document.getElementById('ups_bar'), 'macarons');
 
-  //     var option = {
-  //       grid : {
-  //         y : 5,
-  //         x2 : 5,
-  //         y2 : 5,
-  //         x : 5
-  //       },
-  //       tooltip : {
-  //         trigger: 'axis'
-  //       },
-  //       xAxis : [
-  //       {
-  //         type : 'category',
-  //         data : ['','','','','','','','','','','','','','','','','','','','','','','','']
-  //       }
-  //       ],
-  //       yAxis : [
-  //       {
-  //         type : 'value'
-  //       }
-  //       ],
-  //       series : [
-  //       {
-  //         name:'负载率',
-  //         type:'bar',
-  //         itemStyle:{
-  //           normal:{
-  //             color:'#00cae1'
-  //           }
-  //         },
-  //         data:[7.0, 16.9, 40.0, 12.2, 32.6, 20.0, 30.4, 18.6, 22.2, 3.3,2.0, 4.9, 7.0, 23.2, 23.2, 25.6, 76.7, 135.6, 25.6, 76.7, 32.6, 20.0, 6.4, 3.3],
-  //       }
-  //       ],
-  //     };
-  //     // 为echarts对象加载数据
-  //     upsBar.setOption(option);
-  //   }
-  //   );
+      var option = {
+        grid : {
+          y : 5,
+          x2 : 5,
+          y2 : 5,
+          x : 5
+        },
+        tooltip : {
+          trigger: 'axis'
+        },
+        xAxis : [
+        {
+          type : 'category',
+          data : ['','','','','','','','','','','','','','','','','','','','','','','','']
+        }
+        ],
+        yAxis : [
+        {
+          type : 'value'
+        }
+        ],
+        series : [
+        {
+          name:'负载率',
+          type:'bar',
+          itemStyle:{
+            normal:{
+              color:'#00cae1'
+            }
+          },
+          data:[7.0, 16.9, 40.0, 12.2, 32.6, 20.0, 30.4, 18.6, 22.2, 3.3,2.0, 4.9, 7.0, 23.2, 23.2, 25.6, 76.7, 135.6, 25.6, 76.7, 32.6, 20.0, 6.4, 3.3],
+        }
+        ],
+      };
+      // 为echarts对象加载数据
+      upsBar.setOption(option);
+    }
+    );
   <% if @points["表格"].present? %>
     // 环形图
     require(
@@ -213,8 +213,8 @@
                 x:'60%', // for funnel
                 itemStyle : labelFromatter,
                 data : [
-                  {name:'other', value: <%= point_value %>, itemStyle : labelBottom},
-                  {name:'<%= key %>', value: <%= point_value %> ,itemStyle : labelTop}
+                  {name:'other', value: <%= 4 %>, itemStyle : labelBottom},
+                  {name:'<%= key %>', value: <%= 7 %> ,itemStyle : labelTop}
                 ]
               },
             <% end %>

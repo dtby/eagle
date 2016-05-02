@@ -43,5 +43,9 @@ module DevicesHelper
   		'83.3%'
 		end
   end
+
+  def switch_status val
+    val == 0 ? '关' : '开'
+  end
   
 end
