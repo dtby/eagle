@@ -1,87 +1,88 @@
-<div class="col-xs-12">
-  <!-- 状态切换 -->
-  <div class="btn-group" role="group" style="margin-bottom: 15px;" aria-label="...">
-    <%= link_to "未处理", alert_room_path(@room), class: "btn btn-default #{params['action'] =='alert' ? 'btn-active' : ''}", data: {disable_with: '加载中...'} %>
-    <%= link_to "已处理", checked_alert_room_path(@room), class: "btn btn-default #{params['action'] =='checked_alert' ? 'btn-active' : ''}", data: {disable_with: '加载中...'} %>
-  </div>
-  <!-- 时间查询 -->
-  <div class="row">
-    <div class="col-sm-12 col-xs-12">
-      <%= form_tag path, method: :get, class: 'form-horizontal', role: "form" do %>
-        <div class="form-group col-sm-3">
-          <%= text_field_tag :start_time, params[:start_time], 'data-format': "yyyy-MM-dd hh:mm:ss", placeholder: "开始时间", required: true%>
-          <span class="add-on">
-            <i data-time-icon="glyphicon glyphicon-time" data-date-icon="glyphicon glyphicon-calendar"></i>
-          </span>
-        </div>
-        <div class="form-group col-sm-3">
-          <%= text_field_tag :end_time, params[:end_time], 'data-format': "yyyy-MM-dd hh:mm:ss", placeholder: "截止时间", required: true %>
-          <span class="add-on">
-            <i data-time-icon="glyphicon glyphicon-time" data-date-icon="glyphicon glyphicon-calendar"></i>
-          </span>
-        </div>
-        <%= submit_tag "搜索", class: "btn btn-xs btn-default" %>
-      <% end %>
+  <div class="col-xs-12">
+    <!-- 状态切换 -->
+    <div class="btn-group" role="group" style="margin-bottom: 15px;" aria-label="...">
+      <%= link_to "未处理", alert_room_path(@room), class: "btn btn-default #{params['action'] =='alert' ? 'btn-active' : ''}", data: {disable_with: '加载中...'} %>
+      <%= link_to "已处理", checked_alert_room_path(@room), class: "btn btn-default #{params['action'] =='checked_alert' ? 'btn-active' : ''}", data: {disable_with: '加载中...'} %>
+    </div>
+    <!-- 时间查询 -->
+    <div class="wrap">
+      <div class="col-sm-12 col-xs-12">
+        <%= form_tag path, method: :get, class: 'form-horizontal', role: "form" do %>
+          <div class="col-sm-2">
+            <%= text_field_tag :start_time, params[:start_time], 'data-format': "yyyy-MM-dd hh:mm:ss", placeholder: "开始时间", required: true, class: "form-control" %>
+            <span class="add-on">
+              <i data-time-icon="glyphicon glyphicon-time" data-date-icon="glyphicon glyphicon-calendar"></i>
+            </span>
+          </div>
+          <div class="col-sm-2">
+            <%= text_field_tag :end_time, params[:end_time], 'data-format': "yyyy-MM-dd hh:mm:ss", placeholder: "截止时间", required: true, class: "form-control" %>
+            <span class="add-on">
+              <i data-time-icon="glyphicon glyphicon-time" data-date-icon="glyphicon glyphicon-calendar"></i>
+            </span>
+          </div>
+          <%= submit_tag "搜索", class: "btn btn-xs btn-default" %>
+        <% end %>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="col-xs-12">
-  <div class="table-responsive">
-    <%= form_tag update_multiple_point_alarms_path(room_id: @room.id), method: :patch do %>
-      <table id="sample-table-1" class="table table-striped table-bordered table-hover">
-        <thead>
-          <tr>
-            <% if params[:action] == "alert" %>
-              <th class="text-center">
-                 <input type="checkbox" id="js-checked-all">
-              </th>
-            <% end %>
-            <th class="text-center">告警设备</th>
-            <th class="text-center">描述</th>
-            <th class="text-center">告警</th>
-            <th class="text-center">告警时间</th>
-            <th class="text-center">告警确认</th>
-            <% if params[:action] == "checked_alert" %>
-              <th class="text-center">确认时间</th>
-              <th class="text-center">确认人</th>
-            <% end %>
-          </tr>
-        </thead>
-        <tbody>
-          <% @point_alarms.each_with_index do |point_alarm, index|%>
+  <div class="col-xs-12">
+    <div class="table-responsive table-content">
+      <%= form_tag update_multiple_point_alarms_path(room_id: @room.id), method: :patch do %>
+        <table id="sample-table-1" class="table table-striped table-bordered table-hover">
+          <thead>
             <tr>
               <% if params[:action] == "alert" %>
-                <td class="text-center"><%= check_box_tag "point_alarms[]", point_alarm.id, false, class: 'point-alarms' %></td>
+                <th class="text-center">
+                   <input type="checkbox" id="js-checked-all">
+                </th>
               <% end %>
-              <td class="text-center"><%= point_alarm.device_name %></td>
-              <td class="text-center"><%= point_alarm.meaning %></td>
-              <td class="text-center"><%= point_alarm.alarm_type %></td>
-              <td class="text-center"><%= point_alarm.reported_at.try(:strftime, "%Y-%m-%d %H:%M:%S").to_s %></td>
-              <td class="text-center">
-                <% unless point_alarm.is_checked %>
-                  <%= link_to "未确认", modal_point_alarm_path(point_id: point_alarm.point_id, room_id: params[:id], name: point_alarm.try(:point).try(:name)), remote: true%>
-                <% else %>
-                  已确认
-                <% end %>
-              </td>
+              <th class="text-center">告警设备</th>
+              <th class="text-center">描述</th>
+              <th class="text-center">告警</th>
+              <th class="text-center">告警时间</th>
+              <th class="text-center">告警确认</th>
               <% if params[:action] == "checked_alert" %>
-                <th class="text-center"><%= point_alarm.checked_at.strftime("%Y-%m-%d %H:%M:%S") %></th>
-                <th class="text-center"><%= point_alarm.checked_user %></th>
+                <th class="text-center">确认时间</th>
+                <th class="text-center">确认人</th>
               <% end %>
             </tr>
-          <% end %>
-        </tbody>
-      </table>
-      <% if params[:action] == "alert" %>
-        <%= submit_tag "批量处理", class: 'btn btn-primary' %>
+          </thead>
+          <tbody>
+            <% @point_alarms.each_with_index do |point_alarm, index|%>
+              <tr>
+                <% if params[:action] == "alert" %>
+                  <td class="text-center"><%= check_box_tag "point_alarms[]", point_alarm.id, false, class: 'point-alarms' %></td>
+                <% end %>
+                <td class="text-center"><%= point_alarm.device_name %></td>
+                <td class="text-center"><%= point_alarm.meaning %></td>
+                <td class="text-center"><%= point_alarm.alarm_type %></td>
+                <td class="text-center"><%= point_alarm.reported_at.try(:strftime, "%Y-%m-%d %H:%M:%S").to_s %></td>
+                <td class="text-center">
+                  <% unless point_alarm.is_checked %>
+                    <%= link_to "未确认", modal_point_alarm_path(point_id: point_alarm.point_id, room_id: params[:id], name: point_alarm.try(:point).try(:name)), remote: true%>
+                  <% else %>
+                    已确认
+                  <% end %>
+                </td>
+                <% if params[:action] == "checked_alert" %>
+                  <th class="text-center"><%= point_alarm.checked_at.strftime("%Y-%m-%d %H:%M:%S") %></th>
+                  <th class="text-center"><%= point_alarm.checked_user %></th>
+                <% end %>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <% if params[:action] == "alert" %>
+          <%= submit_tag "批量处理", class: 'btn btn-primary' %>
+        <% end %>
       <% end %>
-    <% end %>
-    <div class="text-center">
-      <%= will_paginate @point_alarms, renderer: BootstrapPagination::Rails  %>
+      <div class="text-center">
+        <%= will_paginate @point_alarms, renderer: BootstrapPagination::Rails  %>
+      </div>
     </div>
   </div>
-</div>
+</div>  
 
 <!-- 模态框 -->
 <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
