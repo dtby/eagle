@@ -221,7 +221,7 @@ class PointHistory < ActiveRecord::Base
       query_str = "select DATE_FORMAT(p1.created_at, '%Y-%m-%d %h:%i'), p1.point_name, p1.point_value from point_histories_#{start_time.strftime('%Y%m')} as p1 where p1.created_at between '#{start_time.strftime('%Y-%m-%d %H:%M:00')}' and '#{end_time.strftime('%Y-%m-%d %H:%M:00')}' and p1.point_id in (#{points})"
     else
       query_str = "select DATE_FORMAT(p1.created_at, '%Y-%m-%d %h:%i'), p1.point_name, p1.point_value from point_histories_#{start_time.strftime('%Y%m')} as p1 where p1.created_at > '#{start_time.strftime('%Y-%m-%d %H:%M:00')}' and p1.point_id in (#{points})"
-      query_str << "union"
+      query_str << " union "
       query_str << "select DATE_FORMAT(p2.created_at, '%Y-%m-%d %h:%i'), p2.point_name, p2.point_value from point_histories_#{end_time.strftime('%Y%m')} as p2 where p2.created_at < '#{end_time.strftime('%Y-%m-%d %H:%M:00')}' and p2.point_id in (#{points});"
     end
     result = sql.select_all query_str
