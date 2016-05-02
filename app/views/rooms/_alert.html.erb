@@ -66,7 +66,7 @@
                   <% end %>
                 </td>
                 <% if params[:action] == "checked_alert" %>
-                  <th class="text-center"><%= point_alarm.checked_at.strftime("%Y-%m-%d %H:%M:%S") %></th>
+                  <th class="text-center"><%= point_alarm.checked_at.try(:strftime, "%Y-%m-%d %H:%M:%S") %></th>
                   <th class="text-center"><%= point_alarm.checked_user %></th>
                 <% end %>
               </tr>
