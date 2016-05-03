@@ -153,7 +153,7 @@ class PointAlarm < ActiveRecord::Base
     body = {
       alarm: get_notify_content_hash
     }
-    conn = Faraday.new(:url => "http://115.29.211.21/") do |faraday|
+    conn = Faraday.new(:url => "http://wechat.igridtotalsolution.com/") do |faraday|
       faraday.request  :url_encoded
       faraday.adapter  Faraday.default_adapter
     end
