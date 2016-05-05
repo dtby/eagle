@@ -47,7 +47,7 @@ class Device < ActiveRecord::Base
   end
 
   def pic
-    path = pic_path || Attachment.find_by("tag like ? AND room_id = ?", "%#{name}%", room_id).try(:image_url, :w_640)
+    path = Attachment.find_by("tag like ? AND room_id = ?", "%#{name}%", room_id).try(:image_url, :w_640)
     "#{ActionController::Base.asset_host}#{path}" if path.present?
   end
 
