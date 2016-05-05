@@ -18,6 +18,5 @@ class AlarmProcessJob < ActiveJob::Base
         
     sql = "UPDATE dap.#{table_name} SET User = '#{name}' WHERE PointID=#{point_index} ORDER BY ADate DESC, ATime DESC, AMSecond DESC LIMIT 1"
     records_array = ActiveRecord::Base.connection.update(sql)
-    puts "----- AlarmProcessJob end -----"
   end
 end
