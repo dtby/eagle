@@ -3,7 +3,6 @@ class AlarmProcessJob < ActiveJob::Base
 
   def perform(alarm, name)
     # Do something later
-    puts "----- point name is #{name}, point index is #{point_index} -----"
     point_index = alarm.try(:point).try(:point_index)
     return if point_index.blank?
     config = Rails.configuration.database_configuration
