@@ -104,8 +104,9 @@ class PointAlarmsController < BaseController
   end
 
   def checked
-    puts "#{@point_alarm.inspect}"
-    if @point_alarm.present? && @point_alarm.update(checked_at: DateTime.now, is_checked: true)
+    if @point_alarm && @point_alarm.is_checked
+      result = "处理成功"
+    elsif @point_alarm && @point_alarm.update(checked_at: DateTime.now, is_checked: true)
       @point_alarm.check_alarm_by_user(current_user.name)
       result = "处理成功"
     else
