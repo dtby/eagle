@@ -37,6 +37,8 @@
 		width: 45%;
 		left: -45%;
 		top: 30px;
+		max-height: 200px;
+		overflow-y: auto;
 	}
 	.table-left2{
 		position: absolute;
@@ -53,7 +55,7 @@
 	.table-bottom{
 		position: absolute;
 		width: 45%;
-		bottom: 30px;
+		top: 210px;
 		left: -45%;
 	}
 
