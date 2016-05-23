@@ -267,6 +267,8 @@ class Room < ActiveRecord::Base
   def self.generate_system informations, type
     # 机房 => { 系统 => 子系统 => { 点 => 数据 }
     # 机房 (=> 子机房) => 设备
+    filter_room = Room.find_by_name '云南广福城'
+    update_time = DateTime.now
     informations.each do |information|
       room = Room.find_or_create_by(name: information.room)
       sub_system = SubSystem.find_or_create_by(name: information.sub_system)
@@ -274,7 +276,7 @@ class Room < ActiveRecord::Base
       next if information.pattern.blank?
 
       menu = Menu.find_or_create_by(room: room, menuable_id: sub_system.try(:id), menuable_type: "SubSystem")
-      menu.update(updated_at: DateTime.now)
+      menu.update(updated_at: update_time)
 
       pattern = Pattern.find_or_create_by(sub_system_id: sub_system.id, name: information.pattern.try(:strip))
       device = Device.unscoped.find_or_create_by(name: information.device, pattern: pattern, room: room)
@@ -286,7 +288,7 @@ class Room < ActiveRecord::Base
         device.sub_room = sub_room
       end
       device.state      = true
-      device.updated_at = DateTime.now
+      device.updated_at = update_time
       device.save
 
       if information.up_value && information.down_value
@@ -295,7 +297,7 @@ class Room < ActiveRecord::Base
       end
       point.point_type  = type
       point.state       = true
-      point.updated_at  = DateTime.now
+      point.updated_at  = update_time
       point.save
 
       check_point information.sub_system, information.point, point.id, device.id
@@ -306,7 +308,7 @@ class Room < ActiveRecord::Base
       point.update(state: false)
       point.point_alarm.update(state: nil) if point.point_alarm.present?
     end
-    Device.where(updated_at: DateTime.new(2010,1,1)..15.minute.ago).update_all(state: false)
+    Device.where("room_id <> ?", filter_room.id).where(updated_at: DateTime.new(2010,1,1)..15.minute.ago).update_all(state: false)
     Menu.where(menuable_type: "SubSystem", updated_at: DateTime.new(2010,1,1)..15.minute.ago).destroy_all
     nil
   end
