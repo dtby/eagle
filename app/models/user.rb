@@ -110,7 +110,11 @@ class User < ActiveRecord::Base
 
 	# user 更新后发消息到异步任务
   def notify_task
-    params = {type: 'user', data: self.to_json}
+    params = {type: 'user', data: {
+      phone: phone,
+      authentication_token: authentication_token,
+      name: name
+    }}
     NotifyWeixinJob.set(queue: :sync_info).perform_later(params)
   end
 
