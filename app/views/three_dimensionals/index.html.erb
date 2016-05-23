@@ -1,0 +1,60 @@
+<div class="content">
+  <div id="unityPlayer">
+    <div class="missing">
+      <a href="http://unity3d.com/webplayer/" title="Unity Web Player. Install now!">
+        <img alt="Unity Web Player. Install now!" src="http://webplayer.unity3d.com/installation/getunity.png" width="193" height="63" />
+      </a>
+    </div>
+  </div>
+</div>
+<%= content_for :scripts do %>
+  <%= javascript_include_tag "reports", 'data-turbolinks-track' => true %>
+  <script type="text/javascript">
+    var config = {
+      width: 1024, 
+      height: 768,
+      params: { enableDebugging:"0" }
+      
+    };
+    config.params["disableContextMenu"] = true;
+    var u = new UnityObject2(config);
+    $(function() {
+      var $missingScreen = jQuery("#unityPlayer").find(".missing");
+      var $brokenScreen = jQuery("#unityPlayer").find(".broken");
+      $missingScreen.hide();
+      $brokenScreen.hide();
+
+      u.observeProgress(function (progress) {
+        switch(progress.pluginStatus) {
+          case "broken":
+            $brokenScreen.find("a").click(function (e) {
+              e.stopPropagation();
+              e.preventDefault();
+              u.installPlugin();
+              return false;
+            });
+            $brokenScreen.show();
+          break;
+          case "missing":
+            $missingScreen.find("a").click(function (e) {
+              e.stopPropagation();
+              e.preventDefault();
+              u.installPlugin();
+              return false;
+            });
+            $missingScreen.show();
+          break;
+          case "installed":
+            $missingScreen.remove();
+          break;
+          case "first":
+          break;
+        }
+      });
+      u.initPlugin(jQuery("#unityPlayer")[0], "iGridClient.unity3d");
+      u.getUnity().SendMessage("Main Camera", "OpenProject", 'http://www.igridtotalsolution.com/3droom/prj/yn/project.scene');
+    });
+  </script>
+
+<% end %>
+

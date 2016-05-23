@@ -42,6 +42,9 @@ Rails.application.routes.draw do
   end
 
   resources :rooms, only: [:index, :show] do
+    # 3D机房
+    resources :three_dimensionals, only: [:index]
+    
     resources :points, only: [] do
       collection do
         post :get_value_by_names

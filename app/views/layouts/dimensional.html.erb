@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>iGrid监控平台</title>
+  <%= stylesheet_link_tag    "#{controller.controller_name}", media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag "#{controller.controller_name}", 'data-turbolinks-track' => true %>
+  <%= Gon::Base.render_data %>
+  <%= csrf_meta_tags %>
+  <%= favicon_link_tag "favicon_logo.ico" %>
+</head>
+
+  <body>
+    <div id="wrapper">
+      <!-- 左侧导航栏部分 -->
+      <%= render partial: "/share/left_bar" %>
+
+      <!-- 右侧内容页 -->
+      <div id="page-wrapper" class="gray-bg">
+        <!-- 顶部导航 -->
+        <%= render partial: "/share/top_bar" %>
+
+        <!-- 右侧中间内容部分 -->
+        <div class="row wrapper eagle-content <%= controller.controller_path.gsub('/','__') + '__' + controller.action_name %>">
+          <%= yield %>
+        </div>
+
+        <!-- 页脚 -->
+        <%= render partial: "/share/footer" %>
+
+        <!-- 皮肤及设置 -->
+        <%#= render partial: "/share/setting" %>
+      </div>
+    </div>
+    <%= yield :scripts %>
+  </body>
+
+</html>

@@ -6,8 +6,9 @@ System.create!([
   { id: 4, sys_name: '安全' },
   { id: 5, sys_name: '远程' },
   { id: 6, sys_name: '能效' },
-  { id: 7, sys_name: '部署' },
-  { id: 8, sys_name: '报表' }
+  { id: 7, sys_name: '部署' }
+  # { id: 8, sys_name: '报表' },
+  # { id: 9, sys_name: '3D机房' }
 ])
 
 SubSystem.destroy_all
@@ -64,7 +65,7 @@ Pattern.create!([
 
   { id: 10, sub_system_id: 6, name: '普通温湿度', partial_path: '' }, # "温湿度系统"=>"普通温湿度" and "th802",
   { id: 11, sub_system_id: 3, name: '泰昂IPM', partial_path: '' },  #"电表系统"
-
+  { id: 12, sub_system_id: 1, name: 'SY', partial_path: 'delta_cabinet' },  #apc ups
   { id: 13, sub_system_id: 8, name: 'ACFM', partial_path: '' },  #apc空调
   { id: 14, sub_system_id: 1, name: 'SY', partial_path: '' }  #apc ups
 ])

@@ -99,3 +99,23 @@
     }
   }
 }
+.ups-up {
+  height: 654px;
+  max-height: 654px;
+}
+.ups-up-left {
+  // margin-left: 15px;
+}
+.ups-up-right {
+  padding-right: 0;
+  .panel-body {
+    height: 613px;
+    .content {
+      height: 100%;
+      overflow-y: scroll;
+    }
+  }
+}
+#ups_bar, #ups_bar2 {
+  height: 260px;
+}

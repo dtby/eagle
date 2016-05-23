@@ -14,15 +14,8 @@ class BaseController < ApplicationController
   # 验证用户是否有访问当前机房的权限
   def authenticate_and_set_room
     # room赋值
-    if params[:controller] == 'rooms' && params[:action] == 'show'
-      @room = Room.where(id: params[:id]).first
-    elsif params[:controller] == 'rooms' && params[:action] == 'alert'
-      @room = Room.where(id: params[:id]).first
-    elsif params[:controller] == 'rooms' && params[:action] == 'checked_alert'
-      @room = Room.where(id: params[:id]).first
-    elsif params[:controller] == 'rooms' && params[:action] == 'video'
-      @room = Room.where(id: params[:id]).first
-    elsif params[:controller] == 'rooms' && params[:action] == 'pic'
+    room_actions = ['show', 'alert', 'checked_alert', 'video', 'pic']
+    if params[:controller] == 'rooms' and room_actions.include?(params[:action])
       @room = Room.where(id: params[:id]).first
     elsif params[:controller] == 'reports' && params[:action] == 'index'
       @room = Room.where(id: params[:id]).first
@@ -40,6 +33,7 @@ class BaseController < ApplicationController
       end
     end
   end
+  
   private
   def list_alerts
     if params[:room_id].present?

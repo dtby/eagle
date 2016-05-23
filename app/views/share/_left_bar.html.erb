@@ -50,6 +50,12 @@
 						<!-- 二级菜单 -->
 					</li>
 				<% end %>
+				<li class="<%= "active" if params[:controller] == "three_dimensionals" && params[:action] == 'index' %>">
+				  <%= link_to room_three_dimensionals_path(@room) do %>
+				    <i class="fa fa-home"></i>
+				    <span class="nav-label">3D机房</span>
+				  <% end %>
+			  </li>
 				<li class="<%= "active" if params[:controller] == "reports" && params[:action] == 'index' %>">
 				  <%= link_to room_reports_path(@room) do %>
 				    <i class="fa fa-area-chart"></i>
