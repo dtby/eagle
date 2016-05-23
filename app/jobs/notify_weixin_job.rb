@@ -2,7 +2,7 @@ class NotifyWeixinJob < ActiveJob::Base
   include InteractiveMiddleware
   queue_as :sync_info
 
-  def perform params=
+  def perform params
     request_params[:method] = 'post'
     request_params[:url] = '/receivers/fetch'
     request_params[:data_hash] = params
