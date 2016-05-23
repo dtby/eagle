@@ -20,7 +20,6 @@ module InteractiveMiddleware
   private
   def use_post(params={}, head_params={})
     data_url = params[:url] || params['url']
-    request_params = params[:data] || params['data']
     response = @connect.post do |request|
       request.url data_url
       request.headers['Content-Type'] = 'application/json'
@@ -32,7 +31,7 @@ module InteractiveMiddleware
         request.headers["X-#{i_type}-Phone"] = phone
         request.headers["X-#{i_type}-Token"] = token
       end
-      request.body = request_params.to_json
+      request.body = params[:data_hash]
     end
     MultiJson.load(response.body)
   end
