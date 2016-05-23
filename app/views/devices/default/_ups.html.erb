@@ -6,94 +6,76 @@
       </div>
     </div>
   </div>
-  <div class="col-md-8 p-xs">
-    <div class="mblock left">
-      <div class="row">
-        <div class="col-xs-4 p-r"></div>
-        <div class="col-xs-8 p-l">
-          <%=image_tag"power-ups2.jpg",width:"65%", height: "90%", id: 'ups_img'%>
-          <!-- 左侧表格1 -->
-          <div class="table-responsive table-left1">
-            <%= render partial: "devices/share/table", locals: { title: "市电输入", points: @points["市电输入"], exclude_points: exclude_points["市电输入"] } %>
-          </div>
-          <!-- 右侧表格 -->
-          <% if @points["AC"].present? %>
-            <div class="table-responsive table-right">
-              <%= render partial: "devices/share/table", locals: { title: "UPS输出", points: @points["AC"], exclude_points: exclude_points["AC"] } %>
-            </div>
-          <% end %>
-          <!-- 下部表格 -->
-          <div class="table-responsive table-bottom">
-            <%= render partial: "devices/share/table", locals: { title: "电池模块", points: @points["电池模块"], exclude_points: exclude_points["电池模块"] } %>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-4 p-xs">
+  
+  <div class="col-md-12">
+    <div class="col-md-8 mblock ups-up ups-up-left">
     <div class="row">
-      <div class="col-xs-12">
-        <div class="mblock part-bar">
-          <span class="text-muted">输出负载率</span>
-          <div id="ups_bar" style="width: 100%;"></div>
+      <div class="col-xs-4 p-r"></div>
+      <div class="col-xs-8 p-l">
+        <%=image_tag"power-ups2.jpg",width:"65%", height: "90%", id: 'ups_img'%>
+        <!-- 左侧表格1 -->
+        <div class="table-responsive table-left1">
+          <%= render partial: "devices/share/table", locals: { title: "市电输入", points: @points["市电输入"], exclude_points: exclude_points["市电输入"] } %>
+        </div>
+        <!-- 右侧表格 -->
+        <% if @points["UPS输出"].present? %>
+          <div class="table-responsive table-right">
+            <%= render partial: "devices/share/table", locals: { title: "UPS输出", points: @points["UPS输出"], exclude_points: exclude_points["UPS输出"] } %>
+          </div>
+        <% end %>
+        <!-- 下部表格 -->
+        <div class="table-responsive table-bottom">
+          <%= render partial: "devices/share/table", locals: { title: "电池模块", points: @points["电池模块"], exclude_points: exclude_points["电池模块"] } %>
         </div>
       </div>
     </div>
-    <% if  @points["表格"].present? %>
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="mblock part-pie">
-            <div id="ups_pie" style="width: 100%;"></div>
-          </div>
-        </div>
-      </div>
-    <% end %>
   </div>
-
+  
   <% if @points["告警"].present? %>
-    <div class="col-md-12">
+    <div class="col-md-4 ups-up ups-up-right">
       <div class="panel panel-default warn-info">
         <div class="panel-heading text-center"><h4>报警信息</h4></div>
-        <div class="panel-body" style="height: 320px; overflow: auto;" >
-          <% @points["告警"].keys.each_with_index do |key, index| %>
-            <% if index % 4 == 0 %>
-              <div class="air_d_grey col-sm-3" align="left">
-            <% end %>
-              <div class="info-row" style="overflow:hidden; margin:0; padding-bottom:0;">
+        <div class="panel-body" >
+          <div class="content">
+            <% @points["告警"].each do |key, value| %>
+              <div class="col-xs-6" style="margin-bottom: 10px;">
                 <span class="warning-name"><%= key %></span>
-                <span class="warning-icon"><%= warning_status @points["告警"][key] %></span>
-              </div>
-            <% if index%4 == 3 %>
+                <span class="warning-icon"><%= warning_status value %></span>
               </div>
             <% end %>
-          <% end %>
+          </div>
         </div>
       </div>
     </div>
+  <% end %>  
+  </div>
+  
+  <% if @load_factor %>
+  <div class="col-md-12">
+    <div class="mblock part-bar">
+      <span class="text-muted">输出负载率</span>
+      <div id="ups_bar" style="width: 100%;"></div>
+    </div>
+  </div>
   <% end %>
 
+  <% if  @points["表格"].present? %>
+  <div class="col-md-12">
+    <div class="mblock part-pie">
+      <div id="ups_bar2" style="width: 100%;"></div>
+    </div>
+  </div>
+  <% end %>
 </div>
 
 <script type="text/javascript">
-  //设置3个模块的高度
-  var left = document.body.clientHeight - 100;
-  var r_t = left * 0.4 - 25;
-  var r_b = left * 0.6 -25;
-  $(".left").height(left);
-  $(".part-bar").height(r_t);
-  $("#ups_bar").height(r_t-20);
-  $(".part-pie").height(r_b);
-  $("#ups_pie").height(r_b);
-
-  // $("#ups_img").height(left-10);
-
   // 路径配置
   require.config({
     paths: {
       echarts: '/assets/echarts'
     }
   });
-
+  <% if @load_factor %>
   // 条形图
   require(
     [
@@ -142,86 +124,57 @@
       upsBar.setOption(option);
     }
     );
-  <% if @points["表格"].present? %>
-    // 环形图
-    require(
-      [
-      'echarts',
-      'echarts/chart/pie'
-      ],
-      function (pie) {
-        // 基于准备好的dom，初始化echarts图表
-        var upsPie = pie.init(document.getElementById('ups_pie'));
-        var labelTop = {
-          normal : {
-            label : {
-              show : true,
-              position : 'center',
-              formatter : '{b}',
-              textStyle: {
-                baseline : 'top',
-                color: '#7e7e7e',
-                fontSize: 10
-              }
-            },
-            labelLine : {
-              show : false
-            }
-          }
-        };
-        var labelFromatter = {
-          normal : {
-            label : {
-              formatter : function (params){
-                return params.value
-              },
-              textStyle: {
-                baseline : 'bottom',
-                fontSize: 20
-              }
-            }
-          },
-        }
-        var labelBottom = {
-          normal : {
-            color: '#eee',
-            label : {
-              show : true,
-              position : 'center'
-            },
-            labelLine : {
-              show : false
-            }
-          },
-          emphasis: {
-            color: 'rgba(0,0,0,0)'
-          }
-        };
-        var radius = ['30%', '33%'];
-        var option = {
-          legend: {
-            x : 'center',
-            y : 'center',
-            data:[]
-          },
-          series : [
-            <% @points["表格"].each_with_index do |(key, point_value), index| %>
-              {
-                type : 'pie',
-                center : ['<%= pie_x index %>', '<%= pie_y index %>'],
-                radius : radius,
-                x:'60%', // for funnel
-                itemStyle : labelFromatter,
-                data : [
-                  {name:'other', value: <%= 4 %>, itemStyle : labelBottom},
-                  {name:'<%= key %>', value: <%= 7 %> ,itemStyle : labelTop}
-                ]
-              },
+  <% end %>
+  <% if @device_consume %>
+  // 条形图
+  require(
+    [
+    'echarts',
+    'echarts/chart/line', // 使用柱状图就加载bar模块，按需加载
+    ],
+    function (line) {
+      // 基于准备好的dom，初始化echarts图表
+      var upsBar2 = line.init(document.getElementById('ups_bar2'), 'macarons');
+
+      var option = {
+        grid: { y: 55, x2: 5, y2: 25, x: 5 },
+        tooltip: { trigger: 'axis' },
+        legend: {
+          x: 'right',
+          data:[
+            <% @device_consume.keys.each do |key| %>
+              "<%= key %>",
             <% end %>
-            ]
-          };
-          upsPie.setOption(option);
+          ]
+        },
+        xAxis : [
+        {
+          type : 'category',
+          data : [
+            <% @device_consume.first.second.each do |item| %>
+              "<%= item.created_at.strftime('%F %H:%M') %>",
+            <% end %>
+          ]
         }
-        );
+        ],
+        yAxis : [{ type : 'value' }],
+        series : [
+        <% @device_consume.each do |key, items| %>
+          {
+            name:'<%= key %>',
+            type:'line',
+            data:[
+              <% items.each do |item|%>
+                <%= item.point_value %>,
+              <% end %>
+            ],
+          },
+        <% end %>
+        ]
+      };
+      // 为echarts对象加载数据
+      upsBar2.setOption(option);
+    }
+  );
   <% end %>
 </script>
