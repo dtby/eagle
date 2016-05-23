@@ -165,10 +165,63 @@ class Room < ActiveRecord::Base
     point_name[index+offset].ord - "A".ord
   end
 
+  def process
+    table_names = [AnalogPoint, DigitalPoint]
+    now_update_time = DateTime.now
+    table_names.each do |name|
+      analyzed_table name, now_update_time
+    end
+  end
+
+  def analyzed_table table_name, now_update_time
+    data = table_name.where("RSName = ? and Comment <> ''", "云南广福城")
+    if table_name == AnalogPoint
+      list = data.pluck(:BayName, :GroupName, :PointName, :PointID, :RSName, :Comment, :UpValue, :DnValue)
+    else
+      list = data.pluck(:BayName, :GroupName, :PointName, :PointID, :RSName, :Comment)
+    end
+    room_name = list.first[4]
+    room = Room.find_or_create_by(name: room_name)
+    list.each do |items|
+      device_name                   = items[0].split('-')[-1]
+      sub_system_name, pattern_name = items[1].split('-')
+      point_name                    = items[2]
+      point_index                   = items[3]
+      comment                       = items[5]
+      max_value                     = items[6].to_f
+      min_value                     = items[7].to_f
+      
+      if sub_system_name.present?
+        sub_system = SubSystem.find_by(name: sub_system_name)
+      end
+      menu = Menu.find_or_create_by(room: room, menuable_id: sub_system.try(:id), menuable_type: "SubSystem")
+      menu.update(updated_at: DateTime.now)
+      
+      device_name = '温湿度' if device_name.include?('温湿度')
+
+      device = room.devices.find_or_create_by(name: device_name)
+
+      pattern_name = device.name.remove(/\d+(主|备)?/)
+      pattern = Pattern.find_or_create_by(name: pattern_name, sub_system: sub_system)
+      device.pattern = pattern
+      device.save
+      
+      point = device.points.find_or_create_by(name: point_name, point_index: point_index)
+      point.point_type = table_name.name.downcase.remove('point')
+      point.comment    = comment
+      point.max_value  = max_value
+      point.min_value  = min_value
+      point.state      = true
+      point.updated_at = now_update_time
+      point.save
+    end
+    Point.where('updated_at < ?', now_update_time).update_all(state: false)
+  end
+
   # 用struct来优化
   def self.datas_to_hash class_name, group_hash
     informations = []
-    class_name.all.each do |ap|
+    class_name.where("RSName <> ?", "云南广福城").each do |ap|
       next if ap.BayName.blank? || ap.GroupName.blank? || ap.PointName.blank?
       information = Information.new
       # BayName: 机房-设备
