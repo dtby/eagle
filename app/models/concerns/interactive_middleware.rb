@@ -31,7 +31,7 @@ module InteractiveMiddleware
         request.headers["X-#{i_type}-Phone"] = phone
         request.headers["X-#{i_type}-Token"] = token
       end
-      request.body = params[:data_hash]
+      request.body = params[:data_hash].to_json
     end
     MultiJson.load(response.body)
   end
