@@ -15,7 +15,11 @@
         <%=image_tag"power-ups2.jpg",width:"65%", height: "90%", id: 'ups_img'%>
         <!-- 左侧表格1 -->
         <div class="table-responsive table-left1">
-          <%= render partial: "devices/share/table", locals: { title: "市电输入", points: @points["市电输入"], exclude_points: exclude_points["市电输入"] } %>
+          <% if @points['市电输入'].present? %>
+            <%= render partial: "devices/share/table", locals: { title: "市电输入", points: @points["市电输入"], exclude_points: exclude_points["市电输入"] } %>
+          <% elsif @points['市电输出'].present? %>
+            <%= render partial: "devices/share/table", locals: { title: "市电输出", points: @points["市电输出"], exclude_points: exclude_points["市电输出"] } %>
+          <% end %>
         </div>
         <!-- 右侧表格 -->
         <% if @points["UPS输出"].present? %>
@@ -25,7 +29,9 @@
         <% end %>
         <!-- 下部表格 -->
         <div class="table-responsive table-bottom">
-          <%= render partial: "devices/share/table", locals: { title: "电池模块", points: @points["电池模块"], exclude_points: exclude_points["电池模块"] } %>
+          <% if @points['电池模块'].present? %>
+            <%= render partial: "devices/share/table", locals: { title: "电池模块", points: @points["电池模块"], exclude_points: exclude_points["电池模块"] } %>
+          <% end %>
         </div>
       </div>
     </div>
@@ -125,7 +131,7 @@
     }
     );
   <% end %>
-  <% if @device_consume %>
+  <% if @device_consume.present? %>
   // 条形图
   require(
     [
