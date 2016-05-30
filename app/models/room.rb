@@ -90,8 +90,6 @@ class Room < ActiveRecord::Base
     nil
   end
 
-
-
   def self.check_point sub_sys_name, point_name, point_id, device_id
     # 动力系统 ->  配电系统 -> 配电柜  "A相电压" "B相电压" "C相电压" "电流"
     # 动力系统 ->  UPS系统 -> UPS1  "A相电压" "B相电压" "C相电压" "电流"
@@ -168,18 +166,30 @@ class Room < ActiveRecord::Base
   def process
     table_names = [AnalogPoint, DigitalPoint]
     now_update_time = DateTime.now
-    table_names.each do |name|
-      analyzed_table name, now_update_time
+    rooms_name = analyzed_room
+
+    table_names.each do |table_name|
+      rooms_name.each do |room_name|
+        thread = Thread.start do 
+          analyzed_table table_name, room_name, now_update_time
+        end
+        thread.join
+      end
     end
   end
 
-  def analyzed_table table_name, now_update_time
-    data = table_name.where("RSName = ? and Comment <> ''", "云南广福城")
+  def analyzed_room
+    AnalogPoint.all.distinct(:RSName).pluck(:RSName)
+  end
+
+  def analyzed_table table_name, room_name, now_update_time
+    data = table_name.where("RSName = ? and Comment <> ''", room_name)
     if table_name == AnalogPoint
       list = data.pluck(:BayName, :GroupName, :PointName, :PointID, :RSName, :Comment, :UpValue, :DnValue)
     else
       list = data.pluck(:BayName, :GroupName, :PointName, :PointID, :RSName, :Comment)
     end
+    return if list.blank?
     room_name = list.first[4]
     room = Room.find_or_create_by(name: room_name)
     list.each do |items|
@@ -200,12 +210,12 @@ class Room < ActiveRecord::Base
       device_name = '温湿度' if device_name.include?('温湿度')
 
       device = room.devices.find_or_create_by(name: device_name)
-
+      p device if room.name = '南京新华报业'
       pattern_name = device.name.remove(/\d+(主|备)?/)
       pattern = Pattern.find_or_create_by(name: pattern_name, sub_system: sub_system)
       device.pattern = pattern
       device.save
-      
+            
       point = device.points.find_or_create_by(name: point_name, point_index: point_index)
       point.point_type = table_name.name.downcase.remove('point')
       point.comment    = comment
