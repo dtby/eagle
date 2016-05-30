@@ -56,7 +56,7 @@
   <% end %>  
   </div>
   
-  <% if @load_factor %>
+  <% if @load_factor.present? %>
   <div class="col-md-12">
     <div class="mblock part-bar">
       <span class="text-muted">输出负载率</span>
@@ -81,7 +81,7 @@
       echarts: '/assets/echarts'
     }
   });
-  <% if @load_factor %>
+  <% if @load_factor.present? %>
   // 条形图
   require(
     [
