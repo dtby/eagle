@@ -207,10 +207,16 @@ class Room < ActiveRecord::Base
       menu = Menu.find_or_create_by(room: room, menuable_id: sub_system.try(:id), menuable_type: "SubSystem")
       menu.update(updated_at: DateTime.now)
       
-      device_name = '温湿度' if device_name.include?('温湿度') and room_name.eql?('云南广福城')
+      if device_name.include?('温湿度') 
+        if room_name.eql?('云南广福城')
+          device_name = '温湿度'
+        else
+          device_name.remove(/(\d+)&/)
+        end
+      end
 
       device = room.devices.find_or_create_by(name: device_name)
-      p device if room.name = '南京新华报业'
+      
       pattern_name = device.name.remove(/\d+(主|备)?/)
       pattern = Pattern.find_or_create_by(name: pattern_name, sub_system: sub_system)
       device.pattern = pattern
