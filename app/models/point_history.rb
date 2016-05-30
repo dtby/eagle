@@ -44,8 +44,8 @@ class PointHistory < ActiveRecord::Base
         next
       end
     end
-    end_time = DateTime.now.strftime("%Q").to_i
-    logger.info "PointHistory.generate_point_history time is #{end_time-start_time}"
+    # end_time = DateTime.now.strftime("%Q").to_i
+    # logger.info "PointHistory.generate_point_history time is #{end_time-start_time}"
     nil
   end
 
@@ -79,6 +79,11 @@ class PointHistory < ActiveRecord::Base
 
   def self.table_exists? (sign=nil)
     ActiveRecord::Base.connection.tables.include? sign
+  end
+
+  def self.find_by_points point_ids
+    month = DateTime.now.strftime("%Y%m")
+    PointHistory.proxy(month: month).where("point_id in (?)", point_ids).group_by {|item| item.point_name}
   end
 
   def self.find_by_point_id point_id
