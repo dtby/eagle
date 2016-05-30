@@ -13,6 +13,7 @@
 #  max_value   :string(255)
 #  min_value   :string(255)
 #  s_report    :integer          default(0)
+#  comment     :string(255)
 #
 # Indexes
 #

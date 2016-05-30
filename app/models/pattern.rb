@@ -32,24 +32,26 @@ class Pattern < ActiveRecord::Base
     #   '旁路输出' => ['A组', 'B组', 'C组', 'D组', 'E组']
     # }
 
-    point_group = {}
-    others = [] # 未分组的节点
-    all_points = points.group(:name).order("points.id asc").pluck(:name)
-    all_points.each do |point_name|
-      if point_name.include?('-')
-        splits = point_name.split('-', 2)
-        group = splits.try(:first).try(:strip)
-        if group.present?
-          pn = splits.try(:last).try(:strip)
-          point_group[group].blank? ? point_group[group] = [pn] : point_group[group].push(pn)
-        end
-      else
-        others.push(point_name)
-      end
-    end
-    point_group["其他"] = others if others.present?
+    # point_group = {}
+    # others = [] # 未分组的节点
+    # all_points = points.group(:name).order("points.id asc").pluck(:name)
+    # all_points.each do |point_name|
+    #   if point_name.include?('-')
+    #     splits = point_name.split('-', 2)
+    #     group = splits.try(:first).try(:strip)
+    #     if group.present?
+    #       pn = splits.try(:last).try(:strip)
+    #       point_group[group].blank? ? point_group[group] = [pn] : point_group[group].push(pn)
+    #     end
+    #   else
+    #     others.push(point_name)
+    #   end
+    # end
+    # point_group["其他"] = others if others.present?
 
-    point_group
+    # point_group
+    
+    points.group_by {|point| point.comment}
 
   end
 
