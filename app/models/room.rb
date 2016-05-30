@@ -207,7 +207,7 @@ class Room < ActiveRecord::Base
       menu = Menu.find_or_create_by(room: room, menuable_id: sub_system.try(:id), menuable_type: "SubSystem")
       menu.update(updated_at: DateTime.now)
       
-      device_name = '温湿度' if device_name.include?('温湿度')
+      device_name = '温湿度' if device_name.include?('温湿度') and room_name.eql?('云南广福城')
 
       device = room.devices.find_or_create_by(name: device_name)
       p device if room.name = '南京新华报业'
