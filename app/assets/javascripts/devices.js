@@ -10,6 +10,6 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require ./application/raphael-2.1.4.min
-//= require ./application/justgage
+// = require ./application/raphael
+// = require ./application/justgage
 //= require ./application/bootstrap-switch
