@@ -29,6 +29,7 @@ class SubSystem < ActiveRecord::Base
     "温湿度系统" => "temp",
     "漏水系统" => "leak",
     "消防系统" => "fire",
+    "电池系统" => "batteries"
   }
 
   def self.get_name id
