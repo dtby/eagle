@@ -220,6 +220,7 @@ class Room < ActiveRecord::Base
       pattern_name = device.name.remove(/\d+(主|备)?/)
       pattern = Pattern.find_or_create_by(name: pattern_name, sub_system: sub_system)
       device.pattern = pattern
+      device.updated_at = now_update_time
       device.save
             
       point = device.points.find_or_create_by(name: point_name, point_index: point_index)
@@ -232,6 +233,7 @@ class Room < ActiveRecord::Base
       point.save
     end
     Point.where('updated_at < ?', now_update_time).update_all(state: false)
+    Device.where('updated_at < ?', now_update_time).update_all(state: false)
   end
 
   # 用struct来优化
