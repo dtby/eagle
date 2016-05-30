@@ -5,9 +5,7 @@
 <script type="text/javascript">
   // 路径配置
   require.config({
-    paths: {
-      echarts: '/assets/echarts'
-    }
+    paths: {echarts: '/assets/echarts'}
   });
   // 使用
   require(
@@ -48,7 +46,7 @@
             }}},
             data : [
               <% points.each do |key, value| %>
-                {name: '<%= key %>', value: <%= rand(32) %>},
+                {name: '<%= key %>', value: <%= value %>},
               <% end %> 
             ]
           }
