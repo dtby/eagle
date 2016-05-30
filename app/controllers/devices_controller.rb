@@ -31,9 +31,12 @@ class DevicesController < BaseController
     if request.format.html?
       @room = Room.where(id: params[:room_id]).first
       @device = Device.includes(:points).where(id: params[:id]).first
+      @load_factor = [1,2]
+      @device_consume = PointHistory.find_by_points @device.points.where("comment = ?", "表格").pluck(:id)
       @alarms = Device.find(params[:id]).alarms.sort_by{|x| x.device_name.gsub(/[^0-9]/, '').to_i}
       @points = @device.points_value
       @exclude_points = @device.pattern.getting_exclude_points
+
       ##通过设备名称获取背景图片
       @attachment = @room.attachments.where("tag like ?", "%#{@device.name}%").first
     else
