@@ -39,7 +39,7 @@
                   <% @points["开关"].each do |key, value| %>
                     <div class='col-xs-6 switch-area'>
                       <div class="content">
-                        <div class="title"><%= key %></div>
+                        <div class="title"><%= key.split('-')[-1] %></div>
                         <div class="myswitcher">
                           <label class="myswitcher-label <%= value == '0' ? 'myswitcher-apart' : 'myswitcher-comb' %>">
                             <span class="myswitcher-inner"><%= value == '0' ? '分' : '合' %></span>
