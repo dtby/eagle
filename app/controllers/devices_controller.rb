@@ -31,7 +31,7 @@ class DevicesController < BaseController
     if request.format.html?
       @room = Room.where(id: params[:room_id]).first
       @device = Device.includes(:points).where(id: params[:id]).first
-      @load_factor = [1,2]
+      @load_factor = []
       @device_consume = PointHistory.find_by_points @device.points.where("comment = ?", "表格").pluck(:id)
       @alarms = Device.find(params[:id]).alarms.sort_by{|x| x.device_name.gsub(/[^0-9]/, '').to_i}
       @points = @device.points_value
