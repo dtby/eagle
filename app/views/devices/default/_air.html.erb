@@ -3,10 +3,9 @@
     <div class="panel panel-default">
       <div class="panel-heading">空调实时数据</div>
       <div class="panel-body">
-        <div class="col-xs-12">
-          <div class="col-md-3 air_img">
-            <%=image_tag  "10-1.png" ,width:"100%" %>
-            <p></p>
+        <div class="col-xs-12 top-area">
+          <div class="col-md-3">
+            <%=image_tag "10-1.png", class: 'air-img' %>
           </div>
           <% if @points["GIF"].present? %>
             <div class="col-md-5">
@@ -32,21 +31,24 @@
               </div>
             </div>
           <% end %>
-          <% if @points["部件状态"].present? %>
+          <% if @points["开关"].present? %>
             <div class="col-md-4">
               <div class="panel panel-default">
-                <div class="panel-heading">元件状态</div>
-                <div class="panel-body water_tab1" style="height: 255px; overflow: auto;">
-                  <table class="table table1">
-                    <% @points["部件状态"].each do |key, value| %>
-                      <% unless exclude_points["部件状态"] && exclude_points["部件状态"].include?(key) %>
-                        <tr class="<%= value == "0" ? "open1" : "close1" %>">
-                          <td width="60%"><%= key %></td>
-                          <td><%= value == "0" ? "关闭" : "开启" %></td>
-                        </tr>
-                      <% end %>
-                    <% end %>
-                  </table>
+                <div class="panel-heading">开关状态</div>
+                <div class="panel-body switch-container">
+                  <% @points["开关"].each do |key, value| %>
+                    <div class='col-xs-6 switch-area'>
+                      <div class="content">
+                        <div class="title"><%= key %></div>
+                        <div class="myswitcher">
+                          <label class="myswitcher-label <%= value == '0' ? 'myswitcher-apart' : 'myswitcher-comb' %>">
+                            <span class="myswitcher-inner"><%= value == '0' ? '分' : '合' %></span>
+                            <span class="myswitcher-switch"></span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  <% end %>
                 </div>
               </div>
             </div>

@@ -1,0 +1,61 @@
+<div class="col-md-12">
+  <div id="line_chart_<%= name %>" style="width: 100%;height: 200px;"></div>
+</div>
+
+<script type="text/javascript">
+  // 路径配置
+  require.config({
+    paths: {
+      echarts: '/assets/echarts'
+    }
+  });
+  // 使用
+  require(
+    [
+    'echarts',
+    'echarts/chart/bar' // 使用柱状图就加载bar模块，按需加载
+    ],
+    function (ec) {
+      var myChart = ec.init(document.getElementById("line_chart_<%= name %>"));
+      var option = {
+        title: {text: "<%= name %>", y: 20},
+        grid: {x: 20, y: 50, x2: 10, y2: 30, borderWidth: 0},
+        tooltip: {
+          trigger: 'axis',
+          formatter: function(params) {
+            return params[0].data.name + ':' + params[0].value;
+          }
+        },
+        xAxis: [
+          {
+            type : 'category',
+            splitLine: {show: false},
+            data : [
+              <% points.size.times do |idx| %>
+                <%= idx+1 %>,
+              <% end %>
+            ]
+          }
+        ],
+        yAxis: [{type: 'value', splitLine: {show: false} }],
+        series: [
+          {
+            type: 'bar', x: '10%',
+            itemStyle: {normal: {label: {
+              format: function(params) {
+                return "<%= name %>: " + params;
+              },
+            }}},
+            data : [
+              <% points.each do |key, value| %>
+                {name: '<%= key %>', value: <%= rand(32) %>},
+              <% end %> 
+            ]
+          }
+        ]
+      };
+      // 为echarts对象加载数据
+      myChart.setOption(option);
+    }
+  );
+</script>

@@ -1,0 +1,22 @@
+<div class="clearfix">
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-body text-center">
+        <h2><%= device.name %></h2>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <div class="mblock">
+      <% @points.each do |key, items| %>
+        <% if key == '系统' %>
+          <div class="row"><%= @points['系统'] %></div>
+        <% else %>
+          <div class="row">
+            <%= render partial: "devices/share/line_chart", locals: {name: key, points: items } %>  
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

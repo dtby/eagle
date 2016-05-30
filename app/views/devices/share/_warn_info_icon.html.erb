@@ -4,11 +4,11 @@
   <div class="panel-body">
     <div class="">
       <% if points.present? && points["#{points_key}"].present? %>
-        <% points["#{points_key}"].keys.each_with_index do |key, index| %>
+        <% points["#{points_key}"].keys.each do |key, value| %>
           <div class="air_d_grey col-sm-3" align="left">
             <div class="info-row" style="overflow:hidden;">
               <span class="warning-name"><%= key %></span>
-              <span class="warning-icon"><%= warning_status points["#{points_key}"][key] %></span>
+              <span class="warning-icon"><%= warning_status value %></span>
             </div>
             <br>
           </div>
