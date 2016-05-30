@@ -70,13 +70,14 @@
 </div>
 
 <script type="text/javascript">
+	clearInterval(alarm_refresher);
   var url = $(".js-ref-page").data('url');
   function refreshPartial() {
 	  $.ajax({
 	    url: url
 	 })
 	}
-	setInterval(refreshPartial, 5000)
+	var alarm_refresher = setInterval(refreshPartial, 5000)
 
 	var roomOptions = ""
 	<% current_user.rooms.each do |room| %>
