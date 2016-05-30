@@ -212,6 +212,7 @@ class Room < ActiveRecord::Base
           device_name = '温湿度'
         else
           device_name = device_name.remove(/(\d+)&/)
+          p "#{room_name}'s device name: #{device_name}"
         end
       end
 
