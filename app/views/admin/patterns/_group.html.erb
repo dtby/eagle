@@ -18,7 +18,7 @@
       <tbody>
         <% points.each do |point| %>
           <tr>
-            <td><%= point %></td>
+            <td><%= point.name %></td>
             <td>
               <%= check_box_tag 'point', '', point_show?(exclude_points, group, point), class: 'js-switch-disabled' %>
             </td>
