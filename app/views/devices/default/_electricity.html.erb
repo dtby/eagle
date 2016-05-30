@@ -21,7 +21,7 @@
       <div class="panel-heading text-center">输出负载率</div>
       <div class="panel-body">
         <% @points['输出负载率'].each do |key, value|%>
-          <div id="guage-chart-<%=key%>" data-title="<%= key %>" data-value="<%= value %>" class="col-md-4 guage-chart"></div>
+          <div id="guage-chart-<%=key%>" data-title="<%= key %>" class="col-md-4 guage-chart"></div>
         <% end %>
       </div>
     </div>
@@ -33,7 +33,7 @@
       <div class="panel-heading text-center">功率</div>
       <div class="panel-body">
         <% @points['功率'].each do |key, value|%>
-          <div id="guage-chart-<%=key%>" data-title="<%= key %>" data-value="<%= value %>" class="col-md-4 guage-chart"></div>
+          <div id="guage-chart-<%=key%>" data-title="<%= key %>" class="col-md-4 guage-chart"></div>
         <% end %>
       </div>
     </div>
@@ -43,7 +43,7 @@
       <div class="panel-heading text-center">电压</div>
       <div class="panel-body">
         <% @points['电压'].each do |key, value|%>
-          <div id="guage-chart-<%=key%>" data-title="<%= key %>" data-value="<%= value %>" class="col-md-4 guage-chart"></div>
+          <div id="guage-chart-<%=key%>" data-title="<%= key %>" class="col-md-4 guage-chart"></div>
         <% end %>
       </div>
     </div>
@@ -59,8 +59,9 @@
   <% @points.each do |key, items| %>
     <% if key != '系统' %>
       <% items.each do |name, value| %>
-        var g<%=name%> = new JustGage({
+        new JustGage({
           id: "guage-chart-<%=name%>",
+          value: <%= value %>,
           min: 0,
           max: 200,
           donut: true,

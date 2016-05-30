@@ -681,7 +681,7 @@ JustGage = function(config) {
   setDy(obj.txtTitle, obj.params.titleFontSize, obj.params.titleY);
 
   // value
-  obj.txtValue = obj.canvas.text(obj.params.valueX, obj.params.valueY, 0);
+  obj.txtValue = obj.canvas.text(obj.params.valueX, obj.params.valueY, obj.config.value);
   obj.txtValue.attr({
     "font-size": obj.params.valueFontSize,
     "font-weight": "bold",
@@ -857,19 +857,10 @@ JustGage = function(config) {
 };
 
 /** Refresh gauge level */
-JustGage.prototype.refresh = function(val, max, config) {
+JustGage.prototype.refresh = function(val, max) {
 
   var obj = this;
   var displayVal, color, max = max || null;
-
-  if(config && (typeof config  === "object")) {
-    for(var key in config) {
-      if(!config.hasOwnProperty(key)) {
-        continue;
-      }
-      obj.config[key] = config[key];
-    }
-  }
 
   // set new max
   if (max !== null) {
