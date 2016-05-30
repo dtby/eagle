@@ -1,7 +1,18 @@
+.top-area {
+  height: 360px;
+  max-height: 360px;
+  .air-img {
+    max-height: 350px;
+  }
+  .switch-container {
+    height: 321px;
+    max-height: 321px;
+    overflow-y: scroll;
+  }
+}
 .water-tab {
   position: relative;
 }
-
 .bg-gif-tempe {
   width: 50%;
   height: 82%;
@@ -118,4 +129,33 @@
 }
 #ups_bar, #ups_bar2 {
   height: 260px;
+}
+.water_tab1 {
+  padding-top: 5px;
+}
+.switch-area {
+  min-width: 160px;
+  height: 42px;
+  line-height: 42px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-bottom: 10px;
+  .content {
+    overflow: hidden;
+    border: 1px solid #d3d3d3;
+    .title {
+      width: 50%;
+      padding-right: 8px;
+      float: left;
+      text-align: right;
+    }
+    .myswitcher {
+      margin-top: 6px;
+      float: right;
+      margin-right: 8px;
+    }
+  }
+}
+.warning-name {
+  padding-left: 15px;
 }
