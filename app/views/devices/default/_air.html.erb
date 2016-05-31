@@ -12,13 +12,10 @@
               <div class="panel panel-default">
                 <div class="panel-heading">运行参数</div>
                 <div class="panel-body water-tab">
-                  <% unless exclude_points["GIF"] && exclude_points["GIF"].include?("温度测量值") %>
-                    <%= image_tag 'tempe.gif', class: 'bg-gif-tempe' %>
-                    <div class="col-xs-6 water_g water_g1"><%= @points["GIF"]["温度测量值"].to_f.round(1) %>&#8451;</div>
-                  <% end %>
-                  <% unless exclude_points["GIF"] && exclude_points["GIF"].include?("湿度测量值") %>
-                    <div class="col-xs-6 water_g water_g2"><%= @points["GIF"]["湿度测量值"].to_f.round(1) %>%</div>
-                  <% end %>
+                  <div class="col-xs-6 water_g water_g1"><%= @points["GIF"]["温度测量值"].to_f.round(1) || @points["GIF"]["回风温度"].to_f.round(1) %>&#8451;</div>
+                  
+                  <div class="col-xs-6 water_g water_g2"><%= @points["GIF"]["湿度测量值"].to_f.round(1) || @points["GIF"]["回风湿度"].to_f.round(1) %>%</div>
+                  
                   <div class="col-xs-12">
                     <% unless exclude_points["GIF"] && exclude_points["GIF"].include?("温度设点") %>
                       <span class="grey_d grey_d1">温度设点</span><span class="grey_d grey_d2"><%= @points["GIF"]["温度设点"] %>%</span>
