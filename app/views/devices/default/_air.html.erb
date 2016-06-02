@@ -69,7 +69,7 @@
             type: 'category',
             show: false,
             data: [
-              <% @points['gif'].keys.each do |key| %>
+              <% @points['GIF'].keys.each do |key| %>
                 '<%= key %>',
               <% end -%>
             ]
@@ -92,7 +92,7 @@
                 }
             },
             data: [
-              <% @points['gif'].each do |key, value| %>
+              <% @points['GIF'].each do |key, value| %>
                 <%= rand(100) %>,  
               <% end -%>
             ]
