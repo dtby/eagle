@@ -25,7 +25,8 @@ every 10.minutes do
 end
 
 every 3.minutes do
-  runner "Room.get_computer_room_list"
+  runner "Room.fetch_rooms_info"
+  # runner "Room.get_computer_room_list"
 end
 
 every 1.minutes do
