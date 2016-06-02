@@ -48,21 +48,28 @@ class Room < ActiveRecord::Base
     "#{ActionController::Base.asset_host}#{path}" if path.present?
   end
 
-  # Room.get_computer_room_list
-  def self.get_computer_room_list
-    start_time = DateTime.now.strftime("%Q").to_i
-    # 名字-> [{系统 -> 设备}, ... {系统 -> 设备}]
-    point_hash = {}
-    informations = datas_to_hash AnalogPoint, point_hash
-    generate_system informations, "analog"
-
-    point_hash = {}
-    informations = datas_to_hash DigitalPoint, point_hash
-    generate_system informations, "digital"
-
-    end_time = DateTime.now.strftime("%Q").to_i
-    logger.info "Room.get_computer_room_list time is #{end_time-start_time}"
+  def fetch_rooms_info
+    rooms = AnalogPoint.all.distinct(:RSName).pluck(:RSName)
+    rooms.each do |room_name|
+      room = Room.find_or_create_by name: room_name
+    end
   end
+
+  # # Room.get_computer_room_list
+  # def self.get_computer_room_list
+  #   start_time = DateTime.now.strftime("%Q").to_i
+  #   # 名字-> [{系统 -> 设备}, ... {系统 -> 设备}]
+  #   point_hash = {}
+  #   informations = datas_to_hash AnalogPoint, point_hash
+  #   generate_system informations, "analog"
+
+  #   point_hash = {}
+  #   informations = datas_to_hash DigitalPoint, point_hash
+  #   generate_system informations, "digital"
+
+  #   end_time = DateTime.now.strftime("%Q").to_i
+  #   logger.info "Room.get_computer_room_list time is #{end_time-start_time}"
+  # end
 
   # Room.generate_point_value
   # 用于生成点的数值
@@ -182,16 +189,17 @@ class Room < ActiveRecord::Base
     AnalogPoint.all.distinct(:RSName).pluck(:RSName)
   end
 
-  def analyzed_table table_name, room_name, now_update_time
-    data = table_name.where("RSName = ? and Comment <> ''", room_name)
+  def analyzed_table table_name, now_update_time
+    data = table_name.where("RSName = ? and Comment <> ''", name)
     if table_name == AnalogPoint
       list = data.pluck(:BayName, :GroupName, :PointName, :PointID, :RSName, :Comment, :UpValue, :DnValue)
     else
       list = data.pluck(:BayName, :GroupName, :PointName, :PointID, :RSName, :Comment)
     end
+
+    room_devices = []
+
     return if list.blank?
-    room_name = list.first[4]
-    room = Room.find_or_create_by(name: room_name)
     list.each do |items|
       device_name                   = items[0].split('-')[-1]
       sub_system_name, pattern_name = items[1].split('-')
@@ -204,20 +212,19 @@ class Room < ActiveRecord::Base
       if sub_system_name.present?
         sub_system = SubSystem.find_by(name: sub_system_name)
       end
-      menu = Menu.find_or_create_by(room: room, menuable_id: sub_system.try(:id), menuable_type: "SubSystem")
+      menu = Menu.find_or_create_by(room: self, menuable_id: sub_system.try(:id), menuable_type: "SubSystem")
       menu.update(updated_at: DateTime.now)
       
       if device_name.include?('温湿度') 
-        if room_name.eql?('云南广福城')
+        if name.eql?('云南广福城')
           device_name = '温湿度'
         else
           device_name = device_name.remove(/(\d+)$/)
-          p "#{room_name}'s device name: #{device_name}"
         end
       end
+      device = self.devices.find_or_create_by(name: device_name)
+      room_devices << device
 
-      device = room.devices.find_or_create_by(name: device_name)
-      
       pattern_name = device.name.remove(/\d+(主|备)?/)
       pattern = Pattern.find_or_create_by(name: pattern_name, sub_system: sub_system)
       device.pattern = pattern
@@ -226,111 +233,111 @@ class Room < ActiveRecord::Base
             
       point = device.points.find_or_create_by(name: point_name, point_index: point_index)
       point.point_type = table_name.name.downcase.remove('point')
-      point.comment    = comment
+      point.comment    = comment.upcase
       point.max_value  = max_value
       point.min_value  = min_value
       point.state      = true
       point.updated_at = now_update_time
       point.save
     end
-    Point.where('updated_at < ?', now_update_time).update_all(state: false)
-    Device.where('updated_at < ?', now_update_time).update_all(state: false)
+    Point.where(device: room_devices).where('updated_at < ?', now_update_time).update_all(state: false)
+    Device.where('room_id = ? and updated_at < ?', id, now_update_time).update_all(state: false)
   end
 
   # 用struct来优化
-  def self.datas_to_hash class_name, group_hash
-    informations = []
-    class_name.where("RSName <> ?", "云南广福城").each do |ap|
-      next if ap.BayName.blank? || ap.GroupName.blank? || ap.PointName.blank?
-      information = Information.new
-      # BayName: 机房-设备
-      # GroupName: 系统-风格
-      # PointName: （子机房-）点名
+  # def self.datas_to_hash class_name, group_hash
+  #   informations = []
+  #   class_name.where("RSName <> ?", "云南广福城").each do |ap|
+  #     next if ap.BayName.blank? || ap.GroupName.blank? || ap.PointName.blank?
+  #     information = Information.new
+  #     # BayName: 机房-设备
+  #     # GroupName: 系统-风格
+  #     # PointName: （子机房-）点名
 
-      sub_system, pattern = ap.GroupName.split("-")
-      sub_system.delete! "普通" if sub_system.include? "普通"
-      pattern = "普通温湿度" if pattern == "th802"
+  #     sub_system, pattern = ap.GroupName.split("-")
+  #     sub_system.delete! "普通" if sub_system.include? "普通"
+  #     pattern = "普通温湿度" if pattern == "th802"
 
-      bay_info = ap.BayName.upcase.split("-")
-      device_name = bay_info.second
-      point_name = ap.PointName.upcase
-      sub_room, point_name = ap.PointName.split("-") if ap.PointName.include?("-") && ["温湿度系统", "漏水系统", "消防系统"].include?(sub_system)
+  #     bay_info = ap.BayName.upcase.split("-")
+  #     device_name = bay_info.second
+  #     point_name = ap.PointName.upcase
+  #     sub_room, point_name = ap.PointName.split("-") if ap.PointName.include?("-") && ["温湿度系统", "漏水系统", "消防系统"].include?(sub_system)
 
-      next if point_name.blank? || device_name.blank?
-      if bay_info.second.present? && (/\d+机柜/ =~ bay_info.second)
-        index = bay_info.second.index "机柜"
-        line = bay_info.second[index+2..-1]
+  #     next if point_name.blank? || device_name.blank?
+  #     if bay_info.second.present? && (/\d+机柜/ =~ bay_info.second)
+  #       index = bay_info.second.index "机柜"
+  #       line = bay_info.second[index+2..-1]
 
-        point_name.prepend bay_info.second[0..index-1]
-        point_name += line
+  #       point_name.prepend bay_info.second[0..index-1]
+  #       point_name += line
 
-        device_name = bay_info.second[0] + "机柜"  # C机柜
-      end
-      device_name = "温湿度" if device_name.include? "温湿度"
+  #       device_name = bay_info.second[0] + "机柜"  # C机柜
+  #     end
+  #     device_name = "温湿度" if device_name.include? "温湿度"
 
-      information.room        = bay_info.first
-      information.sub_room    = sub_room if ["温湿度系统", "漏水系统", "消防系统"].include? sub_system
-      information.sub_system  = sub_system
-      information.pattern     = pattern
-      information.device      = sub_room.blank? ? "#{device_name}" : "#{sub_room}#{device_name}"
-      information.point       = point_name
-      information.point_index = ap.PointID
-      information.up_value    = ap.try(:UpValue)
-      information.down_value  = ap.try(:DnValue)
+  #     information.room        = bay_info.first
+  #     information.sub_room    = sub_room if ["温湿度系统", "漏水系统", "消防系统"].include? sub_system
+  #     information.sub_system  = sub_system
+  #     information.pattern     = pattern
+  #     information.device      = sub_room.blank? ? "#{device_name}" : "#{sub_room}#{device_name}"
+  #     information.point       = point_name
+  #     information.point_index = ap.PointID
+  #     information.up_value    = ap.try(:UpValue)
+  #     information.down_value  = ap.try(:DnValue)
 
-      informations << information
-    end
-    informations
-  end
+  #     informations << information
+  #   end
+  #   informations
+  # end
 
-  def self.generate_system informations, type
-    # 机房 => { 系统 => 子系统 => { 点 => 数据 }
-    # 机房 (=> 子机房) => 设备
-    filter_room = Room.find_by_name '云南广福城'
-    update_time = DateTime.now
-    informations.each do |information|
-      room = Room.find_or_create_by(name: information.room)
-      sub_system = SubSystem.find_or_create_by(name: information.sub_system)
+  # def self.generate_system informations, type
+  #   # 机房 => { 系统 => 子系统 => { 点 => 数据 }
+  #   # 机房 (=> 子机房) => 设备
+  #   filter_room = Room.find_by_name '云南广福城'
+  #   update_time = DateTime.now
+  #   informations.each do |information|
+  #     room = Room.find_or_create_by(name: information.room)
+  #     sub_system = SubSystem.find_or_create_by(name: information.sub_system)
 
-      next if information.pattern.blank?
+  #     next if information.pattern.blank?
 
-      menu = Menu.find_or_create_by(room: room, menuable_id: sub_system.try(:id), menuable_type: "SubSystem")
-      menu.update(updated_at: update_time)
+  #     menu = Menu.find_or_create_by(room: room, menuable_id: sub_system.try(:id), menuable_type: "SubSystem")
+  #     menu.update(updated_at: update_time)
 
-      pattern = Pattern.find_or_create_by(sub_system_id: sub_system.id, name: information.pattern.try(:strip))
-      device = Device.unscoped.find_or_create_by(name: information.device, pattern: pattern, room: room)
+  #     pattern = Pattern.find_or_create_by(sub_system_id: sub_system.id, name: information.pattern.try(:strip))
+  #     device = Device.unscoped.find_or_create_by(name: information.device, pattern: pattern, room: room)
 
-      point = Point.unscoped.find_or_create_by(name: information.point, device: device, point_index: information.point_index)
+  #     point = Point.unscoped.find_or_create_by(name: information.point, device: device, point_index: information.point_index)
 
-      if information.sub_room.present?
-        sub_room = SubRoom.find_or_create_by(name: information.sub_room, room: room)
-        device.sub_room = sub_room
-      end
-      device.state      = true
-      device.updated_at = update_time
-      device.save
+  #     if information.sub_room.present?
+  #       sub_room = SubRoom.find_or_create_by(name: information.sub_room, room: room)
+  #       device.sub_room = sub_room
+  #     end
+  #     device.state      = true
+  #     device.updated_at = update_time
+  #     device.save
 
-      if information.up_value && information.down_value
-        point.max_value = information.up_value
-        point.min_value = information.down_value
-      end
-      point.point_type  = type
-      point.state       = true
-      point.updated_at  = update_time
-      point.save
+  #     if information.up_value && information.down_value
+  #       point.max_value = information.up_value
+  #       point.min_value = information.down_value
+  #     end
+  #     point.point_type  = type
+  #     point.state       = true
+  #     point.updated_at  = update_time
+  #     point.save
 
-      check_point information.sub_system, information.point, point.id, device.id
-    end
+  #     check_point information.sub_system, information.point, point.id, device.id
+  #   end
 
-    points = Point.where(updated_at: DateTime.new(2010,1,1)..15.minute.ago)
-    points.each do |point|
-      point.update(state: false)
-      point.point_alarm.update(state: nil) if point.point_alarm.present?
-    end
-    Device.where("room_id <> ?", filter_room.id).where(updated_at: DateTime.new(2010,1,1)..15.minute.ago).update_all(state: false)
-    Menu.where(menuable_type: "SubSystem", updated_at: DateTime.new(2010,1,1)..15.minute.ago).destroy_all
-    nil
-  end
+  #   points = Point.where(updated_at: DateTime.new(2010,1,1)..15.minute.ago)
+  #   points.each do |point|
+  #     point.update(state: false)
+  #     point.point_alarm.update(state: nil) if point.point_alarm.present?
+  #   end
+  #   Device.where("room_id <> ?", filter_room.id).where(updated_at: DateTime.new(2010,1,1)..15.minute.ago).update_all(state: false)
+  #   Menu.where(menuable_type: "SubSystem", updated_at: DateTime.new(2010,1,1)..15.minute.ago).destroy_all
+  #   nil
+  # end
 
 
   # Room.generate_alarm_data
@@ -436,5 +443,15 @@ class Room < ActiveRecord::Base
   def notify_task
     params = {type: 'room', data: self.to_json}
     NotifyWeixinJob.set(queue: :sync_info).perform_later(params)
+  end
+
+  def refresh
+    table_names = [AnalogPoint, DigitalPoint]
+    now_update_time = DateTime.now
+    rooms_name = analyzed_room
+
+    table_names.each do |table_name|
+      analyzed_table table_name, now_update_time
+    end
   end
 end
