@@ -30,6 +30,9 @@
                 <td><%= room.link %></td>
                 <td><%= room.monitor_link %></td>
                 <td>
+                  <%= link_to refresh_admin_room_path(room), class: 'btn btn-xs btn-default', remote: true, format: :js do %>
+                    <span class="glyphicon glyphicon-refresh"></span>
+                  <% end -%>
                   <%= link_to edit_admin_room_path(room), class: 'btn btn-xs btn-default', remote: true, format: :js do %>
                     <span class="glyphicon glyphicon-edit"></span>
                   <% end %>

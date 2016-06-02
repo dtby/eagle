@@ -1,5 +1,5 @@
 class Admin::RoomsController < AdminBaseController
-	before_action :set_room, only: [:edit, :show, :update, :destroy]
+	before_action :set_room, only: [:edit, :show, :update, :destroy, :refresh]
 	respond_to :html, :js
 
 	def new
@@ -47,6 +47,10 @@ class Admin::RoomsController < AdminBaseController
 	def show
 
 	end
+
+  def refresh
+    @room.refresh
+  end
 
 	private 
 

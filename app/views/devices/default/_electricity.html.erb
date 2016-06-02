@@ -18,9 +18,9 @@
   </div>
   <div class="col-md-6 p-xs">
     <div id="top_right" class="panel panel-default">
-      <div class="panel-heading text-center">输出负载率</div>
+      <div class="panel-heading text-center">电压</div>
       <div class="panel-body">
-        <% @points['输出负载率'].each do |key, value|%>
+        <% @points['电压'].each do |key, value|%>
           <div id="guage-chart-<%=key%>" data-title="<%= key %>" class="col-md-4 guage-chart"></div>
         <% end %>
       </div>
@@ -40,9 +40,9 @@
   </div>
   <div class="col-md-6 p-xs">
     <div class="panel panel-default">
-      <div class="panel-heading text-center">电压</div>
+      <div class="panel-heading text-center">输出负载率</div>
       <div class="panel-body">
-        <% @points['电压'].each do |key, value|%>
+        <% @points['输出负载率'].each do |key, value|%>
           <div id="guage-chart-<%=key%>" data-title="<%= key %>" class="col-md-4 guage-chart"></div>
         <% end %>
       </div>
@@ -52,9 +52,8 @@
 
 <script type="text/javascript">
   //设置左右两模块等高
-  var height = $("#top_left").height();
-  $("#top_right").height(height);
-  $("#load1").height(height-60);
+  var height = $("#top_right").height();
+  $("#top_left").height(height);
   
   <% @points.each do |key, items| %>
     <% if key != '系统' %>

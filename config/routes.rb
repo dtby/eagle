@@ -107,6 +107,9 @@ Rails.application.routes.draw do
     resources :patterns # 型号设置
     resources :admins # 管理用户
     resources :rooms do # 机房管理
+      member do 
+        get :refresh
+      end
       resources :devices, shallow: true do
         resources :points
       end

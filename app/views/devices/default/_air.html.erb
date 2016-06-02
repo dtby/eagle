@@ -7,28 +7,13 @@
           <div class="col-md-3">
             <%=image_tag "10-1.png", class: 'air-img' %>
           </div>
-
-          <% if @points["GIF"].present? %>
-            <div class="col-md-5 col-md-offset-2">
-              <div class="panel panel-default">
-                <div class="panel-heading">运行参数</div>
-                <div class="panel-body water-tab">
-                  <div class="col-xs-6 water_g water_g1"><%= (@points["GIF"]["温度测量值"] || @points["GIF"]["回风温度"]).to_f.round(1) %>&#8451;</div>
-                  
-                  <div class="col-xs-6 water_g water_g2"><%= (@points["GIF"]["湿度测量值"] || @points["GIF"]["回风湿度"]).to_f.round(1) %>%</div>
-                  
-                  <div class="col-xs-12">
-                    <% unless exclude_points["GIF"] && exclude_points["GIF"].include?("温度设点") %>
-                      <span class="grey_d grey_d1">温度设点</span><span class="grey_d grey_d2"><%= @points["GIF"]["温度设点"] %>%</span>
-                    <% end %>
-                    <% unless exclude_points["GIF"] && exclude_points["GIF"].include?("湿度设点") %>
-                      <span class="grey_d grey_d3">湿度设点</span><span class="grey_d grey_d2"><%= @points["GIF"]["湿度设点"] %>%</span>
-                    <% end %>
-                  </div>
-                </div>
-              </div>
+          
+          <div class="col-md-5">
+            <div class="panel panel-default">
+              <div id="system-info"></div>
             </div>
-          <% end %>
+          </div>
+
           <% if @points["开关"].present? %>
             <div class="col-md-4">
               <div class="panel panel-default">
@@ -40,7 +25,7 @@
                         <div class="title"><%= key.split('-')[-1] %></div>
                         <div class="myswitcher">
                           <label class="myswitcher-label <%= value == '0' ? 'myswitcher-apart' : 'myswitcher-comb' %>">
-                            <span class="myswitcher-inner"><%= value == '0' ? '分' : '合' %></span>
+                            <span class="myswitcher-inner"><%= value == '0' ? '关' : '开' %></span>
                             <span class="myswitcher-switch"></span>
                           </label>
                         </div>
@@ -60,3 +45,62 @@
     </div>
   </div>
 </div>
+<script>
+  // 路径配置
+  require.config({
+    paths: { echarts: '/assets/echarts' }
+  });
+  
+  // 条形图
+  require(
+    [
+    'echarts',
+      'echarts/chart/bar', // 使用柱状图就加载bar模块，按需加载
+      ],
+      function (bar) {
+      // 基于准备好的dom，初始化echarts图表
+      var system_info = bar.init(document.getElementById('system-info'));
+
+      var option = {
+        grid: { y: 35, x2: 55, y2: 25, x: 35, borderWidth: 0 },
+        tooltip: { trigger: 'axis' },
+        xAxis: [
+          {
+            type: 'category',
+            show: false,
+            data: [
+              <% @points['gif'].keys.each do |key| %>
+                '<%= key %>',
+              <% end -%>
+            ]
+          }
+        ],
+        yAxis: [{ type: 'value', show: false }],
+        series: [
+          {
+            type: 'bar',
+            itemStyle: {
+                normal: {
+                    color: function(params) {
+                        var colorList = [
+                          '#C1232B','#B5C334','#FCCE10','#E87C25','#27727B',
+                           '#FE8463','#9BCA63','#FAD860'
+                        ];
+                        return colorList[params.dataIndex]
+                    },
+                    label: { show: true, position: 'top', formatter: '{b}\n{c}' }
+                }
+            },
+            data: [
+              <% @points['gif'].each do |key, value| %>
+                <%= rand(100) %>,  
+              <% end -%>
+            ]
+          }
+        ],
+      };
+      // 为echarts对象加载数据
+      system_info.setOption(option);
+    }
+  );
+</script>
