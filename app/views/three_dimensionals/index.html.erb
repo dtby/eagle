@@ -57,7 +57,8 @@
       });
       u.initPlugin($("#unityPlayer")[0], "../../iGridClient.unity3d");
       // u.getUnity().SendMessage("Main Camera", "OpenProject", 'http://www.igridtotalsolution.com/3droom/prj/yn/project.scene');
-      $('#reload_room').on('click', function(){
+      $('#load_room').on('click', function(){
+        console.log('reload room');
         url = 'http://www.igridtotalsolution.com/3droom/prj/yn/project.scene';
         u.getUnity().SendMessage("Main Camera", "OpenProject", url);
       });
