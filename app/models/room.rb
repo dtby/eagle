@@ -404,7 +404,9 @@ class Room < ActiveRecord::Base
 
   def pue
     device = devices.find_by_name 'PUE'
-    return [nil, nil] if device.blank?
+    if device.blank?
+      return [nil, nil] 
+    end
     points = device.points
     
     chart_points_id = points.where(name: ['IT电费', 'IT碳排放', '空调电费', '空调碳排放']).pluck(:id)
