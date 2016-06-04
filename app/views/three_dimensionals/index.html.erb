@@ -1,4 +1,5 @@
 <div class="content">
+  <a href="javascript:void(0)" onclick="OpenProject('http://www.igridtotalsolution.com/3droom/prj/yn/project.scene')">Open Project 1</a>
   <div id="unityPlayer">
     <div class="missing">
       <a href="http://unity3d.com/webplayer/" title="Unity Web Player. Install now!">
@@ -55,7 +56,11 @@
         }
       });
       u.initPlugin($("#unityPlayer")[0], "../../iGridClient.unity3d");
-      u.getUnity().SendMessage("Main Camera", "OpenProject", 'http://www.igridtotalsolution.com/3droom/prj/yn/project.scene');
+      // u.getUnity().SendMessage("Main Camera", "OpenProject", 'http://www.igridtotalsolution.com/3droom/prj/yn/project.scene');
+      function OpenProject(url)
+      {
+        u.getUnity().SendMessage("Main Camera", "OpenProject", url);
+      }
     });
   </script>
 
