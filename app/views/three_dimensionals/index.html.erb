@@ -8,7 +8,6 @@
   </div>
 </div>
 <%= content_for :scripts do %>
-  <%= javascript_include_tag "reports", 'data-turbolinks-track' => true %>
   <script type="text/javascript">
     var config = {
       width: 1024, 
@@ -19,14 +18,15 @@
     config.params["disableContextMenu"] = true;
     var u = new UnityObject2(config);
     $(function() {
-      var $missingScreen = jQuery("#unityPlayer").find(".missing");
-      var $brokenScreen = jQuery("#unityPlayer").find(".broken");
+      var $missingScreen = $("#unityPlayer").find(".missing");
+      var $brokenScreen = $("#unityPlayer").find(".broken");
       $missingScreen.hide();
       $brokenScreen.hide();
 
       u.observeProgress(function (progress) {
         switch(progress.pluginStatus) {
           case "broken":
+            console.log("broken")
             $brokenScreen.find("a").click(function (e) {
               e.stopPropagation();
               e.preventDefault();
@@ -36,6 +36,7 @@
             $brokenScreen.show();
           break;
           case "missing":
+          console.log("missing")
             $missingScreen.find("a").click(function (e) {
               e.stopPropagation();
               e.preventDefault();
@@ -45,13 +46,15 @@
             $missingScreen.show();
           break;
           case "installed":
+          console.log("installed")
             $missingScreen.remove();
           break;
           case "first":
+          console.log("first")
           break;
         }
       });
-      u.initPlugin(jQuery("#unityPlayer")[0], "iGridClient.unity3d");
+      u.initPlugin($("#unityPlayer")[0], "../../iGridClient.unity3d");
       u.getUnity().SendMessage("Main Camera", "OpenProject", 'http://www.igridtotalsolution.com/3droom/prj/yn/project.scene');
     });
   </script>

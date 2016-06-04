@@ -402,6 +402,19 @@ class Room < ActiveRecord::Base
     pue_cache
   end
 
+  def pue
+    points = devices.where(name: 'PUE').first.points
+    
+    chart_points_id = points.where(name: ['IT电费', 'IT碳排放', '空调电费', '空调碳排放']).pluck(:id)
+    chart_data = PointHistory.new.query chart_points_id
+    single_value_points = {}
+    single_points = points.where(name: ['总电费','总排放','总能耗','PUE值','IT设备使用量','空调使用量'])
+    single_points.each do |e|
+      single_value_points[e.name] = e.value
+    end
+    [single_value_points, chart_data]
+  end
+
   #  机房菜单字符串数组
   # 返回值: ［"#{menu_id}_#{menu_type}"］
   def menu_to_s

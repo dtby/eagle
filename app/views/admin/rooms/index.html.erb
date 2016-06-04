@@ -30,13 +30,13 @@
                 <td><%= room.link %></td>
                 <td><%= room.monitor_link %></td>
                 <td>
-                  <%= link_to refresh_admin_room_path(room), class: 'btn btn-xs btn-default', remote: true, format: :js do %>
+                  <%= link_to refresh_admin_room_path(room), class: 'btn btn-xs btn-default', title: '刷新设备', remote: true, format: :js do %>
                     <span class="glyphicon glyphicon-refresh"></span>
                   <% end -%>
-                  <%= link_to edit_admin_room_path(room), class: 'btn btn-xs btn-default', remote: true, format: :js do %>
+                  <%= link_to edit_admin_room_path(room), class: 'btn btn-xs btn-default', title: '编辑', remote: true, format: :js do %>
                     <span class="glyphicon glyphicon-edit"></span>
                   <% end %>
-                  <%= link_to admin_room_path(room), method: :delete, class: 'btn btn-xs btn-danger' do %>
+                  <%= link_to admin_room_path(room), method: :delete, title: '删除', class: 'btn btn-xs btn-danger' do %>
                     <span class="glyphicon glyphicon-trash"></span>
                   <% end %>
                 </td>

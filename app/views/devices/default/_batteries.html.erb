@@ -1,22 +1,41 @@
-<div class="clearfix">
-  <div class="col-md-12">
-    <div class="panel panel-default">
-      <div class="panel-body text-center">
-        <h2><%= device.name %></h2>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-12">
-    <div class="mblock">
-      <% @points.each do |key, items| %>
-        <% if key == '系统' %>
-          <div class="row"><%= @points['系统'] %></div>
-        <% else %>
-          <div class="row">
-            <%= render partial: "devices/share/line_chart", locals: {name: key, points: items } %>  
-          </div>
-        <% end %>
-      <% end %>
+<div class="col-md-12 clearfix">
+  <div class="panel panel-default">
+    <div class="panel-body text-center">
+      <h2><%= device.name %></h2>
     </div>
   </div>
 </div>
+<div class="col-md-12 clearfix">
+  <div class="mblock">
+    <% @points.each do |key, items| %>
+      <% if key == '系统' %>
+        <% _size = @points['系统'].size %>
+        <div class="row">
+          <% @points['系统'].each do |key, value| %>
+          <div class="col-md-<%= 12 / _size %>">
+            <div id="guage-chart-<%=key%>" data-title="<%= key %>" class="guage-chart"></div>
+          </div>
+          <% end -%>
+        </div>
+      <% else %>
+        <div class="row">
+          <%= render partial: "devices/share/line_chart", locals: {name: key, points: items } %>  
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
+<script>
+  <% @points['系统'].each do |key, value| %>
+    new JustGage({
+      id: "guage-chart-<%=key%>",
+      value: <%= value %>,
+      min: 0,
+      max: 650,
+      donut: true,
+      gaugeWidthScale: 0.6,
+      hideInnerShadow: true
+    });
+  <% end %>
+</script>

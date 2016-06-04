@@ -34,14 +34,18 @@ Rails.application.routes.draw do
     end
   end
 
-  #能效
-  resources :pem, only: [:index] do
-    collection do
-      get :aircondition
-    end
-  end
-
   resources :rooms, only: [:index, :show] do
+    member do
+      get :alert
+      get :checked_alert
+      get :video
+      get :pic
+      get :refersh_alert
+    end
+
+    #能效
+    resources :pue, only: [:index]
+
     # 3D机房
     resources :three_dimensionals, only: [:index]
     
@@ -68,13 +72,7 @@ Rails.application.routes.draw do
         get :count
       end
     end
-    member do
-      get :alert
-      get :checked_alert
-      get :video
-      get :pic
-      get :refersh_alert
-    end
+
     #报表
     resources :reports, only: [:index] do
       collection do

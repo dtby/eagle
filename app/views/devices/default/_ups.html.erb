@@ -1,5 +1,5 @@
-<div class="clearfix power__ups">
-  <div class="col-md-12">
+<div class="power__ups">
+  <div class="col-md-12 clearfix">
     <div class="panel panel-default">
       <div class="panel-body text-center">
         <h2><%= device.name %></h2>
@@ -7,7 +7,7 @@
     </div>
   </div>
   
-  <div class="col-md-12">
+  <div class="col-md-12 clearfix">
     <div class="col-md-8 mblock ups-up ups-up-left">
     <div class="row">
       <div class="col-xs-4 p-r"></div>
@@ -78,7 +78,7 @@
   </div>
   
   <% if @load_factor.present? %>
-  <div class="col-md-12">
+  <div class="col-md-12 clearfix">
     <div class="mblock part-bar">
       <span class="text-muted">输出负载率</span>
       <div id="ups_bar" style="width: 100%;"></div>

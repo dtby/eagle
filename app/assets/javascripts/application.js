@@ -23,6 +23,9 @@
 //= require ./frame/switchery
 //= require ./frame/footable.all.min
 //= require ./echarts/echarts
-//= require_tree ./echarts/chart
+//= require ./echarts/chart/bar
+//= require ./echarts/chart/line
+//= require ./echarts/chart/gauge
+//= require ./echarts/chart/pie
 //= require ./application/sweetalert.min
 //= require turbolinks

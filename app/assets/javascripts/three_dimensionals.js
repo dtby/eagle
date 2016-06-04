@@ -14,6 +14,7 @@
 //= require jquery.turbolinks
 //= require jquery_ujs
 //= require ./frame/inspinia
+////= require ./frame/jquery.slimscroll.min
 //= require ./frame/jquery.metisMenu
 //= require turbolinks
 //= require UnityObject2
