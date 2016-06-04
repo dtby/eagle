@@ -403,7 +403,9 @@ class Room < ActiveRecord::Base
   end
 
   def pue
-    points = devices.where(name: 'PUE').first.points
+    device = devices.find_by_name 'PUE'
+    [nil, nil] if device.blank?
+    points = device.points
     
     chart_points_id = points.where(name: ['IT电费', 'IT碳排放', '空调电费', '空调碳排放']).pluck(:id)
     chart_data = PointHistory.new.query chart_points_id
