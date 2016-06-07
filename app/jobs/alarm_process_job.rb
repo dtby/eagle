@@ -3,8 +3,8 @@ class AlarmProcessJob < ActiveJob::Base
 
   def perform(alarm, name)
     # Do something later
-    logger.info "alarm: ============================="
-    logger.info "#{alarm}"
+    config = Rails.configuration.database_configuration
+    ActiveRecord::Base.establish_connection config["production"]
     point_index = alarm.try(:point).try(:point_index)
     return if point_index.blank?
     config = Rails.configuration.database_configuration
