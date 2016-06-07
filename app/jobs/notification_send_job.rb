@@ -1,12 +1,12 @@
 class NotificationSendJob < ActiveJob::Base
   queue_as :message
 
-  def perform point_alarm_id
+  def perform point_alarm_id 
     # Do something later
     logger.info "NotificationSendJob process start #{point_alarm_id}"
 
-    config = Rails.configuration.database_configuration
-    ActiveRecord::Base.establish_connection config["#{Rails.env}"]
+    # config = Rails.configuration.database_configuration
+    # ActiveRecord::Base.establish_connection config["#{Rails.env}"]
 
     point_alarm = PointAlarm.find_by(id: point_alarm_id)
     return unless point_alarm.present?
