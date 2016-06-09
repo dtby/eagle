@@ -87,7 +87,7 @@
                     label: { show: true, position: 'top', formatter: '{b}\n{c}' }
                 }
             },
-            data: <%= @points['GIF'].values %>
+            data: <%= @points['GIF'].values.map{|v| v.to_f.round(1) } %>
           }
         ],
       };
