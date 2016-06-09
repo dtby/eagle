@@ -46,17 +46,13 @@
   </div>
 </div>
 <script>
+  <% if @points['GIF'].present? %>
   // 路径配置
-  require.config({
-    paths: { echarts: '/assets/echarts' }
-  });
+  require.config({ paths: { echarts: '/assets/echarts' } });
   
   // 条形图
   require(
-    [
-    'echarts',
-      'echarts/chart/bar', // 使用柱状图就加载bar模块，按需加载
-      ],
+    [ 'echarts', 'echarts/chart/bar' ],
       function (bar) {
       // 基于准备好的dom，初始化echarts图表
       var system_info = bar.init(document.getElementById('system-info'));
@@ -91,11 +87,7 @@
                     label: { show: true, position: 'top', formatter: '{b}\n{c}' }
                 }
             },
-            data: [
-              <% @points['GIF'].each do |key, value| %>
-                <%= rand(100) %>,  
-              <% end -%>
-            ]
+            data: <%= @points['GIF'].values %>
           }
         ],
       };
@@ -103,4 +95,5 @@
       system_info.setOption(option);
     }
   );
+  <% end -%>
 </script>
