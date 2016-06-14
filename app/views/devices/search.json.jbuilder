@@ -4,13 +4,6 @@ json.devices @devices do |device|
 
   json.alarm @device_alarm[device.try(:id)] unless @device_alarm[device.try(:id)].nil?
 
-  if @point_values.present?
-    points = @point_values[device.try(:id)]
-    next unless points.present?
-    json.points points.each do |name, value|
-      json.name name
-      json.value value
-    end
-  end
+  json.points @points_value
   
 end
