@@ -54,33 +54,24 @@ class Device < ActiveRecord::Base
   # 获取设备对应的点的值
   def points_value
     view_points = {}
-    # if room.name == '云南广福城'
-      points_group = points.group_by {|point| point.comment}
-      points_group.map do |group, items|
-        items.each do |item|
-          view_points[group] ||= {}
-          state = item.try(:value) || 0
-          view_points[group].merge!({item.name => state})
-        end
+    points_group = points.group_by {|point| point.comment}
+    points_group.map do |group, items|
+      items.each do |item|
+        view_points[group] ||= {}
+        state = item.try(:value) || 0
+        view_points[group].merge!({item.name => state})
       end
-    # else
-      # 循环分组封装呆显示数据
-      # 排序需要修改 2016-3-31
-    #   all_points = points.order("name asc")
-    #   all_points.each do |point|
-    #     state = point.try(:value) || 0
-    #     if point.name.include?('-')
-    #       group = point.name.split('-', 2).try(:first).try(:strip)
-    #       if group.present?
-    #         pn = point.name.upcase.split('-', 2).try(:last).try(:strip)
-    #         view_points[group].blank? ? view_points[group] = { pn => state } : view_points[group].merge!({pn => state })
-    #       end
-    #     else
-    #       view_points["其他"].blank? ? view_points["其他"] = {point.name => state } : view_points["其他"].merge!({point.name => state })
-    #     end
-    #   end
-    # end
+    end
     view_points
+  end
+
+  def ele_point_value
+    show_points = points.where(name: ['A相电压', 'B相电压', 'C相电压', '频率'])
+    points_value = nil
+    show_points.each do |point|
+      points_value = {name: point.name, value: point.value}
+    end
+    return points_value
   end
 
   # 获取设备告警
