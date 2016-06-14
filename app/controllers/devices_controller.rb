@@ -75,6 +75,7 @@ class DevicesController < BaseController
     return unless sub_system.present?
     sub_sys_name = params[:sub_sys_name]
     patterns = sub_system.try(:patterns)
+    
     @devices = []
 
     if patterns.present?
@@ -101,13 +102,15 @@ class DevicesController < BaseController
               @device_alarm[device.try(:id)] = device.is_alarm?
               puts "#{device.id}, #{device.is_alarm?}"
             else
-              ele_point_values device
+              # ele_point_values device
+              @points_value = device.main_point_value
             end
             con_point_values device
           when "配电系统"
             @device_alarm[device.try(:id)] = device.is_alarm?
           else
-            ele_point_values device
+            # ele_point_values device
+            @points_value = device.main_point_value
           end
         end
       end
