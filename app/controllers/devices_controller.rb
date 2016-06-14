@@ -111,6 +111,7 @@ class DevicesController < BaseController
           else
             # ele_point_values device
             @points_value = device.main_point_value
+            p @points_value
           end
         end
       end
