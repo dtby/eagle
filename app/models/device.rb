@@ -67,9 +67,9 @@ class Device < ActiveRecord::Base
 
   def ele_point_value
     show_points = points.where(name: ['A相电压', 'B相电压', 'C相电压', '频率'])
-    points_value = nil
+    points_value = []
     show_points.each do |point|
-      points_value = {name: point.name, value: point.value}
+      points_value << {name: point.name, value: point.value}
     end
     return points_value
   end
