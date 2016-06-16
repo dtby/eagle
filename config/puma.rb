@@ -1,11 +1,6 @@
 # !/usr/bin/env puma
 
 require ::File.expand_path('../../config/environment',  __FILE__)
-Rails.application.eager_load!
-
-require 'action_cable/process/logging'
-
-run ActionCable.server
 
 # rails的运行环境
 environment 'production'

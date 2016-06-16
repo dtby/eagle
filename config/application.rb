@@ -26,5 +26,14 @@ module Eagle
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    # faye server
+    config.middleware.use FayeRails::Middleware, mount: '/faye', timeout: 25 do
+      map '/notify/**' => NotifyController
+      map default: NotifyController
+
+      add_extension(ClientEvent.new)
+    end
+    config.middleware.delete Rack::Lock
   end
 end
