@@ -6,6 +6,7 @@
   <%= stylesheet_link_tag    "#{controller.controller_name}", media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag "#{controller.controller_name}", 'data-turbolinks-track' => true %>
+  <script type="text/javascript" src="http://localhost:3000/faye/client.js"></script>
   <%= Gon::Base.render_data %>
   <%= csrf_meta_tags %>
   <%= favicon_link_tag "favicon_logo.ico" %>
@@ -32,8 +33,26 @@
 				<!-- 皮肤及设置 -->
 				<%#= render partial: "/share/setting" %>
 			</div>
+      <div id="alarms-window" class="panel alarms-window">
+        <div class="panel-heading">告警信息</div>
+        <div class="panel-body"></div>
+      </div>
+      <audio id="alarm-audio"><source src="<%= audio_path 'alarm.mp3'%>"></audio>
 		</div>
     <%= yield :scripts %>
+    <script type='text/javascript'>
+      var client = new Faye.Client('http://localhost:3000/faye');
+      var subscription = client.subscribe('/notify/alarms', function(message) {
+        let _audio = $('#alarm-audio')[0];
+        $('#alarms-window').show('slow');
+        $('#alarms-window > .panel-body').text(message.content);
+        _audio.play();
+        setTimeout(function(){
+          _audio.pause();
+          $('#alarms-window').hide('slow');
+        }, 5000);
+      });
+    </script>
 	</body>
-
+  
 </html>
