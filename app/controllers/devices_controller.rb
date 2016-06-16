@@ -108,6 +108,8 @@ class DevicesController < BaseController
             con_point_values device
           when "配电系统"
             @device_alarm[device.try(:id)] = device.is_alarm?
+          when 'UPS系统'
+
           else
             # ele_point_values device
             @points_value = device.main_point_value
@@ -144,15 +146,20 @@ class DevicesController < BaseController
 
   # for 空调系统
   def con_point_values device
-    point_ids = $redis.hget "eagle_key_points_value", device.id
-    point_ids = point_ids.try(:split, "-")
+    # point_ids = $redis.hget "eagle_key_points_value", device.id
+    # point_ids = point_ids.try(:split, "-")
+
+    # @point_values[device.try(:id)] = {}
+    # names = ["温度", "湿度"]
+
+    # 0.upto(1) do |index|
+    #   @point_values[device.try(:id)][names[index]] =
+    #     Point.find_by(id: point_ids.try(:[], index).try(:to_i)).try(:value) || "0"
+    # end
 
     @point_values[device.try(:id)] = {}
-    names = ["温度", "湿度"]
-
-    0.upto(1) do |index|
-      @point_values[device.try(:id)][names[index]] =
-        Point.find_by(id: point_ids.try(:[], index).try(:to_i)).try(:value) || "0"
+    device.points.where(comment: 'GIF').each do |p|
+      @point_values[device.try(:id)][point.name] = point.value
     end
   end
 
