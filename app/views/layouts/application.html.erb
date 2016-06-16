@@ -41,7 +41,7 @@
 		</div>
     <%= yield :scripts %>
     <script type='text/javascript'>
-      var client = new Faye.Client('http://localhost:3000/faye');
+      var client = new Faye.Client('http://m.igridtotalsolution.com/faye');
       var subscription = client.subscribe('/notify/alarms', function(message) {
         let _audio = $('#alarm-audio')[0];
         $('#alarms-window').show('slow');

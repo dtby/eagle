@@ -2,7 +2,7 @@ module FayeServer
 
   class Common
     def self.faye_url
-      "http://localhost:3000/faye"
+      "#{Settings.website_url}:#{Settings.website_port}/#{Settings.faye}"
     end
   end
 
