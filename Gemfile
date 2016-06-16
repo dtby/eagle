@@ -30,8 +30,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Unicorn as the app server
 # gem 'unicorn'
 gem 'puma', '2.15.3'
-# gem 'faye-rails'
-gem 'faye'
+gem 'faye-rails'
+# gem 'faye'
 gem 'faye-redis'
 gem 'thin'
 # Use Capistrano for deployment

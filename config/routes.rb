@@ -1,17 +1,17 @@
-$faye_rack = ::Faye::RackAdapter.new({
-  :mount   => '/',
-  :timeout => 25,
-  :engine  => {
-    type:       Faye::Redis,
-    host:       'localhost',
-    port:       6379,
-    namespace:  'app:faye'
-  }
-})
+# $faye_rack = ::Faye::RackAdapter.new({
+#   :mount   => '/',
+#   :timeout => 25,
+#   :engine  => {
+#     type:       Faye::Redis,
+#     host:       'localhost',
+#     port:       6379,
+#     namespace:  'app:faye'
+#   }
+# })
 
 
 Rails.application.routes.draw do
-  match '/faye' => $faye_rack, :via => [:get, :post]
+  # match '/faye' => $faye_rack, :via => [:get, :post]
 
   get 'user/show'
 
