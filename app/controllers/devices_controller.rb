@@ -103,7 +103,7 @@ class DevicesController < BaseController
               puts "#{device.id}, #{device.is_alarm?}"
             else
               # ele_point_values device
-              @points_value.concat device.main_point_value
+              # @points_value.concat device.main_point_value
             end
             # con_point_values device
             @points_value.concat device.main_point_value
