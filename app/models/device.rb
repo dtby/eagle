@@ -66,12 +66,23 @@ class Device < ActiveRecord::Base
   end
 
   def main_point_value
-    show_points = points.where(name: ['A相电压', 'B相电压', 'C相电压', '频率'])
+    sub_system = device.pattern.sub_system
     points_value = []
-    show_points.each do |point|
-      points_value << {name: point.name, value: point.value}
+    case sub_system.name
+    when '空调系统'
+      @point_values[device.try(:id)] = {}
+      device.points.where(comment: 'GIF').each do |point|
+        @point_values[device.try(:id)][point.name] = point.value
+      end
+    when '电量仪系统'
+      show_points = points.where(name: ['A相电压', 'B相电压', 'C相电压', '频率'])
+      
+      show_points.each do |point|
+        points_value << {name: point.name, value: point.value}
+      end
+      points_value = points_value.sort { |a, b| a[:name] <=> b[:name] }
     end
-    points_value = points_value.sort { |a, b| a[:name] <=> b[:name] }
+
     return points_value
   end
 
