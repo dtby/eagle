@@ -70,15 +70,15 @@ class Device < ActiveRecord::Base
     points_value = []
     case sub_system.name
     when '空调系统'
-      @point_values[device.try(:id)] = {}
+      point_values[device.try(:id)] = {}
       device.points.where(comment: 'GIF').each do |point|
-        @point_values[device.try(:id)][point.name] = point.value
+        point_values << { name: point.name, value: point.value }
       end
     when '电量仪系统'
       show_points = points.where(name: ['A相电压', 'B相电压', 'C相电压', '频率'])
       
       show_points.each do |point|
-        points_value << {name: point.name, value: point.value}
+        points_value << { name: point.name, value: point.value }
       end
       points_value = points_value.sort { |a, b| a[:name] <=> b[:name] }
     end
