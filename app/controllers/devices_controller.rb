@@ -103,16 +103,17 @@ class DevicesController < BaseController
               puts "#{device.id}, #{device.is_alarm?}"
             else
               # ele_point_values device
-              @points_value << device.main_point_value
+              @points_value.concat device.main_point_value
             end
-            con_point_values device
+            # con_point_values device
+            @points_value.concat device.main_point_value
           when "配电系统"
             @device_alarm[device.try(:id)] = device.is_alarm?
           when 'UPS系统'
 
           else
             # ele_point_values device
-            @points_value << device.main_point_value
+            @points_value.concat device.main_point_value
             p @points_value
           end
         end
