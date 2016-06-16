@@ -30,11 +30,12 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Unicorn as the app server
 # gem 'unicorn'
 gem 'puma', '2.15.3'
-
+gem 'faye-rails'
+gem 'thin'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem 'actioncable'
+# gem 'actioncable'
 
 group :development, :test do
   gem 'byebug'
