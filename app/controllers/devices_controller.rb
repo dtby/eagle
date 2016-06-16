@@ -110,11 +110,10 @@ class DevicesController < BaseController
           when "配电系统"
             @device_alarm[device.try(:id)] = device.is_alarm?
           when 'UPS系统'
-
+            @points_value.concat device.main_point_value
           else
             # ele_point_values device
             @points_value.concat device.main_point_value
-            p @points_value
           end
         end
       end
