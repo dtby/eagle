@@ -11,8 +11,8 @@ $faye_rack = ::Faye::RackAdapter.new({
 
 
 Rails.application.routes.draw do
-  match '/faye' => $faye_rack
-  
+  match '/faye' => $faye_rack, :via => [:get, :post]
+
   get 'user/show'
 
   get 'point_controller/show'
