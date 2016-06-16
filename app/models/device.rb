@@ -66,13 +66,12 @@ class Device < ActiveRecord::Base
   end
 
   def main_point_value
-    sub_system = device.pattern.sub_system
+    sub_system = pattern.sub_system
     points_value = []
     case sub_system.name
     when '空调系统'
-      point_values[device.try(:id)] = {}
       device.points.where(comment: 'GIF').each do |point|
-        point_values << { name: point.name, value: point.value }
+        points_value << { name: point.name, value: point.value }
       end
     when '电量仪系统'
       show_points = points.where(name: ['A相电压', 'B相电压', 'C相电压', '频率'])
