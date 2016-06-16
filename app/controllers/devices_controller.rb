@@ -158,7 +158,7 @@ class DevicesController < BaseController
     # end
 
     @point_values[device.try(:id)] = {}
-    device.points.where(comment: 'GIF').each do |p|
+    device.points.where(comment: 'GIF').each do |point|
       @point_values[device.try(:id)][point.name] = point.value
     end
   end
