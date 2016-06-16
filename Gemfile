@@ -33,7 +33,7 @@ gem 'puma', '2.15.3'
 gem 'faye-rails'
 # gem 'faye'
 gem 'faye-redis'
-gem 'thin'
+# gem 'thin'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

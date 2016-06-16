@@ -28,7 +28,7 @@ module Eagle
     config.active_record.raise_in_transactional_callbacks = true
 
     # faye server
-    config.middleware.use FayeRails::Middleware, mount: '/faye', timeout: 25 do
+    config.middleware.use FayeRails::Middleware, mount: '/faye', engine: {type: Faye::Redis, host: 'localhost'}, server: 'puma', timeout: 25 do
       map '/notify/**' => NotifyController
       map default: NotifyController
 
