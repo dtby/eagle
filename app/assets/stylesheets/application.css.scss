@@ -34,3 +34,16 @@
 .panel {
   height: 100%;
 }
+.alarms-window {
+  width: 220px;
+  height: 120px;
+  right: 5px;
+  bottom: 5px;
+  position: absolute;
+  z-index: 999;
+  display: none;
+  .panel-heading {
+    font-size: 16px;
+    font-weight: 700;
+  }
+}

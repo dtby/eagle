@@ -28,4 +28,5 @@
 //= require ./echarts/chart/gauge
 //= require ./echarts/chart/pie
 //= require ./application/sweetalert.min
+//=require faye
 //= require turbolinks
