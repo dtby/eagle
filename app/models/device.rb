@@ -74,6 +74,7 @@ class Device < ActiveRecord::Base
       '电量仪系统' => ["A相电压", "B相电压", "C相电压", "频率"]
     }
     show_points = filter[sub_system.name]
+    return [] if show_points.blank?
     show_points.each do |point_name|
       point = points.find_by_name point_name
       points_value << { name: point_name, value: point.try(:value) || 0 }
