@@ -41,7 +41,10 @@
     <%= yield :scripts %>
     <script type='text/javascript'>
       // var client = new Faye.Client('http://localhost:3000/faye', {timeout: 120});
-      var client = new Faye.Client('http://m.igridtotalsolution.com/faye', {timeout: 120});
+      var client = new Faye.Client('http://m.igridtotalsolution.com/faye',{
+          endpoints: { websocket: 'http://m.igridtotalsolution.com/' },
+          timeout: 10
+        });
       var subscription = client.subscribe('/notify/alarms', function(message) {
         let _audio = $('#alarm-audio')[0];
         $('#alarms-window').show('slow');
@@ -53,7 +56,7 @@
         }, 5000);
       });
       subscription.then(function() {
-        alert('Subscription is now active!');
+        // alert('Subscription is now active!');
       });
     </script>
 	</body>
