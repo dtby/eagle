@@ -7,7 +7,7 @@ environment 'production'
 threads 10, 128
 workers 2
 
-app_name = 'igrid_wechat_platform'
+app_name = 'eagle'
 application_path = ""
 directory application_path
 
