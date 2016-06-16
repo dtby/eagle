@@ -13,7 +13,7 @@ json.points @points.each do |point|
 end
 
 if @alarms.blank?
-  json.points @points.each do |point|
+  json.alarms @points.each do |point|
     if !(@device.try(:name).try(:include?, "机柜")) && (point.name.include? "-")
       name = point.name.split("-").last
     else
