@@ -70,7 +70,7 @@ class Device < ActiveRecord::Base
     points_value = []
     case sub_system.name
     when '空调系统'
-      device.points.where(comment: 'GIF').each do |point|
+      points.where(comment: 'GIF').each do |point|
         points_value << { name: point.name, value: point.value }
       end
     when '电量仪系统'
