@@ -36,24 +36,25 @@
         <div class="panel-heading">告警信息</div>
         <div class="panel-body"></div>
       </div>
-      <audio id="alarm-audio"><source src="<%= audio_path 'alarm.mp3'%>"></audio>
+      <audio id="alarm-audio"><source src="<%= audio_path 'alarm.mov'%>"></audio>
 		</div>
     <%= yield :scripts %>
     <script type='text/javascript'>
-      // var client = new Faye.Client('http://localhost:3000/faye', {timeout: 120});
-      var client = new Faye.Client('http://m.igridtotalsolution.com/faye',{timeout:120});
-      var subscription = client.subscribe('/notify/alarms', function(message) {
-        var alarm_audio = $('#alarm-audio')[0];
-        $('#alarms-window').show('slow');
-        $('#alarms-window > .panel-body').text(message.content);
-        alarm_audio.addEventListener("loadeddata", function(){
-          alarm_audio.currentTime = 0;
-          alarm_audio.play();
-          setTimeout(function(){
-            alarm_audio.pause();
-            $('#alarms-window').hide('slow');
-          }, 5000);
-        });
+      var client = new Faye.Client('/faye', {timeout: 120});
+      client.setHeader('X-User-Phone', "<%= current_user.phone %>");
+      client.setHeader('X-User-Token', "<%= current_user.authentication_token %>");
+      
+      // var client = new Faye.Client('http://m.igridtotalsolution.com/faye',{timeout:120});
+      var subscription = client.subscribe("/notify/alarms_<%= @room.id%>", function(message) {
+      var alarm_audio = $('#alarm-audio')[0];
+      $('#alarms-window').show('slow');
+      $('#alarms-window > .panel-body').text(message.content);
+        alarm_audio.currentTime = 0;
+        alarm_audio.play();
+        setTimeout(function(){
+          alarm_audio.pause();
+          $('#alarms-window').hide('slow');
+        }, 5000);
       });
       subscription.then(function() {
         // alert('Subscription is now active!');

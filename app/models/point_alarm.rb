@@ -210,6 +210,8 @@ class PointAlarm < ActiveRecord::Base
     end
 
     def generate_alarm_history
+      logger.info(self)
+      # FayeServer::Push.broadcast("/notify/alarms_#{device.room.id}", {content: 'UPS系统告警', token: '123456'})
       AlarmHistory.find_or_create_by(point: self.point, check_state: self.state)
     end
 end
