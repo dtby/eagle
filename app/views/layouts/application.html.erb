@@ -43,13 +43,14 @@
       // var client = new Faye.Client('http://localhost:3000/faye', {timeout: 120});
       var client = new Faye.Client('http://m.igridtotalsolution.com/faye',{timeout:120});
       var subscription = client.subscribe('/notify/alarms', function(message) {
-        var _audio = $('#alarm-audio')[0];
+        var alarm_audio = $('#alarm-audio')[0];
         $('#alarms-window').show('slow');
         $('#alarms-window > .panel-body').text(message.content);
-        audio.addEventListener("loadeddata", function(){
-          _audio.play();
+        alarm_audio.addEventListener("loadeddata", function(){
+          alarm_audio.currentTime = 0;
+          alarm_audio.play();
           setTimeout(function(){
-            _audio.pause();
+            alarm_audio.pause();
             $('#alarms-window').hide('slow');
           }, 5000);
         });
