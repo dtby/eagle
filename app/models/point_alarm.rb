@@ -101,6 +101,13 @@ class PointAlarm < ActiveRecord::Base
     self.device_id = point.try(:device).try(:id)
     self.sub_system_id = point.try(:device).try(:pattern).try(:sub_system).try(:id)
     self.save
+
+    self.published_msg
+    
+    send_notification
+  end
+
+  def published_msg
     if self.try(:room).present? and self.is_cleared == false
       self.room.user_rooms.each do |item|
         _flag = $redis.hget 'subscribe_alarm_phone', item.user.phone
@@ -109,8 +116,6 @@ class PointAlarm < ActiveRecord::Base
         end
       end
     end
-
-    send_notification
   end
 
   def self.keyword start_time, end_time
