@@ -5,7 +5,6 @@ class NotifyController < FayeRails::Controller
       # puts "Client #{client_id} subscribed to #{channel}"
       matcher = /alarms_(\d+)/.match(channel)
       if matcher and matcher[1].present?
-        puts matcher[1]
         $redis.hset 'subscribe_alarm_phone', matcher[1], 1
       end
     end
@@ -13,7 +12,6 @@ class NotifyController < FayeRails::Controller
       # puts "Client #{client_id} unsubscribed from #{channel}"
       matcher = /alarms_(\d+)/.match(channel)
       if matcher and matcher[1].present?
-        puts matcher[1]
         $redis.hdel 'subscribe_alarm_phone', matcher[1]
       end
     end
