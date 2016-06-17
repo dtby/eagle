@@ -41,12 +41,10 @@
 		</div>
     <%= yield :scripts %>
     <script type='text/javascript'>
-      var client = new Faye.Client('/faye', {timeout: 120});
-      client.setHeader('X-User-Phone', "<%= current_user.phone %>");
-      client.setHeader('X-User-Token', "<%= current_user.authentication_token %>");
+      // var client = new Faye.Client('/faye', {timeout: 120});
       
-      // var client = new Faye.Client('http://m.igridtotalsolution.com/faye',{timeout:120});
-      var subscription = client.subscribe("/notify/alarms_<%= @room.id%>", function(message) {
+      var client = new Faye.Client('http://m.igridtotalsolution.com/faye',{timeout:120});
+      var subscription = client.subscribe("/notify/alarms_<%= current_user.phone %>", function(message) {
       var alarm_audio = $('#alarm-audio')[0];
       $('#alarms-window').show('slow');
       $('#alarms-window > .panel-body').text(message.content);

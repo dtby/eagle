@@ -102,7 +102,12 @@ class PointAlarm < ActiveRecord::Base
     self.sub_system_id = point.try(:device).try(:pattern).try(:sub_system).try(:id)
     self.save
     if self.try(:room).present? and self.is_cleared == false
-      FayeServer::Push.broadcast("/notify/alarms_#{room.id}", {content: "设备: #{self.device_name}, #{self.meaning}", token: '123456'})
+      self.room.user_rooms.each do |item|
+        _flag = $redis.hget 'subscribe_alarm_phone', item.user.phone
+        if _flag == 1
+          FayeServer::Push.broadcast("/notify/alarms_#{room.id}", {content: "设备: #{self.device_name}, #{self.meaning}", token: '123456'})
+        end
+      end
     end
 
     send_notification

@@ -1,6 +1,6 @@
 class ClientEvent
 
-  def incoming(message, callback)
+  def incoming(message, request, callback)
     if message['channel'] !~ %r{^/meta/}
       if message['data']
         if message['data']['token'] != '123456'
