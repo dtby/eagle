@@ -50,12 +50,14 @@
 						<!-- 二级菜单 -->
 					</li>
 				<% end %>
-				<li class="<%= "active" if params[:controller] == "three_dimensionals" && params[:action] == 'index' %>">
-				  <%= link_to room_three_dimensionals_path(@room) do %>
-				    <i class="fa fa-home"></i>
-				    <span class="nav-label">3D机房</span>
-				  <% end %>
-			  </li>
+				<% if @room.link.present? %>
+					<li class="<%= "active" if params[:controller] == "three_dimensionals" && params[:action] == 'index' %>">
+					  <%= link_to room_three_dimensionals_path(@room) do %>
+					    <i class="fa fa-home"></i>
+					    <span class="nav-label">3D机房</span>
+					  <% end %>
+				  </li>
+				<% end %>
 			  <li class="<%= "active" if params[:controller] == "rooms" && params[:action] == 'pue' %>">
 				  <%= link_to room_pue_index_path(@room) do %>
 				    <i class="fa fa-bar-chart"></i>
