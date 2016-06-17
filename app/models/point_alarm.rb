@@ -101,9 +101,10 @@ class PointAlarm < ActiveRecord::Base
     self.device_id = point.try(:device).try(:id)
     self.sub_system_id = point.try(:device).try(:pattern).try(:sub_system).try(:id)
     self.save
-
-    # FayeServer::Push.broadcast("/notify/alarms_#{device.room.id}", {content: 'UPS系统告警', token: '123456'})
-    logger.warn self
+    if self.is_cleared == false
+      FayeServer::Push.broadcast("/notify/alarms_#{device.room.id}", {content: "设备: #{self.device_name}, #{self.meaning}", token: '123456'})
+    end
+    
     send_notification
   end
 
