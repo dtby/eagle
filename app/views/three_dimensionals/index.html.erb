@@ -1,5 +1,4 @@
 <div class="content">
-  <a id="load_room" href="javascript:void(0)">Open Project 1</a>
   <div id="unityPlayer">
     <div class="missing">
       <a href="http://unity3d.com/webplayer/" title="Unity Web Player. Install now!">
@@ -10,15 +9,17 @@
 </div>
 <%= content_for :scripts do %>
   <script type="text/javascript">
+    var u = new UnityObject2(config);
     var config = {
-      width: 1024, 
-      height: 768,
       params: { enableDebugging:"0" }
-      
     };
     config.params["disableContextMenu"] = true;
-    var u = new UnityObject2(config);
     $(function() {
+      var _client_Width = $(document.body).width();
+      var _client_Height = $(document.body).height();
+      $('.content').width(_client_Width);
+      $('.content').height(_client_Height);
+
       var $missingScreen = $("#unityPlayer").find(".missing");
       var $brokenScreen = $("#unityPlayer").find(".broken");
       $missingScreen.hide();
@@ -56,14 +57,9 @@
         }
       });
       u.initPlugin($("#unityPlayer")[0], "../../iGridClient.unity3d");
-      // u.getUnity().SendMessage("Main Camera", "OpenProject", 'http://www.igridtotalsolution.com/3droom/prj/yn/project.scene');
-      $('#load_room').on('click', function(){
-        url = 'http://www.igridtotalsolution.com/3droom/prj/yn/project.scene';
-        u.getUnity().SendMessage("Main Camera", "OpenProject", url);
-      });
     });
     function Client3DLoaded() {
-      OpenProject('http://www.igridtotalsolution.com/3droom/zjch/project.scene')
+      u.getUnity().SendMessage("Main Camera", "OpenProject", "<%= @room.link %>");
     }
   </script>
 
