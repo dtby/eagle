@@ -108,9 +108,12 @@ class PointAlarm < ActiveRecord::Base
   end
 
   def published_msg
-    if self.try(:room).present? and self.is_cleared == false
-      self.room.user_rooms.each do |item|
+    p room
+    if room and self.is_cleared == false
+      room.user_rooms.each do |item|
+        p item.user.inspect
         _flag = $redis.hget 'subscribe_alarm_phone', item.user.phone
+        p _flag
         if _flag == 1
           FayeServer::Push.broadcast("/notify/alarms_#{item.user.phone}", {content: "设备: #{self.device_name}, #{self.meaning}", token: '123456'})
         end
