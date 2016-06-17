@@ -105,7 +105,7 @@ class PointAlarm < ActiveRecord::Base
       self.room.user_rooms.each do |item|
         _flag = $redis.hget 'subscribe_alarm_phone', item.user.phone
         if _flag == 1
-          FayeServer::Push.broadcast("/notify/alarms_#{room.id}", {content: "设备: #{self.device_name}, #{self.meaning}", token: '123456'})
+          FayeServer::Push.broadcast("/notify/alarms_#{item.user.phone}", {content: "设备: #{self.device_name}, #{self.meaning}", token: '123456'})
         end
       end
     end
