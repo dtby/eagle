@@ -83,7 +83,7 @@ class PointHistory < ActiveRecord::Base
 
   def self.find_by_points point_ids
     month = DateTime.now.strftime("%Y%m")
-    PointHistory.proxy(month: month).where("point_id in (?)", point_ids).group_by {|item| item.point_name}
+    PointHistory.proxy(month: month).where("created_at > ? and point_id in (?)", (DateTime.now - 2.day), point_ids).group_by {|item| item.point_name}
   end
 
   def self.find_by_point_id point_id
