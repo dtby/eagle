@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160519182007) do
+ActiveRecord::Schema.define(version: 20160617155401) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -187,23 +187,50 @@ ActiveRecord::Schema.define(version: 20160519182007) do
   add_index "point_histories_201604", ["device_id"], name: "index_point_histories_201604_on_device_id", using: :btree
   add_index "point_histories_201604", ["point_id"], name: "index_point_histories_201604_on_point_id", using: :btree
 
+  create_table "point_histories_201605", force: :cascade do |t|
+    t.string   "point_name",  limit: 255
+    t.string   "point_value", limit: 255
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.integer  "point_id",    limit: 4
+    t.integer  "device_id",   limit: 4
+  end
+
+  add_index "point_histories_201605", ["device_id"], name: "index_point_histories_201605_on_device_id", using: :btree
+  add_index "point_histories_201605", ["point_id"], name: "index_point_histories_201605_on_point_id", using: :btree
+
+  create_table "point_histories_201606", force: :cascade do |t|
+    t.string   "point_name",  limit: 255
+    t.string   "point_value", limit: 255
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.integer  "point_id",    limit: 4
+    t.integer  "device_id",   limit: 4
+  end
+
+  add_index "point_histories_201606", ["device_id"], name: "index_point_histories_201606_on_device_id", using: :btree
+  add_index "point_histories_201606", ["point_id"], name: "index_point_histories_201606_on_point_id", using: :btree
+
   create_table "point_states", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "points", force: :cascade do |t|
-    t.string   "name",        limit: 255
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
-    t.string   "point_index", limit: 255
-    t.integer  "device_id",   limit: 4
-    t.boolean  "state",                   default: true
-    t.integer  "point_type",  limit: 4
-    t.string   "max_value",   limit: 255
-    t.string   "min_value",   limit: 255
-    t.integer  "s_report",    limit: 4,   default: 0
-    t.string   "comment",     limit: 255
+    t.string   "name",            limit: 255
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+    t.string   "point_index",     limit: 255
+    t.integer  "device_id",       limit: 4
+    t.boolean  "state",                       default: true
+    t.integer  "point_type",      limit: 4
+    t.string   "max_value",       limit: 255
+    t.string   "min_value",       limit: 255
+    t.integer  "s_report",        limit: 4,   default: 0
+    t.string   "comment",         limit: 255
+    t.float    "u_up_value",      limit: 24,  default: 0.0
+    t.float    "d_down_value",    limit: 24,  default: 0.0
+    t.integer  "main_alarm_show", limit: 4,   default: 0
   end
 
   add_index "points", ["device_id"], name: "index_points_on_device_id", using: :btree

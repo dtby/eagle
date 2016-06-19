@@ -1,0 +1,7 @@
+<% if @point.errors.present? %>
+  $(".modal-backdrop").remove();
+  $("#pointModalContent").html("<%= escape_javascript( render "point_modal", point: @point )%>");
+  $('#pointModal').modal('show');
+<% else %>
+  location.href = "<%= admin_room_devices_path(room_id: @room.id, device_id: @device.id) %>"
+<% end  %>

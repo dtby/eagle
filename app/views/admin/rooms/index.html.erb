@@ -33,6 +33,9 @@
                   <%= link_to refresh_admin_room_path(room), class: 'btn btn-xs btn-default', title: '刷新设备', remote: true, format: :js do %>
                     <span class="glyphicon glyphicon-refresh"></span>
                   <% end -%>
+                  <%= link_to admin_room_devices_path(room_id: room.id), class: 'btn btn-xs btn-default', title: '设备设置' do %>
+                    <i class="iconfont icon-device"></i>
+                  <% end -%>
                   <%= link_to edit_admin_room_path(room), class: 'btn btn-xs btn-default', title: '编辑', remote: true, format: :js do %>
                     <span class="glyphicon glyphicon-edit"></span>
                   <% end %>

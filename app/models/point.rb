@@ -2,18 +2,21 @@
 #
 # Table name: points
 #
-#  id          :integer          not null, primary key
-#  name        :string(255)
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  point_index :string(255)
-#  device_id   :integer
-#  state       :boolean          default(TRUE)
-#  point_type  :integer
-#  max_value   :string(255)
-#  min_value   :string(255)
-#  s_report    :integer          default(0)
-#  comment     :string(255)
+#  id              :integer          not null, primary key
+#  name            :string(255)
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  point_index     :string(255)
+#  device_id       :integer
+#  state           :boolean          default(TRUE)
+#  point_type      :integer
+#  max_value       :string(255)
+#  min_value       :string(255)
+#  s_report        :integer          default(0)
+#  comment         :string(255)
+#  u_up_value      :float(24)        default(0.0)
+#  d_down_value    :float(24)        default(0.0)
+#  main_alarm_show :integer          default(0)
 #
 # Indexes
 #
@@ -33,9 +36,14 @@ class Point < ActiveRecord::Base
   default_scope { where(state: true).order("cast(points.name as unsigned) asc") }
 
   enum point_type: [:analog, :digital]
+  enum main_alarm_show: ['不显示', '显示']
+  enum s_report: ['关闭', '打开']
 
   scope :analog, -> {where(point_type: 0)}
   scope :digital, -> {where(point_type: 1)}
+  scope :main_alarm_show, -> (room) { where(main_alarm_show: true, device: room.devices) }
+  @@DATA_RESOURCE = {:analog => AnalogPoint, 
+                     :digital => DigitalPoint}
 
   # 取得节点的value
   def value
@@ -77,6 +85,18 @@ class Point < ActiveRecord::Base
     end
     color
   end
+
+  def update_params(params)
+    params[:s_report] = params[:s_report].to_i
+    params[:main_alarm_show] = params[:main_alarm_show].to_i
+    flag = update_attributes(params)
+    # p self.inspect
+    # p point_index
+    
+    # resource = @@DATA_RESOURCE[point_type.to_sym].find(point_index.to_i).sql
+    # p resource
+  end
+
   #创建PointAlarm对象
   # Point.monitor_db
   def self.monitor_db

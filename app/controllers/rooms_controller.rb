@@ -31,6 +31,7 @@ class RoomsController < BaseController
 
   def show
     @attachment = @room.attachments.find_by(tag: "主图")
+    @points = Point.main_alarm_show(@room)
   end
 
   def alert

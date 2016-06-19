@@ -10,10 +10,15 @@
 
 <div id="room-alarm-container" class="room-alarm-container panel">
   <div class="panel-heading">告警信息<i id="alarm-container-switch" class="pull-right glyphicon glyphicon-menu-down"></i></div>
-  <div class="panel-body"></div>
+  <div class="panel-body">
+    <% @points.each do |point| %>
+      <div class="air_d_grey col-sm-3" align="left">
+        <div class="info-row" style="overflow:hidden;">
+          <span class="warning-name"><%= point.name %></span>
+          <span class="warning-icon"><%= warning_status point.value %></span>
+        </div>
+        <br>
+      </div>
+    <% end %>
+  </div>
 </div>
-<script type="text/javascript">
-  $(function(){
-    
-  });
-</script>

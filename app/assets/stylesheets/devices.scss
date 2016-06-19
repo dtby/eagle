@@ -1,3 +1,10 @@
+a,
+a:active,
+a:hover,
+a:focus,
+a:visited {
+  color: #676a6c;
+}
 .panel {
   margin-bottom: 0;
 }
@@ -171,4 +178,51 @@
   height: 200px;
   padding-left: 2px;
   padding-right: 2px;
+}
+.device-area {
+  height: 560px;
+  padding-left: 0;
+  padding-right: 0;
+  border: 1px solid #ddd;
+  background-color: #f2f2f4;
+  overflow-y: scroll;
+}
+.ibox-content {
+  overflow: hidden;
+  .device-seletor {
+    list-style: none;
+    padding-left: 0;
+    li {
+      margin: 3px;
+      padding: 6px 6px 6px 12px;
+      font-size: 16px;
+      background-color: #fff;
+      border: 1px solid #e7e8e9;
+      cursor: pointer;
+      border-radius: 3px;
+    }
+  }
+}
+.form-label {
+  height: 34px;
+  line-height: 34px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.points-area {
+  thead {
+    td {
+      color: #fff;
+      background-color: #333!important;  
+    }
+    
+  }
+  td {
+    line-height: 43px;
+    vertical-align: middle!important;
+    .btn {
+      margin-top: 2px;
+      margin-bottom: 2px;
+    }
+  }
 }
