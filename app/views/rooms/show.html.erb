@@ -13,11 +13,13 @@
   <div class="panel-body">
     <% @points.each do |point| %>
       <div class="air_d_grey col-sm-3" align="left">
-        <div class="info-row" style="overflow:hidden;">
+        <%= link_to room_device_path(room_id: @room.id, id: point.device.id) do %>
+        <div class="info-row">
           <span class="warning-name"><%= point.name %></span>
           <span class="warning-icon"><%= warning_status point.value %></span>
         </div>
         <br>
+        <% end %>
       </div>
     <% end %>
   </div>
