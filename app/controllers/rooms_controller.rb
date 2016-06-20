@@ -48,10 +48,8 @@ class RoomsController < BaseController
                                       .keyword(params[:start_time], params[:end_time])
   end
 
-  def refersh_alert
-    respond_to do |format|
-      format.js { }
-    end
+  def refersh_alert counter = []
+    @result = @room.alarms_count
   end
 
   def video

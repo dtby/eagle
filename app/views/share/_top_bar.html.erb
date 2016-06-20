@@ -74,8 +74,18 @@
   var url = $(".js-ref-page").data('url');
   function refreshPartial() {
 	  $.ajax({
-	    url: url
-	 })
+	    url: url,
+	    type: 'get',
+      success: function (data, status) {
+	    	counter = data.result
+	    	for (idx in counter) {
+	    		$("#system_"+counter[idx].system_id).html(counter[idx].system_count)
+	    		$("#sub_system_"+counter[idx].sub_system_id).html(counter[idx].sub_system_count)
+	    		$("#device_"+counter[idx].device_id).html(counter[idx].device_count)
+	    	}
+	    }
+
+	 	});
 	}
 	var alarm_refresher = setInterval(refreshPartial, 5000)
 

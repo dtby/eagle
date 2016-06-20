@@ -339,7 +339,6 @@ class Room < ActiveRecord::Base
   #   nil
   # end
 
-
   # Room.generate_alarm_data
   def self.generate_alarm_data
     start_time = DateTime.now.strftime("%Q").to_i
@@ -448,6 +447,31 @@ class Room < ActiveRecord::Base
       }
     end
     results
+  end
+
+  def alarms_count
+    all_counts = point_alarms.group_by {|a| a.device}
+    counter = []
+    system_count = {}
+    sub_system_count = {}
+
+    all_counts.each do |device, items|
+      sub_system_id = device.pattern.sub_system.id
+      system_id = device.pattern.sub_system.system.id
+      sub_system_count[sub_system_id.to_s] ||= 0
+      sub_system_count[sub_system_id.to_s] += items.count
+      system_count[system_id] ||= 0
+      system_count[system_id] += items.count
+      counter << {
+        device_id: device.id,
+        device_count: items.count,
+        system_id: system_id,
+        system_count: system_count[system_id],
+        sub_system_id: sub_system_id,
+        sub_system_count: sub_system_count[sub_system_id.to_s]
+      }
+    end
+    counter
   end
 
   def report_devices

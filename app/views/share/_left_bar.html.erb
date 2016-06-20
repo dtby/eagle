@@ -24,7 +24,9 @@
 				<% @room.systems.each do |system| %>
 					<li class="<%= 'active' if params[:controller] == 'devices' && system == @device.try(:pattern).try(:sub_system).try(:system) %>" >
 						<%= link_to '#' do %>
-							<i class="fa <%= menu_tree_icon(system.name) %>"></i> <span class="nav-label"><%= system.name %></span>
+							<i class="fa <%= menu_tree_icon(system.name) %>"></i> 
+							<span class="nav-label"><%= system.name %></span>
+							<span id="system_<%= system.id %>" class="badge badge-error"></span>
 							<%= '<span class="fa arrow"></span>'.html_safe if @room.sub_systems_by_system(system).present? %>
 						<% end %>
 						<!-- 二级菜单 -->
@@ -33,13 +35,17 @@
 							<li class="<%= 'active' if params[:controller] == 'devices' && sub_system == @device.try(:pattern).try(:sub_system) %>">
 								<%= link_to '#' do %>
 									<%= sub_system.name %>
+									<span id="sub_system_<%= sub_system.id %>" class="badge badge-error"></span>
 									<%= '<span class="fa arrow"></span>'.html_safe if sub_system.devices.by_room(@room.id).present? %>
 								<% end %>
 								<!-- 三级菜单 -->
 								<%= '<ul class="nav nav-third-level collapse">'.html_safe if sub_system.devices.by_room(@room.id).present? %>
 								<% sub_system.devices.by_room(@room.id).each do |device| %>
 									<li  class="<%= 'active' if params[:controller] == 'devices' && device == @device %>">
-										<%= link_to device.name, room_device_path(@room, device) %>
+										<%= link_to room_device_path(@room, device) do %>
+											<span><%= device.name %></span>	
+											<span id="device_<%= device.id %>" class="badge device-badge badge-error"></span>	
+										<% end %>
 									</li>
 								<% end %>
 								<%= '</ul>'.html_safe if sub_system.devices.by_room(@room.id).present? %>
