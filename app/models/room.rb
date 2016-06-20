@@ -450,7 +450,7 @@ class Room < ActiveRecord::Base
   end
 
   def alarms_count
-    all_counts = point_alarms.group_by {|a| a.device}
+    all_counts = point_alarms.where(is_checked: false).group_by {|a| a.device}
     counter = []
     system_count = {}
     sub_system_count = {}
