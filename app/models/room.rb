@@ -456,6 +456,7 @@ class Room < ActiveRecord::Base
     sub_system_count = {}
 
     all_counts.each do |device, items|
+      next if device.blank?
       sub_system_id = device.pattern.sub_system.id
       system_id = device.pattern.sub_system.system.id
       sub_system_count[sub_system_id.to_s] ||= 0
