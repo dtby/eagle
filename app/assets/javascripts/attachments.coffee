@@ -5,7 +5,8 @@ jQuery ->
       room_id = $(this).children('option:selected').val()
       return if room_id == ''
       $.ajax "/admin/rooms/"+room_id+"/devices",
-        type: 'get'
+        type: 'get',
+        dataType: 'json',
         success: (data, status) -> 
           selection_content = "<option value='主图'>主图</option>"
           $('#attachment_tag').empty()
