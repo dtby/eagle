@@ -222,14 +222,15 @@ class Room < ActiveRecord::Base
           device_name = device_name.remove(/(\d+)$/)
         end
       end
-      device = self.devices.find_or_create_by(name: device_name)
-      room_devices << device
-
-      pattern_name = device.name.remove(/\d+(主|备)?/)
+      
+      pattern_name = device_name.remove(/\d+(主|备)?/)
       pattern = Pattern.find_or_create_by(name: pattern_name, sub_system: sub_system)
-      device.pattern = pattern
+      
+      device = self.devices.find_or_create_by(name: device_name, pattern: pattern)
       device.updated_at = now_update_time
       device.save
+
+      room_devices << device
             
       point = device.points.find_or_create_by(name: point_name, point_index: point_index)
       point.point_type = table_name.name.downcase.remove('point')
