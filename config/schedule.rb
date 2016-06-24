@@ -34,7 +34,7 @@ every 1.minutes do
 end
 
 every :hour do
-  runner "Schedule.point_classify"
+  # runner "Schedule.point_classify"
 end
 
 every 1.hour, :at => 15 do
