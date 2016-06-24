@@ -38,7 +38,7 @@ every :hour do
 end
 
 every 1.hour, :at => 15 do
-  runner "Schedule.point_history"
+  # runner "Schedule.point_history"
 end
 #
 # every 4.days do
