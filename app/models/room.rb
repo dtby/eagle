@@ -228,7 +228,7 @@ class Room < ActiveRecord::Base
         point.tag_list.add "number_type"
       else
         if point.comment.eql?('告警')
-          point.tag_list.add "alamr_type"
+          point.tag_list.add "alarm_type"
         elsif point.comment.eql?('开关')
           point.tag_list.add "status_type"
         end
