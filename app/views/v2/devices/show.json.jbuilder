@@ -1,6 +1,6 @@
 json.extract! @device, :id, :name, :pic
 
-["number_type", "status_type"].each do |type|
+["number_type", "status_type", "alarm_type"].each do |type|
   json.set! type.to_sym do 
     json.array! @points.tagged_with(type).to_a.sort_by {|p| p.name[/\d+/].to_i }.each do |point|
       if !(@device.try(:name).try(:include?, "机柜")) && (point.name.include? "-")
@@ -17,7 +17,7 @@ json.extract! @device, :id, :name, :pic
 end
 
 if @alarms.blank?
-  json.alarm_type @points.each do |point|
+  json.alarms @points.each do |point|
     if !(@device.try(:name).try(:include?, "机柜")) && (point.name.include? "-")
       name = point.name.split("-").last
     else
@@ -29,7 +29,7 @@ if @alarms.blank?
     json.color point.color
   end  
 else
-  json.alarm_type @alarms.each do |k, v|
+  json.alarms @alarms.each do |k, v|
     json.name k
     json.value v
     case @alarm_types[k] || 0
