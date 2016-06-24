@@ -55,22 +55,6 @@ class Room < ActiveRecord::Base
     end
   end
 
-  # # Room.get_computer_room_list
-  # def self.get_computer_room_list
-  #   start_time = DateTime.now.strftime("%Q").to_i
-  #   # 名字-> [{系统 -> 设备}, ... {系统 -> 设备}]
-  #   point_hash = {}
-  #   informations = datas_to_hash AnalogPoint, point_hash
-  #   generate_system informations, "analog"
-
-  #   point_hash = {}
-  #   informations = datas_to_hash DigitalPoint, point_hash
-  #   generate_system informations, "digital"
-
-  #   end_time = DateTime.now.strftime("%Q").to_i
-  #   logger.info "Room.get_computer_room_list time is #{end_time-start_time}"
-  # end
-
   # Room.generate_point_value
   # 用于生成点的数值
   def self.generate_point_value
@@ -239,7 +223,17 @@ class Room < ActiveRecord::Base
       point.min_value  = min_value
       point.state      = true
       point.updated_at = now_update_time
-      point.save
+      
+      if point.point_type == "analog"
+        point.tag_list.add "number_type"
+      else
+        if point.comment.eql?('告警')
+          point.tag_list.add "alamr_type"
+        elsif point.comment.eql?('开关')
+          point.tag_list.add "status_type"
+        end
+      end
+      point.save  
     end
     Point.where(device: room_devices).where('updated_at < ?', now_update_time).update_all(state: false)
     Device.where('room_id = ? and updated_at < ?', id, now_update_time).update_all(state: false)
