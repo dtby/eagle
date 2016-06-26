@@ -3,7 +3,7 @@ class Admin::BaseController < ApplicationController
   
   # 侧边栏所有菜单
   def set_left_bar
-    @systems = System.includes(sub_systems: :patterns).all
+    # @systems = System.includes(sub_systems: :patterns).all
   end
 
   rescue_from CanCan::AccessDenied do |e|
