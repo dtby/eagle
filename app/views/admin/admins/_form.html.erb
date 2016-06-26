@@ -32,7 +32,7 @@
   <% unless current_admin.grade.eql?('room') %>
   	<div class="form-group">     
   		<div class="input-group m-b">
-  			<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>    
+  			<span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>    
   			<%= f.select :grade, [['系统管理员', 'platform'], ['机房管理员', 'room']], options ={:prompt =>"请选择级别"}, :class => "form-control input" %>   
   		</div>
   		<% if @admin.errors[:grade].any? %>
