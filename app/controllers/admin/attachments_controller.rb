@@ -1,14 +1,20 @@
-class Admin::AttachmentsController < AdminBaseController
+class Admin::AttachmentsController < Admin::BaseController
   before_action :set_attachment, only: [:edit, :show, :update, :delete]
   respond_to :html, :js
+  load_and_authorize_resource
 
   def index
-    @attachments = Attachment.enabled.paginate(page: params[:page], per_page: 15)
+    @attachments = Attachment.where(room: current_admin.rooms).enabled.paginate(page: params[:page], per_page: 15)
     respond_with @attachments
   end
 
   def new
     @attachment = Attachment.new
+    if current_admin.grade == 'room'
+      @room = current_admin.rooms
+    else
+      @room = Room.all
+    end
     respond_with @attachment
   end
 

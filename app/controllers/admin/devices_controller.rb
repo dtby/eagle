@@ -1,4 +1,4 @@
-class Admin::DevicesController < AdminBaseController
+class Admin::DevicesController < Admin::BaseController
 
   def index
     @room = Room.find_by_id(params[:room_id])

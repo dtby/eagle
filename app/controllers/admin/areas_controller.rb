@@ -1,5 +1,6 @@
-class Admin::AreasController < AdminBaseController
+class Admin::AreasController < Admin::BaseController
   before_action :set_area, only: [:edit, :show, :update, :destroy]
+  authorize_resource :class => false
   respond_to :html, :js
 
   def new

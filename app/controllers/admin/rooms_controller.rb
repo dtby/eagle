@@ -1,7 +1,9 @@
-class Admin::RoomsController < AdminBaseController
+class Admin::RoomsController < Admin::BaseController
 	before_action :set_room, only: [:edit, :show, :update, :destroy, :refresh]
 	respond_to :html, :js
-
+  # authorize_resource :class => false
+  load_and_authorize_resource
+  
 	def new
 		@room = Room.new
 		respond_with @room
@@ -20,7 +22,11 @@ class Admin::RoomsController < AdminBaseController
 	end
 
 	def index
-		@rooms = Room.includes(:area).all
+    if current_admin.grade == 'room'
+      @rooms = current_admin.rooms
+    else
+		  @rooms = Room.includes(:area).all
+    end
 	end
 
 	def edit

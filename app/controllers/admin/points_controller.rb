@@ -1,4 +1,4 @@
-class Admin::PointsController < AdminBaseController
+class Admin::PointsController < Admin::BaseController
 
   def index
     device = Device.find_by_id(params[:device_id])

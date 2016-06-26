@@ -1,7 +1,9 @@
-class Admin::UsersController < AdminBaseController
+class Admin::UsersController < Admin::BaseController
 	before_action :set_user, only: [:edit, :update, :destroy]
 	before_action :set_users, only: [:index, :create, :update, :destroy]
 	before_action :set_rooms, except: [:destroy]
+	load_and_authorize_resource
+	# authorize_resource :class => true
 	respond_to :html, :js
 
 	def index
@@ -68,6 +70,10 @@ class Admin::UsersController < AdminBaseController
 	end
 
 	def set_rooms
-		@rooms = Room.all
+		if current_admin.grade == 'room'
+			@rooms = current_admin.rooms
+		else
+			@rooms = Room.all
+		end
 	end
 end

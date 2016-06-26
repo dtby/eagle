@@ -1,4 +1,5 @@
-class Admin::FtpsController < AdminBaseController
+class Admin::FtpsController < Admin::BaseController
+  load_and_authorize_resource
   def index
     @ftp = Ftp.get_ftp_config
   end
