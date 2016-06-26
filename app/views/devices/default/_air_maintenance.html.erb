@@ -1,0 +1,17 @@
+<div class="clearfix">
+  <div class="col-xs-12 p-xs text-center animated fadeInRightBig">
+    <div class="panel panel-default">
+      <div class="panel-heading"><%= device.name %>运维系统数据</div>
+      <div id="air-maintenance" class="panel-body air-maintenance">
+        <%= image_tag "air_maintenance.gif", class: 'air-main-bg' %>        
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $(function(){
+    var win_width = $('body').width();
+    var win_height = $('body').height();
+    $("#air-maintenance").height(win_height - 200);
+  })
+</script>

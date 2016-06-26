@@ -16,21 +16,21 @@
         <!-- 左侧表格1 -->
         <div class="table-responsive table-left1">
           <% if @points['市电输入'].present? %>
-            <%= render partial: "devices/share/table", locals: { title: "市电输入", points: @points["市电输入"], exclude_points: exclude_points["市电输入"] } %>
+            <%= render partial: "devices/share/table", locals: { title: "市电输入", points: @points["市电输入"] } %>
           <% elsif @points['市电输出'].present? %>
-            <%= render partial: "devices/share/table", locals: { title: "市电输出", points: @points["市电输出"], exclude_points: exclude_points["市电输出"] } %>
+            <%= render partial: "devices/share/table", locals: { title: "市电输出", points: @points["市电输出"] } %>
           <% end %>
         </div>
         <!-- 右侧表格 -->
         <% if @points["UPS输出"].present? %>
           <div class="table-responsive table-right">
-            <%= render partial: "devices/share/table", locals: { title: "UPS输出", points: @points["UPS输出"], exclude_points: exclude_points["UPS输出"] } %>
+            <%= render partial: "devices/share/table", locals: { title: "UPS输出", points: @points["UPS输出"] } %>
           </div>
         <% end %>
         <!-- 下部表格 -->
         <div class="table-responsive table-bottom">
           <% if @points['电池模块'].present? %>
-            <%= render partial: "devices/share/table", locals: { title: "电池模块", points: @points["电池模块"], exclude_points: exclude_points["电池模块"] } %>
+            <%= render partial: "devices/share/table", locals: { title: "电池模块", points: @points["电池模块"] } %>
           <% end %>
         </div>
       </div>
@@ -44,7 +44,7 @@
         <div class="panel-body" >
           <div class="content">
             <% @points["告警"].each do |key, value| %>
-              <div class="col-xs-6" style="margin-bottom: 10px;">
+              <div class="col-xs-12" style="margin-bottom: 10px;">
                 <span class="warning-name"><%= key %></span>
                 <span class="warning-icon"><%= warning_status value %></span>
               </div>
@@ -59,7 +59,7 @@
         <div class="panel-heading">开关状态</div>
         <div class="panel-body switch-container">
           <% @points["开关"].each do |key, value| %>
-            <div class='col-xs-6 switch-area'>
+            <div class='col-xs-12 switch-area'>
               <div class="content">
                 <div class="title"><%= key.split('-')[-1] %></div>
                 <div class="myswitcher">
