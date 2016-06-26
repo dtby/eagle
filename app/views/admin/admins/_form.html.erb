@@ -28,6 +28,18 @@
 			<dd class="error text-danger"><%= @admin.errors[:email][0] %></dd>
 		<% end %>
 	</div>
+  
+  <% unless current_admin.grade.eql?('room') %>
+  	<div class="form-group">     
+  		<div class="input-group m-b">
+  			<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>    
+  			<%= f.select :grade, [['系统管理员', 'platform'], ['机房管理员', 'room']], options ={:prompt =>"请选择级别"}, :class => "form-control input" %>   
+  		</div>
+  		<% if @admin.errors[:grade].any? %>
+  			<dd class="error text-danger"><%= @admin.errors[:grade][0] %></dd>
+  		<% end %>
+  	</div>
+  <% end %>
 
 	<div class="form-group">     
 		<div class="input-group m-b">
@@ -48,6 +60,14 @@
 			<dd class="error text-danger"><%= @admin.errors[:password_confirmation][0] %></dd>
 		<% end %>
 	</div>
+	
+	<div class="form-group" style="width: 100%;">
+		<% if @admin_rooms.present? %>
+			<%= select_tag :admin_rooms, options_from_collection_for_select(@rooms, "id", "name", @admin_rooms), multiple: true, class: "chosen-select", style: "width:100%", tabindex: "4", prompt: "所有机房", "data-placeholder" => "机房(多选)" %>
+		<% else %>
+			<%= select_tag :admin_rooms, options_from_collection_for_select(@rooms, "id", "name", @admin.rooms.pluck(:id)), multiple: true, class: "chosen-select", style: "width:100%", tabindex: "4", prompt: "所有机房", "data-placeholder" => "机房(多选)" %>
+		<% end %>		
+	</div>
 
 	<div class="actions">
 		<%= f.submit "#{params[:id].present? ? '更新' : '创建'}", class: "btn btn-success btn-block" %>
@@ -57,14 +77,28 @@
 
 <script>
 	//配置多选表单
-      var config = {
-            '.chosen-select'           : {},
-            '.chosen-select-deselect'  : {allow_single_deselect:true},
-            '.chosen-select-no-single' : {disable_search_threshold:10},
-            '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
-            '.chosen-select-width'     : {width:"90%"}
-      }
-      for (var selector in config) {
-            $(selector).chosen(config[selector]);
-      }
+  var config = {
+    '.chosen-select'           : {},
+    '.chosen-select-deselect'  : {allow_single_deselect:true},
+    '.chosen-select-no-single' : {disable_search_threshold:10},
+    '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+    '.chosen-select-width'     : {width:"90%"}
+  }
+  for (var selector in config) {
+        $(selector).chosen(config[selector]);
+  }
+  $(function(){
+  	if ($("#admin_grade").val() == 'room' )
+  	{
+  		$("#admin_rooms_chosen").show();
+  	}
+  	$("#admin_grade").on('change', function(){
+  		var _selected = $(this).val();
+  		if (_selected == 'room') {
+  			$("#admin_rooms_chosen").show();
+  		} else {
+  			$("#admin_rooms_chosen").hide();
+  		}
+  	});
+  });
 </script>

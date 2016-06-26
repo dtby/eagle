@@ -18,6 +18,7 @@
 #  name                   :string(255)      default(""), not null
 #  phone                  :string(255)      default(""), not null
 #  authentication_token   :string(255)
+#  grade                  :integer          default(1)
 #
 # Indexes
 #

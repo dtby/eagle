@@ -11,7 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160617155401) do
+ActiveRecord::Schema.define(version: 20160625045518) do
+
+  create_table "admin_rooms", force: :cascade do |t|
+    t.integer  "admin_id",   limit: 4
+    t.integer  "room_id",    limit: 4
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "admin_rooms", ["admin_id"], name: "index_admin_rooms_on_admin_id", using: :btree
+  add_index "admin_rooms", ["room_id"], name: "index_admin_rooms_on_room_id", using: :btree
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -29,6 +39,7 @@ ActiveRecord::Schema.define(version: 20160617155401) do
     t.string   "name",                   limit: 255, default: "", null: false
     t.string   "phone",                  limit: 255, default: "", null: false
     t.string   "authentication_token",   limit: 255
+    t.integer  "grade",                  limit: 4,   default: 1
   end
 
   add_index "admins", ["authentication_token"], name: "index_admins_on_authentication_token", using: :btree

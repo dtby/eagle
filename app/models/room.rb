@@ -27,7 +27,8 @@ class Room < ActiveRecord::Base
   has_many :user_rooms, dependent: :destroy
   has_many :attachments, dependent: :destroy
   has_many :users, through: :user_rooms
-
+  has_many :admins, through: :admin_rooms
+  
   has_many :devices, dependent: :destroy
   has_many :point_alarms, dependent: :destroy
 

@@ -53,13 +53,12 @@
 			</li>
 
 			<!-- 一级菜单 -->
-			<% @systems.each do |system| %>
+			<!-- <% @systems.each do |system| %>
 				<li class="<%= 'active' if params[:controller] == 'admin/patterns' && system == @pattern.try(:sub_system).try(:system) %>" >
 					<%= link_to '#' do %>
 						<i class="fa <%= menu_tree_icon(system.name) %>"></i> <span class="nav-label"><%= system.name %></span>
 						<%= '<span class="fa arrow"></span>'.html_safe if system.sub_systems.present? %>
 					<% end %>
-					<!-- 二级菜单 -->
 					<%= '<ul class="nav nav-second-level collapse">'.html_safe if system.sub_systems.present? %>
 					<% system.sub_systems.each do |sub_system| %>
 						<li class="<%= 'active' if params[:controller] == 'admin/patterns' && sub_system == @pattern.try(:sub_system) %>">
@@ -67,7 +66,6 @@
 								<%= sub_system.name %>
 								<%= '<span class="fa arrow"></span>'.html_safe if sub_system.patterns.present? %>
 							<% end %>
-							<!-- 三级菜单 -->
 							<%= '<ul class="nav nav-third-level collapse">'.html_safe if sub_system.patterns.present? %>
 							<% sub_system.patterns.each do |pattern| %>
 								<li  class="<%= 'active' if params[:controller] == 'admin/patterns' && pattern == @pattern %>">
@@ -75,13 +73,13 @@
 								</li>
 							<% end %>
 							<%= '</ul>'.html_safe if sub_system.patterns.present? %>
-							<!-- 三级菜单 -->
+					
 						</li>
 					<% end %>
 					<%= '</ul>'.html_safe if system.sub_systems.present? %>
-					<!-- 二级菜单 -->
+					
 				</li>
-			<% end %>
+			<% end %> -->
 			<!-- 一级菜单 -->
 		</ul>
 	</div>

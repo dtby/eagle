@@ -12,7 +12,7 @@
               <div class="form-group">
                 <div class="input-group input-padding" style="width: 100%;">
                   <%= f.label :room_id, "选择机房：" %>
-                  <%= f.select :room_id, Room.all.pluck(:name, :id), {prompt: "请选择机房"}, class: 'form-control', required: true%>
+                  <%= f.select :room_id, @room.all.pluck(:name, :id), {prompt: "请选择机房"}, class: 'form-control', required: true%>
                 </div>
                 <% if attachment.errors[:name].any? %>
                   <dd class="error text-danger"><%= attachment.errors[:name][0] %></dd>
