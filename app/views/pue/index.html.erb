@@ -5,9 +5,9 @@
 			<div class="panel-body">
         <div style="height:520px" class="carbon_chart1"></div>
 				<div style="height:200px" class="">
-          <div class='area col-md-4'><label>总排放</label><%= @single_value_points['总排放'] %></div>    
-          <div class='area col-md-4'><label>总能耗</label><%= @single_value_points['总能耗'] %></div>    
-          <div class='area col-md-4'><label>总电费</label><%= @single_value_points['总电费'] %></div>    
+          <div class='area col-md-4'><label>总排放</label><%= @single_value_points.try(:[], '总排放') %></div>    
+          <div class='area col-md-4'><label>总能耗</label><%= @single_value_points.try(:[], '总能耗') %></div>    
+          <div class='area col-md-4'><label>总电费</label><%= @single_value_points.try(:[], '总电费') %></div>    
         </div>
 			</div>
 		</div>
@@ -62,74 +62,63 @@
   require([ 'echarts', 'echarts/chart/line', 'echarts/chart/bar' ],
 
 	function (ec) {
-		// 基于准备好的dom，初始化echarts图表
-		$(".carbon_chart1").each(function(){
-			var myChart = ec.init($(this).get(0));   
+    <% if @chart_data.present? %>
+  		// 基于准备好的dom，初始化echarts图表
+  		$(".carbon_chart1").each(function(){
+  			var myChart = ec.init($(this).get(0));   
 
-			var option = {
-			 	grid: { x: 90, x2: 60, y: 100, y2: 120 },
-			 	tooltip: {
-			 		trigger: 'axis'
-			 	},
-        legend: {
-          data:['IT电费', '空调电费', 'IT碳排放', '空调碳排放']
-        },
-			 	xAxis: [
-			 	{
-			 		type: 'category',
-			 		boundaryGap: true,
-			 		data: [
-            <% @chart_data.first.second.each do |time, value|%>
-              '<%= time %>',
-            <% end -%>
-          ]
-			 	}
-			 	],
-			 	yAxis: [
-			 	{
-			 		type: 'value',
-          name: '电费',
-			 		axisLabel: { formatter: '{value} KW/h' }
-			 	},
-			 	{
-			 		type: 'value',
-			 		name: '排放量',
-			 		axisLabel: { formatter: '{value}' }
-			 	}
-			 	],
-			 	series: [
-          {
-            name:'IT碳排放',
-            type:'bar',
-            smooth: true,
-            yAxisIndex: 1,
-            data:[1.0, 7.2, 3.3, 6.5, 2.3, 1.02, 8.3]
-          },
-          {
-            name:'空调碳排放',
-            type:'bar',
-            smooth: true,
-            yAxisIndex: 1,
-            data:[2.0, 3.2, 3.3, 5.5, 8.3, 7.02, 5.2]
-          },
-				 	{
-				 		name:'IT电费',
-				 		type:'line',
-            smooth: true,
-				 		data:[210, 170, 320, 20, 420, 290, 218]
-				 	},
-          {
-            name:'空调电费',
-            type:'line',
-            smooth: true,
-            data:[732, 329, 720, 420, 220, 520, 231]
-          }
-				 ]
-			};
-			// 为echarts对象加载数据 
-			myChart.setOption(option); 
-		});
-	}
+  			var option = {
+  			 	grid: { x: 90, x2: 60, y: 100, y2: 120 },
+  			 	tooltip: { trigger: 'axis' },
+          legend: { data:['IT电费', '空调电费', 'IT碳排放', '空调碳排放'] },
+  			 	xAxis: [
+  			 	{
+  			 		type: 'category', boundaryGap: true,
+  			 		data: [
+              <% @chart_data.first.second.each do |time, value|%>
+                '<%= time %>',
+              <% end -%>
+            ]
+  			 	}
+  			 	],
+  			 	yAxis: [
+            {type: 'value', name: '电费', axisLabel: { formatter: '{value} KW/h' }},
+    			 	{ type: 'value', name: '排放量', axisLabel: { formatter: '{value}' }}
+  			 	],
+  			 	series: [
+            {
+              name:'IT碳排放',
+              type:'bar',
+              smooth: true,
+              yAxisIndex: 1,
+              data:[1.0, 7.2, 3.3, 6.5, 2.3, 1.02, 8.3]
+            },
+            {
+              name:'空调碳排放',
+              type:'bar',
+              smooth: true,
+              yAxisIndex: 1,
+              data:[2.0, 3.2, 3.3, 5.5, 8.3, 7.02, 5.2]
+            },
+  				 	{
+  				 		name:'IT电费',
+  				 		type:'line',
+              smooth: true,
+  				 		data:[210, 170, 320, 20, 420, 290, 218]
+  				 	},
+            {
+              name:'空调电费',
+              type:'line',
+              smooth: true,
+              data:[732, 329, 720, 420, 220, 520, 231]
+            }
+  				 ]
+  			};
+  			// 为echarts对象加载数据 
+  			myChart.setOption(option); 
+  		});
+    <% end %>
+  }
 );	
 
 </script>
@@ -140,22 +129,22 @@
 	function (pue){
 		var pueChart = pue.init(document.getElementById('pue')); 
 		option = {
-			tooltip: {
-				formatter: "{a} <br/>{b}: {c}%"
-			},
 			series: [
 				{
 					name:'业务指标',
 					type:'gauge',
 					center: ['50%', '50%'],
 					radius: [0, '100%'],
-					detail: {formatter:'{value}%'},
-					data:[{value: 50, name: 'PUE'}]
+					detail: {formatter:'{value}'},
+          axisLine: {show: true, lineStyle: {width: 10}},
+          axisTick: {show: false},
+          min: 0, max: 5, splitNumber: 5,
+					data:[{value: 3, name: 'PUE'}]
 				}
 			]
 		};
 		timeTicket = setInterval(function (){
-			option.series[0].data[0].value = (Math.random()*100).toFixed(2);
+			option.series[0].data[0].value = (Math.random()*5).toFixed(0);
 			pueChart.setOption(option, true);
 		},2000);
 	}

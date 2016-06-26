@@ -29,6 +29,8 @@ class SubSystem < ActiveRecord::Base
     "温湿度系统" => "temp",
     "漏水系统" => "leak",
     "消防系统" => "fire",
+    # "配电系统" => "",
+    "空调运维系统" => "air_maintenance",
     "电池系统" => "batteries"
   }
 
