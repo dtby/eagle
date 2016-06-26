@@ -88,6 +88,8 @@ gem "will_paginate-bootstrap"
 gem 'redis'
 gem 'redis-namespace'
 
+gem 'cancancan'
+
 # 导出为xls或csv
 # gem "spreadsheet_on_rails"
 gem 'axlsx'
