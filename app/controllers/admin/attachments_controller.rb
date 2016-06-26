@@ -4,7 +4,11 @@ class Admin::AttachmentsController < Admin::BaseController
   load_and_authorize_resource
 
   def index
-    @attachments = Attachment.where(room: current_admin.rooms).enabled.paginate(page: params[:page], per_page: 15)
+    if current_admin.grade.eql?('room')
+      @attachments = Attachment.where(room: current_admin.rooms).enabled.paginate(page: params[:page], per_page: 15)
+    else
+      @attachments = Attachment.enabled.paginate(page: params[:page], per_page: 15)
+    end
     respond_with @attachments
   end
 
