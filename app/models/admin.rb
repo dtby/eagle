@@ -18,7 +18,8 @@
 #  name                   :string(255)      default(""), not null
 #  phone                  :string(255)      default(""), not null
 #  authentication_token   :string(255)
-# 
+#  grade                  :integer          default(1)
+#
 # Indexes
 #
 #  index_admins_on_authentication_token  (authentication_token)
@@ -38,6 +39,10 @@ class Admin < ActiveRecord::Base
   validates :phone, :email, :name, presence: true
   validates :phone, format: { with: /\A(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}\z/, message: "请输入正确的手机号码" }
 
+  has_many :admin_rooms, dependent: :destroy
+  has_many :rooms, through: :admin_rooms
+
+  enum grade: [:super, :platform, :room]
   #attr_accessor :login
 
   #判断是否需要更新密码
@@ -46,6 +51,17 @@ class Admin < ActiveRecord::Base
       update(params)
     else
       update_without_password(params)
+    end
+  end
+
+  def save_rooms(rooms)
+    create_rooms = rooms.to_a
+    AdminRoom.transaction do
+      admin_rooms.delete_all
+      create_rooms.each do |room_id|
+        room = Room.find_by(id: room_id)
+        admin_rooms.find_or_create_by(room: room)
+      end
     end
   end
 
