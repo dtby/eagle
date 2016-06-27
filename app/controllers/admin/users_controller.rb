@@ -68,9 +68,9 @@ class Admin::UsersController < Admin::BaseController
 
 	def set_users
 		if current_admin.grade.eql?('room')
-			@users = User.where(creator: current_admin.id)
+			@users = User.where(creator: current_admin.id).paginate(page: params[:page], per_page: 15)
 		else
-			@users = User.all
+			@users = User.all.paginate(page: params[:page], per_page: 15)
 		end
 	end
 

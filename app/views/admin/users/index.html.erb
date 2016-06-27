@@ -23,6 +23,9 @@
 					<%= render partial: "user" %>
 				</tbody>
 			</table>
+			<div class="text-center">
+        <%= will_paginate @users, renderer: BootstrapPagination::Rails  %>
+      </div>
 		</div>
 	</div>
 </div>
