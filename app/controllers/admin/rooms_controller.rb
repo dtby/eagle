@@ -31,6 +31,7 @@ class Admin::RoomsController < Admin::BaseController
 
 	def edit
 		@menus = @room.menu_to_s
+    @systems = System.all
 		respond_with @room,@menus
 	end
 

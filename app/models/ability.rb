@@ -2,6 +2,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(admin)
+    p admin.grade
     if admin.grade.eql?('room')
       role_room
     else
