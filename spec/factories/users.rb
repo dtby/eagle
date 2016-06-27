@@ -20,6 +20,7 @@
 #  authentication_token   :string(255)
 #  os                     :string(255)
 #  device_token           :string(255)
+#  creator                :integer          default(1)
 #
 # Indexes
 #

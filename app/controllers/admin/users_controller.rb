@@ -16,6 +16,7 @@ class Admin::UsersController < Admin::BaseController
 
 	def create
 		@user = User.new(user_params)
+		@user.creator = current_admin.id
 		if @user.save
 			UserRoom.save_user_rooms(@user, params[:user_rooms])
 			flash[:success] = "创建用户成功"
@@ -66,7 +67,11 @@ class Admin::UsersController < Admin::BaseController
 	end
 
 	def set_users
-		@users = User.all
+		if current_admin.grade.eql?('room')
+			@users = User.where(creator: current_admin.id)
+		else
+			@users = User.all
+		end
 	end
 
 	def set_rooms

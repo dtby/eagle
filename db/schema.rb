@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160625045518) do
+ActiveRecord::Schema.define(version: 20160627025349) do
 
   create_table "admin_rooms", force: :cascade do |t|
     t.integer  "admin_id",   limit: 4
@@ -335,6 +335,7 @@ ActiveRecord::Schema.define(version: 20160625045518) do
     t.string   "authentication_token",   limit: 255
     t.string   "os",                     limit: 255
     t.string   "device_token",           limit: 255
+    t.integer  "creator",                limit: 4,   default: 1
   end
 
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", using: :btree

@@ -11,7 +11,7 @@ class Ability
 
   def role_room
     can [:index, :edit, :update], Admin
-    # can [:index, :new, :create, :edit, :update, :destroy], User
+    can [:index, :new, :create, :edit, :update, :destroy], User
     can [:index, :create], :report
     can [:index, :new, :create, :edit, :show, :update], :area
     can [:index, :edit, :show, :update, :refresh], Room
