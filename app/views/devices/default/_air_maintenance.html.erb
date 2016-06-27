@@ -3,7 +3,39 @@
     <div class="panel panel-default">
       <div class="panel-heading"><%= device.name %>运维系统数据</div>
       <div id="air-maintenance" class="panel-body air-maintenance">
-        <%= image_tag "air_maintenance.gif", class: 'air-main-bg' %>        
+        <%= image_tag "air_maintenance.gif", class: 'air-main-bg' %>
+        <div class="dryness-container">
+          <div class="title">加湿器</div>
+          <ul>
+            <% @points.fetch('加湿器', {}).each do |k, v| %>
+              <li><div class="point-name"><%= k %></div><div class="point-value"><%= v %></div></li>
+            <% end %>
+          </ul>
+        </div>
+        <div class="compressor-container">
+          <div class="title">压缩机</div>
+          <ul>
+            <% @points.fetch('压缩机参数', {}).each do |k, v| %>
+              <li><div class="point-name"><%= k %></div><div class="point-value"><%= v %></div></li>
+            <% end %>
+          </ul>
+        </div>
+        <div class="wind-machine-container">
+          <div class="title">风机</div>
+          <ul>
+          <% @points.fetch('风机', {}).each do |k, v| %>
+            <li><div class="point-name"><%= k %></div><div class="point-value"><%= v %></div></li>
+          <% end %>
+          </ul>
+        </div>
+        <div class="power-container">
+          <div class="title">压缩机供电</div>
+          <ul>
+          <% @points.fetch('压缩机供电', {}).each do |k, v| %>
+            <li><div class="point-name"><%= k %></div><div class="point-value"><%= v %></div></li>
+          <% end %>
+          </ul>
+        </div>
       </div>
     </div>
   </div>

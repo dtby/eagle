@@ -2,7 +2,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(admin)
-    if admin.grade == 'room'
+    if admin.grade.eql?('room')
       role_room
     else
       can :manage, :all

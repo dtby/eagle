@@ -41,8 +41,6 @@
 		</div>
     <%= yield :scripts %>
     <script type='text/javascript'>
-      // var client = new Faye.Client('/faye', {timeout: 120});
-      
       var client = new Faye.Client('http://m.igridtotalsolution.com/faye',{timeout:120});
       var subscription = client.subscribe("/notify/alarms_<%= current_user.phone %>", function(message) {
       var alarm_audio = $('#alarm-audio')[0];
@@ -56,8 +54,13 @@
         }, 5000);
       });
       subscription.then(function() {
-        // alert('Subscription is now active!');
+      
       });
+
+      clearInterval(refresh_page);
+      var refresh_page = setInterval(function(){
+        location.reload();
+      }, 30000)
     </script>
 	</body>
   
