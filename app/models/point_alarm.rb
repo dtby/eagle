@@ -110,7 +110,6 @@ class PointAlarm < ActiveRecord::Base
   def published_msg
     if room and is_cleared == false
       room.user_rooms.each do |item|
-        next item.user.phone.eql?('13761964217')
         _flag = $redis.hget 'subscribe_alarm_phone', item.user.phone
         if _flag
           FayeServer::Push.broadcast("/notify/alarms_#{item.user.phone}", {content: "设备: #{device_name}, #{meaning}", token: '123456'})
