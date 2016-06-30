@@ -33,19 +33,28 @@ class DevicesController < BaseController
       @device = Device.includes(:points).where(id: params[:id]).first
       @load_factor = []
       @device_consume = PointHistory.find_by_points @device.points.where("comment = ?", "表格").pluck(:id)
-      @alarms = Device.find(params[:id]).alarms.sort_by{|x| x.device_name.gsub(/[^0-9]/, '').to_i}
+      # @alarms = Device.find(params[:id]).alarms.sort_by{|x| x.device_name.gsub(/[^0-9]/, '').to_i}
       @points = @device.points_value
-      @exclude_points = @device.pattern.getting_exclude_points
+      # @exclude_points = @device.pattern.getting_exclude_points
 
       ##通过设备名称获取背景图片
       @attachment = @room.attachments.where("tag like ?", "%#{@device.name}%").first
     else
       @device = Device.find_by(id: params[:id])
-      @points = @device.try(:points).try(:order, 'name').try(:to_a)
-      @points = @points.sort_by {|p| p.name[/\d+/].to_i }
-      @alarms, @alarm_types = @device.alarm_group
-      #通过设备名称获取背景图片
-      @attachment = @room.attachments.where("tag like ?", "%#{@device.name}%").first
+      sub_system_name = @device.pattern.sub_system.name
+      if sub_system_name == '空调系统'
+        render :json => {
+          id: @device.id,
+          name: @device.name,
+          pic: @device.pic,
+          points: @device.points['GIF'],
+          alarms: @device.points['']
+        }
+      else
+        @points = @device.try(:points).try(:order, 'name').try(:to_a)
+        @points = @points.sort_by {|p| p.name[/\d+/].to_i }
+        @alarms, @alarm_types = @device.alarm_group
+      end
     end
   end
 
@@ -62,11 +71,11 @@ class DevicesController < BaseController
 
   def search
     @point_values = {}
-    @device_alarm = {}
+    # @device_alarm = {}
     if params[:sub_sys_name] == "烟感"
       @devices = Device.where(room_id: params[:room_id], name: "烟感")
       @devices.each do |device|
-        @device_alarm[device.try(:id)] = device.is_alarm?
+        # @device_alarm[device.try(:id)] = device.is_alarm?
       end
       return
     end
@@ -99,7 +108,7 @@ class DevicesController < BaseController
           when "空调系统"
             name = device.try(:name)
             if name.present? && ((name.include? "冷水机组") || (name.include? "室外机"))
-              @device_alarm[device.try(:id)] = device.is_alarm?
+              # @device_alarm[device.try(:id)] = device.is_alarm?
               puts "#{device.id}, #{device.is_alarm?}"
             else
               # ele_point_values device
@@ -108,7 +117,7 @@ class DevicesController < BaseController
             # con_point_values device
             @points_value.concat device.main_point_value
           when "配电系统"
-            @device_alarm[device.try(:id)] = device.is_alarm?
+            # @device_alarm[device.try(:id)] = device.is_alarm?
           when 'UPS系统'
             @points_value.concat device.main_point_value
           else
