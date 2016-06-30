@@ -102,7 +102,7 @@ class PointAlarm < ActiveRecord::Base
     self.sub_system_id = point.try(:device).try(:pattern).try(:sub_system).try(:id)
     self.save
 
-    self.published_msg
+    # self.published_msg
     
     send_notification
   end
