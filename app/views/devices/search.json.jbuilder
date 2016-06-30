@@ -4,6 +4,6 @@ json.devices @devices do |device|
 
   json.alarm @device_alarm[device.try(:id)] unless @device_alarm[device.try(:id)].nil?
 
-  json.points @points_value
+  json.points device.main_point_value
   
 end
