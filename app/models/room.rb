@@ -174,8 +174,8 @@ class Room < ActiveRecord::Base
     AnalogPoint.all.distinct(:RSName).pluck(:RSName)
   end
 
-  def analyzed_table table_name, now_update_time
-    data = table_name.where("RSName = ? and Comment <> ''", name)
+  def analyzed_table table_name, room_name, now_update_time
+    data = table_name.where("RSName = ? and Comment <> ''", room_name)
     if table_name == AnalogPoint
       list = data.pluck(:BayName, :GroupName, :PointName, :PointID, :RSName, :Comment, :UpValue, :DnValue)
     else
@@ -201,7 +201,7 @@ class Room < ActiveRecord::Base
       menu.update(updated_at: DateTime.now)
       
       if device_name.include?('温湿度') 
-        if name.eql?('云南广福城')
+        if room_name.eql?('云南广福城')
           device_name = '温湿度'
         else
           device_name = device_name.remove(/(\d+)$/)
@@ -238,6 +238,7 @@ class Room < ActiveRecord::Base
     end
     Point.where(device: room_devices).where('updated_at < ?', now_update_time).update_all(state: false)
     Device.where('room_id = ? and updated_at < ?', id, now_update_time).update_all(state: false)
+    nil
   end
 
   # Room.generate_alarm_data
@@ -391,10 +392,10 @@ class Room < ActiveRecord::Base
   def refresh
     table_names = [AnalogPoint, DigitalPoint]
     now_update_time = DateTime.now
-    rooms_name = analyzed_room
+    # rooms_name = analyzed_room
 
     table_names.each do |table_name|
-      analyzed_table table_name, now_update_time
+      analyzed_table table_name, self.name, now_update_time
     end
   end
 end
