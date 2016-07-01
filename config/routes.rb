@@ -175,6 +175,7 @@ Rails.application.routes.draw do
       end
     end
   end
+
   resources :point_alarms, only: [:show]
 
 end

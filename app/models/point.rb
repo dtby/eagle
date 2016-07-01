@@ -17,6 +17,7 @@
 #  u_up_value      :float(24)        default(0.0)
 #  d_down_value    :float(24)        default(0.0)
 #  main_alarm_show :integer          default(0)
+#  tag             :integer
 #
 # Indexes
 #
@@ -38,6 +39,7 @@ class Point < ActiveRecord::Base
   enum point_type: [:analog, :digital]
   enum main_alarm_show: ['不显示', '显示']
   enum s_report: ['关闭', '打开']
+  enum tag: [:number_type, :alarm_type, :status_type]
 
   scope :analog, -> {where(point_type: 0)}
   scope :digital, -> {where(point_type: 1)}
@@ -74,7 +76,7 @@ class Point < ActiveRecord::Base
     min_value = self.try(:min_value).try(:to_f)
 
     color = "green"
-    if (value.present? && max_value.present? && min_value.present?)
+    if (value.present? && max_value != 0 && min_value != 0)
       if value > max_value
         color = "red"
       elsif value < min_value

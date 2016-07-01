@@ -17,6 +17,7 @@
 #  u_up_value      :float(24)        default(0.0)
 #  d_down_value    :float(24)        default(0.0)
 #  main_alarm_show :integer          default(0)
+#  tag             :integer
 #
 # Indexes
 #

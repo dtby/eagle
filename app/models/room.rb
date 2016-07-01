@@ -227,11 +227,14 @@ class Room < ActiveRecord::Base
       
       if point.point_type == "analog"
         point.tag_list.add "number_type"
+        point.tag = 0
       else
         if point.comment.eql?('告警')
           point.tag_list.add "alarm_type"
+          point.tag = 1
         elsif point.comment.eql?('开关')
           point.tag_list.add "status_type"
+          point.tag = 2
         end
       end
       point.save  

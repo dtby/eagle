@@ -41,20 +41,28 @@ class DevicesController < BaseController
       @attachment = @room.attachments.where("tag like ?", "%#{@device.name}%").first
     else
       @device = Device.find_by(id: params[:id])
-      sub_system_name = @device.pattern.sub_system.name
-      if sub_system_name == '空调系统'
-        render :json => {
-          id: @device.id,
-          name: @device.name,
-          pic: @device.pic,
-          points: @device.points['GIF'],
-          alarms: @device.points['']
-        }
+      if request_version == 1
+        sub_system_name = @device.pattern.sub_system.name
+        # if sub_system_name == '空调系统'
+        #   render :json => {
+        #     id: @device.id,
+        #     name: @device.name,
+        #     pic: @device.pic,
+        #     points: @device.points['GIF'],
+        #     alarms: @device.points['']
+        #   }
+        # else
+          @points = @device.try(:points).try(:order, 'name').try(:to_a)
+          @points = @points.sort_by {|p| p.name[/\d+/].to_i }
+          @alarms, @alarm_types = @device.alarm_group
+        # end
       else
-        @points = @device.try(:points).try(:order, 'name').try(:to_a)
-        @points = @points.sort_by {|p| p.name[/\d+/].to_i }
-        @alarms, @alarm_types = @device.alarm_group
+        point_groups = @device.points.group_by {|point| point.tag}
+        @number_type = point_groups.fetch('number_type', []).sort_by {|p| p.name }
+        @status_type = point_groups.fetch('status_type', []).sort_by {|p| p.name }
+        @alarm_type = point_groups.fetch('alarm_type', []).sort_by {|p| p.name }
       end
+
     end
   end
 

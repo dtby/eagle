@@ -38,6 +38,7 @@ gem 'faye-redis'
 # gem 'capistrano-rails', group: :development
 
 # gem 'actioncable'
+gem 'versioncake'
 
 group :development, :test do
   gem 'byebug'

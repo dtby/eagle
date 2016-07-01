@@ -35,5 +35,13 @@ module Eagle
       add_extension(ClientEvent.new)
     end
     config.middleware.delete Rack::Lock
+
+    VersionCake.setup do |config|
+      config.resources do |r|
+        r.resource %r{.*}, [], [], (1..4)
+      end
+      config.extraction_strategy = :query_parameter # for simplicity
+      config.missing_version = 4
+    end
   end
 end

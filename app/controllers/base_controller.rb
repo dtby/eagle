@@ -5,6 +5,14 @@ class BaseController < ApplicationController
   before_action :validate_mac_code
   
   private
+
+  def render_unsupported_version
+    headers['API-Version-Supported'] = 'false'
+    respond_to do |format|
+      format.json { render json: {message: "You requested an unsupported version (#{requested_version})"}, status: :unprocessable_entity }
+    end
+  end
+
   def validate_mac_code
     if MacCode.encrypt_macaddr !=  MacCode.get_lience
       return render text: "权限验证失败，详情联系开系统提供商！"

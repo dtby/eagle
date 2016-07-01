@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160627025349) do
+ActiveRecord::Schema.define(version: 20160701070431) do
 
   create_table "admin_rooms", force: :cascade do |t|
     t.integer  "admin_id",   limit: 4
@@ -242,6 +242,7 @@ ActiveRecord::Schema.define(version: 20160627025349) do
     t.float    "u_up_value",      limit: 24,  default: 0.0
     t.float    "d_down_value",    limit: 24,  default: 0.0
     t.integer  "main_alarm_show", limit: 4,   default: 0
+    t.integer  "tag",             limit: 4
   end
 
   add_index "points", ["device_id"], name: "index_points_on_device_id", using: :btree
