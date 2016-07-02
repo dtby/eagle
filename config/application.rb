@@ -38,10 +38,10 @@ module Eagle
 
     VersionCake.setup do |config|
       config.resources do |r|
-        r.resource %r{.*}, [], [], (1..4)
+        r.resource %r{.*}, [], [], (1..10)
       end
       config.extraction_strategy = :query_parameter # for simplicity
-      config.missing_version = 4
+      config.missing_version = 1
     end
   end
 end

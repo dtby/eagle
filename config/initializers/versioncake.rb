@@ -5,7 +5,7 @@ VersionCake.setup do |config|
   # resources you can define a catch all at the bottom of the block.
   config.resources do |r|
     # r.resource uri_regex, obsolete, deprecated, supported
-    r.resource %r{.*}, [], [], (1..5)
+    r.resource %r{.*}, [], [], (1..10)
   end
 
   # Extraction Strategies
