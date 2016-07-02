@@ -315,12 +315,25 @@ class Room < ActiveRecord::Base
     
     chart_points_id = points.where(name: ['IT电费', 'IT碳排放', '空调电费', '空调碳排放']).pluck(:id)
     chart_data = PointHistory.new.query chart_points_id
+    
+    _chart_datas = {}
+    chart_data.each do |key, items|
+      pre_data = 0
+      result = []
+      items.each do |time, value|
+        pre_data = value if pre_data == 0
+        result << [time, value - pre_data]
+        pre_data = value
+      end
+      pre_data = 0
+      _chart_datas[key] = result
+    end
     single_value_points = {}
     single_points = points.where(name: ['总电费','总排放','总能耗','PUE值','IT设备使用量','空调使用量', 'IT电费', 'IT碳排放', '空调电费', '空调碳排放'])
     single_points.each do |e|
       single_value_points[e.name] = e.value
     end
-    [single_value_points, chart_data]
+    [single_value_points, _chart_datas]
   end
 
   #  机房菜单字符串数组
