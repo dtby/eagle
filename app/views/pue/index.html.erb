@@ -129,26 +129,42 @@
               type:'bar',
               smooth: true,
               yAxisIndex: 1,
-              data:[1.0, 7.2, 3.3, 6.5, 2.3, 1.02, 8.3]
+              data:[
+              <% @chart_data['IT碳排放'].each do |time, value|%>
+                <%= value %>,
+              <% end %>
+              ]
             },
             {
               name:'空调碳排放',
               type:'bar',
               smooth: true,
               yAxisIndex: 1,
-              data:[2.0, 3.2, 3.3, 5.5, 8.3, 7.02, 5.2]
+              data:[
+                <% @chart_data['空调碳排放'].each do |time, value|%>
+                  <%= value %>,
+                <% end %>
+              ]
             },
   				 	{
   				 		name:'IT电费',
   				 		type:'line',
               smooth: true,
-  				 		data:[210, 170, 320, 20, 420, 290, 218]
+  				 		data:[
+                <% @chart_data['IT电费'].each do |time, value|%>
+                  <%= value %>,
+                <% end %>
+              ]
   				 	},
             {
               name:'空调电费',
               type:'line',
               smooth: true,
-              data:[732, 329, 720, 420, 220, 520, 231]
+              data:[
+                <% @chart_data['空调电费'].each do |time, value|%>
+                  <%= value %>,
+                <% end %>
+              ]
             }
   				 ]
   			};
