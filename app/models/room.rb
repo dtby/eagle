@@ -326,6 +326,7 @@ class Room < ActiveRecord::Base
         pre_data = value
       end
       pre_data = 0
+      result.shift
       _chart_datas[key] = result
     end
     single_value_points = {}
