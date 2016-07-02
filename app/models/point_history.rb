@@ -217,7 +217,7 @@ class PointHistory < ActiveRecord::Base
   end
 
   def query points
-    reports((DateTime.now - 1.day).strftime('%F %H:%M:%S'), DateTime.now.strftime('%F %H:%M:%S'), points.join(','))
+    reports((DateTime.now - 3.hour).strftime('%F %H:%M:%S'), DateTime.now.strftime('%F %H:%M:%S'), points.join(','))
   end
 
   def reports(start_time_str, end_time_str, points)
