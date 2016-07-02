@@ -61,6 +61,8 @@ class DevicesController < BaseController
         @number_type = point_groups.fetch('number_type', []).sort_by {|p| p.name }
         @status_type = point_groups.fetch('status_type', []).sort_by {|p| p.name }
         @alarm_type = point_groups.fetch('alarm_type', []).sort_by {|p| p.name }
+      elsif request_version == 9
+        @points = @device.points_value
       end
 
     end
