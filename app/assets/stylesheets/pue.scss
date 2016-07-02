@@ -1,13 +1,78 @@
-#left {
-  .area {
-    height: 82px;
-    line-height: 82px;
-    font-size: 22px;
-    border: 700;
-    border: 1px solid #d3d3d5;
-    background-color: #f2f2f3;
-    label {
-      margin-right: 20px;
-    }
+.row {
+  overflow: hidden;
+}
+.col-md-3,
+.col-md-6 {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.panel {
+  color: #fff;
+  border-radius: 10px;
+  .panel-heading {
+    color: #fff;
+    text-align: center;
+    background-color: #34343c;
+    font-weight: 300;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  .panel-body {
+    height: 100%;
+    padding: 10px 10px 0 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: #000;
+  }
+}
+.top-container {
+  height: 300px;
+}
+.bottom-container {
+  height: 300px;
+  margin-top: 20px;
+}
+#carbon_chart1 {
+  height: 100%;
+}
+#pue {
+  height: 100%;
+}
+.guage-chart {
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  height: 100%;
+}
+.pue-table {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+  color: #fff;
+  background-color: #000;
+  td {
+    border: 1px solid #f3f3f4;
+  }
+}
+.label-content {
+  padding-top: 40px;
+  padding-left: 60px;
+  padding-right: 50px;
+}
+.main-content {
+  height: 90px;
+  line-height: 90px;
+  background-color: #34343c;
+  margin: 10px;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 20px;
+  .col-md-4,
+  .col-md-8 {
+    padding-left: 10px;
+    padding-right: 10px;
   }
 }
