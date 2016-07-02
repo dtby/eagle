@@ -56,7 +56,7 @@ class DevicesController < BaseController
           @points = @points.sort_by {|p| p.name[/\d+/].to_i }
           @alarms, @alarm_types = @device.alarm_group
         # end
-      else
+      elsif request_version == 2
         point_groups = @device.points.group_by {|point| point.tag}
         @number_type = point_groups.fetch('number_type', []).sort_by {|p| p.name }
         @status_type = point_groups.fetch('status_type', []).sort_by {|p| p.name }
