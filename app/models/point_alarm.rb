@@ -104,10 +104,9 @@ class PointAlarm < ActiveRecord::Base
 
     p "===============point alarm===================="
     p self.to_json
-    
-    self.published_msg
-    
+
     send_notification
+    self.published_msg
   end
 
   def published_msg
