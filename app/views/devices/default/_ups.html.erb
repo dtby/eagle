@@ -57,18 +57,17 @@
     <div class="col-md-4">
       <div class="panel panel-default">
         <div class="panel-heading">开关状态</div>
-        <div class="panel-body switch-container">
+        <div id="switch-container" class="panel-body switch-container">
           <% @points["开关"].each do |key, value| %>
             <div class='col-xs-12 switch-area'>
-              <div class="content">
-                <div class="title"><%= key.split('-')[-1] %></div>
+              
+                <div class="title"><%= key %></div>
                 <div class="myswitcher">
-                  <label class="myswitcher-label <%= value == '0' ? 'myswitcher-apart' : 'myswitcher-comb' %>">
+                  <label data-name="<%= key %>" class="myswitcher-label <%= value == '0' ? 'myswitcher-apart' : 'myswitcher-comb' %>">
                     <span class="myswitcher-inner"><%= value == '0' ? '分' : '合' %></span>
                     <span class="myswitcher-switch"></span>
                   </label>
                 </div>
-              </div>
             </div>
           <% end %>
         </div>
@@ -96,6 +95,49 @@
 </div>
 
 <script type="text/javascript">
+  clearInterval(refresh_page);
+  var refresh_page = setInterval(function(){
+    get_data();
+  }, 20000)
+
+  function get_data() {
+    $.ajax({
+      type: 'get',
+      async: true,
+      url: "/rooms/<%= @room.id %>/devices/<%= @device.id %>?api_version=9",
+      headers: {Accept: 'application/json'},
+      success: function(json) {
+        var _list = ['电池模块', 'UPS输出', '市电输入']
+        for (var i = 0; i < _list.length; i++) {
+          var _item = _list[i];
+          $("#table_" + _item).find('td').each(function(index, el) {
+            var _target = $(el);
+            var _name = _target.attr('data-name');
+            if (_name != undefined) {
+              _target.text(json.result[_item][_name]);
+            }
+          });
+        }
+        var _switch_content_size = $("#switch-container").children().size();
+        $("#switch-container").children().each(function(index, el) {
+          var _label_target = $(el).find('label');
+          var _label_name = _label_target.attr('data-name');
+          
+          var target_result = json.result['开关'][_label_name];
+          if (target_result == 0) {
+            _label_target.removeClass('myswitcher-apart').addClass('myswitcher-comb');
+            _label_target.find('.myswitcher-inner').html('合');
+          } else {
+            _label_target.removeClass('myswitcher-comb').addClass('myswitcher-apart');
+            _label_target.find('.myswitcher-inner').html('分');
+          }
+        });
+      },
+      fail: function(error) {
+      }
+    });
+  }
+
   // 路径配置
   require.config({
     paths: {

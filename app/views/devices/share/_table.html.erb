@@ -1,5 +1,5 @@
 <!-- 通用表格复用模块（UPS系统）,单列（key: value）-->
-<table class="table table-bordered">
+<table id="table_<%= title %>" class="table table-bordered">
   <thead>
     <tr>
       <th colspan="2" class="text-center"><%= title %></th>
@@ -9,7 +9,7 @@
     <% points.each do |k, v| %>
       <tr>
         <td width="60%" align="center"><b><%= k %></b></td>
-        <td align="center"><%= v %></td>
+        <td data-name="<%= k %>" align="center"><%= v %></td>
       </tr>
     <% end %>
   </tbody>

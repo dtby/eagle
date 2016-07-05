@@ -21,7 +21,7 @@
       <div class="panel-heading text-center">电压</div>
       <div class="panel-body">
         <% @points['电压'].each do |key, value|%>
-          <div id="guage-chart-<%=key%>" data-title="<%= key %>" class="col-md-4 guage-chart"></div>
+          <div id="guage-chart-<%=key%>" data-value="<%= value %>" data-title="<%= key %>" class="col-md-4 guage-chart"></div>
         <% end %>
       </div>
     </div>
@@ -33,7 +33,7 @@
       <div class="panel-heading text-center">功率</div>
       <div class="panel-body">
         <% @points['功率'].each do |key, value|%>
-          <div id="guage-chart-<%=key%>" data-title="<%= key %>" class="col-md-4 guage-chart"></div>
+          <div id="guage-chart-<%=key%>" data-value="<%= value %>" data-title="<%= key %>" class="col-md-4 guage-chart"></div>
         <% end %>
       </div>
     </div>
@@ -43,7 +43,7 @@
       <div class="panel-heading text-center">输出负载率</div>
       <div class="panel-body">
         <% @points['输出负载率'].each do |key, value|%>
-          <div id="guage-chart-<%=key%>" data-title="<%= key %>" class="col-md-4 guage-chart"></div>
+          <div id="guage-chart-<%=key%>" data-value="<%= value %>" data-title="<%= key %>" class="col-md-4 guage-chart"></div>
         <% end %>
       </div>
     </div>
@@ -60,7 +60,6 @@
       <% items.each do |name, value| %>
         new JustGage({
           id: "guage-chart-<%=name%>",
-          value: <%= value %>,
           min: 0,
           max: 590,
           donut: true,
@@ -71,4 +70,30 @@
     <% end %>
   <% end %>
   
+  clearInterval(refresh_page);
+  var refresh_page = setInterval(function(){
+    get_data();
+  }, 20000)
+
+  function get_data() {
+    $.ajax({
+      type: 'get',
+      async: true,
+      url: "/rooms/<%= @room.id %>/devices/<%= @device.id %>?api_version=9",
+      headers: {Accept: 'application/json'},
+      success: function(json) {
+        $("#table_系统").find('td').each(function(index, el) {
+          var _target = $(el);
+          var _name = _target.attr('data-name');
+          if (_name != undefined) {
+            _target.text(json.result['系统'][_name]);
+          }
+        });
+
+        $("#guage-chart-A相电流").attr('data-value', '100');
+      },
+      fail: function(error) {
+      }
+    });
+  }
 </script>
