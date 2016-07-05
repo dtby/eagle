@@ -105,7 +105,7 @@ class PointAlarm < ActiveRecord::Base
     p "===============point alarm===================="
     p self.to_json
 
-    send_notification
+    self.send_notification
     self.published_msg
   end
 
@@ -179,15 +179,17 @@ class PointAlarm < ActiveRecord::Base
     get_notify_content_hash
   end
 
+  def send_notification
+    # id, device_name, pid, state, created_at, updated_at,
+    # is_checked, point_id, comment, type, meaning, alarm_value
+    logger.info "---- start NotificationSendJob #{self.id}, #{self.try(:point).try(:name)} ----"
+    NotificationSendJob.set(queue: :message).perform_later(self.id)
+    logger.info "---- end NotificationSendJob #{self.id}, #{self.try(:point).try(:name)} ----"
+  end
+
   private
 
-    def send_notification
-      # id, device_name, pid, state, created_at, updated_at,
-      # is_checked, point_id, comment, type, meaning, alarm_value
-      logger.info "---- start NotificationSendJob #{self.id}, #{self.try(:point).try(:name)} ----"
-      NotificationSendJob.set(queue: :message).perform_later(self.id)
-      logger.info "---- end NotificationSendJob #{self.id}, #{self.try(:point).try(:name)} ----"
-    end
+    
 
     def get_notify_content_hash
       {
