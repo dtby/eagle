@@ -187,10 +187,6 @@ class PointAlarm < ActiveRecord::Base
     logger.info "---- end NotificationSendJob #{self.id}, #{self.try(:point).try(:name)} ----"
   end
 
-  private
-
-    
-
     def get_notify_content_hash
       {
         id: self.id,
