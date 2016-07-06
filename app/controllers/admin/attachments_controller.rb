@@ -33,6 +33,11 @@ class Admin::AttachmentsController < Admin::BaseController
   end
 
   def edit
+    if current_admin.grade == 'room'
+      @room = current_admin.rooms
+    else
+      @room = Room.all
+    end
     respond_with @attachment
   end
 
