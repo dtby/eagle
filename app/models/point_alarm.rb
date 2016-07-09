@@ -113,6 +113,7 @@ class PointAlarm < ActiveRecord::Base
     if room and is_cleared == false
       room.user_rooms.each do |item|
         _flag = $redis.hget 'subscribe_alarm_phone', item.user.phone
+        p "#{DateTime.now.strftime('%F %H:%M:%S')}: =============== published_msg to web ===================="
         if _flag
           FayeServer::Push.broadcast("/notify/alarms_#{item.user.phone}", {content: "设备: #{device_name}, #{meaning}", token: '123456'})
         end
@@ -157,14 +158,17 @@ class PointAlarm < ActiveRecord::Base
   end
 
   def notification_to_ios
+    p "#{DateTime.now.strftime('%F %H:%M:%S')}: ===============point alarm to ios===================="
     notification_to_app :ios
   end
 
   def notification_to_android
+    p "#{DateTime.now.strftime('%F %H:%M:%S')}: ===============point alarm to android===================="
     notification_to_app :android
   end
 
   def notification_to_wechat
+    p "#{DateTime.now.strftime('%F %H:%M:%S')}: ===============point alarm to wechat ===================="
     body = {
       alarm: get_notify_content_hash
     }
