@@ -102,7 +102,7 @@ class PointAlarm < ActiveRecord::Base
     self.sub_system_id = point.try(:device).try(:pattern).try(:sub_system).try(:id)
     self.save
 
-    p "===============point alarm===================="
+    p "#{DateTime.now.strftime('%F %H:%M:%S')}: ===============point alarm===================="
     p self.to_json
 
     self.send_notification
