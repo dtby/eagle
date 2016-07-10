@@ -11,6 +11,8 @@ class NotificationSendJob < ActiveJob::Base
     point_alarm = PointAlarm.find_by(id: point_alarm_id)
     return unless point_alarm.present?
 
+    logger.info "notification point_alarm is:#{point_alarm.inspect}"
+
     begin
       notification_to_app point_alarm
     rescue Exception => e

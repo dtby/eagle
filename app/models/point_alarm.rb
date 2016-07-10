@@ -197,7 +197,7 @@ class PointAlarm < ActiveRecord::Base
         device_name: self.try(:device).try(:name),
         pid: self.pid,
         room_id: self.room_id,
-        room_name: self.room.name,
+        room_name: self.room.try(:name),
         reported_at: self.reported_at.try(:strftime, "%Y-%m-%d %H:%M:%S"),
         cleared_at: self.cleared_at.try(:strftime, "%Y-%m-%d %H:%M:%S"),
         checked_at: self.checked_at.try(:strftime, "%Y-%m-%d %H:%M:%S"),
