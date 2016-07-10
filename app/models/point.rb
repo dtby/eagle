@@ -28,6 +28,7 @@
 class Point < ActiveRecord::Base
   acts_as_taggable # Alias for acts_as_taggable_on :tags
   acts_as_taggable_on :number_type, :status_type, :alarm_type
+  # validates_uniqueness_of :point_index
 
   belongs_to :device
   has_one :point_alarm, dependent: :destroy
@@ -46,6 +47,18 @@ class Point < ActiveRecord::Base
   scope :main_alarm_show, -> (room) { where(main_alarm_show: true, device: room.devices) }
   @@DATA_RESOURCE = {:analog => AnalogPoint, 
                      :digital => DigitalPoint}
+
+  def self.clear_invalid_points
+    count = 0
+    Point.all.each do |point|
+      if point.device.blank?
+        count++
+        point.delete
+      end
+    end
+    p "clear #{count} invalid point"
+    nil
+  end
 
   # 取得节点的value
   def value
