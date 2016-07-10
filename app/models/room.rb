@@ -215,9 +215,15 @@ class Room < ActiveRecord::Base
       device.updated_at = now_update_time
       device.save
 
+      if device.name.eql?('漏水')
+        p device
+
+        p point_name
+      end
       room_devices << device
-            
-      point = device.points.find_or_create_by(name: point_name, point_index: point_index)
+
+      point = device.points.find_or_create_by(point_index: point_index)
+      point.name = point_name
       point.point_type = table_name.name.downcase.remove('point')
       point.comment    = comment.upcase
       point.max_value  = max_value
