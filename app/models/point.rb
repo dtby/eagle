@@ -52,7 +52,7 @@ class Point < ActiveRecord::Base
     count = 0
     Point.all.each do |point|
       if point.device.blank?
-        count++
+        count += 1
         point.delete
       end
     end
