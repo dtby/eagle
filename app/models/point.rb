@@ -84,19 +84,30 @@ class Point < ActiveRecord::Base
   end
 
   def color
-    value = self.try(:value).try(:to_f)
-    max_value = self.try(:max_value).try(:to_f)
-    min_value = self.try(:min_value).try(:to_f)
-
     color = "green"
-    if (value.present? && max_value != 0 && min_value != 0)
-      if value > max_value
-        color = "red"
-      elsif value < min_value
-        color = "blue"
-      elsif value.between?(min_value, max_value)
-        color = "green"
+    if self.point_type.eql?('analog')
+      value = self.try(:value).try(:to_f)
+      max_value = self.try(:max_value).try(:to_f)
+      min_value = self.try(:min_value).try(:to_f)
+
+      if (value.present? && max_value != 0 && min_value != 0)
+        if value > max_value
+          color = "red"
+        elsif value < min_value
+          color = "blue"
+        elsif value.between?(min_value, max_value)
+          color = "green"
+        end
       end
+    elsif self.point_type.eql?('digital')
+      if self.meaning.eql?('关')
+        color = 'black'
+      elsif self.meaning.eql?('开')
+        color = 'green'
+      elsif self.meaning.eql?('告警')
+        color = 'red'
+      end
+
     end
     color
   end
