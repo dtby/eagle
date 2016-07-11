@@ -40,7 +40,7 @@
       <audio id="alarm-audio"><source src="<%= audio_path 'alarm.mov'%>"></audio>
 		</div>
     <%= yield :scripts %>
-    <script type='text/javascript'>
+    <!-- <script type='text/javascript'>
       var client = new Faye.Client('http://m.igridtotalsolution.com/faye',{timeout:120});
       var subscription = client.subscribe("/notify/alarms_<%= current_user.phone %>", function(message) {
       var alarm_audio = $('#alarm-audio')[0];
@@ -62,6 +62,6 @@
       //   location.reload();
       // }, 30000)
     </script>
-	</body>
+	</body> -->
   
 </html>
