@@ -16,11 +16,21 @@
     </div>
   </div>
   <div class="col-md-3">
-    <div class="panel panel-default top-container">
+    <div id="usufruct"  class="panel panel-default top-container">
       <div class="panel-heading">设备使用量</div>
       <div class="panel-body">
-        <div id="guage-it" data-title="IT设备使用量" class="col-md-6 guage-chart"></div>
-        <div id="guage-air-condition" data-title="空调设备使用量" class="col-md-6 guage-chart"></div>
+        <div class="col-md-6 guage-chart">
+          <%= image_tag "it-val.png" %>
+          <p class="val"><%= @single_value_points['IT设备使用量'] %></p>
+          <p>(KWH)</p>
+          <p>IT设备使用量</p>
+        </div>
+        <div class="col-md-6 guage-chart">
+          <%= image_tag "air-val.png" %>
+          <p class="val"><%= @single_value_points['空调使用量'] %></p>
+          <p>(KWH)</p>
+          <p>空调设备使用量</p>
+        </div>
       </div>
     </div>
   </div>
@@ -51,28 +61,6 @@
   </div>
 </div>
 <script type="text/javascript">
-	
-  new JustGage({
-    id: "guage-it",
-    value: <%= @single_value_points['IT设备使用量'] %>,
-    donut: true,
-    max: <%= @single_value_points['IT设备使用量'].to_f + @single_value_points['空调使用量'].to_f %>,
-    gaugeWidthScale: 0.6,
-    hideInnerShadow: true,
-    valueFontColor: '#fff',
-    titleFontColor: '#fff'
-  });
-  new JustGage({
-    id: "guage-air-condition",
-    value: <%= @single_value_points['空调使用量'] %>,
-    max: <%= @single_value_points['IT设备使用量'].to_f + @single_value_points['空调使用量'].to_f %>,
-    donut: true,
-    gaugeWidthScale: 0.6,
-    hideInnerShadow: true,
-    valueFontColor: '#fff',
-    titleFontColor: '#fff'
-  });
-
   var pueChart = null;
   // timeTicket = setInterval(function (){
   //   option.series[0].data[0] = (Math.random()*5).toFixed(2);
