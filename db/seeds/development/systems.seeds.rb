@@ -5,10 +5,13 @@ System.create!([
   { id: 3, sys_name: '联动' },
   { id: 4, sys_name: '安全' },
   { id: 5, sys_name: '远程' },
-  { id: 6, sys_name: '能效' },
-  { id: 7, sys_name: '部署' }
-  # { id: 8, sys_name: '报表' },
-  # { id: 9, sys_name: '3D机房' }
+  { id: 6, sys_name: '能效管理', path: 'room_pue_index_path' },
+  { id: 7, sys_name: '部署' },
+  { id: 8, sys_name: '3D机房', path: 'room_three_dimensionals_path' },
+  { id: 9, sys_name: '报表', path: 'room_reports_path' },
+  { id: 10, sys_name: '告警记录', path: 'alert_room_path' },
+  { id: 11, sys_name: '摄像头', path: 'video_room_path' },
+  { id: 12, sys_name: '告警图片', path: 'pic_room_path' },
 ])
 
 SubSystem.destroy_all
@@ -26,7 +29,9 @@ SubSystem.create!([
 
   { id: 10, system_id: 4, name: '消防系统' },
   { id: 11, system_id: 4, name: '氢气检测' },
-  { id: 12, system_id: 2, name: '风冷系统' }
+  { id: 12, system_id: 2, name: '风冷系统' },
+  
+  { id: 13, system_id: 2, name: '空调监测系统' }
 ])
 # SubSystem.create!([
 #   { id: 1, system_id: 1, name: '配电系统' },
