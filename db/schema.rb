@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160701070431) do
+ActiveRecord::Schema.define(version: 20160711125934) do
 
   create_table "admin_rooms", force: :cascade do |t|
     t.integer  "admin_id",   limit: 4
@@ -222,6 +222,18 @@ ActiveRecord::Schema.define(version: 20160701070431) do
   add_index "point_histories_201606", ["device_id"], name: "index_point_histories_201606_on_device_id", using: :btree
   add_index "point_histories_201606", ["point_id"], name: "index_point_histories_201606_on_point_id", using: :btree
 
+  create_table "point_histories_201607", force: :cascade do |t|
+    t.string   "point_name",  limit: 255
+    t.string   "point_value", limit: 255
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.integer  "point_id",    limit: 4
+    t.integer  "device_id",   limit: 4
+  end
+
+  add_index "point_histories_201607", ["device_id"], name: "index_point_histories_201607_on_device_id", using: :btree
+  add_index "point_histories_201607", ["point_id"], name: "index_point_histories_201607_on_point_id", using: :btree
+
   create_table "point_states", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -286,6 +298,7 @@ ActiveRecord::Schema.define(version: 20160701070431) do
     t.string   "sys_name",   limit: 255
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+    t.string   "path",       limit: 255
   end
 
   create_table "taggings", force: :cascade do |t|
