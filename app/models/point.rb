@@ -100,7 +100,7 @@ class Point < ActiveRecord::Base
         end
       end
     elsif self.point_type.eql?('digital')
-      if self.meaning.eql?('关')
+      if self.meaning.eql?('关') or self.meaning.eql?('未运行')
         color = 'black'
       elsif self.meaning.eql?('开')
         color = 'green'
