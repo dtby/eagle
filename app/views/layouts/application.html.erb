@@ -40,28 +40,35 @@
       <audio id="alarm-audio"><source src="<%= audio_path 'alarm.mov'%>"></audio>
 		</div>
     <%= yield :scripts %>
-    <!-- <script type='text/javascript'>
-      var client = new Faye.Client('http://m.igridtotalsolution.com/faye',{timeout:120});
-      var subscription = client.subscribe("/notify/alarms_<%= current_user.phone %>", function(message) {
-      var alarm_audio = $('#alarm-audio')[0];
-      $('#alarms-window').show('slow');
-      $('#alarms-window > .panel-body').text(message.content);
-        alarm_audio.currentTime = 0;
-        alarm_audio.play();
-        setTimeout(function(){
-          alarm_audio.pause();
-          $('#alarms-window').hide('slow');
-        }, 5000);
-      });
-      subscription.then(function() {
-      
-      });
+    
+    <script type='text/javascript'>
+      var client, subscription;
+      if (client == undefined) {
+        client = new Faye.Client('http://m.igridtotalsolution.com/faye', {
+          timeout: 360
+        });
+        console.log("------------------------------");
+        console.log("client: " + client);
+      }
+      if (subscription != undefined) {
+        subscription = client.subscribe("/notify/alarms_<%= current_user.phone %>", function(message) {
+          var alarm_audio = $('#alarm-audio')[0];
+          $('#alarms-window').show('slow');
+          $('#alarms-window > .panel-body').text(message.content);
+          alarm_audio.currentTime = 0;
+          alarm_audio.play();
+          setTimeout(function() {
+              alarm_audio.pause();
+              $('#alarms-window').hide('slow');
+            },
+            5000);
+        });
+        subscription.then(function() {
 
-      // clearInterval(refresh_page);
-      // var refresh_page = setInterval(function(){
-      //   location.reload();
-      // }, 30000)
+        }); 
+        console.log(subscription);
+      }
     </script>
-	</body> -->
+	</body>
   
 </html>
