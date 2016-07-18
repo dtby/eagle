@@ -50,7 +50,7 @@
         console.log("------------------------------");
         console.log("client: " + client);
       }
-      if (subscription != undefined) {
+      if (subscription == undefined) {
         subscription = client.subscribe("/notify/alarms_<%= current_user.phone %>", function(message) {
           var alarm_audio = $('#alarm-audio')[0];
           $('#alarms-window').show('slow');
