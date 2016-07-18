@@ -104,7 +104,7 @@ class Point < ActiveRecord::Base
         color = 'black'
       elsif self.meaning.eql?('开')
         color = 'green'
-      elsif self.meaning.eql?('告警')
+      elsif self.meaning.eql?('告警') or self.meaning.eql?('报警')
         color = 'red'
       end
 
