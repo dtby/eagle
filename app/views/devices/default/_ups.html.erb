@@ -46,7 +46,7 @@
             <% @points["告警"].each do |key, value| %>
               <div class="col-xs-12" style="margin-bottom: 10px;">
                 <span class="warning-name"><%= key %></span>
-                <span class="warning-icon"><%= warning_status value %></span>
+                <span class="warning-icon"><%= warning_status value[:state] %></span>
               </div>
             <% end %>
           </div>
@@ -114,7 +114,8 @@
             var _target = $(el);
             var _name = _target.attr('data-name');
             if (_name != undefined) {
-              _target.text(json.result[_item][_name]);
+              _target.text(json.result[_item][_name].state);
+              _target.removeClass().addClass(json.result[_item][_name].color);
             }
           });
         }
@@ -123,7 +124,7 @@
           var _label_target = $(el).find('label');
           var _label_name = _label_target.attr('data-name');
           
-          var target_result = json.result['开关'][_label_name];
+          var target_result = json.result['开关'][_label_name].state;
           if (target_result == 0) {
             _label_target.removeClass('myswitcher-apart').addClass('myswitcher-comb');
             _label_target.find('.myswitcher-inner').html('合');

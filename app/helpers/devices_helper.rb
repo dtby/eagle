@@ -45,7 +45,7 @@ module DevicesHelper
   end
 
   def switch_status val
-    val == 0 ? '关' : '开'
+    val.to_i == 0 ? '关' : '开'
   end
   
 end

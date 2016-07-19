@@ -65,6 +65,15 @@ class Point < ActiveRecord::Base
     $redis.hget "eagle_point_value", point_index.to_s
   end
 
+  def fix_name
+    matcher = /(温度|湿度)(\d+)/.match(name)
+    if matcher.present?
+      return "#{matcher[1]}#{matcher[-1].to_i}"
+    else
+      return name
+    end
+  end
+
   def history_values count
     count ||= 5
     caches = ($redis.hget "eagle_schedule_point_history", point_index) || (["0"]*24).join("-")
@@ -107,7 +116,6 @@ class Point < ActiveRecord::Base
       elsif self.meaning.eql?('告警') or self.meaning.eql?('报警')
         color = 'red'
       end
-
     end
     color
   end

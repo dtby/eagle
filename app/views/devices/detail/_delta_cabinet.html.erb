@@ -19,7 +19,7 @@
             <% @points['系统'].each do |point| %>
               <div class="col-xs-6 item">
                 <div class="col-xs-6 item-name"><%= point[0] %></div>
-                <div class="col-xs-6 item-value"><%= point[1] %></div>
+                <div class="col-xs-6 item-value <%= point[1][:color] %>"><%= point[1][:state] %></div>
               </div>
             <% end %>
             </div>
@@ -32,7 +32,7 @@
             <% @points['面板'].each do |point| %>
               <div class="col-xs-6 item">
                 <div class="col-xs-6 item-name"><%= point[0] %></div>
-                <div class="col-xs-6 item-value"><%= point[1] %></div>
+                <div class="col-xs-6 item-value <%= point[1][:color] %>"><%= point[1][:state] %></div>
               </div>
             <% end %>
             </div>
@@ -47,7 +47,7 @@
             <% @points['1路'].each do |point| %>
               <div class="col-xs-6 item">
                 <div class="col-xs-6 item-name"><%= point[0] %></div>
-                <div class="col-xs-6 item-value"><%= point[1] %></div>
+                <div class="col-xs-6 item-value <%= point[1][:color] %>"><%= point[1][:state] %></div>
               </div>
             <% end %>
             </div>
@@ -60,7 +60,7 @@
             <% @points['2路'].each do |point| %>
               <div class="col-xs-6 item">
                 <div class="col-xs-6 item-name"><%= point[0] %></div>
-                <div class="col-xs-6 item-value"><%= point[1] %></div>
+                <div class="col-xs-6 item-value <%= point[1][:color] %>"><%= point[1][:state] %></div>
               </div>
             <% end %>
             </div>

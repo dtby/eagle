@@ -15,9 +15,10 @@
     <% end %>
 
     <!-- 告警信息：数值 -->
-    <%= render partial: "devices/share/warn_info_num", locals: { points: @points, points_key: '温湿度' } %>  
-    <%= render partial: "devices/share/warn_info_icon", locals: { points: @points, points_key: '告警' } %>  
-    
+    <%= render partial: "devices/share/warn_info_num", locals: { points: @points, points_key: '温湿度' } %> 
+    <% if @points['告警'].present? %> 
+      <%= render partial: "devices/share/warn_info_icon", locals: { points: @points, points_key: '告警' } %>  
+    <% end %>
   </div>
 </div>
 

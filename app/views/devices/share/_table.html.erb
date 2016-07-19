@@ -9,7 +9,7 @@
     <% points.each do |k, v| %>
       <tr>
         <td width="60%" align="center"><b><%= k %></b></td>
-        <td data-name="<%= k %>" align="center"><%= v %></td>
+        <td data-name="<%= k %>" align="center" class="<%= v[:color] %>"><%= v[:state] %></td>
       </tr>
     <% end %>
   </tbody>

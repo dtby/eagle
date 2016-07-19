@@ -47,10 +47,7 @@
         client = new Faye.Client('http://m.igridtotalsolution.com/faye', {
           timeout: 360
         });
-        console.log("------------------------------");
-        console.log("client: " + client);
       }
-      console.log(">>>>>>>>>>>>>>>>>>>" + subscription);
       if (subscription == undefined) {
         subscription = client.subscribe("/notify/alarms_<%= current_user.phone %>", function(message) {
           var alarm_audio = $('#alarm-audio')[0];

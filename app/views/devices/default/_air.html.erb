@@ -22,10 +22,10 @@
                   <% @points["开关"].each do |key, value| %>
                     <div class='col-xs-12 switch-area'>
                       <div class="content">
-                        <div class="title"><%= key.split('-')[-1] %></div>
+                        <div class="title"><%= key %></div>
                         <div class="myswitcher">
-                          <label class="myswitcher-label <%= value == '0' ? 'myswitcher-apart' : 'myswitcher-comb' %>">
-                            <span class="myswitcher-inner"><%= value == '0' ? '关' : '开' %></span>
+                          <label class="myswitcher-label <%= value[:state] == '0' ? 'myswitcher-apart' : 'myswitcher-comb' %>">
+                            <span class="myswitcher-inner"><%= value[:state] == '0' ? '关' : '开' %></span>
                             <span class="myswitcher-switch"></span>
                           </label>
                         </div>
@@ -39,7 +39,9 @@
         </div>
         <div class="col-xs-12">
           <!-- 告警信息：图标 -->
-          <%= render partial: "devices/share/warn_info_icon", locals: { points: @points, points_key: "告警" } %>
+          <% if @points['告警'] %>
+            <%= render partial: "devices/share/warn_info_icon", locals: { points: @points, points_key: "告警" } %>
+          <% end %>
         </div>
       </div>
     </div>
@@ -87,7 +89,7 @@
                     label: { show: true, position: 'top', formatter: '{b}\n{c}' }
                 }
             },
-            data: <%= @points['GIF'].values.map{|v| v.to_f.round(1) } %>
+            data: <%= @points['GIF'].values.map{|v| v[:state].to_f.round(1) } %>
           }
         ],
       };
