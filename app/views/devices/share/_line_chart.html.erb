@@ -46,7 +46,7 @@
             }}},
             data : [
               <% points.each do |key, value| %>
-                {name: '<%= key %>', value: <%= value %>},
+                {name: '<%= key %>', value: <%= value[:state] %>},
               <% end %> 
             ]
           }
