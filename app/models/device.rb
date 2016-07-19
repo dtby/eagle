@@ -59,7 +59,7 @@ class Device < ActiveRecord::Base
       items.each do |item|
         view_points[group] ||= {}
         state = item.try(:value) || 0
-        view_points[group].merge!({item.name => state})
+        view_points[group].merge!({item.fix_name.delete('-') =>{state: state, color: item.color}})
       end
     end
     view_points
