@@ -30,7 +30,7 @@
   <% @points['系统'].each do |key, value| %>
     new JustGage({
       id: "guage-chart-<%=key%>",
-      value: <%= value %>,
+      value: <%= value[:state] %>,
       min: 0,
       max: 650,
       donut: true,
